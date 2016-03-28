@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/space_4">
+
+    <RelativeLayout
+        android:id="@+id/card_rl"
+        android:layout_width="match_parent"
+        android:layout_height="90dp"
+        android:background="@drawable/ic_hycard_bg"
+        android:paddingLeft="@dimen/space_20"
+       >
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageView8"
+            android:src="@mipmap/ic_card_left_bg"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/space_5"
+            android:id="@+id/imageView9"
+            android:src="@mipmap/ic_card_text_yr"
+            android:layout_alignTop="@+id/imageView8"
+            android:layout_toRightOf="@+id/imageView8"
+            android:layout_toEndOf="@+id/imageView8" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/space_5"
+            android:text="会员卡"
+            android:textColor="#f2f2f2f2"
+            android:textSize="@dimen/text_size_14"
+            android:id="@+id/card_type"
+            android:layout_below="@+id/imageView9"
+            android:layout_toRightOf="@+id/imageView8"
+            android:layout_toEndOf="@+id/imageView8" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/card_item_right_img"
+            android:src="@mipmap/ic_card_right_bg"
+            android:scaleType="fitXY"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:visibility="invisible"
+            android:layout_alignParentEnd="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/white"
+            android:paddingLeft="@dimen/space_14"
+            android:text="****** **** 0068"
+            android:textSize="@dimen/text_size_27"
+            android:id="@+id/card_number"
+            android:layout_centerVertical="true"
+            android:layout_alignRight="@+id/card_item_right_img"
+            android:layout_alignEnd="@+id/card_item_right_img"
+            android:layout_toRightOf="@+id/imageView9"
+            android:layout_toEndOf="@+id/imageView9" />
+    </RelativeLayout>
+</LinearLayout>

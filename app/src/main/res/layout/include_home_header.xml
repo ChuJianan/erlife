@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="@dimen/home_top"
+    android:background="@mipmap/bg_common_header"
+    android:gravity="center_vertical" >
+
+    <LinearLayout
+        android:paddingLeft="@dimen/space_5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:id="@+id/ll_location"
+        android:gravity="center">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleType="centerInside"
+            android:src="@mipmap/ic_location"
+            android:id="@+id/imageView7"
+            android:layout_centerVertical="true"
+             />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="山东"
+            android:id="@+id/location_text"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_17"
+            />
+    </LinearLayout>
+
+
+    <TextView
+        android:id="@+id/title_home"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="@string/app_name"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+         />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
+        android:scaleType="centerInside"
+        android:visibility="gone"
+        android:src="@mipmap/ic_launcher"
+        android:id="@+id/imageView10" />
+
+    <ImageView
+        android:layout_width="@dimen/home_top"
+        android:layout_height="fill_parent"
+        android:layout_alignParentRight="true"
+        android:scaleType="center"
+        android:src="@mipmap/ic_sweep" />
+
+
+</RelativeLayout>

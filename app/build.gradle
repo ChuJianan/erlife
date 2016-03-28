@@ -1,0 +1,58 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 23
+    buildToolsVersion "23.0.2"
+
+    defaultConfig {
+        applicationId "com.yrkj.yrlife"
+        minSdkVersion 15
+        targetSdkVersion 23
+        versionCode 1
+        versionName "1.0"
+        ndk {
+            //设置支持的SO库架构
+            abiFilters 'armeabi' //, 'x86', 'armeabi-v7a', 'x86_64', 'arm64-v8a'
+        }
+    }
+
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES.txt'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/notice.txt'
+        exclude 'META-INF/license.txt'
+        exclude 'META-INF/dependencies.txt'
+        exclude 'META-INF/LGPL2.1'
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    testCompile 'junit:junit:4.12'
+    compile 'com.android.support:appcompat-v7:23.2.0'
+    compile 'com.android.support:design:23.2.0'
+    compile 'com.google.android.gms:play-services-appindexing:8.1.0'
+    compile 'org.xutils:xutils:3.3.20'
+    compile 'com.tencent.bugly:crashreport:1.2.9'
+    //其中latest.release指代最新版本号，也可以指定明确的版本号，例如1.2.8
+    compile 'com.pgyersdk:sdk:2.2.2'
+    compile 'com.google.code.gson:gson:2.2.4'
+    compile files('E:/Android/yrlife/libs/commons-httpclient-3.1.jar')
+    compile files('E:/Android/yrlife/libs/httpclient-4.2.5.jar')
+    compile files('E:/Android/yrlife/libs/httpclient-cache-4.2.5.jar')
+    compile files('E:/Android/yrlife/libs/httpcore-4.2.4.jar')
+    compile files('E:/Android/yrlife/libs/universal-image-loader-1.8.6-with-sources.jar')
+    compile files('E:/Android/yrlife/libs/BaiduLBS_Android.jar')
+    compile files('E:/Android/yrlife/libs/httpmime-4.1.2.jar')
+}

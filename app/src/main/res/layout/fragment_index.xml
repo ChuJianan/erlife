@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <com.yrkj.yrlife.widget.SlideShowView
+                android:id="@+id/slideshowView"
+                android:layout_width="fill_parent"
+                android:layout_height="100dp"
+                android:layout_centerHorizontal="true" />
+
+            <com.yrkj.yrlife.widget.MyGridView
+                android:paddingTop="@dimen/space_5"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/grid"
+                android:columnWidth="90dp"
+                android:verticalSpacing="@dimen/space_5"
+                android:numColumns="auto_fit"
+                android:cacheColorHint="@color/white"
+                android:scrollbars="none"
+                android:gravity="center"
+                />
+            <ImageView
+                android:id="@+id/center_img"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/a_bomm"/>
+            <ImageView
+                android:id="@+id/center_img2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/a_bomm"/>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>
