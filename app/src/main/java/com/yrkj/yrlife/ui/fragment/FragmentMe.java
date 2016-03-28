@@ -14,6 +14,7 @@ import com.yrkj.yrlife.app.YrApplication;
 import com.yrkj.yrlife.ui.BinCardActivity;
 import com.yrkj.yrlife.ui.ConsumerActivity;
 import com.yrkj.yrlife.ui.CzlistActivity;
+import com.yrkj.yrlife.ui.MoreActivity;
 import com.yrkj.yrlife.ui.PayActivity;
 import com.yrkj.yrlife.utils.UIHelper;
 
@@ -78,6 +79,12 @@ public class FragmentMe extends BaseFragment {
     @Event(R.id.cost_rl)
     private void onCostrlClick(View view){
         Intent intent=new Intent(getActivity(), ConsumerActivity.class);
+        startActivity(intent);
+    }
+
+    @Event(R.id.more_rl)
+    private void onMorerlClick(View view){
+        Intent intent=new Intent(getActivity(), MoreActivity.class);
         startActivity(intent);
     }
 }

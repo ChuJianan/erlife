@@ -35,7 +35,8 @@ public class ConsumerActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         x.view().inject(this);
         title.setText("消费记录");
-
+        initView();
+        initData();
     }
 
     private void initView() {
