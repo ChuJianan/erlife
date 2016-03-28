@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/space_6">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:layout_gravity="center"
+        android:orientation="horizontal"
+        android:padding="@dimen/space_20">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="@dimen/space_6"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/cost_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="中石化第28加油站 洗车机"
+                android:textColor="#aaabab"
+                android:textSize="@dimen/text_size_18" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_10"
+                android:text="2016年4月22日   15：33：26"
+                android:textColor="#aaabab"
+                android:id="@+id/cost_date"
+                android:textSize="@dimen/text_size_13" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="40dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="-10.00元"
+                android:id="@+id/cost_money"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_size_18" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

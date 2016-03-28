@@ -12,8 +12,7 @@
     <ListView
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/cz_listView" />
+        android:divider="@null"
+        android:id="@+id/cz_listView" />
 </LinearLayout>
-
-
 </LinearLayout>

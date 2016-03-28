@@ -68,6 +68,7 @@
         <activity android:name=".ui.PayActivity"/>
         <activity android:name=".ui.BinCardActivity"/>
         <activity android:name=".ui.CzlistActivity"/>
+        <activity android:name=".ui.ConsumerActivity"/>
     </application>
 
 </manifest>
