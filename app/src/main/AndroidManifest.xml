@@ -71,6 +71,7 @@
         <activity android:name=".ui.CzlistActivity"/>
         <activity android:name=".ui.ConsumerActivity"/>
         <activity android:name=".ui.MoreActivity"/>
+        <activity android:name=".ui.MeActivity"/>
     </application>
 
 </manifest>

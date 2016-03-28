@@ -14,6 +14,7 @@ import com.yrkj.yrlife.app.YrApplication;
 import com.yrkj.yrlife.ui.BinCardActivity;
 import com.yrkj.yrlife.ui.ConsumerActivity;
 import com.yrkj.yrlife.ui.CzlistActivity;
+import com.yrkj.yrlife.ui.MeActivity;
 import com.yrkj.yrlife.ui.MoreActivity;
 import com.yrkj.yrlife.ui.PayActivity;
 import com.yrkj.yrlife.utils.UIHelper;
@@ -33,24 +34,6 @@ public class FragmentMe extends BaseFragment {
     LinearLayout ls;
     @ViewInject(R.id.rl_cz)
     RelativeLayout relativeLayout;
-
-//    @Override
-//    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-//                             Bundle savedInstanceState) {
-//        view = inflater.inflate(R.layout.fragment_me, container, false);
-//        yrApplication = (YrApplication) getActivity().getApplication();
-//        ls = (LinearLayout) getActivity().findViewById(R.id.ssss);
-//        ls.setVisibility(View.GONE);
-//        relativeLayout = (RelativeLayout) view.findViewById(R.id.rl_cz);
-//        relativeLayout.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                UIHelper.ToastMessage(getActivity(),"正在开发...");
-//            }
-//        });
-//        return view;
-//    }
-
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -59,6 +42,13 @@ public class FragmentMe extends BaseFragment {
         ls.setVisibility(View.GONE);
 
     }
+
+    @Event(R.id.me_rl)
+    private void onMerlClick(View view){
+        Intent intent=new Intent(getActivity(), MeActivity.class);
+        startActivity(intent);
+    }
+
     @Event(R.id.rl_cz)
     private  void onRlcvzClick(View view){
 //        UIHelper.ToastMessage(getActivity(),"正在开发...");
