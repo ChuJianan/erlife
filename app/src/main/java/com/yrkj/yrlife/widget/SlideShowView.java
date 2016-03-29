@@ -28,6 +28,8 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
 import com.yrkj.yrlife.R;
+import com.yrkj.yrlife.utils.BitmapManager;
+import com.yrkj.yrlife.utils.UIHelper;
 
 
 /**
@@ -43,7 +45,7 @@ public class SlideShowView extends FrameLayout {
     private ImageLoader imageLoader = ImageLoader.getInstance();
 
     //轮播图图片数量
-    private final static int IMAGE_COUNT = 5;
+    private final static int IMAGE_COUNT = 4;
     //自动轮播的时间间隔
     private final static int TIME_INTERVAL = 5;
     //自动轮播启用开关
@@ -63,7 +65,7 @@ public class SlideShowView extends FrameLayout {
     private ScheduledExecutorService scheduledExecutorService;
 
     private Context context;
-
+    BitmapManager bitmapManager=new BitmapManager();
     //Handler
     private Handler handler = new Handler(){
 
@@ -134,6 +136,8 @@ public class SlideShowView extends FrameLayout {
         // 热点个数与图片特殊相等
         for (int i = 0; i < imageUrls.length; i++) {
             ImageView view =  new ImageView(context);
+//            UIHelper.showLoadImage(view, imageUrls[i], "地址错误");
+//            bitmapManager.loadBitmap(imageUrls[i], view);
             view.setTag(imageUrls[i]);
             if(i==0)//给一个默认图
                 view.setBackgroundResource(R.mipmap.appmain_subject_1);
@@ -316,7 +320,7 @@ public class SlideShowView extends FrameLayout {
                 imageUrls = new String[]{
                         "http://image.rakuten.co.jp/carpicaism/cabinet/03221233/03230692/img58616691.jpg",
                         "http://image.rakuten.co.jp/carpicaism/cabinet/03221233/03230692/img58616648.jpg",
-                        "http://img5.imgtn.bdimg.com/it/u=1864604247,1956940034&fm=21&gp=0.jpg",
+                        "http://imgsrc.baidu.com/forum/pic/item/4143fa8b87d6277f01e950c128381f30e824fc17.jpg",
                         "http://pic8.58cdn.com.cn/p1/big/n_s12408890976816988134.jpg"
                 };
                 return true;

@@ -93,8 +93,8 @@ public class UIHelper {
 	
 	/**
 	 * 加载显示图片
-	 * @param imgFace
-	 * @param faceURL
+	 * @param imgView
+	 * @param imgURL
 	 * @param errMsg
 	 */
 	public static void showLoadImage(final ImageView imgView,final String imgURL,final String errMsg) {
