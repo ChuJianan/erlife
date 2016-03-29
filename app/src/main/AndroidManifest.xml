@@ -72,6 +72,8 @@
         <activity android:name=".ui.ConsumerActivity"/>
         <activity android:name=".ui.MoreActivity"/>
         <activity android:name=".ui.MeActivity"/>
+        <activity android:name=".ui.NameActivity"/>
+        <activity android:name=".ui.PhoneActivity"/>
     </application>
 
 </manifest>

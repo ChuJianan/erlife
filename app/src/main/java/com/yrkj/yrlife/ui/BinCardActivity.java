@@ -1,12 +1,14 @@
 package com.yrkj.yrlife.ui;
 
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
 import com.yrkj.yrlife.R;
 import com.yrkj.yrlife.utils.StringUtils;
+import com.yrkj.yrlife.utils.TimeCount;
 import com.yrkj.yrlife.utils.UIHelper;
 import com.yrkj.yrlife.widget.ClearEditText;
 
@@ -24,18 +26,20 @@ public class BinCardActivity extends BaseActivity {
     String cardNub;
     String phoneNub;
     String codeNub;
-
+    private CountDownTimer timer;
     @ViewInject(R.id.code_btn) private Button codeBtn;
     @ViewInject(R.id.sub_btn) private Button sub_btn;
     @ViewInject(R.id.card_code) private ClearEditText cardCode;
     @ViewInject(R.id.phone_edit) private ClearEditText phoneEdit;
     @ViewInject(R.id.code_edit) private ClearEditText codeEdit;
     @ViewInject(R.id.title) private TextView title;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         x.view().inject(this);
         title.setText("绑定会员卡");
+        timer = new TimeCount(60000, 1000, codeBtn);
     }
 
     @Event(R.id.code_btn)
@@ -46,11 +50,14 @@ public class BinCardActivity extends BaseActivity {
             if (StringUtils.isEmpty(cardNub)){
                 UIHelper.ToastMessage(this,"请输入会员卡号码");
             }
-            if(StringUtils.isEmpty(phoneNub)){
+           else if(StringUtils.isEmpty(phoneNub)){
                 UIHelper.ToastMessage(this,"请输入手机号码");
             }
-        }else {
+        }else if (StringUtils.isMobileNO(phoneNub)){
             UIHelper.ToastMessage(this,"正在获取验证码，请稍后");
+            timer.start();
+        }else {
+            UIHelper.ToastMessage(this,"请输入正确的手机号码");
         }
     }
 

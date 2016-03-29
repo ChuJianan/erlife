@@ -15,12 +15,14 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Message;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -160,7 +162,9 @@ public class UIHelper {
 			ToastMessage(activity, "无法浏览此网页", 500);
 		} 
 	}
-	
+
+
+
 	/**
 	 * 打开浏览器
 	 * @param context

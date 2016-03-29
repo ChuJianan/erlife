@@ -27,7 +27,7 @@ public class AppStart extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_appstart);
         //读取SharedPreferences中需要的数据
-        preferences = getSharedPreferences("isFirstUse",MODE_WORLD_READABLE);
+        preferences = getSharedPreferences("yrlife",MODE_WORLD_READABLE);
         isFirstUse = preferences.getBoolean("isFirstUse", true);
         if (isFirstUse){
             mHandler.sendEmptyMessageDelayed(GO_SHARE, SPLASH_DELAY_MILLIS);

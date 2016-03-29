@@ -21,7 +21,7 @@
     android:layout_height="60dp"
     android:src="@mipmap/ic_me_tx"
     android:scaleType="centerInside"
-    android:id="@+id/view" />
+    android:id="@+id/me_img" />
 
     <RelativeLayout
         android:id="@+id/me_rl"
@@ -30,19 +30,19 @@
         android:gravity="center|left"
         android:padding="@dimen/space_10"
         android:paddingRight="@dimen/space_10"
-        android:layout_alignTop="@+id/view"
-        android:layout_toRightOf="@+id/view"
-        android:layout_alignBottom="@+id/view"
+        android:layout_alignTop="@+id/me_img"
+        android:layout_toRightOf="@+id/me_img"
+        android:layout_alignBottom="@+id/me_img"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="褚佳楠"
+            android:text="亿客"
             android:textSize="@dimen/text_size_16"
             android:textColor="@color/white"
-            android:id="@+id/textView" />
+            android:id="@+id/name_textView" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -51,7 +51,7 @@
             android:id="@+id/textView2"
             android:textColor="@color/white"
             android:textSize="@dimen/text_size_16"
-            android:layout_below="@+id/textView"
+            android:layout_below="@+id/name_textView"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
 
@@ -59,10 +59,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="13165094770"
-            android:id="@+id/textView3"
+            android:id="@+id/phone_textView"
             android:textColor="@color/white"
             android:textSize="@dimen/text_size_14"
-            android:layout_alignBottom="@+id/textView"
+            android:layout_alignBottom="@+id/name_textView"
             android:layout_toRightOf="@+id/textView2"
             android:layout_toEndOf="@+id/textView2" />
 

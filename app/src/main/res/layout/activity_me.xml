@@ -32,6 +32,7 @@
             android:layout_alignParentEnd="true" />
     </RelativeLayout>
     <RelativeLayout
+        android:id="@+id/name_rl"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
@@ -48,12 +49,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#aaabab"
-            android:text="褚佳楠"
+            android:id="@+id/name_text"
+            android:text="亿客"
             android:layout_alignTop="@+id/textView9"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true" />
     </RelativeLayout>
     <RelativeLayout
+        android:id="@+id/phone_rl"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
@@ -66,6 +69,7 @@
             android:textColor="@color/black"
             android:id="@+id/textView10" />
         <TextView
+            android:id="@+id/phone_me_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="13165094770"
@@ -76,6 +80,7 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/sex_rl"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
@@ -91,6 +96,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="男"
+            android:id="@+id/sex_text"
             android:textColor="#aaabab"
             android:layout_alignParentTop="true"
             android:layout_alignParentRight="true"
