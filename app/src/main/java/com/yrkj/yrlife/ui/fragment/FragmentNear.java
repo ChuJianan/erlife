@@ -11,6 +11,7 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.yrkj.yrlife.R;
@@ -29,8 +30,10 @@ import java.util.logging.XMLFormatter;
 public class FragmentNear extends BaseFragment {
     View view;
     LinearLayout ls;
-    @ViewInject(R.id.near_web)
-    private WebView mWebView;
+
+    @ViewInject(R.id.near_listView)
+    private ListView nearListView;
+
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
@@ -44,32 +47,12 @@ public class FragmentNear extends BaseFragment {
         initData();
     }
 
-    @SuppressLint("SetJavaScriptEnabled")
     private void initView() {
-        mWebView.getSettings().setJavaScriptEnabled(true);
-        mWebView.getSettings().setDefaultTextEncodingName(ApiClient.UTF_8);
-        mWebView.getSettings().setLoadWithOverviewMode(true);
-        mWebView.getSettings().setSupportZoom(true);
-        mWebView.getSettings().setBuiltInZoomControls(true);
-        mWebView.setWebViewClient(new WebViewClient() {
-            @Override
-            public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                view.loadUrl(url);
-                return true;
-            }
-        });
-        mWebView.getSettings().setDomStorageEnabled(true);
-        mWebView.setWebChromeClient(new WebChromeClient() {
-            //配置权限（同样在WebChromeClient中实现）
-            @Override
-            public void onGeolocationPermissionsShowPrompt(String origin, GeolocationPermissions.Callback callback) {
-                callback.invoke(origin, true, false);
-                super.onGeolocationPermissionsShowPrompt(origin, callback);
-            }
-        });
+
     }
 
-    private void initData() {
-        mWebView.loadUrl("http://yiren.e7gou.com.cn/wmmanager/phone/machine/index");
+    private void initData(){
+
     }
+
 }

@@ -6,9 +6,11 @@
    >
 
     <include layout="@layout/include_common_header"/>
-    <WebView
+    <ListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/near_web" />
+        android:divider="@null"
+        android:id="@+id/near_listView"
+        />
 
 </LinearLayout>
