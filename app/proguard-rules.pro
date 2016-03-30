@@ -19,3 +19,6 @@
 -libraryjars libs/pgyer_sdk_x.x.jar
 -dontwarn com.pgyersdk.**
 -keep class com.pgyersdk.** { *; }
+-keep class com.baidu.** {*;}
+-keep class vi.com.** {*;}
+-dontwarn com.baidu.**

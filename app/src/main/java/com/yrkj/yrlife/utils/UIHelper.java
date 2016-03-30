@@ -26,6 +26,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.baidu.location.BDLocation;
 import com.yrkj.yrlife.R;
 import com.yrkj.yrlife.api.ApiClient;
 import com.yrkj.yrlife.app.AppException;
@@ -63,7 +64,9 @@ public class UIHelper {
 	
 	public final static int REQUEST_CODE_FOR_RESULT = 0x01;
 	public final static int REQUEST_CODE_FOR_REPLY = 0x02;
-	
+
+	public   static String city="青岛";
+	public   static BDLocation location;
 	/** 全局web样式 */
 	public final static String WEB_STYLE = "<style>* {font-size:16px;line-height:20px;} p {color:#333;} a {color:#3E62A6;} img {max-width:310px;} " +
 			"img.alignleft {float:left;max-width:120px;margin:0 10px 5px 0;border:1px solid #ccc;background:#fff;padding:2px;} " +

@@ -129,6 +129,7 @@ public class MainActivity extends FragmentActivity {
         try {
             if (LocationResult != null)
                 LocationResult.setText(str);
+                UIHelper.city = str;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -171,11 +172,14 @@ public class MainActivity extends FragmentActivity {
                 }
                 if (location.getLocType() == BDLocation.TypeGpsLocation) {// GPS定位结果
 //                    sb.append("gps定位成功");
+                    UIHelper.location=location;
                 } else if (location.getLocType() == BDLocation.TypeNetWorkLocation) {// 网络定位结果
                     // 运营商信息
 //                    sb.append("网络定位成功");
+                    UIHelper.location=location;
                 } else if (location.getLocType() == BDLocation.TypeOffLineLocation) {// 离线定位结果
 //                    sb.append("离线定位成功");
+                    UIHelper.location=location;
                 } else if (location.getLocType() == BDLocation.TypeServerError) {
                     UIHelper.ToastMessage(MainActivity.this, "服务端定位失败，请您检查是否禁用获取位置信息权限，尝试重新请求定位");
                 } else if (location.getLocType() == BDLocation.TypeNetWorkException) {

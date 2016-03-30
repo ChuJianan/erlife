@@ -79,6 +79,6 @@ public class GridViewMainAdapter extends BaseAdapter {
 
     @Override
     public long getItemId(int position) {
-        return 0;
+        return position;
     }
 }
