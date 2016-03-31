@@ -78,7 +78,7 @@
         android:background="@color/white"
         android:orientation="horizontal"
         android:gravity="center"
-        android:padding="@dimen/space_5">
+        android:padding="@dimen/space_8">
 
         <RadioButton
             android:layout_width="wrap_content"

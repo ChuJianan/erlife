@@ -2,6 +2,7 @@ package com.yrkj.yrlife.app;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
@@ -25,6 +26,7 @@ public class AppStart extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_appstart);
         //读取SharedPreferences中需要的数据
         preferences = getSharedPreferences("yrlife",MODE_WORLD_READABLE);

@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@mipmap/guide4"
+    android:background="@mipmap/ic_welcome"
     android:orientation="vertical" >
 
     <Button
@@ -13,8 +13,8 @@
         android:gravity="center"
         android:textSize="@dimen/text_size_18"
         android:textColor="@color/white"
+        android:layout_marginBottom="@dimen/space_14"
         android:background="@drawable/bg_btn_head"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="70dp" />
+        android:layout_centerHorizontal="true" />
 </RelativeLayout>

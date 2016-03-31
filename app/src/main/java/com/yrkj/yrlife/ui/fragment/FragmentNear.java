@@ -107,6 +107,7 @@ public class FragmentNear extends BaseFragment {
                     near.setAdr(infos.get(i).address);
                     near.setNid(infos.get(i).name);
                     near.setTel(infos.get(i).phoneNum);
+                    near.setDis(i+1+"");
                     lData.add(near);
                 }
                 lNearAdapter.notifyDataSetChanged();

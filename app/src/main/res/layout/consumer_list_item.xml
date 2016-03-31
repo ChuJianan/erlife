@@ -3,7 +3,7 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="@dimen/space_6">
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
@@ -36,19 +36,16 @@
                 android:textSize="@dimen/text_size_13" />
         </LinearLayout>
 
-        <LinearLayout
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginLeft="40dp">
+            android:text="-10.00元"
+            android:id="@+id/cost_money"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_size_18"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="-10.00元"
-                android:id="@+id/cost_money"
-                android:textColor="@color/black"
-                android:textSize="@dimen/text_size_18" />
-        </LinearLayout>
-    </LinearLayout>
+    </RelativeLayout>
 </LinearLayout>

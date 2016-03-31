@@ -24,7 +24,7 @@ import java.util.ArrayList;
  * Created by Administrator on 2016/3/17.
  */
 @ContentView(R.layout.activity_share)
-public class ShareActivity extends Activity implements View.OnClickListener,
+public class ShareActivity extends BaseActivity implements View.OnClickListener,
         ViewPager.OnPageChangeListener {
     // 定义ViewPager对象
     private ViewPager viewPager;

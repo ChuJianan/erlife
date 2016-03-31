@@ -5,8 +5,13 @@
     android:layout_height="@dimen/section_title_banner_size"
     android:background="@mipmap/bg_common_header" >
 
-    <ImageView
+    <LinearLayout
+        android:layout_width="wrap_content"
         android:id="@+id/back"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        >
+    <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
@@ -15,7 +20,15 @@
         android:background="@mipmap/ic_back_cur"
 
          />
-
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="返回"
+            android:layout_gravity="center"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_19"
+            />
+    </LinearLayout>
     <LinearLayout
         android:id="@+id/oper_layout"
         android:layout_width="70dp"
@@ -39,7 +52,7 @@
         android:layout_height="fill_parent"
         android:layout_toLeftOf="@+id/oper_layout"
         android:layout_toRightOf="@+id/back"
-        android:layout_marginLeft="38dp"
+        android:layout_marginLeft="30dp"
         android:gravity="center" >
 
         <TextView

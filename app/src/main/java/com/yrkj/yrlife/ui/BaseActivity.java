@@ -8,6 +8,7 @@ import com.yrkj.yrlife.app.YrApplication;
 import com.yrkj.yrlife.utils.UIHelper;
 
 import android.app.Activity;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -29,7 +30,7 @@ public class BaseActivity extends Activity implements OnClickListener{
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		//添加Activity到堆栈
 		AppManager.getAppManager().addActivity(this);
 		

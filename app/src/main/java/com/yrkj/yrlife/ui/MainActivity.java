@@ -1,5 +1,6 @@
 package com.yrkj.yrlife.ui;
 
+import android.content.pm.ActivityInfo;
 import android.content.res.AssetManager;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -61,6 +62,7 @@ public class MainActivity extends FragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         AppManager.getAppManager().addActivity(this);
 //      setContentView(R.layout.activity_main);
         x.view().inject(this);

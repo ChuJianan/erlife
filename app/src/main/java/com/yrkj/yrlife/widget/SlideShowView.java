@@ -140,7 +140,7 @@ public class SlideShowView extends FrameLayout {
 //            bitmapManager.loadBitmap(imageUrls[i], view);
             view.setTag(imageUrls[i]);
             if(i==0)//给一个默认图
-                view.setBackgroundResource(R.mipmap.appmain_subject_1);
+                view.setBackgroundResource(R.mipmap.banner1);
             view.setScaleType(ScaleType.FIT_XY);
             imageViewsList.add(view);
 
@@ -318,10 +318,14 @@ public class SlideShowView extends FrameLayout {
                 // 这里一般调用服务端接口获取一组轮播图片，下面是从百度找的几个图片
 
                 imageUrls = new String[]{
-                        "http://image.rakuten.co.jp/carpicaism/cabinet/03221233/03230692/img58616691.jpg",
-                        "http://image.rakuten.co.jp/carpicaism/cabinet/03221233/03230692/img58616648.jpg",
-                        "http://imgsrc.baidu.com/forum/pic/item/4143fa8b87d6277f01e950c128381f30e824fc17.jpg",
-                        "http://pic8.58cdn.com.cn/p1/big/n_s12408890976816988134.jpg"
+//                        "http://image.rakuten.co.jp/carpicaism/cabinet/03221233/03230692/img58616691.jpg",
+//                        "http://image.rakuten.co.jp/carpicaism/cabinet/03221233/03230692/img58616648.jpg",
+//                        "http://imgsrc.baidu.com/forum/pic/item/4143fa8b87d6277f01e950c128381f30e824fc17.jpg",
+//                        "http://pic8.58cdn.com.cn/p1/big/n_s12408890976816988134.jpg"
+                        "http://qpic.cn/0t77Yl2BL",
+                        "http://qpic.cn/ajr0Ofpjw",
+                        "http://qpic.cn/JuPvjmav7",
+                        "http://qpic.cn/hzizrCYgs"
                 };
                 return true;
             } catch (Exception e) {
