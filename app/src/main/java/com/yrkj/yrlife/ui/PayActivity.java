@@ -22,20 +22,26 @@ import org.xutils.x;
  * Created by cjn on 2016/3/24.
  */
 @ContentView(R.layout.activity_pay)
-public class PayActivity extends  BaseActivity {
+public class PayActivity extends BaseActivity {
 
     RadioButton radioButton;
     RadioButton moneyRadioButton;
     String payTypeNub;
     String money;
-    int mon,mon1;
-    boolean isFirst;
-    @ViewInject(R.id.pay_radio) private android.widget.RadioGroup payType;
-    @ViewInject(R.id.money_radio) private RadioGroup moneyRadio;
-    @ViewInject(R.id.title) private TextView title;
-@ViewInject(R.id.user_name_text)private  TextView nameText;
-    @ViewInject(R.id.phone_text) private TextView phoneText;
-    @ViewInject(R.id.money_text)private TextView moneyText;
+    int mon, mon1;
+    boolean isFirst = true;
+    @ViewInject(R.id.pay_radio)
+    private android.widget.RadioGroup payType;
+    @ViewInject(R.id.money_radio)
+    private RadioGroup moneyRadio;
+    @ViewInject(R.id.title)
+    private TextView title;
+    @ViewInject(R.id.user_name_text)
+    private TextView nameText;
+    @ViewInject(R.id.phone_text)
+    private TextView phoneText;
+    @ViewInject(R.id.money_text)
+    private TextView moneyText;
     SharedPreferences preferences;
 
     @Override
@@ -46,16 +52,17 @@ public class PayActivity extends  BaseActivity {
         preferences = this.getSharedPreferences("yrlife", this.MODE_WORLD_READABLE);
         String name = preferences.getString("name", "");
         String phone = preferences.getString("phone", "");
-        mon=preferences.getInt("money", 0);
-        if (name != "" &&!name.equals("")) {
+        mon = preferences.getInt("money", 0);
+        if (name != "" && !name.equals("")) {
             nameText.setText(name);
         }
-        if (phone != "" &&!phone.equals("")) {
+        if (phone != "" && !phone.equals("")) {
             phoneText.setText(phone);
         }
-        if (mon!=0){
-            money=mon+"";
+        if (mon != 0) {
+            money = mon + "";
             moneyText.setText(money);
+            money=null;
         }
         payType.setOnCheckedChangeListener(new android.widget.RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -63,10 +70,10 @@ public class PayActivity extends  BaseActivity {
                 radioButton = (RadioButton) findViewById(payType.getCheckedRadioButtonId());
                 if (payType.getCheckedRadioButtonId() == R.id.weixin_radio) {
                     Log.i("type", "微信");
-                    payTypeNub="微信";
+                    payTypeNub = "微信";
                 } else {
-                    Log.i("type","支付宝");
-                    payTypeNub="支付宝";
+                    Log.i("type", "支付宝");
+                    payTypeNub = "支付宝";
                 }
             }
         });
@@ -74,47 +81,49 @@ public class PayActivity extends  BaseActivity {
         moneyRadio.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-                if (isFirst){
-                money=null;
-                moneyRadioButton=(RadioButton)findViewById(checkedId);
-                money=moneyRadioButton.getText().toString();
-                if (money.length()<=3){
-                    money=money.substring(0,2);
+                moneyRadioButton = (RadioButton) findViewById(checkedId);
+                if(moneyRadioButton!=null){
+                if (isFirst) {
+                    money = moneyRadioButton.getText().toString();
+                    if (money.length() <= 3) {
+                        money = money.substring(0, 2);
+                    }
+                    if (money.length() > 3) {
+                        money = money.substring(0, 3);
+                    }
+                    mon1 = Integer.valueOf(money).intValue();
+                    mon = mon1 + mon;
+                    //实例化Editor对象
+                    SharedPreferences.Editor editor = preferences.edit();
+                    //存入数据
+                    editor.putInt("money", mon);
+                    //提交修改
+                    editor.commit();
+                    Log.i("money", mon + "");
+                    isFirst = false;
                 }
-                if(money.length()>3){
-                    money=money.substring(0,3);
-                }
-
-                mon1=Integer.valueOf(money).intValue();
-                mon=mon1+mon;
-                //实例化Editor对象
-                SharedPreferences.Editor editor = preferences.edit();
-                //存入数据
-                editor.putInt("money", mon);
-                //提交修改
-                editor.commit();
-                Log.i("money",mon+"");
-                    isFirst=false;
             }
             }
         });
 
     }
+
     @Event(R.id.pay_btn)
-    private void payEvent(View view){
-        if (StringUtils.isEmpty(payTypeNub)||StringUtils.isEmpty(money)){
-            if (StringUtils.isEmpty(payTypeNub)){
-            UIHelper.ToastMessage(this,"请选择支付方式");
+    private void payEvent(View view) {
+        if (StringUtils.isEmpty(payTypeNub) || StringUtils.isEmpty(money)) {
+            if (StringUtils.isEmpty(payTypeNub)) {
+                UIHelper.ToastMessage(this, "请选择支付方式");
             }
-            if (StringUtils.isEmpty(money)){
-                UIHelper.ToastMessage(this,"请选择充值金额");
+            if (StringUtils.isEmpty(money)) {
+                UIHelper.ToastMessage(this, "请选择充值金额");
             }
-        }else {
-            UIHelper.ToastMessage(this, payTypeNub + "充值" + money);
-            isFirst=true;
-            money=mon+"";
+        } else {
+            UIHelper.ToastMessage(this, payTypeNub + "充值" + money+"元");
+            isFirst = true;
+            money = mon + "";
             moneyText.setText(money);
-//            finish();
+            money=null;
+            finish();
         }
     }
 }
