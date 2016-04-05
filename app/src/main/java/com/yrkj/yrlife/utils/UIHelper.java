@@ -65,7 +65,7 @@ public class UIHelper {
 	public final static int REQUEST_CODE_FOR_RESULT = 0x01;
 	public final static int REQUEST_CODE_FOR_REPLY = 0x02;
 
-	public   static String city="青岛";
+	public   static String city="";
 	public   static BDLocation location;
 	/** 全局web样式 */
 	public final static String WEB_STYLE = "<style>* {font-size:16px;line-height:20px;} p {color:#333;} a {color:#3E62A6;} img {max-width:310px;} " +
@@ -222,6 +222,11 @@ public class UIHelper {
 		toast.setGravity(Gravity.CENTER, 0, 0);
 		toast.show();
 	}
+	public static void CenterToastMessage(Context cont,String msg,int time){
+		Toast toast = Toast.makeText(cont, msg, time);
+		toast.setGravity(Gravity.CENTER, 0, 0);
+		toast.show();
+	}
 	/**
 	 * 点击返回监听事件
 	 * @param activity
@@ -336,7 +341,7 @@ public class UIHelper {
 	public static void onExit(final Context cont){
 		if ((System.currentTimeMillis() - mExitTime) > 2000) {
 			Toast   toast = Toast.makeText(cont,
-					"再按一次退出程序", Toast.LENGTH_SHORT);
+					"再按一次退出亿人生活", Toast.LENGTH_SHORT);
 			toast.setGravity(Gravity.CENTER, 0, 0);
 			toast.show();
 //                    Toast.makeText(this, "再按一次退出程序", Toast.LENGTH_SHORT).show();

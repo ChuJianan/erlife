@@ -110,6 +110,18 @@ public class MainActivity extends FragmentActivity {
         }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (UIHelper.city!=""&&!UIHelper.city.equals("")){
+            locationService.unregisterListener(mListener); //注销掉监听
+            locationService.stop(); //停止定位服务
+            LocationResult.setText(UIHelper.city);
+
+        }
+    }
+
+
     /**
      * 给Tab按钮设置图标和文字
      */
@@ -219,7 +231,7 @@ public class MainActivity extends FragmentActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-
+        UIHelper.city="";
         //结束Activity&从堆栈中移除
         AppManager.getAppManager().finishActivity(this);
     }
