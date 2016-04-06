@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.umeng.analytics.MobclickAgent;
 import com.yrkj.yrlife.R;
 import com.yrkj.yrlife.utils.StringUtils;
 import com.yrkj.yrlife.utils.TimeCount;
@@ -40,6 +41,13 @@ public class BinCardActivity extends BaseActivity {
         x.view().inject(this);
         title.setText("绑定会员卡");
         timer = new TimeCount(60000, 1000, codeBtn);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MobclickAgent.onPageStart("绑定会员卡");
+        MobclickAgent.onResume(this);
     }
 
     @Event(R.id.code_btn)
@@ -77,5 +85,12 @@ public class BinCardActivity extends BaseActivity {
         }else {
             UIHelper.ToastMessage(this,"正在提交，请稍后...");
         }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        MobclickAgent.onPageEnd("绑定会员卡");
+        MobclickAgent.onPause(this);
     }
 }

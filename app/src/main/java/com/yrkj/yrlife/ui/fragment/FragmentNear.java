@@ -20,6 +20,7 @@ import com.baidu.mapapi.search.poi.PoiNearbySearchOption;
 import com.baidu.mapapi.search.poi.PoiResult;
 import com.baidu.mapapi.search.poi.PoiSearch;
 import com.baidu.mapapi.search.sug.SuggestionSearch;
+import com.umeng.analytics.MobclickAgent;
 import com.yrkj.yrlife.R;
 import com.yrkj.yrlife.adapter.ListViewNearAdapter;
 import com.yrkj.yrlife.been.Near;
@@ -142,4 +143,16 @@ public class FragmentNear extends BaseFragment {
                 return true;
             }
         }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        MobclickAgent.onPageStart("near");
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPageEnd("near");
+    }
 }

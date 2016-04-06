@@ -6,6 +6,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.umeng.analytics.MobclickAgent;
 import com.yrkj.yrlife.R;
 import com.yrkj.yrlife.utils.StringUtils;
 import com.yrkj.yrlife.utils.UIHelper;
@@ -41,6 +42,14 @@ public class NameActivity extends BaseActivity {
         name=preferences.getString("name", "");
         nameEdit.setText(name);
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MobclickAgent.onPageStart("更改名字");
+        MobclickAgent.onResume(this);
+    }
+
     @Event(R.id.refresh)
     private void refreshEvent(View view){
         name=nameEdit.getText().toString();
@@ -62,5 +71,12 @@ public class NameActivity extends BaseActivity {
 
 
         }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        MobclickAgent.onPageEnd("onResume");
+        MobclickAgent.onPause(this);
     }
 }

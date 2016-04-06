@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.umeng.analytics.MobclickAgent;
 import com.yrkj.yrlife.R;
 import com.yrkj.yrlife.utils.StringUtils;
 import com.yrkj.yrlife.utils.TimeCount;
@@ -44,6 +45,13 @@ public class SignActivity extends BaseActivity {
         init();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MobclickAgent.onPageStart("注册");
+        MobclickAgent.onResume(this);
+    }
+
     private void init() {
 
     }
@@ -58,5 +66,12 @@ public class SignActivity extends BaseActivity {
         }else {
             UIHelper.ToastMessage(this,"请输入正确的手机号");
         }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        MobclickAgent.onPageEnd("注册");
+        MobclickAgent.onPause(this);
     }
 }

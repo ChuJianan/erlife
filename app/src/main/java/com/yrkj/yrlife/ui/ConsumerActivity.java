@@ -1,9 +1,11 @@
 package com.yrkj.yrlife.ui;
 
 import android.os.Bundle;
+import android.text.style.TtsSpan;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.umeng.analytics.MobclickAgent;
 import com.yrkj.yrlife.R;
 import com.yrkj.yrlife.adapter.ListViewConsumerAdapter;
 import com.yrkj.yrlife.been.Consumer;
@@ -39,6 +41,13 @@ public class ConsumerActivity extends BaseActivity {
         initData();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MobclickAgent.onPageStart("消费记录");
+        MobclickAgent.onResume(this);
+    }
+
     private void initView() {
         mAdapter = new ListViewConsumerAdapter(this, list);
         costListView.setAdapter(mAdapter);
@@ -62,5 +71,12 @@ public class ConsumerActivity extends BaseActivity {
         consumer.setCostMoney("-10元");
         list.add(consumer);
         mAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        MobclickAgent.onPageEnd("消费记录");
+        MobclickAgent.onPause(this);
     }
 }

@@ -9,6 +9,7 @@ import android.support.v4.app.ActivityCompat;
 import android.view.View;
 import android.widget.TextView;
 
+import com.umeng.analytics.MobclickAgent;
 import com.yrkj.yrlife.R;
 import com.yrkj.yrlife.utils.UIHelper;
 
@@ -31,6 +32,13 @@ public class MoreActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         x.view().inject(this);
         title.setText("更多");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MobclickAgent.onPageStart("更多");
+        MobclickAgent.onResume(this);
     }
 
     @Event(R.id.call_rl)
@@ -73,5 +81,12 @@ public class MoreActivity extends BaseActivity {
     @Event(R.id.out_btn)
     private void outEvent(View view){
         UIHelper.ToastMessage(this, "正在开发中...");
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        MobclickAgent.onPageEnd("更多");
+        MobclickAgent.onPause(this);
     }
 }

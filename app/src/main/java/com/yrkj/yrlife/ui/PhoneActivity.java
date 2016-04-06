@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.umeng.analytics.MobclickAgent;
 import com.yrkj.yrlife.R;
 import com.yrkj.yrlife.utils.StringUtils;
 import com.yrkj.yrlife.utils.TimeCount;
@@ -45,6 +46,13 @@ public class PhoneActivity extends BaseActivity {
         timer = new TimeCount(60000, 1000, codeBtn);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MobclickAgent.onPageStart("更换手机号");
+        MobclickAgent.onResume(this);
+    }
+
     @Event(R.id.code_btn)
     private void codeEvent(View view) {
         phone = phoneEdit.getText().toString();
@@ -78,5 +86,12 @@ public class PhoneActivity extends BaseActivity {
             finish();
             UIHelper.ToastMessage(this, "更改成功");
         }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        MobclickAgent.onPageEnd("更换手机号");
+        MobclickAgent.onPause(this);
     }
 }

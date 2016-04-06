@@ -8,6 +8,7 @@ import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import com.umeng.analytics.MobclickAgent;
 import com.yrkj.yrlife.R;
 import com.yrkj.yrlife.ui.LoginActivity;
 import com.yrkj.yrlife.ui.MainActivity;
@@ -37,6 +38,14 @@ public class AppStart extends AppCompatActivity {
             mHandler.sendEmptyMessageDelayed(GO_HOME,SPLASH_DELAY_MILLIS);
         }
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MobclickAgent.onPageStart("appstart");
+        MobclickAgent.onResume(this);
+    }
+
     private Handler mHandler = new Handler() {
 
         @Override
@@ -72,5 +81,12 @@ public class AppStart extends AppCompatActivity {
         overridePendingTransition(R.anim.zoomin,
                 R.anim.zoomout);
         this.finish();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        MobclickAgent.onPageEnd("appstart");
+        MobclickAgent.onPause(this);
     }
 }

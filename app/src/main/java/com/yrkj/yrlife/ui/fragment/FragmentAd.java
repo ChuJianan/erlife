@@ -16,6 +16,7 @@ import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.umeng.analytics.MobclickAgent;
 import com.yrkj.yrlife.R;
 
 import org.xutils.view.annotation.ContentView;
@@ -177,5 +178,17 @@ public class FragmentAd extends BaseFragment {
         @Override
         public void startUpdate(View arg0) {
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        MobclickAgent.onPageStart("cards");
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPageStart("cards");
     }
 }

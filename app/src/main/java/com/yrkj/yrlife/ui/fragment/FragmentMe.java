@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.umeng.analytics.MobclickAgent;
 import com.yrkj.yrlife.R;
 import com.yrkj.yrlife.app.YrApplication;
 import com.yrkj.yrlife.ui.BinCardActivity;
@@ -62,6 +63,7 @@ public class FragmentMe extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
+        MobclickAgent.onPageStart("me");
         bitmap = SharedPreferencesUtil.getBitmapFromSharedPreferences(yrApplication, IMAGE_FILE_NAME);
         if (bitmap != null) {
             meImg.setImageBitmap(bitmap);
@@ -112,5 +114,11 @@ public class FragmentMe extends BaseFragment {
     private void onMorerlClick(View view) {
         Intent intent = new Intent(getActivity(), MoreActivity.class);
         startActivity(intent);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPageEnd("me");
     }
 }

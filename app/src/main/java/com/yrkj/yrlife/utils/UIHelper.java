@@ -27,6 +27,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.baidu.location.BDLocation;
+import com.umeng.analytics.MobclickAgent;
 import com.yrkj.yrlife.R;
 import com.yrkj.yrlife.api.ApiClient;
 import com.yrkj.yrlife.app.AppException;
@@ -347,6 +348,7 @@ public class UIHelper {
 //                    Toast.makeText(this, "再按一次退出程序", Toast.LENGTH_SHORT).show();
 			mExitTime = System.currentTimeMillis();
 		} else {
+			MobclickAgent.onKillProcess(cont);
 			AppManager.getAppManager().AppExit(cont);
 		}
 	}

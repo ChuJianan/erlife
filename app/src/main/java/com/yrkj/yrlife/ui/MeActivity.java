@@ -20,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.umeng.analytics.MobclickAgent;
 import com.yrkj.yrlife.R;
 import com.yrkj.yrlife.utils.SharedPreferencesUtil;
 
@@ -68,6 +69,8 @@ public class MeActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        MobclickAgent.onPageStart("个人信息");
+        MobclickAgent.onResume(this);
         String name = preferences.getString("name", "");
         String phone = preferences.getString("phone", "");
         sex = preferences.getString("sex", sex);
@@ -277,5 +280,12 @@ public class MeActivity extends BaseActivity {
             avatarImg.setImageDrawable(drawable);
             SharedPreferencesUtil.saveBitmapToSharedPreferences(photo, this, IMAGE_FILE_NAME);
         }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        MobclickAgent.onPageEnd("个人信息");
+        MobclickAgent.onPause(this);
     }
 }

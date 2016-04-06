@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.TextView;
 
+import com.umeng.analytics.MobclickAgent;
 import com.yrkj.yrlife.R;
 import com.yrkj.yrlife.adapter.MyLetterAdapter;
 import com.yrkj.yrlife.app.AppManager;
@@ -109,5 +110,17 @@ public class AdrListActivity extends BaseActivity {
         return datas;
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MobclickAgent.onPageStart("地址选择");
+        MobclickAgent.onResume(this);
+    }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        MobclickAgent.onPageEnd("地址选择");
+        MobclickAgent.onPause(this);
+    }
 }

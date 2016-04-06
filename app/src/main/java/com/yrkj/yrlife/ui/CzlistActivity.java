@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.umeng.analytics.MobclickAgent;
 import com.yrkj.yrlife.R;
 import com.yrkj.yrlife.adapter.ListViewCzAdapter;
 import com.yrkj.yrlife.been.Pay;
@@ -37,6 +38,14 @@ public class CzlistActivity extends  BaseActivity {
         init();
         initData();
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MobclickAgent.onPageStart("充值记录");
+        MobclickAgent.onResume(this);
+    }
+
     private  void  init(){
         listViewCzAdapter=new ListViewCzAdapter(this,list);
         pay_listView.setAdapter(listViewCzAdapter);
@@ -56,5 +65,12 @@ public class CzlistActivity extends  BaseActivity {
         pay.setPayMoney("+100元");
         list.add(pay);
         listViewCzAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        MobclickAgent.onPageEnd("充值记录");
+        MobclickAgent.onPause(this);
     }
 }
