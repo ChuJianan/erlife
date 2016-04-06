@@ -18,6 +18,7 @@ import android.widget.TextView;
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.Poi;
+import com.umeng.analytics.MobclickAgent;
 import com.yrkj.yrlife.R;
 import com.yrkj.yrlife.app.AppManager;
 import com.yrkj.yrlife.app.YrApplication;
@@ -113,6 +114,7 @@ public class MainActivity extends FragmentActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        MobclickAgent.onResume(this);
         if (UIHelper.city!=""&&!UIHelper.city.equals("")){
             locationService.unregisterListener(mListener); //注销掉监听
             locationService.stop(); //停止定位服务
@@ -226,6 +228,12 @@ public class MainActivity extends FragmentActivity {
             flag = super.onKeyDown(keyCode, event);
         }
         return flag;
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(this);
     }
 
     @Override

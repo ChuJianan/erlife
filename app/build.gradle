@@ -56,4 +56,6 @@ dependencies {
     compile files('E:/Android/yrlife/libs/BaiduLBS_Android.jar')
     compile files('E:/Android/yrlife/libs/httpmime-4.1.2.jar')
 
+    compile 'com.umeng.analytics:analytics:latest.integration'
+
 }

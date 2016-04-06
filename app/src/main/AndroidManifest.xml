@@ -75,6 +75,11 @@
         <activity android:name=".ui.NameActivity"/>
         <activity android:name=".ui.PhoneActivity"/>
         <activity android:name=".ui.AdrListActivity"/>
+
+
+
+        <meta-data android:value="5704de8467e58e78050023f9" android:name="UMENG_APPKEY"/>
+        <!--<meta-data android:value="Channel ID" android:name="UMENG_CHANNEL"/>-->
     </application>
 
 </manifest>

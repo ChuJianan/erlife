@@ -22,6 +22,7 @@ import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import com.baidu.mapapi.map.InfoWindow;
+import com.umeng.analytics.MobclickAgent;
 import com.yrkj.yrlife.R;
 import com.yrkj.yrlife.adapter.GridViewMainAdapter;
 import com.yrkj.yrlife.adapter.GridViewMainRightAdapter;
@@ -135,7 +136,20 @@ public class FragmentIndex extends BaseFragment{
         webView.loadUrl("file:///android_asset/index.html");
 
     }
-   private void getDate(){
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        MobclickAgent.onPageStart("首页");
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPageEnd("首页");
+    }
+
+    private void getDate(){
 //       bitmapManager.loadBitmap("http://qpic.cn/0t77Yl2BL", center_img);
 //       bitmapManager.loadBitmap("http://qpic.cn/ajr0Ofpjw", center_img2);
 //       bitmapManager.loadBitmap("http://qpic.cn/JuPvjmav7", center_img3);
