@@ -49,7 +49,7 @@ public class MyLetterListView extends View {
 	    int width = getWidth();
 	    int singleHeight = height / INDEX_KEY.length;
 	    for(int i=0;i<INDEX_KEY.length;i++){
-			paint.setTextSize(40);//设置导航栏文字大小
+			paint.setTextSize(50);//设置导航栏文字大小
 	    	 paint.setColor(Color.parseColor("#ffa0a0a0"));
 	       //英文字体加粗
 	       paint.setTypeface(Typeface.DEFAULT_BOLD);

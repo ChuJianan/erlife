@@ -65,7 +65,7 @@ public class LetterListView extends FrameLayout implements MyLetterListView.OnTo
 		listView.setVerticalScrollBarEnabled(false);
 		listView.setLayoutParams(listViewParams);
 		
-		LayoutParams letterParams = new LayoutParams(80, LayoutParams.WRAP_CONTENT,Gravity.RIGHT);
+		LayoutParams letterParams = new LayoutParams(90, LayoutParams.WRAP_CONTENT,Gravity.RIGHT);
 		myLetterListView = new MyLetterListView(context);
 		myLetterListView.setOnTouchingLetterChangedListener(this);
 		myLetterListView.setLayoutParams(letterParams);
