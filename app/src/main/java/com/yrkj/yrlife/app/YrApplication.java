@@ -15,8 +15,6 @@ import android.os.Vibrator;
 import com.baidu.mapapi.SDKInitializer;
 import com.pgyersdk.crash.PgyCrashManager;
 import com.tencent.bugly.crashreport.CrashReport;
-import com.umeng.analytics.AnalyticsConfig;
-import com.umeng.analytics.MobclickAgent;
 import com.yrkj.yrlife.service.LocationService;
 import com.yrkj.yrlife.utils.MethodsCompat;
 import com.yrkj.yrlife.utils.StringUtils;
@@ -69,10 +67,6 @@ public class YrApplication extends Application {
         locationService = new LocationService(getApplicationContext());
         mVibrator =(Vibrator)getApplicationContext().getSystemService(Service.VIBRATOR_SERVICE);
         SDKInitializer.initialize(getApplicationContext());
-
-        MobclickAgent.openActivityDurationTrack(false);
-        /** 设置是否对日志信息进行加密, 默认false(不加密). true加密*/
-        AnalyticsConfig.enableEncrypt(true);
     }
     /**
      * 检测当前系统声音是否为正常模式
