@@ -24,6 +24,12 @@
     <!-- SD卡读取权限，用户写入离线定位数据-->
     <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
     <!-- 允许程序录制音频 -->
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.FLASHLIGHT" />
+    <uses-feature android:name="android.hardware.camera.autofocus"/>
+
     <!-- 可选 -->
     <uses-permission android:name="android.permission.READ_LOGS" />
     <!-- To auto-complete the email text field in the login form with the user's emails -->
@@ -62,6 +68,7 @@
             android:value=" 6bf4566ff0158af2ae1b47a494860911" />
 
         <activity android:name=".ui.BaseActivity" />
+        <activity android:name=".ui.BrowserActivity"/>
         <activity android:name=".ui.MainActivity" />
         <activity android:name=".ui.ShareActivity" />
         <activity android:name=".ui.LoginActivity" />
@@ -78,6 +85,7 @@
 
 
 
+        <activity android:name="com.zxing.activity.CaptureActivity"/>
         <meta-data android:value="5704de8467e58e78050023f9" android:name="UMENG_APPKEY"/>
         <!--<meta-data android:value="Channel ID" android:name="UMENG_CHANNEL"/>-->
     </application>

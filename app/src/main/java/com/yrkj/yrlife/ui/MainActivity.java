@@ -1,5 +1,6 @@
 package com.yrkj.yrlife.ui;
 
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.AssetManager;
 import android.graphics.Typeface;
@@ -14,6 +15,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TabHost;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
@@ -29,8 +31,11 @@ import com.yrkj.yrlife.ui.fragment.FragmentMe;
 import com.yrkj.yrlife.ui.fragment.FragmentNear;
 import com.yrkj.yrlife.utils.StringUtils;
 import com.yrkj.yrlife.utils.UIHelper;
+import com.yrkj.yrlife.utils.UpdateManager;
+import com.zxing.activity.CaptureActivity;
 
 import org.xutils.view.annotation.ContentView;
+import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
@@ -115,7 +120,7 @@ public class MainActivity extends FragmentActivity {
     protected void onResume() {
         super.onResume();
         MobclickAgent.onResume(this);
-        if (UIHelper.city!=""&&!UIHelper.city.equals("")){
+        if (UIHelper.city != "" && !UIHelper.city.equals("")) {
             locationService.unregisterListener(mListener); //注销掉监听
             locationService.stop(); //停止定位服务
             LocationResult.setText(UIHelper.city);
@@ -123,6 +128,27 @@ public class MainActivity extends FragmentActivity {
         }
     }
 
+    @Event(R.id.sweep)
+    private void sweepEvent(View view) {
+        Intent intent = new Intent(this, CaptureActivity.class);
+        startActivityForResult(intent, 0);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            Bundle bundle = data.getExtras();
+            String url = bundle.getString("result");
+            Log.i("result",url);
+           if (StringUtils.isUrl(url)){
+               UIHelper.showBrowser(this,url);
+           }else {
+               UIHelper.ToastMessage(this,url);
+           }
+
+        }
+    }
 
     /**
      * 给Tab按钮设置图标和文字
@@ -145,7 +171,7 @@ public class MainActivity extends FragmentActivity {
         try {
             if (LocationResult != null)
                 LocationResult.setText(str);
-                UIHelper.city = str;
+            UIHelper.city = str;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -188,14 +214,14 @@ public class MainActivity extends FragmentActivity {
                 }
                 if (location.getLocType() == BDLocation.TypeGpsLocation) {// GPS定位结果
 //                    sb.append("gps定位成功");
-                    UIHelper.location=location;
+                    UIHelper.location = location;
                 } else if (location.getLocType() == BDLocation.TypeNetWorkLocation) {// 网络定位结果
                     // 运营商信息
 //                    sb.append("网络定位成功");
-                    UIHelper.location=location;
+                    UIHelper.location = location;
                 } else if (location.getLocType() == BDLocation.TypeOffLineLocation) {// 离线定位结果
 //                    sb.append("离线定位成功");
-                    UIHelper.location=location;
+                    UIHelper.location = location;
                 } else if (location.getLocType() == BDLocation.TypeServerError) {
                     UIHelper.ToastMessage(MainActivity.this, "服务端定位失败，请您检查是否禁用获取位置信息权限，尝试重新请求定位");
                 } else if (location.getLocType() == BDLocation.TypeNetWorkException) {
@@ -239,7 +265,7 @@ public class MainActivity extends FragmentActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        UIHelper.city="";
+        UIHelper.city = "";
         //结束Activity&从堆栈中移除
         AppManager.getAppManager().finishActivity(this);
     }
