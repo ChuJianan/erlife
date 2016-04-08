@@ -41,8 +41,8 @@ public final class CameraManager {
 
   private static final int MIN_FRAME_WIDTH = 240;
   private static final int MIN_FRAME_HEIGHT = 240;
-  private static final int MAX_FRAME_WIDTH = 720;
-  private static final int MAX_FRAME_HEIGHT = 720;
+  private static final int MAX_FRAME_WIDTH = 640;
+  private static final int MAX_FRAME_HEIGHT = 640;
 
   private static CameraManager cameraManager;
 
@@ -132,7 +132,6 @@ public final class CameraManager {
 
       //FIXME
  //     SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-      //�Ƿ�ʹ��ǰ��
 //      if (prefs.getBoolean(PreferencesActivity.KEY_FRONT_LIGHT, false)) {
 //        FlashlightManager.enableFlashlight();
 //      }
