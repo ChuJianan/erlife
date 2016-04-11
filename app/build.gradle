@@ -56,5 +56,5 @@ dependencies {
     compile files('E:/Android/yrlife/libs/BaiduLBS_Android.jar')
     compile files('E:/Android/yrlife/libs/httpmime-4.1.2.jar')
     compile 'com.umeng.analytics:analytics:latest.integration'
-    compile files('E:/Android/yrlife/libs/zxing.jar')
+    compile files('E:/Android/yrlife/libs/zixing-core-3.2.0.jar')
 }

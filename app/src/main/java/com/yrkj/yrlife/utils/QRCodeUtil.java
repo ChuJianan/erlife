@@ -1,5 +1,7 @@
 package com.yrkj.yrlife.utils;
 
+
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 
@@ -7,13 +9,10 @@ import com.google.zxing.BarcodeFormat;
 import com.google.zxing.EncodeHintType;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
-import com.google.zxing.qrcode.QRCodeWriter;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.Hashtable;
 import java.util.Map;
 
 /**
@@ -31,7 +30,7 @@ public class QRCodeUtil {
      * @param filePath  用于存储二维码图片的文件路径
      * @return 生成二维码及保存文件是否成功
      */
-    public static boolean createQRImage(String content, int widthPix, int heightPix, Bitmap logoBm, String filePath) {
+    public static boolean createQRImage(Context context, String content, int widthPix, int heightPix, Bitmap logoBm, String filePath) {
         try {
             if (content == null || "".equals(content)) {
                 return false;
@@ -43,15 +42,16 @@ public class QRCodeUtil {
             //容错级别
             hints.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.H);
             //设置空白边距的宽度
-//            hints.put(EncodeHintType.MARGIN, 2); //default is 4
+            hints.put(EncodeHintType.MARGIN, 0); //default is 4
 
             // 图像数据转换，使用了矩阵转换
-            BitMatrix bitMatrix = new QRCodeWriter().encode(content, BarcodeFormat.QR_CODE, widthPix, heightPix, (Hashtable) hints);
+            BitMatrix bitMatrix = new com.google.zxing.qrcode.QRCodeWriter().encode(content, BarcodeFormat.QR_CODE, widthPix, heightPix, hints);
+
             int[] pixels = new int[widthPix * heightPix];
             // 下面这里按照二维码的算法，逐个生成二维码的图片，
             // 两个for循环是图片横列扫描的结果
-            for (int y = 0; y < heightPix; y++) {
-                for (int x = 0; x < widthPix; x++) {
+            for (int y = 0; y < heightPix-1; y++) {
+                for (int x = 0; x < widthPix-1; x++) {
                     if (bitMatrix.get(x, y)) {
                         pixels[y * widthPix + x] = 0xff000000;
                     } else {
@@ -67,9 +67,12 @@ public class QRCodeUtil {
             if (logoBm != null) {
                 bitmap = addLogo(bitmap, logoBm);
             }
-
+            if (bitmap != null) {
+                ImageUtils.saveImage(context, filePath, bitmap);
+            }
             //必须使用compress方法将bitmap保存到文件中再进行读取。直接返回的bitmap是没有任何压缩的，内存消耗巨大！
-            return bitmap != null && bitmap.compress(Bitmap.CompressFormat.JPEG, 100, new FileOutputStream(filePath));
+//            return bitmap != null && bitmap.compress(Bitmap.CompressFormat.JPEG, 100, new FileOutputStream(filePath));
+            return true;
         } catch (WriterException | IOException e) {
             e.printStackTrace();
         }

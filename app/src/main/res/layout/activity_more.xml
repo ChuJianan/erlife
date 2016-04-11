@@ -26,19 +26,21 @@
                 android:orientation="vertical">
 
                 <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:id="@+id/qrcode"
+                    android:background="@color/graywhite"
                     android:src="@mipmap/ic_ewm" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="扫描二维码，您的好友也可以下载亿人生活客户端!"
+                    android:text="推荐您的好友扫一扫，下载亿人生活客户端!"
                     android:textSize="@dimen/text_size_8" />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="关注立即领取亿人生活优惠券礼包！"
+                    android:text="可以立即领取亿人生活优惠券礼包！"
                     android:textSize="@dimen/text_size_8"/>
             </LinearLayout>
             <LinearLayout
