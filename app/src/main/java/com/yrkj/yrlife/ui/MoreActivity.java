@@ -54,7 +54,7 @@ public class MoreActivity extends BaseActivity {
         MobclickAgent.onPageStart("更多");
         MobclickAgent.onResume(this);
         filePath = preferences.getString("filepath","");
-        if (filePath!=null&&filePath!=""&&filePath.equals("")){
+        if (filePath!=null&&filePath!=""&&!filePath.equals("")){
             qrcode.setImageBitmap(BitmapFactory.decodeFile(filePath));
         }else {
             //二维码图片较大时，生成图片、保存文件的时间可能较长，因此放在新线程中
