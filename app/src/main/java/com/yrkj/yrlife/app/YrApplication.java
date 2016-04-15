@@ -9,14 +9,11 @@ import android.media.AudioManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiManager;
-import android.os.Build;
 import android.os.Vibrator;
 
 import com.baidu.mapapi.SDKInitializer;
 import com.pgyersdk.crash.PgyCrashManager;
 import com.tencent.bugly.crashreport.CrashReport;
-import com.umeng.analytics.AnalyticsConfig;
-import com.umeng.analytics.MobclickAgent;
 import com.yrkj.yrlife.service.LocationService;
 import com.yrkj.yrlife.utils.MethodsCompat;
 import com.yrkj.yrlife.utils.StringUtils;
@@ -69,8 +66,8 @@ public class YrApplication extends Application {
         locationService = new LocationService(getApplicationContext());
         mVibrator =(Vibrator)getApplicationContext().getSystemService(Service.VIBRATOR_SERVICE);
         SDKInitializer.initialize(getApplicationContext());
-
-        MobclickAgent.openActivityDurationTrack(false);
+//       友盟声明
+//        MobclickAgent.openActivityDurationTrack(false);
         /** 设置是否对日志信息进行加密, 默认false(不加密). */
 //        AnalyticsConfig.enableEncrypt(true);
     }

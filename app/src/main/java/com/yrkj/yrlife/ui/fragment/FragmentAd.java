@@ -8,15 +8,11 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.Display;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.umeng.analytics.MobclickAgent;
 import com.yrkj.yrlife.R;
 
 import org.xutils.view.annotation.ContentView;
@@ -180,15 +176,15 @@ public class FragmentAd extends BaseFragment {
         }
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        MobclickAgent.onPageStart("cards");
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        MobclickAgent.onPageStart("cards");
-    }
+//    @Override
+//    public void onResume() {
+//        super.onResume();
+//        MobclickAgent.onPageStart("cards");
+//    }
+//
+//    @Override
+//    public void onPause() {
+//        super.onPause();
+//        MobclickAgent.onPageStart("cards");
+//    }
 }

@@ -8,7 +8,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.umeng.analytics.MobclickAgent;
 import com.yrkj.yrlife.R;
 import com.yrkj.yrlife.utils.StringUtils;
 import com.yrkj.yrlife.utils.UIHelper;
@@ -41,12 +40,6 @@ public class LoginActivity extends BaseActivity{
         init();
     }
 
-    @Override
-    protected void onRestart() {
-        super.onRestart();
-        MobclickAgent.onPageStart("登录");
-        MobclickAgent.onResume(this);
-    }
 
     private void init() {
         title.setText("登录");
@@ -78,11 +71,11 @@ public class LoginActivity extends BaseActivity{
         startActivity(intent);
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        MobclickAgent.onPageEnd("登录");
-        MobclickAgent.onPause(this);
-    }
+//    @Override
+//    protected void onPause() {
+//        super.onPause();
+//        MobclickAgent.onPageEnd("登录");
+//        MobclickAgent.onPause(this);
+//    }
 }
 

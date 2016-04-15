@@ -3,7 +3,6 @@ package com.yrkj.yrlife.ui.fragment;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -19,8 +18,6 @@ import com.baidu.mapapi.search.poi.PoiDetailSearchOption;
 import com.baidu.mapapi.search.poi.PoiNearbySearchOption;
 import com.baidu.mapapi.search.poi.PoiResult;
 import com.baidu.mapapi.search.poi.PoiSearch;
-import com.baidu.mapapi.search.sug.SuggestionSearch;
-import com.umeng.analytics.MobclickAgent;
 import com.yrkj.yrlife.R;
 import com.yrkj.yrlife.adapter.ListViewNearAdapter;
 import com.yrkj.yrlife.been.Near;
@@ -144,15 +141,15 @@ public class FragmentNear extends BaseFragment {
             }
         }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        MobclickAgent.onPageStart("near");
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        MobclickAgent.onPageEnd("near");
-    }
+//    @Override
+//    public void onResume() {
+//        super.onResume();
+//        MobclickAgent.onPageStart("near");
+//    }
+//
+//    @Override
+//    public void onPause() {
+//        super.onPause();
+//        MobclickAgent.onPageEnd("near");
+//    }
 }

@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.umeng.analytics.MobclickAgent;
 import com.yrkj.yrlife.R;
 import com.yrkj.yrlife.adapter.ListViewCzAdapter;
 import com.yrkj.yrlife.been.Pay;
@@ -15,7 +14,6 @@ import org.xutils.x;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.XMLFormatter;
 
 /**
  * Created by cjn on 2016/3/25.
@@ -39,12 +37,12 @@ public class CzlistActivity extends  BaseActivity {
         initData();
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        MobclickAgent.onPageStart("充值记录");
-        MobclickAgent.onResume(this);
-    }
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//        MobclickAgent.onPageStart("充值记录");
+//        MobclickAgent.onResume(this);
+//    }
 
     private  void  init(){
         listViewCzAdapter=new ListViewCzAdapter(this,list);
@@ -67,10 +65,10 @@ public class CzlistActivity extends  BaseActivity {
         listViewCzAdapter.notifyDataSetChanged();
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        MobclickAgent.onPageEnd("充值记录");
-        MobclickAgent.onPause(this);
-    }
+//    @Override
+//    protected void onPause() {
+//        super.onPause();
+//        MobclickAgent.onPageEnd("充值记录");
+//        MobclickAgent.onPause(this);
+//    }
 }

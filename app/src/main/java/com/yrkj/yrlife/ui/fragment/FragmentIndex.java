@@ -1,51 +1,25 @@
 package com.yrkj.yrlife.ui.fragment;
 
-import android.app.ActionBar;
 import android.content.Intent;
-import android.content.res.Resources;
-import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v7.widget.GridLayoutManager;
-import android.util.DisplayMetrics;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.WindowAnimationFrameStats;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.widget.AdapterView;
-import android.widget.GridView;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
-import com.baidu.mapapi.map.InfoWindow;
-import com.umeng.analytics.MobclickAgent;
 import com.yrkj.yrlife.R;
 import com.yrkj.yrlife.adapter.GridViewMainAdapter;
-import com.yrkj.yrlife.adapter.GridViewMainRightAdapter;
 import com.yrkj.yrlife.ui.AdrListActivity;
-import com.yrkj.yrlife.ui.BaseActivity;
 import com.yrkj.yrlife.ui.BinCardActivity;
 import com.yrkj.yrlife.ui.ConsumerActivity;
-import com.yrkj.yrlife.ui.MainActivity;
 import com.yrkj.yrlife.ui.PayActivity;
 import com.yrkj.yrlife.utils.BitmapManager;
 import com.yrkj.yrlife.utils.UIHelper;
 import com.yrkj.yrlife.widget.MyGridView;
 
 import org.xutils.view.annotation.ContentView;
-import org.xutils.view.annotation.Event;
-import org.xutils.view.annotation.ViewInject;
-import org.xutils.x;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.logging.XMLFormatter;
 
 
 /**
@@ -137,17 +111,17 @@ public class FragmentIndex extends BaseFragment{
 
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        MobclickAgent.onPageStart("首页");
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        MobclickAgent.onPageEnd("首页");
-    }
+//    @Override
+//    public void onResume() {
+//        super.onResume();
+//        MobclickAgent.onPageStart("首页");
+//    }
+//
+//    @Override
+//    public void onPause() {
+//        super.onPause();
+//        MobclickAgent.onPageEnd("首页");
+//    }
 
     private void getDate(){
 //       bitmapManager.loadBitmap("http://qpic.cn/0t77Yl2BL", center_img);

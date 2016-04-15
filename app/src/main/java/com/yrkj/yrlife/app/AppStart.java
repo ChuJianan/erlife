@@ -3,14 +3,12 @@ package com.yrkj.yrlife.app;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 
-import com.umeng.analytics.MobclickAgent;
 import com.yrkj.yrlife.R;
-import com.yrkj.yrlife.ui.LoginActivity;
 import com.yrkj.yrlife.ui.MainActivity;
 import com.yrkj.yrlife.ui.ShareActivity;
 
@@ -39,12 +37,12 @@ public class AppStart extends AppCompatActivity {
         }
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        MobclickAgent.onPageStart("appstart");
-        MobclickAgent.onResume(this);
-    }
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//        MobclickAgent.onPageStart("appstart");
+//        MobclickAgent.onResume(this);
+//    }
 
     private Handler mHandler = new Handler() {
 
@@ -83,10 +81,10 @@ public class AppStart extends AppCompatActivity {
         this.finish();
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        MobclickAgent.onPageEnd("appstart");
-        MobclickAgent.onPause(this);
-    }
+//    @Override
+//    protected void onPause() {
+//        super.onPause();
+//        MobclickAgent.onPageEnd("appstart");
+//        MobclickAgent.onPause(this);
+//    }
 }

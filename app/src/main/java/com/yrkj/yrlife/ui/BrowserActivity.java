@@ -7,7 +7,6 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-import com.umeng.analytics.MobclickAgent;
 import com.yrkj.yrlife.R;
 import com.yrkj.yrlife.api.ApiClient;
 import com.yrkj.yrlife.utils.StringUtils;
@@ -32,12 +31,7 @@ public class BrowserActivity extends BaseActivity {
 		initData();
 	}
 
-	@Override
-	protected void onResume() {
-		super.onResume();
-		MobclickAgent.onPageStart("browser");
-		MobclickAgent.onResume(this);
-	}
+
 
 	@SuppressLint("SetJavaScriptEnabled")
 	private void initView() {
@@ -76,10 +70,5 @@ public class BrowserActivity extends BaseActivity {
 		}
 	}
 
-	@Override
-	protected void onPause() {
-		super.onPause();
-		MobclickAgent.onPageEnd("browser");
-		MobclickAgent.onPause(this);
-	}
+
 }

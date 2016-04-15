@@ -15,12 +15,10 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TabHost;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.Poi;
-import com.umeng.analytics.MobclickAgent;
 import com.yrkj.yrlife.R;
 import com.yrkj.yrlife.app.AppManager;
 import com.yrkj.yrlife.app.YrApplication;
@@ -31,7 +29,6 @@ import com.yrkj.yrlife.ui.fragment.FragmentMe;
 import com.yrkj.yrlife.ui.fragment.FragmentNear;
 import com.yrkj.yrlife.utils.StringUtils;
 import com.yrkj.yrlife.utils.UIHelper;
-import com.yrkj.yrlife.utils.UpdateManager;
 import com.zxing.activity.CaptureActivity;
 
 import org.xutils.view.annotation.ContentView;
@@ -119,7 +116,7 @@ public class MainActivity extends FragmentActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        MobclickAgent.onResume(this);
+//        MobclickAgent.onResume(this);
         if (UIHelper.city != "" && !UIHelper.city.equals("")) {
             locationService.unregisterListener(mListener); //注销掉监听
             locationService.stop(); //停止定位服务
@@ -256,11 +253,11 @@ public class MainActivity extends FragmentActivity {
         return flag;
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        MobclickAgent.onPause(this);
-    }
+//    @Override
+//    protected void onPause() {
+//        super.onPause();
+//        MobclickAgent.onPause(this);
+//    }
 
     @Override
     protected void onDestroy() {

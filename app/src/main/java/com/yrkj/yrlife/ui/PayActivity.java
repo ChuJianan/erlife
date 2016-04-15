@@ -6,9 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.RadioButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.umeng.analytics.MobclickAgent;
 import com.yrkj.yrlife.R;
 import com.yrkj.yrlife.utils.StringUtils;
 import com.yrkj.yrlife.utils.UIHelper;
@@ -109,12 +107,12 @@ public class PayActivity extends BaseActivity {
 
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        MobclickAgent.onPageStart("会员充值");
-        MobclickAgent.onResume(this);
-    }
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//        MobclickAgent.onPageStart("会员充值");
+//        MobclickAgent.onResume(this);
+//    }
 
     @Event(R.id.pay_btn)
     private void payEvent(View view) {
@@ -135,10 +133,10 @@ public class PayActivity extends BaseActivity {
         }
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-        MobclickAgent.onPageEnd("会员充值");
-        MobclickAgent.onPause(this);
-    }
+//    @Override
+//    protected void onPause() {
+//        super.onPause();
+//        MobclickAgent.onPageEnd("会员充值");
+//        MobclickAgent.onPause(this);
+//    }
 }

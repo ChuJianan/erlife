@@ -12,7 +12,6 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.umeng.analytics.MobclickAgent;
 import com.yrkj.yrlife.R;
 import com.yrkj.yrlife.utils.DensityUtil;
 import com.yrkj.yrlife.utils.ImageUtils;
@@ -23,8 +22,6 @@ import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
-
-import java.io.File;
 
 /**
  * Created by cjn on 2016/3/28.
@@ -51,8 +48,8 @@ public class MoreActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        MobclickAgent.onPageStart("更多");
-        MobclickAgent.onResume(this);
+//        MobclickAgent.onPageStart("更多");
+//        MobclickAgent.onResume(this);
         filePath = preferences.getString("filepath","");
         if (filePath!=null&&filePath!=""&&!filePath.equals("")){
             qrcode.setImageBitmap(BitmapFactory.decodeFile(filePath));
@@ -130,7 +127,7 @@ public class MoreActivity extends BaseActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        MobclickAgent.onPageEnd("更多");
-        MobclickAgent.onPause(this);
+//        MobclickAgent.onPageEnd("更多");
+//        MobclickAgent.onPause(this);
     }
 }

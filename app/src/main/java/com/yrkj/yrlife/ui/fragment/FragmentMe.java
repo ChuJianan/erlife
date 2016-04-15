@@ -4,16 +4,12 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.umeng.analytics.MobclickAgent;
 import com.yrkj.yrlife.R;
 import com.yrkj.yrlife.app.YrApplication;
 import com.yrkj.yrlife.ui.BinCardActivity;
@@ -23,15 +19,10 @@ import com.yrkj.yrlife.ui.MeActivity;
 import com.yrkj.yrlife.ui.MoreActivity;
 import com.yrkj.yrlife.ui.PayActivity;
 import com.yrkj.yrlife.utils.SharedPreferencesUtil;
-import com.yrkj.yrlife.utils.UIHelper;
 
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
-import org.xutils.x;
-
-import java.util.List;
-import java.util.Objects;
 
 /**
  * Created by Administrator on 2016/3/17.
@@ -63,7 +54,7 @@ public class FragmentMe extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        MobclickAgent.onPageStart("me");
+//        MobclickAgent.onPageStart("me");
         bitmap = SharedPreferencesUtil.getBitmapFromSharedPreferences(yrApplication, IMAGE_FILE_NAME);
         if (bitmap != null) {
             meImg.setImageBitmap(bitmap);
@@ -119,6 +110,6 @@ public class FragmentMe extends BaseFragment {
     @Override
     public void onPause() {
         super.onPause();
-        MobclickAgent.onPageEnd("me");
+//        MobclickAgent.onPageEnd("me");
     }
 }

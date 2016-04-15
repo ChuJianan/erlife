@@ -22,6 +22,6 @@
 -keep class com.baidu.** {*;}
 -keep class vi.com.** {*;}
 -dontwarn com.baidu.**
--keepclassmembers class * {
-   public <init> (org.json.JSONObject);
-}
+#-keepclassmembers class * {
+#   public <init> (org.json.JSONObject);
+#}

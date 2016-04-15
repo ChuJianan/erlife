@@ -1,14 +1,11 @@
 package com.yrkj.yrlife.ui;
 
-import android.os.CountDownTimer;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 
-import com.umeng.analytics.MobclickAgent;
 import com.yrkj.yrlife.R;
 import com.yrkj.yrlife.utils.StringUtils;
 import com.yrkj.yrlife.utils.TimeCount;
@@ -19,8 +16,6 @@ import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
-
-import java.util.prefs.PreferenceChangeEvent;
 
 @ContentView(R.layout.activity_sign)
 public class SignActivity extends BaseActivity {
@@ -48,8 +43,8 @@ public class SignActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        MobclickAgent.onPageStart("注册");
-        MobclickAgent.onResume(this);
+//        MobclickAgent.onPageStart("注册");
+//        MobclickAgent.onResume(this);
     }
 
     private void init() {
@@ -71,7 +66,7 @@ public class SignActivity extends BaseActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        MobclickAgent.onPageEnd("注册");
-        MobclickAgent.onPause(this);
+//        MobclickAgent.onPageEnd("注册");
+//        MobclickAgent.onPause(this);
     }
 }

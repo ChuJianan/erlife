@@ -1,10 +1,6 @@
 package com.yrkj.yrlife.utils;
 
 
-import java.io.File;
-import java.io.IOException;
-import java.util.List;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -13,28 +9,26 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Message;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.baidu.location.BDLocation;
-import com.umeng.analytics.MobclickAgent;
 import com.yrkj.yrlife.R;
 import com.yrkj.yrlife.api.ApiClient;
 import com.yrkj.yrlife.app.AppException;
 import com.yrkj.yrlife.app.AppManager;
 import com.yrkj.yrlife.app.YrApplication;
 import com.yrkj.yrlife.ui.BrowserActivity;
-import com.yrkj.yrlife.ui.MainActivity;
+
+import java.io.File;
+import java.io.IOException;
 
 
 /**
@@ -348,7 +342,6 @@ public class UIHelper {
 //                    Toast.makeText(this, "再按一次退出程序", Toast.LENGTH_SHORT).show();
 			mExitTime = System.currentTimeMillis();
 		} else {
-			MobclickAgent.onKillProcess(cont);
 			AppManager.getAppManager().AppExit(cont);
 		}
 	}
