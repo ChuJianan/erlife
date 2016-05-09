@@ -151,8 +151,8 @@ public class ApiClient {
 	private static String http_get(YrApplication appContext, String url) throws AppException, JSONException {
 		String json = "";
 		JSONObject result = new JSONObject(_get(appContext, url));
-		if(result.getInt("status") != 1)
-			throw AppException.custom(result.getString("reason"));
+		if(result.getInt("code") != 001)
+			throw AppException.custom(result.getString("message"));
 		Iterator<?> it = result.keys();
 		while (it.hasNext()) {
 			String key = it.next().toString();
@@ -363,11 +363,7 @@ public class ApiClient {
 		DefaultHttpClient client = new DefaultHttpClient();
 		String result = null;
 		HttpPost post = new HttpPost(urls);
-
-
 		try {
-			
-
 		StringEntity entity = new StringEntity(gson,HTTP.UTF_8);
 		post.setEntity(entity);
 		HttpResponse responString = client.execute(post);
@@ -389,7 +385,7 @@ public class ApiClient {
 	}
 	/**
 	 * 检查版本更新
-	 * @param url
+	 * @param
 	 * @return
 	 */
 	public static Update checkVersion(final YrApplication appContext) throws AppException {
@@ -463,5 +459,13 @@ public class ApiClient {
 			}
 		}while(time < RETRY_TIME);
 		return bitmap;
+	}
+    public static String http_test(YrApplication appContext,String url)throws AppException, JSONException{
+		String json="";
+		JSONObject result = new JSONObject(_get(appContext, url));
+//		if(result.getInt("code") != 1)
+//			throw AppException.custom(result.getString("message"));
+		json=result.toString();
+		return  json;
 	}
 }

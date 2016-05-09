@@ -121,7 +121,6 @@ public class MainActivity extends FragmentActivity {
             locationService.unregisterListener(mListener); //注销掉监听
             locationService.stop(); //停止定位服务
             LocationResult.setText(UIHelper.city);
-
         }
     }
 
@@ -169,6 +168,8 @@ public class MainActivity extends FragmentActivity {
             if (LocationResult != null)
                 LocationResult.setText(str);
             UIHelper.city = str;
+            locationService.unregisterListener(mListener); //注销掉监听
+            locationService.stop(); //停止定位服务
         } catch (Exception e) {
             e.printStackTrace();
         }

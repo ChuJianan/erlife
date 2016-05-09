@@ -45,7 +45,8 @@ public class QRCodeUtil {
             hints.put(EncodeHintType.MARGIN, 0); //default is 4
 
             // 图像数据转换，使用了矩阵转换
-            BitMatrix bitMatrix = new com.google.zxing.qrcode.QRCodeWriter().encode(content, BarcodeFormat.QR_CODE, widthPix, heightPix, hints);
+            BitMatrix bitMatrix = new com.google.zxing.qrcode.QRCodeWriter().encode(content, BarcodeFormat.QR_CODE,
+                    widthPix, heightPix, hints);
 
             int[] pixels = new int[widthPix * heightPix];
             // 下面这里按照二维码的算法，逐个生成二维码的图片，

@@ -185,11 +185,11 @@ public class UIHelper {
 	 * @param tmlKey
 	 * @return
 	 */
-	public static TextWatcher getTextWatcher(final Activity context, final String temlKey) {
+	public static TextWatcher getTextWatcher(final Activity context, final String tmlKey) {
 		return new TextWatcher() {		
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
 				//保存当前EditText正在编辑的内容
-				((YrApplication)context.getApplication()).setProperty(temlKey, s.toString());
+				((YrApplication)context.getApplication()).setProperty(tmlKey, s.toString());
 			}		
 			public void beforeTextChanged(CharSequence s, int start, int count, int after) {}		
 			public void afterTextChanged(Editable s) {}

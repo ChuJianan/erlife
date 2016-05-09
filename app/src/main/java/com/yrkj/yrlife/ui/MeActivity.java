@@ -20,6 +20,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.yrkj.yrlife.R;
+import com.yrkj.yrlife.utils.ImageUtils;
 import com.yrkj.yrlife.utils.SharedPreferencesUtil;
 
 import org.xutils.view.annotation.ContentView;
@@ -259,10 +260,10 @@ public class MeActivity extends BaseActivity {
         intent.putExtra("aspectX", 1);
         intent.putExtra("aspectY", 1);
         // outputX outputY 是裁剪图片宽高
-        intent.putExtra("outputX", 960);
-        intent.putExtra("outputY", 960);
+        intent.putExtra("outputX", 1280);
+        intent.putExtra("outputY", 1280);
         intent.putExtra("return-data", true);
-        startActivityForResult(intent, 2);
+        startActivityForResult(intent, RESULT_REQUEST_CODE);
     }
 
     /**

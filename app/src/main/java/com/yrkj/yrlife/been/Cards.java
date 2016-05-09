@@ -3,6 +3,7 @@ package com.yrkj.yrlife.been;
 import org.xutils.view.annotation.Event;
 
 /**
+ * 会员卡
  * Created by Administrator on 2016/3/23.
  */
 public class Cards extends Entity {

@@ -15,6 +15,7 @@ import com.yrkj.yrlife.app.YrApplication;
 import com.yrkj.yrlife.ui.BinCardActivity;
 import com.yrkj.yrlife.ui.ConsumerActivity;
 import com.yrkj.yrlife.ui.CzlistActivity;
+import com.yrkj.yrlife.ui.LoginActivity;
 import com.yrkj.yrlife.ui.MeActivity;
 import com.yrkj.yrlife.ui.MoreActivity;
 import com.yrkj.yrlife.ui.PayActivity;
@@ -43,12 +44,20 @@ public class FragmentMe extends BaseFragment {
     @ViewInject(R.id.phone_textView)
     private TextView phoneText;
 
+    SharedPreferences preferences;
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        preferences =getActivity().getSharedPreferences("yrlife",getActivity().MODE_WORLD_READABLE);
+        String name = preferences.getString("name", "");
+        if (name.equals("")){
+            Intent intent=new Intent(getActivity(), LoginActivity.class);
+            startActivity(intent);
+        }
         yrApplication = (YrApplication) getActivity().getApplication();
         ls = (LinearLayout) getActivity().findViewById(R.id.ssss);
         ls.setVisibility(View.GONE);
+
     }
 
     @Override

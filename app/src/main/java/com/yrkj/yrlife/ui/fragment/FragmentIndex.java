@@ -11,6 +11,10 @@ import android.widget.TextView;
 
 import com.yrkj.yrlife.R;
 import com.yrkj.yrlife.adapter.GridViewMainAdapter;
+import com.yrkj.yrlife.api.ApiClient;
+import com.yrkj.yrlife.app.AppException;
+import com.yrkj.yrlife.app.YrApplication;
+import com.yrkj.yrlife.been.URLs;
 import com.yrkj.yrlife.ui.AdrListActivity;
 import com.yrkj.yrlife.ui.BinCardActivity;
 import com.yrkj.yrlife.ui.ConsumerActivity;
@@ -19,6 +23,7 @@ import com.yrkj.yrlife.utils.BitmapManager;
 import com.yrkj.yrlife.utils.UIHelper;
 import com.yrkj.yrlife.widget.MyGridView;
 
+import org.json.JSONException;
 import org.xutils.view.annotation.ContentView;
 
 
@@ -35,6 +40,7 @@ public class FragmentIndex extends BaseFragment{
     WebView webView;
     BitmapManager bitmapManager=new BitmapManager();
     TextView LocationResult;
+    YrApplication application;
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
@@ -48,6 +54,7 @@ public class FragmentIndex extends BaseFragment{
 //            center_img2=(ImageView)view.findViewById(R.id.center_img2);
 //            center_img3=(ImageView)view.findViewById(R.id.center_img3);
         webView=(WebView)view.findViewById(R.id.center_webView);
+        application = (YrApplication)getActivity().getApplication();
         init();
         getDate();
         ll_location.setOnClickListener(new View.OnClickListener() {
@@ -66,8 +73,9 @@ public class FragmentIndex extends BaseFragment{
         });
     }
 
-
+    ApiClient apiClient;
     Intent intent;
+    String string="";
     private  void  init(){
         webView.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT);
         sim_adapter=new GridViewMainAdapter(getActivity());
@@ -111,6 +119,10 @@ public class FragmentIndex extends BaseFragment{
 
     }
 
+    private String test()throws AppException, JSONException{
+      String  string = apiClient.http_test(application, URLs.APP_INIT);
+        return  string;
+    }
 //    @Override
 //    public void onResume() {
 //        super.onResume();

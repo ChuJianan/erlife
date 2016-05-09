@@ -1,6 +1,7 @@
 package com.yrkj.yrlife.been;
 
 /**
+ * 优惠券
  * Created by cjn on 2016/3/23.
  */
 public class Vouchers extends Entity {

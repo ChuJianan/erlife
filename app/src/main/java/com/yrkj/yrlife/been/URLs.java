@@ -9,10 +9,15 @@ package com.yrkj.yrlife.been;
  */
 public class URLs extends Entity {
 
-	public static final String HOST = "http://";
+	public static final String HOST = "http://192.168.199.133:8080/";
+//	public static final String HOST = "http://119.10.48.101/";
 
-	public static final String APP_INIT = HOST;		//应用初始化地址
+	public static final String APP_INIT = HOST+"wmmanager/app/pro1/app1/addMember";		//应用初始化地址
 	public static final String HOME_ADS = HOST ;		//首页广告地址
+
+	public static final String LOGIN=HOST+"wmmanager/app/pro1/app3/login?";
+	public static final String CODE_GET=HOST+"wmmanager/app/pro1/app2/send_msg_code?phone=";
+	public static final String SIGIN=HOST+"wmmanager/app/pro1/app3/register?";
 
 	public static final String NOTICE = HOST;	//预告地址
 	public static final String CLOUD = HOST ;	//会议云地址

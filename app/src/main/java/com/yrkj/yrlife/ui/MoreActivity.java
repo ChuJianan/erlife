@@ -52,7 +52,7 @@ public class MoreActivity extends BaseActivity {
 //        MobclickAgent.onResume(this);
         filePath = preferences.getString("filepath","");
         if (filePath!=null&&filePath!=""&&!filePath.equals("")){
-            qrcode.setImageBitmap(BitmapFactory.decodeFile(filePath));
+            qrcode.setImageBitmap(ImageUtils.getBitmap(MoreActivity.this,filePath));
         }else {
             //二维码图片较大时，生成图片、保存文件的时间可能较长，因此放在新线程中
             new Thread(new Runnable() {
@@ -71,7 +71,7 @@ public class MoreActivity extends BaseActivity {
                                 //实例化Editor对象
                                 SharedPreferences.Editor editor = preferences.edit();
                                 //存入数据
-                                editor.putString("filepath", "/data/data/com.yrkj.yrlife/files/qr_1.jpg");
+                                editor.putString("filepath", filepath);
                                 //提交修改
                                 editor.commit();
                             }
@@ -121,8 +121,12 @@ public class MoreActivity extends BaseActivity {
     }
     @Event(R.id.out_btn)
     private void outEvent(View view){
-        UIHelper.ToastMessage(this, "正在开发中...");
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.clear();
+        editor.commit();
+        UIHelper.ToastMessage(this, "成功退出当前帐号");
     }
+
 
     @Override
     protected void onPause() {

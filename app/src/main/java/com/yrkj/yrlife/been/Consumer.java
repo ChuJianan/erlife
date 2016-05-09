@@ -1,6 +1,7 @@
 package com.yrkj.yrlife.been;
 
 /**
+ * 消费记录
  * Created by cjn on 2016/3/28.
  */
 public class Consumer extends Entity {
