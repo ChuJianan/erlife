@@ -9,34 +9,62 @@ import java.util.Date;
  */
 public class User extends Entity {
 
-    private String account;
-    private String pwd;
-    private String real_name;
-    private String nick_name;
-    private String sex;
-    private String phone;
-    private String email;
-    private int member_grade_type_id;
-    private String member_type;
-    private String head_image;
-    private String isenable;
-    private String province;
-    private String city;
-    private String zone;
-    private String detail_address;
-    private int card_total_point;
-    private String memo;
-    private int sort;
-    private String isdel;
-    private Date create_time;
-    private int create_id;
-    private Date update_time;
-    private int update_id;
+    private String account;//登录帐号
+    private String pwd;//登录密码
+    private String real_name;//姓名
+    private String nick_name;//昵称
+    private String sex;//性别
+    private String phone;//手机
+    private String email;//邮箱
+    private int member_grade_type_id;//会员等级分表
+    private String member_type;//会员类型
+    private String head_image;//头像
+    private String isenable;//是否禁用或启用
+    private String province;//省
+    private String city;//市
+    private String zone;//区
+    private String detail_address;//详情地址
+    private int card_total_point;//卡总积分
+    private String memo;//备注
+    private int sort;//排序
+    private String isdel;//是否删除
+    private Date create_time;//创建时间
+    private int create_id;//创建人编号
+    private Date update_time;//修改时间
+    private int update_id;//修改人编号
 
-    private BigDecimal total_balance;
-    private BigDecimal total_consume;
+    private BigDecimal total_balance;//会员总余额
+    private BigDecimal total_consume;//会员累计消费金
 
-    private String card_number;
+    private String card_number;//
+
+    private Date due_time;//过期时间
+    private String secret_code;//用户密钥
+    private String unique_phone_code;//手机唯一码
+    public Date getDue_time() {
+        return due_time;
+    }
+
+    public void setDue_time(Date due_time) {
+        this.due_time = due_time;
+    }
+
+    public String getSecret_code() {
+        return secret_code;
+    }
+
+    public void setSecret_code(String secret_code) {
+        this.secret_code = secret_code;
+    }
+
+    public String getUnique_phone_code() {
+        return unique_phone_code;
+    }
+
+    public void setUnique_phone_code(String unique_phone_code) {
+        this.unique_phone_code = unique_phone_code;
+    }
+
 
     public String getAccount() {
         return account;

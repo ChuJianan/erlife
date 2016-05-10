@@ -50,6 +50,7 @@ public class SignActivity extends BaseActivity {
     String yzm;
     String name;
     String pwd;
+    String code;
     private CountDownTimer timer;
     private ProgressDialog mLoadingDialog;
     private String result;
@@ -91,7 +92,7 @@ public class SignActivity extends BaseActivity {
             if (StringUtils.isEmpty(yzm)){
                 UIHelper.ToastMessage(this, "请输入验证码");
             }else {
-                if (yzm.equals(result)){
+                if (yzm.equals(code)){
                     if (StringUtils.isEmpty(name)){
                         UIHelper.ToastMessage(this, "请输入用户名");
                     }else {
@@ -152,9 +153,9 @@ public class SignActivity extends BaseActivity {
                     result = ApiClient.http_test(appContext, url);
                     JSONObject jsonObject = new JSONObject(result);
                     msg.what = jsonObject.getInt("code");
-                    msg.obj = jsonObject.getString("message").toString();
+                    msg.obj = jsonObject.getString("message");
                     if (msg.what == 1) {
-                        result = jsonObject.getString("result");
+                        code = jsonObject.getString("result");
                     }
                 } catch (AppException e) {
 
@@ -172,32 +173,48 @@ public class SignActivity extends BaseActivity {
         final Handler handler=new Handler(){
             public void  handleMessage(Message msg){
                 mLoadingDialog.dismiss();
+                if (StringUtils.isEmpty(msg.toString())){
                 if (msg.what==1){
                     UIHelper.ToastMessage(appContext,msg.obj.toString());
                     User user = JsonUtils.fromJson(result, User.class);
                     //实例化Editor对象
                     SharedPreferences.Editor editor = preferences.edit();
                     //存入数据
-                    editor.putString("name", user.getReal_name());
+                    if (StringUtils.isEmpty(user.getReal_name())) {
+                        editor.putString("name", user.getAccount());
+                    } else {
+                        editor.putString("name", user.getReal_name());
+                    }
                     editor.putString("phone", user.getPhone());
+                    if (!StringUtils.isEmpty(user.getSex())){
                     if (user.getSex().equals("1")) {
                         editor.putString("sex", "男");
                     } else if (user.getSex().equals("2")) {
                         editor.putString("sex", "女");
                     }
+                    }else{
+                        editor.putString("sex", "男");
+                    }
+                    if (!StringUtils.isEmpty(user.getSecret_code())){
+                        editor.putString("secret_code",user.getSecret_code());
+                        URLs.secret_code=user.getSecret_code();
+                    }
                     //提交修改
                     editor.commit();
+                    finish();
                 }else if (msg.what==2){
                     UIHelper.ToastMessage(appContext,msg.obj.toString());
                 }
-                finish();
+                }else {
+                    UIHelper.ToastMessage(appContext,"网络错误，请重试");
+                }
             };
         };
         new Thread(){
             public void run(){
                 Message msg=new Message();
               try{
-                  String url=URLs.SIGIN+"phone="+phone+"&account="+""+"&pwd"+pwd+"&code="+yzm;
+                  String url=URLs.SIGIN+"phone="+phone+"&account="+name+"&pwd="+pwd+"&code="+yzm+"&secret_code="+appContext.getAppId();
                   result=ApiClient.http_test(appContext,url);
                   JSONObject jsonObject=new JSONObject(result);
                   msg.what=jsonObject.getInt("code");

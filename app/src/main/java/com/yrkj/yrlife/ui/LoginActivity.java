@@ -108,31 +108,47 @@ public class LoginActivity extends BaseActivity {
                     //实例化Editor对象
                     SharedPreferences.Editor editor = preferences.edit();
                     //存入数据
-                    editor.putString("name", user.getReal_name());
+                    if (StringUtils.isEmpty(user.getReal_name())) {
+                        editor.putString("name", user.getAccount());
+                    } else {
+                        editor.putString("name", user.getReal_name());
+                    }
                     editor.putString("phone", user.getPhone());
-                    if (user.getSex().equals("1")) {
+                    if (!StringUtils.isEmpty(user.getSex())) {
+                        if (user.getSex().equals("1")) {
+                            editor.putString("sex", "男");
+                        } else if (user.getSex().equals("2")) {
+                            editor.putString("sex", "女");
+                        }
+                    } else {
                         editor.putString("sex", "男");
-                    } else if (user.getSex().equals("2")) {
-                        editor.putString("sex", "女");
+                    }
+                    if (!StringUtils.isEmpty(user.getSecret_code())){
+                        editor.putString("secret_code",user.getSecret_code());
+                        URLs.secret_code=user.getSecret_code();
                     }
                     //提交修改
                     editor.commit();
+                    finish();
                 } else if (msg.what == 2) {
                     UIHelper.ToastMessage(appContext, msg.obj.toString());
                 }
-                finish();
-            };
+            }
+
+            ;
         };
         new Thread() {
             public void run() {
                 Message msg = new Message();
                 try {
-                    String url = URLs.LOGIN + "conditions=" + name + "&pwd=" + password;
+                    String url = URLs.LOGIN + "conditions=" + name + "&pwd=" + password+"&secret_code="+appContext.getAppId();
                     result = ApiClient.http_test(appContext, url);
                     JSONObject json = new JSONObject(result);
                     msg.what = json.getInt("code");
                     msg.obj = json.getString("message");
+                    if (msg.what==1){
                     result = json.getString("result");
+                    }
                 } catch (AppException e) {
 
                 } catch (JSONException e) {

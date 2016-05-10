@@ -9,6 +9,7 @@ package com.yrkj.yrlife.been;
  */
 public class URLs extends Entity {
 
+	public static  String secret_code="";
 	public static final String HOST = "http://192.168.199.133:8080/";
 //	public static final String HOST = "http://119.10.48.101/";
 

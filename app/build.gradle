@@ -53,8 +53,7 @@ dependencies {
     compile files('E:/Android/yrlife/libs/httpclient-cache-4.2.5.jar')
     compile files('E:/Android/yrlife/libs/httpcore-4.2.4.jar')
     compile files('E:/Android/yrlife/libs/universal-image-loader-1.8.6-with-sources.jar')
+    compile files('E:/Android/yrlife/libs/zixing-core-3.2.0.jar')
     compile files('E:/Android/yrlife/libs/BaiduLBS_Android.jar')
     compile files('E:/Android/yrlife/libs/httpmime-4.1.2.jar')
-//    compile 'com.umeng.analytics:analytics:latest.integration'
-    compile files('E:/Android/yrlife/libs/zixing-core-3.2.0.jar')
 }
