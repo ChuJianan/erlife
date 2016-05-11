@@ -42,6 +42,7 @@
             android:text="亿客"
             android:textSize="@dimen/text_size_16"
             android:textColor="@color/white"
+            android:visibility="gone"
             android:id="@+id/name_textView" />
 
         <TextView
@@ -49,8 +50,10 @@
             android:layout_height="wrap_content"
             android:text="金牌会员"
             android:id="@+id/textView2"
+            android:visibility="gone"
             android:textColor="@color/white"
             android:textSize="@dimen/text_size_16"
+
             android:layout_below="@+id/name_textView"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
@@ -59,21 +62,37 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="13165094770"
+            android:visibility="gone"
             android:id="@+id/phone_textView"
             android:textColor="@color/white"
             android:textSize="@dimen/text_size_14"
-            android:layout_alignBottom="@+id/name_textView"
+            android:gravity="center"
             android:layout_toRightOf="@+id/textView2"
-            android:layout_toEndOf="@+id/textView2" />
+            android:layout_toEndOf="@+id/textView2"
+            android:layout_marginLeft="13dp"
+            android:layout_marginStart="13dp"
+            android:layout_alignBottom="@+id/textView2"
+            android:layout_alignTop="@+id/textView2" />
 
         <ImageView
             android:layout_width="15dp"
             android:layout_height="15dp"
             android:id="@+id/imageView11"
+            android:visibility="gone"
             android:src="@mipmap/cur_right"
-            android:layout_alignBottom="@+id/textView2"
+            android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="登录/注册"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_18"
+            android:id="@+id/login_textView"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true" />
     </RelativeLayout>
 </RelativeLayout>
 

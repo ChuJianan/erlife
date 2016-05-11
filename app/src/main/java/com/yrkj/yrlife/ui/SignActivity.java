@@ -173,7 +173,7 @@ public class SignActivity extends BaseActivity {
         final Handler handler=new Handler(){
             public void  handleMessage(Message msg){
                 mLoadingDialog.dismiss();
-                if (StringUtils.isEmpty(msg.toString())){
+                if (!StringUtils.isEmpty(msg.toString())){
                 if (msg.what==1){
                     UIHelper.ToastMessage(appContext,msg.obj.toString());
                     User user = JsonUtils.fromJson(result, User.class);

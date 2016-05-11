@@ -118,8 +118,9 @@ public class ApiClient {
 		httpPost.getParams().setSoTimeout(TIMEOUT_SOCKET);
 		httpPost.setRequestHeader("Host", Uri.parse(url).getHost());
 		httpPost.setRequestHeader("Connection","Keep-Alive");
-		httpPost.setRequestHeader("Cookie", cookie);
-		httpPost.setRequestHeader("User-Agent", userAgent);
+		httpPost.setRequestHeader("secret_code", cookie);
+//		httpPost.setRequestHeader("User-Agent", userAgent);
+		httpPost.setRequestHeader("imageName",URLs.IMAGE_FILE_NAME);
 		return httpPost;
 	}
 	
@@ -247,7 +248,7 @@ public class ApiClient {
 			return "";
 		}
 		//System.out.println("post_url==> "+url);
-		String cookie = getCookie(appContext);
+		String cookie = URLs.secret_code;
 		String userAgent = getUserAgent(appContext);
 		
 		HttpClient httpClient = null;
@@ -339,7 +340,7 @@ public class ApiClient {
 	 * @throws JSONException 
 	 * @throws  
 	 */
-	private static String http_post(YrApplication appContext, String url, Map<String, Object> params, Map<String,File> files) throws AppException, JSONException {
+	public static String http_post(YrApplication appContext, String url, Map<String, Object> params, Map<String,File> files) throws AppException, JSONException {
 		String json = "";
 		JSONObject result = new JSONObject(_post(appContext, url, params, files));
 		if(result.getInt("status") != 1)

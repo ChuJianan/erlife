@@ -1,6 +1,7 @@
 package com.yrkj.yrlife.ui;
 
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -9,6 +10,9 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
@@ -18,17 +22,32 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.yrkj.yrlife.R;
+import com.yrkj.yrlife.api.ApiClient;
+import com.yrkj.yrlife.app.AppException;
+import com.yrkj.yrlife.been.URLs;
 import com.yrkj.yrlife.utils.ImageUtils;
 import com.yrkj.yrlife.utils.SharedPreferencesUtil;
+import com.yrkj.yrlife.utils.StringUtils;
+import com.yrkj.yrlife.utils.UIHelper;
+import com.yrkj.yrlife.utils.UploadUtil;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
 import java.io.File;
+import java.io.IOException;
+import java.security.PrivateKey;
+import java.security.PrivilegedAction;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 
 /**
  * Created by cjn on 2016/3/28.
@@ -36,7 +55,7 @@ import java.io.File;
 @ContentView(R.layout.activity_me)
 public class MeActivity extends BaseActivity {
 
-    private static final String IMAGE_FILE_NAME = "faceImage.jpg";
+    private static String IMAGE_FILE_NAME = "faceImage.jpg";
     SharedPreferences preferences;
     private String sex;
     private static final int IMAGE_REQUEST_CODE = 0;
@@ -52,6 +71,8 @@ public class MeActivity extends BaseActivity {
     private TextView phoneText;
     @ViewInject(R.id.sex_text)
     private TextView sexText;
+    private String result;
+    private ProgressDialog mLoadingDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,10 +80,20 @@ public class MeActivity extends BaseActivity {
         x.view().inject(this);
         title.setText("个人信息");
         preferences = getSharedPreferences("yrlife", MODE_WORLD_READABLE);
-        Bitmap bitmap = SharedPreferencesUtil.getBitmapFromSharedPreferences(this, IMAGE_FILE_NAME);
+        Bitmap bitmap = SharedPreferencesUtil.getBitmapFromSharedPreferences(this,URLs.IMAGE_FILE_NAME);
         if (bitmap != null) {
             avatarImg.setImageBitmap(bitmap);
         }
+        init();
+    }
+
+    private void init() {
+        IMAGE_FILE_NAME = ImageUtils.getTempFileName() + IMAGE_FILE_NAME;
+        mLoadingDialog = new ProgressDialog(this);
+        mLoadingDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        mLoadingDialog.setTitle("提示");
+        mLoadingDialog.setMessage("正在请求，请稍候……");
+        mLoadingDialog.setCancelable(false);
     }
 
     @Override
@@ -79,7 +110,7 @@ public class MeActivity extends BaseActivity {
         if (phone != "" && !phone.equals("")) {
             phoneText.setText(phone);
         }
-        if (sex!=null&&sex != "" && !sex.equals("")) {
+        if (sex != null && sex != "" && !sex.equals("")) {
             sexText.setText(sex);
         }
     }
@@ -132,29 +163,29 @@ public class MeActivity extends BaseActivity {
         view.findViewById(R.id.man_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sex = "男";
-                //实例化Editor对象
-                SharedPreferences.Editor editor = preferences.edit();
-                //存入数据
-                editor.putString("sex", sex);
-                //提交修改
-                editor.commit();
-                dialog.dismiss();
-                sexText.setText(sex);
+                if (sex.equals("男")) {
+                    dialog.dismiss();
+                } else {
+                    mLoadingDialog.show();
+                    sex = "男";
+                    String url = URLs.USER_INFO + "secret_code=" + URLs.secret_code + "&sex=1";
+                    setUserInfo(url);
+                    dialog.dismiss();
+                }
             }
         });
         view.findViewById(R.id.gril_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sex = "女";
-                //实例化Editor对象
-                SharedPreferences.Editor editor = preferences.edit();
-                //存入数据
-                editor.putString("sex", sex);
-                //提交修改
-                editor.commit();
-                dialog.dismiss();
-                sexText.setText(sex);
+                if (sex.equals("女")) {
+                    dialog.dismiss();
+                } else {
+                    mLoadingDialog.show();
+                    sex = "女";
+                    String url = URLs.USER_INFO + "secret_code=" + URLs.secret_code + "&sex=2";
+                    setUserInfo(url);
+                    dialog.dismiss();
+                }
             }
         });
 
@@ -236,6 +267,8 @@ public class MeActivity extends BaseActivity {
             case RESULT_REQUEST_CODE:// 取得裁剪后的图片
                 if (data != null) {
                     setImageToView(data);
+
+                    setHeadImage();
                     dialog.dismiss();
                 }
                 break;
@@ -278,13 +311,89 @@ public class MeActivity extends BaseActivity {
             Drawable drawable = new BitmapDrawable(photo);
             avatarImg.setImageDrawable(drawable);
             SharedPreferencesUtil.saveBitmapToSharedPreferences(photo, this, IMAGE_FILE_NAME);
+            URLs.IMAGE_FILE_NAME = IMAGE_FILE_NAME;
+            try {
+                ImageUtils.saveImage(appContext, URLs.IMAGE_FILE_NAME, photo);
+            } catch (IOException e) {
+
+            }
         }
+
+
     }
 
-//    @Override
-//    protected void onPause() {
-//        super.onPause();
-//        MobclickAgent.onPageEnd("个人信息");
-//        MobclickAgent.onPause(this);
-//    }
+    private void setUserInfo(final String url) {
+
+        final Handler handler = new Handler() {
+            public void handleMessage(Message msg) {
+                if (msg.obj != null) {
+                    mLoadingDialog.dismiss();
+                    if (msg.what == 1) {
+                        UIHelper.ToastMessage(MeActivity.this, msg.obj.toString());
+                        //实例化Editor对象
+                        SharedPreferences.Editor editor = preferences.edit();
+                        //存入数据
+                        editor.putString("sex", sex);
+                        //提交修改
+                        editor.commit();
+                        sexText.setText(sex);
+                    } else if (msg.what == 2) {
+                        UIHelper.ToastMessage(MeActivity.this, msg.obj.toString());
+                    }
+                } else {
+                    UIHelper.ToastMessage(MeActivity.this, "网络出错，请稍候...");
+                }
+
+            }
+
+            ;
+        };
+        new Thread() {
+            public void run() {
+                Message msg = new Message();
+                try {
+                    result = ApiClient.http_test(appContext, url);
+                    JSONObject jsonObject = new JSONObject(result);
+                    msg.what = jsonObject.getInt("code");
+                    msg.obj = jsonObject.getString("message");
+                } catch (AppException e) {
+
+                } catch (JSONException e) {
+
+                }
+                handler.sendMessage(msg);
+            }
+
+            ;
+        }.start();
+    }
+    private void setHeadImage(){
+        mLoadingDialog.show();
+        final Handler handler=new Handler(){
+            public void handleMessage(Message msg){
+                mLoadingDialog.dismiss();
+            };
+        };
+        new Thread(){
+            public void run(){
+                Message msg=new Message();
+                File file = new File("/data/data/com.yrkj.yrlife/files/"+URLs.IMAGE_FILE_NAME);
+//                String request = UploadUtil.uploadFile( file, URLs.UPDATE_HEADIMAGE);
+                Map<String,File> files=new HashMap<String, File>();
+                files.put("file",file);
+                Map<String,Object> map=null;
+                try {
+                    String request= ApiClient.http_post(appContext,URLs.UPDATE_HEADIMAGE,map,files);
+                    if (!StringUtils.isEmpty(request)){
+
+                    }
+                }catch (AppException e){
+                    mLoadingDialog.dismiss();
+                }catch (JSONException e){
+                    mLoadingDialog.dismiss();
+                }
+                handler.sendMessage(msg);
+            };
+        }.start();
+    }
 }

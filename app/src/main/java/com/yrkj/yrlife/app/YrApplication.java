@@ -3,6 +3,7 @@ package com.yrkj.yrlife.app;
 import android.app.Application;
 import android.app.Service;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.media.AudioManager;
@@ -14,6 +15,7 @@ import android.os.Vibrator;
 import com.baidu.mapapi.SDKInitializer;
 import com.pgyersdk.crash.PgyCrashManager;
 import com.tencent.bugly.crashreport.CrashReport;
+import com.yrkj.yrlife.been.URLs;
 import com.yrkj.yrlife.service.LocationService;
 import com.yrkj.yrlife.utils.MethodsCompat;
 import com.yrkj.yrlife.utils.StringUtils;
@@ -66,6 +68,10 @@ public class YrApplication extends Application {
         locationService = new LocationService(getApplicationContext());
         mVibrator =(Vibrator)getApplicationContext().getSystemService(Service.VIBRATOR_SERVICE);
         SDKInitializer.initialize(getApplicationContext());
+
+        SharedPreferences preferences = this.getSharedPreferences("yrlife", this.MODE_WORLD_READABLE);
+        String secret_code = preferences.getString("secret_code", "");
+        URLs.secret_code=secret_code;
 //       友盟声明
 //        MobclickAgent.openActivityDurationTrack(false);
         /** 设置是否对日志信息进行加密, 默认false(不加密). */
@@ -276,7 +282,7 @@ public class YrApplication extends Application {
     /**
      * 清除缓存目录
      * @param dir 目录
-     * @param numDays 当前系统时间
+     * @param curTime 当前系统时间
      * @return
      */
     private int clearCacheFolder(File dir, long curTime) {

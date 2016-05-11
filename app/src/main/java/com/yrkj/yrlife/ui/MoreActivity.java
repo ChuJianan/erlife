@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.yrkj.yrlife.R;
+import com.yrkj.yrlife.been.URLs;
 import com.yrkj.yrlife.utils.DensityUtil;
 import com.yrkj.yrlife.utils.ImageUtils;
 import com.yrkj.yrlife.utils.QRCodeUtil;
@@ -122,7 +123,8 @@ public class MoreActivity extends BaseActivity {
     @Event(R.id.out_btn)
     private void outEvent(View view){
         SharedPreferences.Editor editor = preferences.edit();
-        editor.clear();
+        editor.putString("secret_code","");
+        URLs.secret_code="";
         editor.commit();
         UIHelper.ToastMessage(this, "成功退出当前帐号");
     }

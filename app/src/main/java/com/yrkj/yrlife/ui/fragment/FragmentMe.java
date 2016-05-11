@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.yrkj.yrlife.R;
 import com.yrkj.yrlife.app.YrApplication;
+import com.yrkj.yrlife.been.URLs;
 import com.yrkj.yrlife.ui.BinCardActivity;
 import com.yrkj.yrlife.ui.ConsumerActivity;
 import com.yrkj.yrlife.ui.CzlistActivity;
@@ -20,6 +21,7 @@ import com.yrkj.yrlife.ui.MeActivity;
 import com.yrkj.yrlife.ui.MoreActivity;
 import com.yrkj.yrlife.ui.PayActivity;
 import com.yrkj.yrlife.utils.SharedPreferencesUtil;
+import com.yrkj.yrlife.utils.StringUtils;
 
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
@@ -30,7 +32,6 @@ import org.xutils.view.annotation.ViewInject;
  */
 @ContentView(R.layout.fragment_me)
 public class FragmentMe extends BaseFragment {
-    private static final String IMAGE_FILE_NAME = "faceImage.jpg";
     View view;
     Bitmap bitmap = null;
     YrApplication yrApplication;
@@ -43,17 +44,18 @@ public class FragmentMe extends BaseFragment {
     private TextView nameText;
     @ViewInject(R.id.phone_textView)
     private TextView phoneText;
+    @ViewInject(R.id.textView2)
+    private TextView textView2;
+    @ViewInject(R.id.login_textView)
+    private TextView login_textView;
+    @ViewInject(R.id.imageView11)
+    private ImageView imageView11;
 
-    SharedPreferences preferences;
+
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        preferences =getActivity().getSharedPreferences("yrlife",getActivity().MODE_WORLD_READABLE);
-        String name = preferences.getString("name", "");
-        if (name.equals("")){
-            Intent intent=new Intent(getActivity(), LoginActivity.class);
-            startActivity(intent);
-        }
+
         yrApplication = (YrApplication) getActivity().getApplication();
         ls = (LinearLayout) getActivity().findViewById(R.id.ssss);
         ls.setVisibility(View.GONE);
@@ -63,26 +65,45 @@ public class FragmentMe extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-//        MobclickAgent.onPageStart("me");
-        bitmap = SharedPreferencesUtil.getBitmapFromSharedPreferences(yrApplication, IMAGE_FILE_NAME);
-        if (bitmap != null) {
-            meImg.setImageBitmap(bitmap);
+        if (!StringUtils.isEmpty(URLs.secret_code)) {
+            login_textView.setVisibility(View.GONE);
+            nameText.setVisibility(View.VISIBLE);
+            phoneText.setVisibility(View.VISIBLE);
+            textView2.setVisibility(View.VISIBLE);
+            imageView11.setVisibility(View.VISIBLE);
+            bitmap = SharedPreferencesUtil.getBitmapFromSharedPreferences(yrApplication,URLs.IMAGE_FILE_NAME);
+            if (bitmap != null) {
+                meImg.setImageBitmap(bitmap);
+            }
+            SharedPreferences preferences = yrApplication.getSharedPreferences("yrlife", yrApplication.MODE_WORLD_READABLE);
+            String name = preferences.getString("name", "");
+            String phone = preferences.getString("phone", "");
+            if (name != "" && !name.equals("")) {
+                nameText.setText(name);
+            }
+            if (phone != "" && !phone.equals("")) {
+                phoneText.setText(phone);
+            }
+        } else {
+            meImg.setImageLevel(R.mipmap.ic_me_tx);
+            nameText.setVisibility(View.GONE);
+            textView2.setVisibility(View.GONE);
+            phoneText.setVisibility(View.GONE);
+            imageView11.setVisibility(View.GONE);
+            login_textView.setVisibility(View.VISIBLE);
         }
-        SharedPreferences preferences = yrApplication.getSharedPreferences("yrlife", yrApplication.MODE_WORLD_READABLE);
-        String name = preferences.getString("name", "");
-        String phone = preferences.getString("phone", "");
-        if (name != "" &&!name.equals("")) {
-            nameText.setText(name);
-        }
-        if (phone != "" &&!phone.equals("")) {
-            phoneText.setText(phone);
-        }
+
     }
 
     @Event(R.id.me_rl)
     private void onMerlClick(View view) {
-        Intent intent = new Intent(getActivity(), MeActivity.class);
-        startActivity(intent);
+        if (StringUtils.isEmpty(URLs.secret_code)) {
+            Intent intent = new Intent(getActivity(), LoginActivity.class);
+            startActivity(intent);
+        } else {
+            Intent intent = new Intent(getActivity(), MeActivity.class);
+            startActivity(intent);
+        }
     }
 
     @Event(R.id.rl_cz)
