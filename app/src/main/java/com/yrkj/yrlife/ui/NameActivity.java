@@ -1,15 +1,23 @@
 package com.yrkj.yrlife.ui;
 
+import android.app.ProgressDialog;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import com.yrkj.yrlife.R;
+import com.yrkj.yrlife.api.ApiClient;
+import com.yrkj.yrlife.app.AppException;
+import com.yrkj.yrlife.been.URLs;
 import com.yrkj.yrlife.utils.StringUtils;
 import com.yrkj.yrlife.utils.UIHelper;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
@@ -29,6 +37,8 @@ public class NameActivity extends BaseActivity {
     private TextView title;
     @ViewInject(R.id.refresh)
     private TextView save;
+    private ProgressDialog mLoadingDialog;
+    private String result;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,13 +50,15 @@ public class NameActivity extends BaseActivity {
         preferences = getSharedPreferences("yrlife",MODE_WORLD_READABLE);
         name=preferences.getString("name", "");
         nameEdit.setText(name);
+        init();
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-//        MobclickAgent.onPageStart("更改名字");
-//        MobclickAgent.onResume(this);
+    private void init() {
+        mLoadingDialog = new ProgressDialog(this);
+        mLoadingDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        mLoadingDialog.setTitle("提示");
+        mLoadingDialog.setMessage("正在请求，请稍候……");
+        mLoadingDialog.setCancelable(false);
     }
 
     @Event(R.id.refresh)
@@ -57,13 +69,9 @@ public class NameActivity extends BaseActivity {
         }else {
             int len=name.length();
             if (len>=2&&len<=16){
-                //实例化Editor对象
-                SharedPreferences.Editor editor = preferences.edit();
-                //存入数据
-                editor.putString("name", name);
-                //提交修改
-                editor.commit();
-                finish();
+                mLoadingDialog.show();
+                String url = URLs.USER_INFO + "secret_code=" + URLs.secret_code + "&real_name=" + name;
+                setUserInfo(url);
             }else {
                 UIHelper.ToastMessage(this,"名字的长度限定2-16个字符");
             }
@@ -72,10 +80,49 @@ public class NameActivity extends BaseActivity {
         }
     }
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-//        MobclickAgent.onPageEnd("onResume");
-//        MobclickAgent.onPause(this);
+    private void setUserInfo(final String url) {
+
+        final Handler handler = new Handler() {
+            public void handleMessage(Message msg) {
+                if (msg.obj != null) {
+                    mLoadingDialog.dismiss();
+                    if (msg.what == 1) {
+                        UIHelper.ToastMessage(NameActivity.this, msg.obj.toString());
+                        //实例化Editor对象
+                        SharedPreferences.Editor editor = preferences.edit();
+                        //存入数据
+                        editor.putString("name", name);
+                        //提交修改
+                        editor.commit();
+                        finish();
+                    } else if (msg.what == 2) {
+                        UIHelper.ToastMessage(NameActivity.this, msg.obj.toString());
+                    }
+                } else {
+                    UIHelper.ToastMessage(NameActivity.this, "网络出错，请稍候...");
+                }
+
+            }
+
+            ;
+        };
+        new Thread() {
+            public void run() {
+                Message msg = new Message();
+                try {
+                    result = ApiClient.http_test(appContext, url);
+                    JSONObject jsonObject = new JSONObject(result);
+                    msg.what = jsonObject.getInt("code");
+                    msg.obj = jsonObject.getString("message");
+                } catch (AppException e) {
+
+                } catch (JSONException e) {
+
+                }
+                handler.sendMessage(msg);
+            }
+
+            ;
+        }.start();
     }
 }

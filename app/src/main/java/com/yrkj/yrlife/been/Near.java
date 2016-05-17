@@ -9,49 +9,53 @@ import org.xutils.view.annotation.Event;
  */
 public class Near extends Entity {
 
-    private  String nid;
-    private String adr;
-    private String tel;
-    private String dis;
-    private Bitmap bitmap;
+    private  String machine_name;//设备名称
 
-    public String getNid() {
-        return nid;
+    public String getMachine_name() {
+        return machine_name;
     }
 
-    public void setNid(String nid) {
-        this.nid = nid;
+    public void setMachine_name(String machine_name) {
+        this.machine_name = machine_name;
     }
 
-    public String getAdr() {
-        return adr;
+    public String getAddress() {
+        return address;
     }
 
-    public void setAdr(String adr) {
-        this.adr = adr;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
-    public String getTel() {
-        return tel;
+    public String getLng() {
+        return lng;
     }
 
-    public void setTel(String tel) {
-        this.tel = tel;
+    public void setLng(String lng) {
+        this.lng = lng;
     }
 
-    public String getDis() {
-        return dis;
+    public String getLat() {
+        return lat;
     }
 
-    public void setDis(String dis) {
-        this.dis = dis;
+    public void setLat(String lat) {
+        this.lat = lat;
     }
 
-    public Bitmap getBitmap() {
-        return bitmap;
+    public String getMachine_pic() {
+        return machine_pic;
     }
 
-    public void setBitmap(Bitmap bitmap) {
-        this.bitmap = bitmap;
+    public void setMachine_pic(String machine_pic) {
+        this.machine_pic = machine_pic;
     }
+
+    private String address;//地址
+//    private String tel;
+    private String lng;//经度
+    private String lat;//纬度
+    private String machine_pic;//图片地址
+
+
 }

@@ -8,9 +8,16 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.baidu.mapapi.model.LatLng;
+import com.baidu.mapapi.utils.DistanceUtil;
 import com.yrkj.yrlife.R;
 import com.yrkj.yrlife.been.Near;
+import com.yrkj.yrlife.been.URLs;
+import com.yrkj.yrlife.utils.BitmapManager;
+import com.yrkj.yrlife.utils.StringUtils;
+import com.yrkj.yrlife.utils.UIHelper;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -34,6 +41,13 @@ public class ListViewNearAdapter extends BaseAdapter {
         this.listItems = data;
     }
 
+    public void setNear(List<Near> data) {
+        this.listItems = data;
+    }
+    public void addNear(List<Near> data){
+        listItems.addAll(data);
+    }
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder = null;
@@ -52,12 +66,16 @@ public class ListViewNearAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
         Near near = listItems.get(position);
-        holder.nid.setText(near.getNid());
-        holder.adr.setText(near.getAdr());
-        holder.tel.setText(near.getTel());
-        holder.dis.setText(near.getDis());
-        holder.img.setImageBitmap(near.getBitmap());
-
+        holder.nid.setText(near.getMachine_name());
+        holder.adr.setText(near.getAddress());
+//        holder.tel.setText(near.getTel());
+        LatLng p1=new LatLng(UIHelper.location.getLatitude(),UIHelper.location.getLongitude());
+        LatLng p2=new LatLng(Double.parseDouble(near.getLat()) ,Double.parseDouble(near.getLng()));
+        double p3=DistanceUtil.getDistance(p1,p2)/1000;
+        BigDecimal bigDecimal=new BigDecimal(p3);
+        holder.dis.setText(bigDecimal.setScale(2,BigDecimal.ROUND_HALF_UP).toString());
+//        holder.img.setImageBitmap();
+        UIHelper.showLoadImage(holder.img, URLs.IMGURL+near.getMachine_pic(),"");
 
         return convertView;
     }

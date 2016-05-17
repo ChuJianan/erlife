@@ -43,7 +43,7 @@ dependencies {
     compile 'com.android.support:appcompat-v7:23.2.0'
     compile 'com.android.support:design:23.2.0'
     compile 'com.google.android.gms:play-services-appindexing:8.1.0'
-    compile 'org.xutils:xutils:3.3.20'
+    compile 'org.xutils:xutils:3.3.34'
     compile 'com.tencent.bugly:crashreport:1.2.9'
     //其中latest.release指代最新版本号，也可以指定明确的版本号，例如1.2.8
     compile 'com.pgyersdk:sdk:2.2.2'

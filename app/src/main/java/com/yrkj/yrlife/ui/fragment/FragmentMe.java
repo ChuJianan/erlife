@@ -20,6 +20,7 @@ import com.yrkj.yrlife.ui.LoginActivity;
 import com.yrkj.yrlife.ui.MeActivity;
 import com.yrkj.yrlife.ui.MoreActivity;
 import com.yrkj.yrlife.ui.PayActivity;
+import com.yrkj.yrlife.utils.ImageUtils;
 import com.yrkj.yrlife.utils.SharedPreferencesUtil;
 import com.yrkj.yrlife.utils.StringUtils;
 
@@ -71,18 +72,23 @@ public class FragmentMe extends BaseFragment {
             phoneText.setVisibility(View.VISIBLE);
             textView2.setVisibility(View.VISIBLE);
             imageView11.setVisibility(View.VISIBLE);
-            bitmap = SharedPreferencesUtil.getBitmapFromSharedPreferences(yrApplication,URLs.IMAGE_FILE_NAME);
-            if (bitmap != null) {
-                meImg.setImageBitmap(bitmap);
-            }
+//            bitmap = SharedPreferencesUtil.getBitmapFromSharedPreferences(yrApplication,URLs.IMAGE_FILE_NAME);
+
+//            if (bitmap != null) {
+//                meImg.setImageBitmap(bitmap);
+//            }
             SharedPreferences preferences = yrApplication.getSharedPreferences("yrlife", yrApplication.MODE_WORLD_READABLE);
             String name = preferences.getString("name", "");
             String phone = preferences.getString("phone", "");
+            String faceimg=preferences.getString("faceimg","");
             if (name != "" && !name.equals("")) {
                 nameText.setText(name);
             }
             if (phone != "" && !phone.equals("")) {
                 phoneText.setText(phone);
+            }
+            if (faceimg!=""&&!faceimg.equals("")){
+                meImg.setImageBitmap(ImageUtils.getBitmap(getActivity(),faceimg));
             }
         } else {
             meImg.setImageLevel(R.mipmap.ic_me_tx);

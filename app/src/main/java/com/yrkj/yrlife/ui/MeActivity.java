@@ -80,10 +80,10 @@ public class MeActivity extends BaseActivity {
         x.view().inject(this);
         title.setText("个人信息");
         preferences = getSharedPreferences("yrlife", MODE_WORLD_READABLE);
-        Bitmap bitmap = SharedPreferencesUtil.getBitmapFromSharedPreferences(this,URLs.IMAGE_FILE_NAME);
-        if (bitmap != null) {
-            avatarImg.setImageBitmap(bitmap);
-        }
+//        Bitmap bitmap = SharedPreferencesUtil.getBitmapFromSharedPreferences(this,URLs.IMAGE_FILE_NAME);
+//        if (bitmap != null) {
+//            avatarImg.setImageBitmap(bitmap);
+//        }
         init();
     }
 
@@ -104,6 +104,7 @@ public class MeActivity extends BaseActivity {
         String name = preferences.getString("name", "");
         String phone = preferences.getString("phone", "");
         sex = preferences.getString("sex", sex);
+        String faceimg=preferences.getString("faceimg","");
         if (name != "" && !name.equals("")) {
             nameText.setText(name);
         }
@@ -112,6 +113,9 @@ public class MeActivity extends BaseActivity {
         }
         if (sex != null && sex != "" && !sex.equals("")) {
             sexText.setText(sex);
+        }
+        if (faceimg!=""&&!faceimg.equals("")){
+            avatarImg.setImageBitmap(ImageUtils.getBitmap(MeActivity.this,faceimg));
         }
     }
 
@@ -182,7 +186,7 @@ public class MeActivity extends BaseActivity {
                 } else {
                     mLoadingDialog.show();
                     sex = "女";
-                    String url = URLs.USER_INFO + "secret_code=" + URLs.secret_code + "&sex=2";
+                    String url = URLs.USER_INFO + "secret_code=" + URLs.secret_code + "&sex=0";
                     setUserInfo(url);
                     dialog.dismiss();
                 }
@@ -310,10 +314,16 @@ public class MeActivity extends BaseActivity {
             Bitmap photo = extras.getParcelable("data");
             Drawable drawable = new BitmapDrawable(photo);
             avatarImg.setImageDrawable(drawable);
-            SharedPreferencesUtil.saveBitmapToSharedPreferences(photo, this, IMAGE_FILE_NAME);
+//            SharedPreferencesUtil.saveBitmapToSharedPreferences(photo, this, IMAGE_FILE_NAME);
             URLs.IMAGE_FILE_NAME = IMAGE_FILE_NAME;
             try {
                 ImageUtils.saveImage(appContext, URLs.IMAGE_FILE_NAME, photo);
+                //实例化Editor对象
+                SharedPreferences.Editor editor = preferences.edit();
+                //存入数据
+                editor.putString("faceimg",  URLs.IMAGE_FILE_NAME);
+                //提交修改
+                editor.commit();
             } catch (IOException e) {
 
             }

@@ -120,7 +120,7 @@ public class ApiClient {
 		httpPost.setRequestHeader("Connection","Keep-Alive");
 		httpPost.setRequestHeader("secret_code", cookie);
 //		httpPost.setRequestHeader("User-Agent", userAgent);
-		httpPost.setRequestHeader("imageName",URLs.IMAGE_FILE_NAME);
+//		httpPost.setRequestHeader("imageName",URLs.IMAGE_FILE_NAME);
 		return httpPost;
 	}
 	

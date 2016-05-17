@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * 消费记录
  * Created by cjn on 2016/3/28.
  */
 @ContentView(R.layout.activity_consumer)

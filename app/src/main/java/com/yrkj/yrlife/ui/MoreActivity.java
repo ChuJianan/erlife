@@ -7,18 +7,24 @@ import android.content.pm.PackageManager;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.ActivityCompat;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.yrkj.yrlife.R;
+import com.yrkj.yrlife.api.ApiClient;
+import com.yrkj.yrlife.app.AppException;
 import com.yrkj.yrlife.been.URLs;
 import com.yrkj.yrlife.utils.DensityUtil;
 import com.yrkj.yrlife.utils.ImageUtils;
 import com.yrkj.yrlife.utils.QRCodeUtil;
 import com.yrkj.yrlife.utils.UIHelper;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
@@ -37,6 +43,7 @@ public class MoreActivity extends BaseActivity {
     TextView title;
     @ViewInject(R.id.qrcode)
     ImageView qrcode;
+    String result;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,24 +58,24 @@ public class MoreActivity extends BaseActivity {
         super.onResume();
 //        MobclickAgent.onPageStart("更多");
 //        MobclickAgent.onResume(this);
-        filePath = preferences.getString("filepath","");
-        if (filePath!=null&&filePath!=""&&!filePath.equals("")){
-            qrcode.setImageBitmap(ImageUtils.getBitmap(MoreActivity.this,filePath));
-        }else {
+        filePath = preferences.getString("filepath", "");
+        if (filePath != null && filePath != "" && !filePath.equals("")) {
+            qrcode.setImageBitmap(ImageUtils.getBitmap(MoreActivity.this, filePath));
+        } else {
             //二维码图片较大时，生成图片、保存文件的时间可能较长，因此放在新线程中
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    final String filepath="qr_1.png";
+                    final String filepath = "qr_1.png";
 //                    "/data/data/com.yrkj.yrlife/files/"+
-                    int widht= DensityUtil.dip2px(MoreActivity.this,120);
+                    int widht = DensityUtil.dip2px(MoreActivity.this, 120);
                     boolean success = QRCodeUtil.createQRImage(MoreActivity.this, "https://www.baidu.com/", 200, 200, BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher),
                             filepath);
                     if (success) {
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                qrcode.setImageBitmap(ImageUtils.getBitmap(MoreActivity.this,filepath));
+                                qrcode.setImageBitmap(ImageUtils.getBitmap(MoreActivity.this, filepath));
                                 //实例化Editor对象
                                 SharedPreferences.Editor editor = preferences.edit();
                                 //存入数据
@@ -102,38 +109,66 @@ public class MoreActivity extends BaseActivity {
     }
 
     @Event(R.id.help_rl)
-    private void onHelprlClick(View view){
+    private void onHelprlClick(View view) {
         UIHelper.ToastMessage(this, "正在开发中...");
     }
 
-    @Event( R.id.idea_rl)
-    private void onIdearlClick(View view){
+    @Event(R.id.idea_rl)
+    private void onIdearlClick(View view) {
         UIHelper.ToastMessage(this, "正在开发中...");
     }
 
     @Event(R.id.about_rl)
-    private void onAboutrlClick(View view){
+    private void onAboutrlClick(View view) {
         UIHelper.ToastMessage(this, "正在开发中...");
     }
 
     @Event(R.id.clean_rl)
-    private void onCleanrl(View view){
+    private void onCleanrl(View view) {
         UIHelper.clearAppCache(this);
     }
+
     @Event(R.id.out_btn)
-    private void outEvent(View view){
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putString("secret_code","");
-        URLs.secret_code="";
-        editor.commit();
-        UIHelper.ToastMessage(this, "成功退出当前帐号");
+    private void outEvent(View view) {
+        loginOut();
+
     }
 
 
-    @Override
-    protected void onPause() {
-        super.onPause();
-//        MobclickAgent.onPageEnd("更多");
-//        MobclickAgent.onPause(this);
+    private void loginOut() {
+        final Handler handler = new Handler() {
+            public void handleMessage(Message msg) {
+                if (msg.what==1){
+                    SharedPreferences.Editor editor = preferences.edit();
+                    editor.putString("secret_code", "");
+                    URLs.secret_code = "";
+                    editor.commit();
+                    UIHelper.ToastMessage(appContext,msg.obj.toString());
+                }else if (msg.what==2){
+                    UIHelper.ToastMessage(appContext,msg.obj.toString());
+                }
+            }
+
+            ;
+        };
+        new Thread() {
+            public void run() {
+                Message msg = new Message();
+                String url = URLs.LOGINOUT + URLs.secret_code;
+                try {
+                    result = ApiClient.http_test(appContext, url);
+                    JSONObject jsonObject=new JSONObject(result);
+                    msg.what=jsonObject.getInt("code");
+                    msg.obj=jsonObject.getString("message");
+                } catch (AppException e) {
+
+                } catch (JSONException e) {
+
+                }
+                handler.sendMessage(msg);
+            }
+
+            ;
+        }.start();
     }
 }

@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * 充值记录
  * Created by cjn on 2016/3/25.
  */
 @ContentView(R.layout.activity_czlist)
