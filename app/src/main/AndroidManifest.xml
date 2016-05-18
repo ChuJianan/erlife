@@ -82,6 +82,7 @@
         <activity android:name=".ui.NameActivity"/>
         <activity android:name=".ui.PhoneActivity"/>
         <activity android:name=".ui.AdrListActivity"/>
+        <activity android:name=".ui.IdeaActivity"/>
 
 
 

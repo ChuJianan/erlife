@@ -10,7 +10,9 @@ import java.util.List;
  * Created by cjn on 2016/5/17.
  */
 public class Result {
-    public List<Near> result= Collections.emptyList();
+    public List<Near> nears= Collections.emptyList();
+    public List<Consumer> consumers=Collections.emptyList();
+    public List<Pay> pays=Collections.emptyList();
     private int code;
     private String message;
      public boolean OK(){

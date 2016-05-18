@@ -151,15 +151,15 @@ public class FragmentNear extends BaseFragment {
         super.onActivityCreated(savedInstanceState);
         long now = System.currentTimeMillis();
         //10分钟内不重复加载信息
-//        if (mLastTime > 0 && now - mLastTime < 1000 * 60 * 10) {
-//            return;
-//        }else{
-//            if (getUserVisibleHint()) {
+        if (mLastTime > 0 && now - mLastTime < 1000 * 60 * 10) {
+            return;
+        }else{
+            if (getUserVisibleHint()) {
                 //如果直接点击跳转到本Fragment，setUserVisibleHint方法会先于
                 //onCreateView调用，所以加载数据前需要先判断视图是否已初始化
                 loadCloudData(pageNo);
-//            }
-//        }
+            }
+        }
     }
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
@@ -168,23 +168,23 @@ public class FragmentNear extends BaseFragment {
         super.setUserVisibleHint(isVisibleToUser);
         long now = System.currentTimeMillis();
         //10分钟内不重复加载信息
-//        if (mLastTime > 0 && now - mLastTime < 1000 * 60 * 10) {
-//            return;
-//        }else{
-//            if (getUserVisibleHint() && isViewInited) {
+        if (mLastTime > 0 && now - mLastTime < 1000 * 60 * 10) {
+            return;
+        }else{
+            if (getUserVisibleHint() && isViewInited) {
                 //如果直接点击跳转到本Fragment，setUserVisibleHint方法会先于
                 //onCreateView调用，所以加载数据前需要先判断视图是否已初始化
                 loadCloudData(pageNo);
 
-//            }
-//        }
+            }
+        }
     }
 
     private void loadCloudData(int pageNo) {
         String url= URLs.NEAR;
         RequestParams params = new RequestParams(url);
         params.addQueryStringParameter("lat", UIHelper.location.getLatitude()+"");
-        params.addQueryStringParameter("lan", UIHelper.location.getLongitude()+"");
+        params.addQueryStringParameter("lng", UIHelper.location.getLongitude()+"");
         params.addQueryStringParameter("pagenumber",pageNo+"");
         x.http().get(params, new Callback.CommonCallback<String>() {
 
@@ -194,21 +194,21 @@ public class FragmentNear extends BaseFragment {
                 Result result= JsonUtils.fromJson(results,Result.class);
                 if (!result.OK()) {
 //                    throw AppException.custom(result.Message());
-                }else if (result.result.size()>0){
+                }else if (result.nears.size()>0){
                     if (mNearData==null){
-                        mNearData=result.result;
+                        mNearData=result.nears;
                         mNearView.setTag(UIHelper.LISTVIEW_DATA_MORE);
                         mNearAdapter.setNear(mNearData);
                         mNearAdapter.notifyDataSetChanged();
-                    }else if (result.result.size()<pageSize){
-                        mNearData=result.result;
+                    }else if (result.nears.size()<pageSize){
+                        mNearData=result.nears;
                         mNearView.setTag(UIHelper.LISTVIEW_DATA_FULL);
                         mNearAdapter.addNear(mNearData);
                         mNearAdapter.notifyDataSetChanged();
                         mNearProgress.setVisibility(View.GONE);
                         mNearMore.setText(R.string.load_full);
                     }else {
-                        mNearData = result.result;
+                        mNearData = result.nears;
                         mNearView.setTag(UIHelper.LISTVIEW_DATA_MORE);
                         mNearAdapter.addNear(mNearData);
                         mNearAdapter.notifyDataSetChanged();

@@ -36,6 +36,8 @@ import com.yrkj.yrlife.utils.UploadUtil;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.xutils.common.Callback;
+import org.xutils.http.RequestParams;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
@@ -377,33 +379,45 @@ public class MeActivity extends BaseActivity {
             ;
         }.start();
     }
-    private void setHeadImage(){
+    private void setHeadImage() {
         mLoadingDialog.show();
-        final Handler handler=new Handler(){
-            public void handleMessage(Message msg){
+        String url=URLs.UPDATE_HEADIMAGE;
+        RequestParams params=new RequestParams(url);
+        params.addHeader("Content-Type","multipart/form-data");
+        params.addHeader("connection", "keep-alive");
+        params.addBodyParameter("secret_code",URLs.secret_code);
+        params.addBodyParameter("file", new File("/data/data/com.yrkj.yrlife/files/"+URLs.IMAGE_FILE_NAME));
+        params.setMultipart(true);
+        x.http().post(params, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+                UIHelper.ToastMessage(appContext,result);
                 mLoadingDialog.dismiss();
-            };
-        };
-        new Thread(){
-            public void run(){
-                Message msg=new Message();
-                File file = new File("/data/data/com.yrkj.yrlife/files/"+URLs.IMAGE_FILE_NAME);
-//                String request = UploadUtil.uploadFile( file, URLs.UPDATE_HEADIMAGE);
-                Map<String,File> files=new HashMap<String, File>();
-                files.put("file",file);
-                Map<String,Object> map=null;
-                try {
-                    String request= ApiClient.http_post(appContext,URLs.UPDATE_HEADIMAGE,map,files);
-                    if (!StringUtils.isEmpty(request)){
+            }
 
-                    }
-                }catch (AppException e){
-                    mLoadingDialog.dismiss();
-                }catch (JSONException e){
-                    mLoadingDialog.dismiss();
-                }
-                handler.sendMessage(msg);
-            };
-        }.start();
+            @Override
+            public void onCancelled(CancelledException cex) {
+                mLoadingDialog.dismiss();
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+                UIHelper.ToastMessage(appContext,ex.getMessage());
+                mLoadingDialog.dismiss();
+            }
+
+            @Override
+            public void onFinished() {
+                mLoadingDialog.dismiss();
+            }
+        });
     }
+//private void setHeadImage(){
+//    new Thread(){
+//        public void run(){
+//            UploadUtil.uploadFile(new File("/data/data/com.yrkj.yrlife/files/"+URLs.IMAGE_FILE_NAME),URLs.UPDATE_HEADIMAGE);
+//        };
+//    }.start();
+//
+//}
 }

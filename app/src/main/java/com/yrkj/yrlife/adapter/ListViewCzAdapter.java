@@ -33,7 +33,14 @@ public class ListViewCzAdapter extends BaseAdapter {
         this.listContainer=LayoutInflater.from(context);
         this.listItems=data;
     }
-    
+
+    public void setPay(List<Pay> data) {
+        this.listItems = data;
+    }
+    public void addPay(List<Pay> data){
+        listItems.addAll(data);
+    }
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
@@ -51,9 +58,9 @@ public class ListViewCzAdapter extends BaseAdapter {
         }
 
         Pay pay=listItems.get(position);
-        holder.payType.setText(pay.getPayType());
-        holder.moneyPay.setText(pay.getPayMoney());
-        holder.dateType.setText(pay.getPayDate());
+        holder.payType.setText(pay.getTitle());
+        holder.moneyPay.setText(pay.getPrice());
+        holder.dateType.setText(pay.getCreate_time());
 
         return convertView;
     }

@@ -23,6 +23,7 @@ import com.yrkj.yrlife.ui.PayActivity;
 import com.yrkj.yrlife.utils.ImageUtils;
 import com.yrkj.yrlife.utils.SharedPreferencesUtil;
 import com.yrkj.yrlife.utils.StringUtils;
+import com.yrkj.yrlife.utils.UIHelper;
 
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
@@ -80,15 +81,15 @@ public class FragmentMe extends BaseFragment {
             SharedPreferences preferences = yrApplication.getSharedPreferences("yrlife", yrApplication.MODE_WORLD_READABLE);
             String name = preferences.getString("name", "");
             String phone = preferences.getString("phone", "");
-            String faceimg=preferences.getString("faceimg","");
+            String faceimg = preferences.getString("faceimg", "");
             if (name != "" && !name.equals("")) {
                 nameText.setText(name);
             }
             if (phone != "" && !phone.equals("")) {
                 phoneText.setText(phone);
             }
-            if (faceimg!=""&&!faceimg.equals("")){
-                meImg.setImageBitmap(ImageUtils.getBitmap(getActivity(),faceimg));
+            if (faceimg != "" && !faceimg.equals("")) {
+                meImg.setImageBitmap(ImageUtils.getBitmap(getActivity(), faceimg));
             }
         } else {
             meImg.setImageLevel(R.mipmap.ic_me_tx);
@@ -104,8 +105,7 @@ public class FragmentMe extends BaseFragment {
     @Event(R.id.me_rl)
     private void onMerlClick(View view) {
         if (StringUtils.isEmpty(URLs.secret_code)) {
-            Intent intent = new Intent(getActivity(), LoginActivity.class);
-            startActivity(intent);
+            UIHelper.openLogin(getActivity());
         } else {
             Intent intent = new Intent(getActivity(), MeActivity.class);
             startActivity(intent);
@@ -115,26 +115,42 @@ public class FragmentMe extends BaseFragment {
     @Event(R.id.rl_cz)
     private void onRlcvzClick(View view) {
 //        UIHelper.ToastMessage(getActivity(),"正在开发...");
-        Intent intent = new Intent(getActivity(), PayActivity.class);
-        startActivity(intent);
+        if (StringUtils.isEmpty(URLs.secret_code)) {
+            UIHelper.openLogin(getActivity());
+        } else {
+            Intent intent = new Intent(getActivity(), PayActivity.class);
+            startActivity(intent);
+        }
     }
 
     @Event(R.id.rl_bin)
     private void onRlbinClick(View view) {
-        Intent intent = new Intent(getActivity(), BinCardActivity.class);
-        startActivity(intent);
+        if (StringUtils.isEmpty(URLs.secret_code)) {
+            UIHelper.openLogin(getActivity());
+        } else {
+            Intent intent = new Intent(getActivity(), BinCardActivity.class);
+            startActivity(intent);
+        }
     }
 
     @Event(R.id.pay_rl)
     private void onPayrlClick(View view) {
-        Intent intent = new Intent(getActivity(), CzlistActivity.class);
-        startActivity(intent);
+        if (StringUtils.isEmpty(URLs.secret_code)) {
+            UIHelper.openLogin(getActivity());
+        } else {
+            Intent intent = new Intent(getActivity(), CzlistActivity.class);
+            startActivity(intent);
+        }
     }
 
     @Event(R.id.cost_rl)
     private void onCostrlClick(View view) {
-        Intent intent = new Intent(getActivity(), ConsumerActivity.class);
-        startActivity(intent);
+        if (StringUtils.isEmpty(URLs.secret_code)) {
+            UIHelper.openLogin(getActivity());
+        } else {
+            Intent intent = new Intent(getActivity(), ConsumerActivity.class);
+            startActivity(intent);
+        }
     }
 
     @Event(R.id.more_rl)
@@ -143,9 +159,4 @@ public class FragmentMe extends BaseFragment {
         startActivity(intent);
     }
 
-    @Override
-    public void onPause() {
-        super.onPause();
-//        MobclickAgent.onPageEnd("me");
-    }
 }

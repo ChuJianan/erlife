@@ -5,31 +5,40 @@ package com.yrkj.yrlife.been;
  * Created by cjn on 2016/3/28.
  */
 public class Consumer extends Entity {
-    private String costType;
-    private String costDate;
-    private String costMoney;
+    private String title;
+    private  String create_time;
+    private  String price;
+    private String address;
 
-    public String getCostType() {
-        return costType;
+    public String getTitle() {
+        return title;
     }
 
-    public void setCostType(String costType) {
-        this.costType = costType;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public String getCostDate() {
-        return costDate;
+    public String getCreate_time() {
+        return create_time;
     }
 
-    public void setCostDate(String costDate) {
-        this.costDate = costDate;
+    public void setCreate_time(String create_time) {
+        this.create_time = create_time;
     }
 
-    public String getCostMoney() {
-        return costMoney;
+    public String getPrice() {
+        return price;
     }
 
-    public void setCostMoney(String costMoney) {
-        this.costMoney = costMoney;
+    public void setPrice(String price) {
+        this.price = price;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 }

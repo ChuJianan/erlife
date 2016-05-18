@@ -8,7 +8,7 @@ import org.xutils.view.annotation.Event;
  */
 public class Cards extends Entity {
     private String cardNumber;
-    private String cardType;
+    private String type_name;
 
     public String getCardNumber() {
         return cardNumber;
@@ -18,11 +18,11 @@ public class Cards extends Entity {
         this.cardNumber = cardNumber;
     }
 
-    public String getCardType() {
-        return cardType;
+    public String getType_name() {
+        return type_name;
     }
 
-    public void setCardType(String cardType) {
-        this.cardType = cardType;
+    public void setType_name(String type_name) {
+        this.type_name = type_name;
     }
 }

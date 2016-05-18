@@ -4,31 +4,31 @@ package com.yrkj.yrlife.been;
  * Created by cjn on 2016/3/25.
  */
 public class Pay extends Entity {
-     private String payType;
-    private  String payDate;
-    private  String payMoney;
+     private String title;
+    private  String create_time;
+    private  String price;
 
-    public String getPayType() {
-        return payType;
+    public String getTitle() {
+        return title;
     }
 
-    public void setPayType(String payType) {
-        this.payType = payType;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    public String getPayDate() {
-        return payDate;
+    public String getCreate_time() {
+        return create_time;
     }
 
-    public void setPayDate(String payDate) {
-        this.payDate = payDate;
+    public void setCreate_time(String create_time) {
+        this.create_time = create_time;
     }
 
-    public String getPayMoney() {
-        return payMoney;
+    public String getPrice() {
+        return price;
     }
 
-    public void setPayMoney(String payMoney) {
-        this.payMoney = payMoney;
+    public void setPrice(String price) {
+        this.price = price;
     }
 }

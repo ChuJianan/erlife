@@ -31,6 +31,13 @@ public class ListViewConsumerAdapter extends BaseAdapter {
         this.listItems = data;
     }
 
+    public void setConsumer(List<Consumer> data) {
+        this.listItems = data;
+    }
+    public void addConsumer(List<Consumer> data){
+        listItems.addAll(data);
+    }
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
@@ -48,9 +55,9 @@ public class ListViewConsumerAdapter extends BaseAdapter {
         }
 
         Consumer consumer = listItems.get(position);
-        holder.costType.setText(consumer.getCostType());
-        holder.costMoney.setText(consumer.getCostMoney());
-        holder.costDate.setText(consumer.getCostDate());
+        holder.costType.setText(consumer.getAddress());
+        holder.costMoney.setText(consumer.getPrice());
+        holder.costDate.setText(consumer.getCreate_time());
         return convertView;
     }
 

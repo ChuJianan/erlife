@@ -6,16 +6,30 @@
 
     <include layout="@layout/include_common_header" />
 
-    <LinearLayout
+
+    <com.yrkj.yrlife.widget.PullToRefreshListView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/graywhite"
-        android:padding="@dimen/space_5">
+        android:divider="@null"
+        android:id="@+id/cost_listView"
+        android:background="@color/transparent"
+        android:cacheColorHint="@color/transparent"
+        android:dividerHeight="2dp"
+        android:fadingEdge="none"
+        android:listSelector="@color/transparent"
+        android:scrollbarStyle="outsideOverlay"
+        android:scrollbarThumbVertical="@drawable/xg_scrollbar"
+        android:scrollingCache="false"
+        android:visibility="visible"
+        />
 
-        <ListView
-            android:id="@+id/cost_listView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:divider="@null" />
-    </LinearLayout>
+    <TextView
+        android:id="@+id/empty_text"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="正在获取消费记录"
+        android:textColor="@color/gray"
+        android:textSize="@dimen/text_size_24"
+        android:visibility="gone" />
 </LinearLayout>

@@ -40,6 +40,14 @@ public class ListViewCardAdapter extends BaseAdapter {
         this.listItems = data;
     }
 
+    public void setCards(List<Cards> data){
+        this.listItems=data;
+    }
+
+    public void addCards(List<Cards> data){
+        listItems.addAll(data);
+    }
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder = null;
@@ -59,13 +67,13 @@ public class ListViewCardAdapter extends BaseAdapter {
         //设置文字和图片
         Cards cards = listItems.get(position);
         holder.cardnumber.setText(cards.getCardNumber());
-        if (cards.getCardType().equals("1")) {
-            holder.cardtype.setText("会员卡");
-            holder.cardrl.setBackgroundResource(R.drawable.ic_hycard_bg);
-        } else {
-            holder.cardtype.setText("体验卡");
-            holder.cardrl.setBackgroundResource(R.drawable.ic_tycard_bg);
-        }
+//        if (cards.getCardType().equals("1")) {
+            holder.cardtype.setText(cards.getType_name());
+//            holder.cardrl.setBackgroundResource(R.drawable.ic_hycard_bg);
+//        } else {
+//            holder.cardtype.setText("体验卡");
+//            holder.cardrl.setBackgroundResource(R.drawable.ic_tycard_bg);
+//        }
 
         return convertView;
     }

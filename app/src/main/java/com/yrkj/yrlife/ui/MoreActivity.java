@@ -21,6 +21,7 @@ import com.yrkj.yrlife.been.URLs;
 import com.yrkj.yrlife.utils.DensityUtil;
 import com.yrkj.yrlife.utils.ImageUtils;
 import com.yrkj.yrlife.utils.QRCodeUtil;
+import com.yrkj.yrlife.utils.StringUtils;
 import com.yrkj.yrlife.utils.UIHelper;
 
 import org.json.JSONException;
@@ -115,7 +116,13 @@ public class MoreActivity extends BaseActivity {
 
     @Event(R.id.idea_rl)
     private void onIdearlClick(View view) {
-        UIHelper.ToastMessage(this, "正在开发中...");
+//        UIHelper.ToastMessage(this, "正在开发中...");
+        if (StringUtils.isEmpty(URLs.secret_code)) {
+            UIHelper.openLogin(this);
+        } else {
+            Intent intent = new Intent(this, IdeaActivity.class);
+            startActivity(intent);
+        }
     }
 
     @Event(R.id.about_rl)
@@ -138,14 +145,14 @@ public class MoreActivity extends BaseActivity {
     private void loginOut() {
         final Handler handler = new Handler() {
             public void handleMessage(Message msg) {
-                if (msg.what==1){
+                if (msg.what == 1) {
                     SharedPreferences.Editor editor = preferences.edit();
                     editor.putString("secret_code", "");
                     URLs.secret_code = "";
                     editor.commit();
-                    UIHelper.ToastMessage(appContext,msg.obj.toString());
-                }else if (msg.what==2){
-                    UIHelper.ToastMessage(appContext,msg.obj.toString());
+                    UIHelper.ToastMessage(appContext, msg.obj.toString());
+                } else if (msg.what == 2) {
+                    UIHelper.ToastMessage(appContext, msg.obj.toString());
                 }
             }
 
@@ -157,9 +164,9 @@ public class MoreActivity extends BaseActivity {
                 String url = URLs.LOGINOUT + URLs.secret_code;
                 try {
                     result = ApiClient.http_test(appContext, url);
-                    JSONObject jsonObject=new JSONObject(result);
-                    msg.what=jsonObject.getInt("code");
-                    msg.obj=jsonObject.getString("message");
+                    JSONObject jsonObject = new JSONObject(result);
+                    msg.what = jsonObject.getInt("code");
+                    msg.obj = jsonObject.getString("message");
                 } catch (AppException e) {
 
                 } catch (JSONException e) {

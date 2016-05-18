@@ -44,9 +44,8 @@ public class UploadUtil {
             conn.setUseCaches(false);  //不允许使用缓存
             conn.setRequestMethod("POST");  //请求方式
             conn.setRequestProperty("Charset", CHARSET);  //设置编码
-//            conn.setRequestProperty("connection", "keep-alive");
-//            conn.setRequestProperty("Content-Type", CONTENT_TYPE + ";boundary=" + BOUNDARY);
-            conn.connect();
+            conn.setRequestProperty("connection", "keep-alive");
+            conn.setRequestProperty("Content-Type", CONTENT_TYPE + ";boundary=" + BOUNDARY);
             if(file!=null)
             {
                 /**
