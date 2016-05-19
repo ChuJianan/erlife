@@ -15,11 +15,15 @@ public class Result {
     public List<Pay> pays=Collections.emptyList();
     private int code;
     private String message;
-     public boolean OK(){
+    private int   totalPage;
+    public boolean OK(){
          return code==1;
      }
     public String Message(){
         return message;
+    }
+    public int totalPage(){
+        return totalPage;
     }
     /**
      * 解析调用结果

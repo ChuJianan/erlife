@@ -25,3 +25,6 @@
 #-keepclassmembers class * {
 #   public <init> (org.json.JSONObject);
 #}
+-keep class com.tencent.mm.sdk.** {
+   *;
+}

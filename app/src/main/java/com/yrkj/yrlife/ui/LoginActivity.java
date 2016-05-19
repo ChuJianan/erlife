@@ -17,6 +17,7 @@ import com.yrkj.yrlife.api.ApiClient;
 import com.yrkj.yrlife.app.AppException;
 import com.yrkj.yrlife.been.URLs;
 import com.yrkj.yrlife.been.User;
+import com.yrkj.yrlife.db.UserDao;
 import com.yrkj.yrlife.utils.JsonUtils;
 import com.yrkj.yrlife.utils.StringUtils;
 import com.yrkj.yrlife.utils.UIHelper;
@@ -117,7 +118,7 @@ public class LoginActivity extends BaseActivity {
                     if (!StringUtils.isEmpty(user.getSex())) {
                         if (user.getSex().equals("1")) {
                             editor.putString("sex", "男");
-                        } else if (user.getSex().equals("2")) {
+                        } else if (user.getSex().equals("0")) {
                             editor.putString("sex", "女");
                         }
                     } else {
@@ -127,8 +128,12 @@ public class LoginActivity extends BaseActivity {
                         editor.putString("secret_code",user.getSecret_code());
                         URLs.secret_code=user.getSecret_code();
                     }
+                    editor.putLong("money", user.getTotal_balance().longValue());
                     //提交修改
                     editor.commit();
+                    if (UserDao.delete()){
+                        UserDao.insert(user);
+                    }
                     finish();
                 } else if (msg.what == 2) {
                     UIHelper.ToastMessage(appContext, msg.obj.toString());

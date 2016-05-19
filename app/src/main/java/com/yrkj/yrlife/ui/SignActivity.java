@@ -16,6 +16,7 @@ import com.yrkj.yrlife.app.AppException;
 import com.yrkj.yrlife.app.YrApplication;
 import com.yrkj.yrlife.been.URLs;
 import com.yrkj.yrlife.been.User;
+import com.yrkj.yrlife.db.UserDao;
 import com.yrkj.yrlife.utils.JsonUtils;
 import com.yrkj.yrlife.utils.StringUtils;
 import com.yrkj.yrlife.utils.TimeCount;
@@ -201,6 +202,9 @@ public class SignActivity extends BaseActivity {
                     }
                     //提交修改
                     editor.commit();
+                    if (UserDao.delete()){
+                    UserDao.insert(user);
+                    }
                     finish();
                 }else if (msg.what==2){
                     UIHelper.ToastMessage(appContext,msg.obj.toString());

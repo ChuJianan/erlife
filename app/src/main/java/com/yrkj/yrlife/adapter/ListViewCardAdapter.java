@@ -72,7 +72,7 @@ public class ListViewCardAdapter extends BaseAdapter {
 //            holder.cardrl.setBackgroundResource(R.drawable.ic_hycard_bg);
 //        } else {
 //            holder.cardtype.setText("体验卡");
-//            holder.cardrl.setBackgroundResource(R.drawable.ic_tycard_bg);
+            holder.cardrl.setBackgroundResource(R.drawable.ic_tycard_bg);
 //        }
 
         return convertView;

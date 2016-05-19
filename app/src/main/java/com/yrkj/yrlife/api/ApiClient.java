@@ -56,7 +56,7 @@ public class ApiClient {
 	public static final String ASC = "ascend";
 	
 	private final static int TIMEOUT_CONNECTION = 20000;
-	private final static int TIMEOUT_SOCKET = 20000;
+	private final static int TIMEOUT_SOCKET = 2000000;
 	private final static int RETRY_TIME = 3;
 
 	private static String appCookie;
@@ -103,12 +103,13 @@ public class ApiClient {
 	
 	private static GetMethod getHttpGet(String url, String cookie, String userAgent) throws MalformedURLException {
 		GetMethod httpGet = new GetMethod(url);
+		httpGet.getParams().setContentCharset(UTF_8);
 		// 设置 请求超时时间
 		httpGet.getParams().setSoTimeout(TIMEOUT_SOCKET);
-		httpGet.setRequestHeader("Host", Uri.parse(url).getHost());
-		httpGet.setRequestHeader("Connection","Keep-Alive");
-		httpGet.setRequestHeader("Cookie", cookie);
-		httpGet.setRequestHeader("User-Agent", userAgent);
+//		httpGet.setRequestHeader("Host", Uri.parse(url).getHost());
+//		httpGet.setRequestHeader("Connection","Keep-Alive");
+//		httpGet.setRequestHeader("Cookie", cookie);
+//		httpGet.setRequestHeader("User-Agent", userAgent);
 		return httpGet;
 	}
 	
@@ -185,7 +186,7 @@ public class ApiClient {
 			try 
 			{
 				httpClient = getHttpClient();
-				httpGet = getHttpGet(url, cookie, userAgent);			
+				httpGet = getHttpGet(url, cookie, userAgent);
 				int statusCode = httpClient.executeMethod(httpGet);
 				if(statusCode != HttpStatus.SC_OK) {
 		        	throw AppException.http(statusCode);

@@ -105,7 +105,7 @@ public class MeActivity extends BaseActivity {
 //        MobclickAgent.onResume(this);
         String name = preferences.getString("name", "");
         String phone = preferences.getString("phone", "");
-        sex = preferences.getString("sex", sex);
+        sex = preferences.getString("sex", "");
         String faceimg=preferences.getString("faceimg","");
         if (name != "" && !name.equals("")) {
             nameText.setText(name);
@@ -384,14 +384,13 @@ public class MeActivity extends BaseActivity {
         String url=URLs.UPDATE_HEADIMAGE;
         RequestParams params=new RequestParams(url);
         params.addHeader("Content-Type","multipart/form-data");
-        params.addHeader("connection", "keep-alive");
         params.addBodyParameter("secret_code",URLs.secret_code);
         params.addBodyParameter("file", new File("/data/data/com.yrkj.yrlife/files/"+URLs.IMAGE_FILE_NAME));
         params.setMultipart(true);
         x.http().post(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                UIHelper.ToastMessage(appContext,result);
+//                UIHelper.ToastMessage(appContext,result);
                 mLoadingDialog.dismiss();
             }
 

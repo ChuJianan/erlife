@@ -27,7 +27,7 @@ public class PayActivity extends BaseActivity {
     RadioButton moneyRadioButton;
     String payTypeNub;
     String money;
-    int mon, mon1;
+    Long mon, mon1;
     boolean isFirst = true;
     @ViewInject(R.id.pay_radio)
     private android.widget.RadioGroup payType;
@@ -51,18 +51,17 @@ public class PayActivity extends BaseActivity {
         preferences = this.getSharedPreferences("yrlife", this.MODE_WORLD_READABLE);
         String name = preferences.getString("name", "");
         String phone = preferences.getString("phone", "");
-        mon = preferences.getInt("money", 0);
+        mon = preferences.getLong("money", 0);
         if (name != "" && !name.equals("")) {
             nameText.setText(name);
         }
         if (phone != "" && !phone.equals("")) {
             phoneText.setText(phone);
         }
-        if (mon != 0) {
-            money = mon + "";
-            moneyText.setText(money);
-            money=null;
-        }
+        money = mon + "";
+        moneyText.setText(money);
+        money = null;
+
         payType.setOnCheckedChangeListener(new android.widget.RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(android.widget.RadioGroup group, int checkedId) {
@@ -81,38 +80,32 @@ public class PayActivity extends BaseActivity {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 moneyRadioButton = (RadioButton) findViewById(checkedId);
-                if(moneyRadioButton!=null){
-                if (isFirst) {
-                    money = moneyRadioButton.getText().toString();
-                    if (money.length() <= 3) {
-                        money = money.substring(0, 2);
+                if (moneyRadioButton != null) {
+                    if (isFirst) {
+                        money = moneyRadioButton.getText().toString();
+                        if (money.length() <= 3) {
+                            money = money.substring(0, 2);
+                        }
+                        if (money.length() > 3) {
+                            money = money.substring(0, 3);
+                        }
+                        mon1 = Integer.valueOf(money).longValue();
+                        mon = mon1 + mon;
+                        //实例化Editor对象
+                        SharedPreferences.Editor editor = preferences.edit();
+                        //存入数据
+                        editor.putLong("money", mon);
+                        //提交修改
+                        editor.commit();
+                        Log.i("money", mon + "");
+                        isFirst = false;
                     }
-                    if (money.length() > 3) {
-                        money = money.substring(0, 3);
-                    }
-                    mon1 = Integer.valueOf(money).intValue();
-                    mon = mon1 + mon;
-                    //实例化Editor对象
-                    SharedPreferences.Editor editor = preferences.edit();
-                    //存入数据
-                    editor.putInt("money", mon);
-                    //提交修改
-                    editor.commit();
-                    Log.i("money", mon + "");
-                    isFirst = false;
                 }
-            }
             }
         });
 
     }
 
-//    @Override
-//    protected void onResume() {
-//        super.onResume();
-//        MobclickAgent.onPageStart("会员充值");
-//        MobclickAgent.onResume(this);
-//    }
 
     @Event(R.id.pay_btn)
     private void payEvent(View view) {
@@ -124,19 +117,14 @@ public class PayActivity extends BaseActivity {
                 UIHelper.ToastMessage(this, "请选择充值金额");
             }
         } else {
-            UIHelper.ToastMessage(this, payTypeNub + "充值" + money+"元");
+            UIHelper.ToastMessage(this, payTypeNub + "充值" + money + "元");
             isFirst = true;
             money = mon + "";
             moneyText.setText(money);
-            money=null;
+            money = null;
             finish();
         }
     }
 
-//    @Override
-//    protected void onPause() {
-//        super.onPause();
-//        MobclickAgent.onPageEnd("会员充值");
-//        MobclickAgent.onPause(this);
-//    }
+
 }

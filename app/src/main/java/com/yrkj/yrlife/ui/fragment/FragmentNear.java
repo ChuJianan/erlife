@@ -50,8 +50,6 @@ public class FragmentNear extends BaseFragment {
     private int pageSize = 10;//每页个数
     private boolean isViewInited = false;
 
-    int totalPage;
-
 //    private PoiSearch mPoiSearch = null;
 
     @ViewInject(R.id.near_listView)
