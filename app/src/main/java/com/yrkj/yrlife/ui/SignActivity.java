@@ -218,7 +218,7 @@ public class SignActivity extends BaseActivity {
             public void run(){
                 Message msg=new Message();
               try{
-                  String url=URLs.SIGIN+"phone="+phone+"&account="+name+"&pwd="+pwd+"&code="+yzm+"&secret_code="+appContext.getAppId();
+                  String url=URLs.SIGIN+"phone="+phone+"&account="+name+"&pwd="+pwd+"&code="+yzm+"&unique_phone_code="+appContext.getAppId();
                   result=ApiClient.http_test(appContext,url);
                   JSONObject jsonObject=new JSONObject(result);
                   msg.what=jsonObject.getInt("code");

@@ -12,8 +12,8 @@ public class URLs extends Entity {
 	public static  String secret_code="";
 //	public static String ImageByte="";
 	public static String IMAGE_FILE_NAME="";
-//	public static final String HOST = "http://192.168.0.106:8080/";
-	public static final String HOST = "http://119.10.48.101/";
+	public static final String HOST = "http://192.168.0.106:8080/";
+//	public static final String HOST = "http://119.10.48.101/";
 
 	public static final String APP_INIT = HOST+"wmmanager/app/pro1/app1/addMember";		//应用初始化地址
 	public static final String HOME_ADS = HOST ;		//首页广告地址
@@ -32,6 +32,7 @@ public class URLs extends Entity {
 	public static final String IDEAR_SET=HOST+"wmmanager/app/pro1/app3/feedback";//意见反馈
 	public static final String RECORD=HOST+"wmmanager/app/pro1/app3/chargeRecord?";//充值记录
 	public static final String CONSUME=HOST+"wmmanager/app/pro1/app3/dealRecord?";//消费记录
+	public static final String PAY=HOST+"wmmanager/app/pro1/app2/recharge";//消费记录
 
 
 

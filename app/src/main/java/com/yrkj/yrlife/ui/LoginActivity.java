@@ -146,7 +146,7 @@ public class LoginActivity extends BaseActivity {
             public void run() {
                 Message msg = new Message();
                 try {
-                    String url = URLs.LOGIN + "conditions=" + name + "&pwd=" + password+"&secret_code="+appContext.getAppId();
+                    String url = URLs.LOGIN + "conditions=" + name + "&pwd=" + password+"&unique_phone_code="+appContext.getAppId();
                     result = ApiClient.http_test(appContext, url);
                     JSONObject json = new JSONObject(result);
                     msg.what = json.getInt("code");
