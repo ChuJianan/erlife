@@ -9,7 +9,7 @@ import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 
 import com.yrkj.yrlife.R;
-import com.yrkj.yrlife.api.ApiClient;
+import com.yrkj.yrlife.been.Result;
 import com.yrkj.yrlife.been.URLs;
 import com.yrkj.yrlife.been.User;
 import com.yrkj.yrlife.db.UserDao;
@@ -19,6 +19,9 @@ import com.yrkj.yrlife.utils.JsonUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.xutils.common.Callback;
+import org.xutils.http.RequestParams;
+import org.xutils.x;
 
 public class AppStart extends AppCompatActivity {
 
@@ -35,7 +38,7 @@ public class AppStart extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+//        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         setContentView(R.layout.activity_appstart);
         application = (YrApplication) getApplication();
         //读取SharedPreferences中需要的数据
@@ -44,7 +47,7 @@ public class AppStart extends AppCompatActivity {
 
         new Thread() {
             public void run() {
-                Message msg = new Message();
+                final Message msg = new Message();
                 if (isFirstUse) {
                     msg.what = GO_SHARE;
 //                    mHandler.sendEmptyMessageDelayed(GO_SHARE, SPLASH_DELAY_MILLIS);
@@ -52,42 +55,55 @@ public class AppStart extends AppCompatActivity {
                     msg.what = GO_HOME;
 //                    mHandler.sendEmptyMessageDelayed(GO_HOME,SPLASH_DELAY_MILLIS);
                 }
-                try {
-                    String url = URLs.SECRET_CODE + URLs.secret_code;
-                    String s = ApiClient.http_test(application, url);
-                    JSONObject jsonObject=new JSONObject(s);
-                    msg.arg1=jsonObject.getInt("code");
-                    String message=jsonObject.getString("message");
-                    if (msg.arg1==1){
-                        User user= JsonUtils.fromJson(jsonObject.getString("result"),User.class);
-                        UserDao.delete();
-                        UserDao.insert(user);
-                    }else if (msg.arg1==2){
-                        URLs.secret_code="";
-                        //实例化Editor对象
-                        SharedPreferences.Editor editor = preferences.edit();
-                        editor.putString("secret_code","");
-                        //提交修改
-                        editor.commit();
+                String url = URLs.SECRET_CODE;
+                RequestParams params = new RequestParams(url);
+                params.addQueryStringParameter("secret_code", URLs.secret_code);
+                x.http().get(params, new Callback.CommonCallback<String>() {
+                    @Override
+                    public void onSuccess(String res) {
+                        try {
+                            JSONObject jsonObject = new JSONObject(res);
+                            msg.arg1 = jsonObject.getInt("code");
+                            String message = jsonObject.getString("message");
+                            if (msg.arg1 == 1) {
+                                SharedPreferences.Editor editor = preferences.edit();
+                                editor.putString("user", jsonObject.getString("result"));
+                                editor.commit();
+                            } else if (msg.arg1 == 2) {
+                                URLs.secret_code = "";
+                                //实例化Editor对象
+                                SharedPreferences.Editor editor = preferences.edit();
+                                editor.putString("secret_code", "");
+                                //提交修改
+                                editor.commit();
+                            }
+                        } catch (JSONException e) {
+
+                        }
+
                     }
-                } catch (JSONException e) {
 
-                } catch (AppException e) {
+                    @Override
+                    public void onCancelled(CancelledException cex) {
 
-                }
+                    }
+
+                    @Override
+                    public void onFinished() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable ex, boolean isOnCallback) {
+
+                    }
+                });
                 mHandler.sendMessage(msg);
             }
 
             ;
         }.start();
     }
-
-//    @Override
-//    protected void onResume() {
-//        super.onResume();
-//        MobclickAgent.onPageStart("appstart");
-//        MobclickAgent.onResume(this);
-//    }
 
     private Handler mHandler = new Handler() {
 

@@ -1,12 +1,20 @@
 package com.yrkj.yrlife.ui;
 
+import android.Manifest;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Settings;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTabHost;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -15,6 +23,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TabHost;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
@@ -40,6 +49,8 @@ import org.xutils.x;
 @ContentView(value = R.layout.activity_main)
 public class MainActivity extends FragmentActivity {
 
+    public static final int MY_PERMISSIONS_CAMERA = 1;
+    final private int REQUEST_CODE_ASK_PERMISSIONS = 123;
     private LocationService locationService;//定位
     YrApplication application;
     // 定义FragmentTabHost对象
@@ -67,11 +78,14 @@ public class MainActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         AppManager.getAppManager().addActivity(this);
-//      setContentView(R.layout.activity_main);
         x.view().inject(this);
         initView();
-        application = (YrApplication) getApplication();
+        locationService = new LocationService(getApplicationContext());
+        if (locationService == null) {
+            insertDummyContactWrapper();
+        }
 
+        application = (YrApplication) getApplication();
 
         Log.i("uuid", application.getAppId());
 
@@ -80,6 +94,86 @@ public class MainActivity extends FragmentActivity {
 //        UpdateManager.getUpdateManager().checkAppUpdate(this,false);
     }
 
+    private void insertDummyContactWrapper() {
+        int hasWriteContactsPermission = ContextCompat.checkSelfPermission(MainActivity.this,
+                Manifest.permission.ACCESS_COARSE_LOCATION);
+
+        if (hasWriteContactsPermission == PackageManager.PERMISSION_GRANTED) {
+            locationService = new LocationService(getApplicationContext());
+        } else if (hasWriteContactsPermission == PackageManager.PERMISSION_DENIED) {
+            ActivityCompat.requestPermissions(MainActivity.this,
+                    new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION},
+                    REQUEST_CODE_ASK_PERMISSIONS);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        switch (requestCode) {
+            case REQUEST_CODE_ASK_PERMISSIONS:
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    locationService = new LocationService(getApplicationContext());
+                } else {
+                    if (!ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_COARSE_LOCATION)) {
+                        AlertDialog dialog = new AlertDialog.Builder(this)
+                                .setMessage("定位服务需要赋予使用的权限，不开启将无法正常工作！")
+                                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        startAppSettings();
+                                    }
+                                })
+                                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        finish();
+                                    }
+                                }).create();
+                        dialog.show();
+                        return;
+                    }
+                }
+                break;
+            case MY_PERMISSIONS_CAMERA:
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Intent intent = new Intent(this, CaptureActivity.class);
+                    startActivityForResult(intent, 0);
+                } else {
+                    //用户不同意，向用户展示该权限作用
+                    if (!ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA)) {
+                        AlertDialog dialog = new AlertDialog.Builder(this)
+                                .setMessage("该相机需要赋予使用的权限，不开启将无法正常工作！")
+                                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        startAppSettings();
+                                    }
+                                })
+                                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        finish();
+                                    }
+                                }).create();
+                        dialog.show();
+                        return;
+                    }
+                }
+                break;
+            default:
+                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+    }
+
+    private static final String PACKAGE_URL_SCHEME = "package:"; // 方案
+
+    private void startAppSettings() {
+        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+        intent.setData(Uri.parse(PACKAGE_URL_SCHEME + getPackageName()));
+        startActivity(intent);
+    }
 
     /**
      * 初始化组件
@@ -117,17 +211,30 @@ public class MainActivity extends FragmentActivity {
     protected void onResume() {
         super.onResume();
 //        MobclickAgent.onResume(this);
-        if (UIHelper.city != "" && !UIHelper.city.equals("")) {
-            locationService.unregisterListener(mListener); //注销掉监听
-            locationService.stop(); //停止定位服务
-            LocationResult.setText(UIHelper.city);
+        if (locationService == null) {
+            UIHelper.ToastMessage(MainActivity.this, "请到设置中打开定位，并允许程序获取定位权限");
+        } else {
+            if (UIHelper.city != "" && !UIHelper.city.equals("")) {
+                locationService.unregisterListener(mListener); //注销掉监听
+                locationService.stop(); //停止定位服务
+                LocationResult.setText(UIHelper.city);
+            }
         }
     }
 
     @Event(R.id.sweep)
     private void sweepEvent(View view) {
-        Intent intent = new Intent(this, CaptureActivity.class);
-        startActivityForResult(intent, 0);
+        int perssion = ContextCompat.checkSelfPermission(MainActivity.this,
+                Manifest.permission.CAMERA);
+        if (perssion == PackageManager.PERMISSION_GRANTED) {
+            Intent intent = new Intent(this, CaptureActivity.class);
+            startActivityForResult(intent, 0);
+        } else if (perssion == PackageManager.PERMISSION_DENIED) {
+            ActivityCompat.requestPermissions(MainActivity.this,
+                    new String[]{Manifest.permission.CAMERA},
+                    MY_PERMISSIONS_CAMERA);
+        }
+
     }
 
     @Override
@@ -136,12 +243,12 @@ public class MainActivity extends FragmentActivity {
         if (resultCode == RESULT_OK) {
             Bundle bundle = data.getExtras();
             String url = bundle.getString("result");
-            Log.i("result",url);
-           if (StringUtils.isUrl(url)){
-               UIHelper.showBrowser(this,url);
-           }else {
-               UIHelper.ToastMessage(this,url);
-           }
+            Log.i("result", url);
+            if (StringUtils.isUrl(url)) {
+                UIHelper.showBrowser(this, url);
+            } else {
+                UIHelper.ToastMessage(this, url);
+            }
 
         }
     }
@@ -178,11 +285,15 @@ public class MainActivity extends FragmentActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        locationService = application.locationService;
+//        locationService = application.locationService;
         //获取locationservice实例，建议应用中只初始化1个location实例，然后使用，可以参考其他示例的activity，都是通过此种方式获取locationservice实例的
-        locationService.registerListener(mListener);
-        locationService.start();// 定位SDK
-        // start之后会默认发起一次定位请求，开发者无须判断isstart并主动调用request
+        if (locationService == null) {
+//            UIHelper.ToastMessage(MainActivity.this, "请到设置中打开定位，并允许程序获取定位权限");
+        } else {
+            locationService.registerListener(mListener);
+            locationService.start();// 定位SDK
+            // start之后会默认发起一次定位请求，开发者无须判断isstart并主动调用request
+        }
     }
 
     /***
@@ -191,8 +302,12 @@ public class MainActivity extends FragmentActivity {
     @Override
     protected void onStop() {
         // TODO Auto-generated method stub
-        locationService.unregisterListener(mListener); //注销掉监听
-        locationService.stop(); //停止定位服务
+        if (locationService == null) {
+            UIHelper.ToastMessage(MainActivity.this, "请到设置中打开定位，并允许程序获取定位权限");
+        } else {
+            locationService.unregisterListener(mListener); //注销掉监听
+            locationService.stop(); //停止定位服务
+        }
         super.onStop();
     }
 
@@ -254,11 +369,19 @@ public class MainActivity extends FragmentActivity {
         return flag;
     }
 
-//    @Override
+    //    @Override
 //    protected void onPause() {
 //        super.onPause();
 //        MobclickAgent.onPause(this);
 //    }
+    private void showMessageOKCancel(String message, DialogInterface.OnClickListener okListener) {
+        new AlertDialog.Builder(MainActivity.this)
+                .setMessage(message)
+                .setPositiveButton("OK", okListener)
+                .setNegativeButton("Cancel", null)
+                .create()
+                .show();
+    }
 
     @Override
     protected void onDestroy() {

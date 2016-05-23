@@ -8,7 +8,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import com.yrkj.yrlife.R;
-import com.yrkj.yrlife.api.ApiClient;
+import com.yrkj.yrlife.been.URLs;
 import com.yrkj.yrlife.utils.StringUtils;
 import com.yrkj.yrlife.utils.UIHelper;
 
@@ -37,7 +37,7 @@ public class BrowserActivity extends BaseActivity {
 	private void initView() {
 		mWebView = (WebView) findViewById(R.id.webview);
 		mWebView.getSettings().setJavaScriptEnabled(true);
-		mWebView.getSettings().setDefaultTextEncodingName(ApiClient.UTF_8);
+		mWebView.getSettings().setDefaultTextEncodingName(URLs.UTF_8);
 		mWebView.getSettings().setLoadWithOverviewMode(true);
 		mWebView.getSettings().setSupportZoom(true);
 		mWebView.getSettings().setBuiltInZoomControls(true);

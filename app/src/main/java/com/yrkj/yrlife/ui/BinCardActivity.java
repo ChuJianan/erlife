@@ -10,9 +10,10 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.yrkj.yrlife.R;
-import com.yrkj.yrlife.api.ApiClient;
 import com.yrkj.yrlife.app.AppException;
+import com.yrkj.yrlife.been.Result;
 import com.yrkj.yrlife.been.URLs;
+import com.yrkj.yrlife.utils.JsonUtils;
 import com.yrkj.yrlife.utils.StringUtils;
 import com.yrkj.yrlife.utils.TimeCount;
 import com.yrkj.yrlife.utils.UIHelper;
@@ -154,40 +155,32 @@ public class BinCardActivity extends BaseActivity {
     }
 
     private void getCode(final String phone) {
-        final Handler handler = new Handler() {
-            public void handleMessage(Message msg) {
+        RequestParams params=new RequestParams(URLs.CODE_GET);
+        params.addQueryStringParameter("phone",phone);
+        x.http().get(params, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String s) {
+                Result result= JsonUtils.fromJson(s,Result.class);
+                UIHelper.ToastMessage(appContext,result.Message());
                 mLoadingDialog.dismiss();
-                if (msg.what == 1) {
-                    UIHelper.ToastMessage(appContext, msg.obj.toString());
-
-                } else if (msg.what == 2) {
-                    UIHelper.ToastMessage(appContext, msg.obj.toString());
-                }
+                if (result.OK())
+                    code=result.Result();
             }
 
-            ;
-        };
-        new Thread() {
-            public void run() {
-                Message msg = new Message();
-                try {
-                    String url = URLs.CODE_GET + phone;
-                    result = ApiClient.http_test(appContext, url);
-                    JSONObject jsonObject = new JSONObject(result);
-                    msg.what = jsonObject.getInt("code");
-                    msg.obj = jsonObject.getString("message");
-                    if (msg.what == 1) {
-                        code = jsonObject.getString("result");
-                    }
-                } catch (AppException e) {
-
-                } catch (JSONException e) {
-
-                }
-                handler.sendMessage(msg);
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+                mLoadingDialog.dismiss();
             }
 
-            ;
-        }.start();
+            @Override
+            public void onCancelled(CancelledException cex) {
+                mLoadingDialog.dismiss();
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+        });
     }
 }

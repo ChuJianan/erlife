@@ -7,14 +7,15 @@ import android.graphics.Paint;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import com.yrkj.yrlife.R;
-import com.yrkj.yrlife.api.ApiClient;
 import com.yrkj.yrlife.app.AppException;
+import com.yrkj.yrlife.been.Result;
 import com.yrkj.yrlife.been.URLs;
 import com.yrkj.yrlife.been.User;
 import com.yrkj.yrlife.db.UserDao;
@@ -24,6 +25,8 @@ import com.yrkj.yrlife.utils.UIHelper;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.xutils.common.Callback;
+import org.xutils.http.RequestParams;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
@@ -99,71 +102,90 @@ public class LoginActivity extends BaseActivity {
     }
 
     private void login() {
-
-        final Handler handler = new Handler() {
-            public void handleMessage(Message msg) {
-                mLoadingDialog.dismiss();
-                if (msg.what == 1) {
-                    UIHelper.ToastMessage(appContext, msg.obj.toString());
-                    User user = JsonUtils.fromJson(result, User.class);
-                    //实例化Editor对象
-                    SharedPreferences.Editor editor = preferences.edit();
-                    //存入数据
-                    if (StringUtils.isEmpty(user.getReal_name())) {
-                        editor.putString("name", user.getAccount());
-                    } else {
-                        editor.putString("name", user.getReal_name());
-                    }
-                    editor.putString("phone", user.getPhone());
-                    if (!StringUtils.isEmpty(user.getSex())) {
-                        if (user.getSex().equals("1")) {
-                            editor.putString("sex", "男");
-                        } else if (user.getSex().equals("0")) {
-                            editor.putString("sex", "女");
-                        }
-                    } else {
-                        editor.putString("sex", "男");
-                    }
-                    if (!StringUtils.isEmpty(user.getSecret_code())){
-                        editor.putString("secret_code",user.getSecret_code());
-                        URLs.secret_code=user.getSecret_code();
-                    }
-                    editor.putLong("money", user.getTotal_balance().longValue());
-                    //提交修改
-                    editor.commit();
-                    if (UserDao.delete()){
-                        UserDao.insert(user);
-                    }
-                    finish();
-                } else if (msg.what == 2) {
-                    UIHelper.ToastMessage(appContext, msg.obj.toString());
-                }
-            }
-
-            ;
-        };
-        new Thread() {
-            public void run() {
+        RequestParams params =new RequestParams(URLs.LOGIN);
+        params.addQueryStringParameter("conditions",name);
+        params.addQueryStringParameter("pwd",password);
+        params.addQueryStringParameter("unique_phone_code",appContext.getAppId());
+        x.http().post(params, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String res) {
                 Message msg = new Message();
-                try {
-                    String url = URLs.LOGIN + "conditions=" + name + "&pwd=" + password+"&unique_phone_code="+appContext.getAppId();
-                    result = ApiClient.http_test(appContext, url);
-                    JSONObject json = new JSONObject(result);
+                try{
+                    JSONObject json = new JSONObject(res);
                     msg.what = json.getInt("code");
                     msg.obj = json.getString("message");
                     if (msg.what==1){
-                    result = json.getString("result");
+                        result = json.getString("result");
+                        User user = JsonUtils.fromJson(result, User.class);
+                        //实例化Editor对象
+                        SharedPreferences.Editor editor = preferences.edit();
+                        //存入数据
+                        if (StringUtils.isEmpty(user.getReal_name())) {
+                            editor.putString("name", user.getAccount());
+                        } else {
+                            editor.putString("name", user.getReal_name());
+                        }
+                        editor.putString("phone", user.getPhone());
+                        if (!StringUtils.isEmpty(user.getSex())) {
+                            if (user.getSex().equals("1")) {
+                                editor.putString("sex", "男");
+                            } else if (user.getSex().equals("0")) {
+                                editor.putString("sex", "女");
+                            }
+                        } else {
+                            editor.putString("sex", "男");
+                        }
+                        if (!StringUtils.isEmpty(user.getSecret_code())){
+                            editor.putString("secret_code",user.getSecret_code());
+                            URLs.secret_code=user.getSecret_code();
+                        }
+                        editor.putLong("money", user.getTotal_balance().longValue());
+                        //提交修改
+                        editor.commit();
+                        finish();
                     }
-                } catch (AppException e) {
 
                 } catch (JSONException e) {
 
                 }
-                handler.sendMessage(msg);
+
             }
 
-            ;
-        }.start();
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+                UIHelper.ToastMessage(appContext, ex.getMessage());
+                mLoadingDialog.dismiss();
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+                UIHelper.ToastMessage(appContext, "error");
+                mLoadingDialog.dismiss();
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+        });
+    }
+    @Event(R.id.back)
+    private void backEvent(View view){
+        Intent intent=new Intent(LoginActivity.this,MainActivity.class);
+        startActivity(intent);
+        finish();
+    }
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        boolean flag = true;
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            //是否退出应用
+           Intent intent=new Intent(LoginActivity.this,MainActivity.class);
+            startActivity(intent);
+            finish();
+        } else {
+            flag = super.onKeyDown(keyCode, event);
+        }
+        return flag;
     }
 }
 

@@ -122,6 +122,7 @@
                 android:layout_width="100dp"
                 android:layout_height="50dp"
                 android:text="20元"
+                android:textSize="@dimen/text_size_15"
                 android:background="@drawable/radio_money"
                 android:gravity="center"
                 android:id="@+id/t_2_radio"
@@ -135,6 +136,7 @@
                 android:layout_marginLeft="@dimen/space_15"
                 android:background="@drawable/radio_money"
                 android:gravity="center"
+                android:textSize="@dimen/text_size_15"
                 android:id="@+id/t_5_radio"
                 android:button="@null"
                  />
@@ -146,6 +148,7 @@
                 android:layout_marginLeft="@dimen/space_15"
                 android:background="@drawable/radio_money"
                 android:gravity="center"
+                android:textSize="@dimen/text_size_15"
                 android:id="@+id/t_10_radio"
                 android:button="@null"
                  />
@@ -163,6 +166,7 @@
                 android:button="@null"
                 android:background="@drawable/radio_money"
                 android:gravity="center"
+                android:textSize="@dimen/text_size_15"
                 android:id="@+id/t_20_radio" />
 
             <RadioButton
@@ -173,6 +177,7 @@
                 android:background="@drawable/radio_money"
                 android:gravity="center"
                 android:button="@null"
+                android:textSize="@dimen/text_size_15"
                 android:id="@+id/t_30_radio" />
 
             <RadioButton
@@ -183,6 +188,7 @@
                 android:background="@drawable/radio_money"
                 android:gravity="center"
                 android:button="@null"
+                android:textSize="@dimen/text_size_15"
                 android:id="@+id/t_50_radio" />
         </LinearLayout>
 

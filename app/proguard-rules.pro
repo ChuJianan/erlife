@@ -22,9 +22,6 @@
 -keep class com.baidu.** {*;}
 -keep class vi.com.** {*;}
 -dontwarn com.baidu.**
-#-keepclassmembers class * {
-#   public <init> (org.json.JSONObject);
-#}
 -keep class com.tencent.mm.sdk.** {
    *;
 }

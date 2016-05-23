@@ -137,8 +137,11 @@ public class MoreActivity extends BaseActivity {
 
     @Event(R.id.out_btn)
     private void outEvent(View view) {
-        loginOut();
-
+        if(StringUtils.isEmpty(URLs.secret_code)){
+            UIHelper.ToastMessage(this,"你还未登录");
+        }else {
+            loginOut();
+        }
     }
 
 

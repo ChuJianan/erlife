@@ -43,7 +43,7 @@
             android:background="@drawable/bg_btn_head"
             android:text="刷新"
             android:textColor="@color/white"
-            android:textSize="18sp"
+            android:textSize="@dimen/text_size_18"
             android:visibility="gone" />
     </LinearLayout>
 

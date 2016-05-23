@@ -3,15 +3,12 @@ package com.yrkj.yrlife.ui;
 import android.app.ProgressDialog;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.Message;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import com.yrkj.yrlife.R;
-import com.yrkj.yrlife.api.ApiClient;
-import com.yrkj.yrlife.app.AppException;
 import com.yrkj.yrlife.been.URLs;
 import com.yrkj.yrlife.db.UserDao;
 import com.yrkj.yrlife.utils.StringUtils;
@@ -92,52 +89,6 @@ public class NameActivity extends BaseActivity {
     }
 
     private void setUserInfo(final String url) {
-
-//        final Handler handler = new Handler() {
-//            public void handleMessage(Message msg) {
-//                if (msg.obj != null) {
-//                    mLoadingDialog.dismiss();
-//                    if (msg.what == 1) {
-//                        UIHelper.ToastMessage(NameActivity.this, msg.obj.toString());
-//                        //实例化Editor对象
-//                        SharedPreferences.Editor editor = preferences.edit();
-//                        String phone=preferences.getString("phone","");
-//                        //存入数据
-//                        editor.putString("name", name);
-//                        //提交修改
-//                        editor.commit();
-//                        UserDao.update(phone,name,"name");
-//                        finish();
-//                    } else if (msg.what == 2) {
-//                        UIHelper.ToastMessage(NameActivity.this, msg.obj.toString());
-//                    }
-//                } else {
-//                    UIHelper.ToastMessage(NameActivity.this, "网络出错，请稍候...");
-//                }
-//
-//            }
-//
-//            ;
-//        };
-//        new Thread() {
-//            public void run() {
-//                Message msg = new Message();
-//                try {
-//                    result = ApiClient.http_test(appContext, url);
-//                    JSONObject jsonObject = new JSONObject(result);
-//                    msg.what = jsonObject.getInt("code");
-//                    msg.obj = jsonObject.getString("message");
-//                } catch (AppException e) {
-//
-//                } catch (JSONException e) {
-//
-//                }
-//                handler.sendMessage(msg);
-//            }
-//
-//            ;
-//        }.start();
-
         RequestParams params = new RequestParams(url);
         params.addQueryStringParameter("secret_code", URLs.secret_code);
         params.addQueryStringParameter("real_name", name);

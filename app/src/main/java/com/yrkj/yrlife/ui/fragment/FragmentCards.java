@@ -61,39 +61,6 @@ public class FragmentCards extends BaseFragment {
         listcard.setAdapter(listViewCardAdapter);
         isViewInited=true;
     }
-//    @Override
-//    public void onActivityCreated(Bundle savedInstanceState) {
-//        super.onActivityCreated(savedInstanceState);
-//        long now = System.currentTimeMillis();
-//        //10分钟内不重复加载信息
-//        if (mLastTime > 0 && now - mLastTime < 1000 * 60 * 10) {
-//            return;
-//        }else{
-//            if (getUserVisibleHint()) {
-//                //如果直接点击跳转到本Fragment，setUserVisibleHint方法会先于
-//                //onCreateView调用，所以加载数据前需要先判断视图是否已初始化
-//                getData();
-//            }
-//        }
-//    }
-//    @Override
-//    public void setUserVisibleHint(boolean isVisibleToUser) {
-//        //由于ViewPager的预加载，没法正确判断当前Fragment是否可见
-//        //这个方法解决问题正确判断可见性
-//        super.setUserVisibleHint(isVisibleToUser);
-//        long now = System.currentTimeMillis();
-//        //10分钟内不重复加载信息
-//        if (mLastTime > 0 && now - mLastTime < 1000 * 60 * 10) {
-//            return;
-//        }else{
-//            if (getUserVisibleHint() && isViewInited) {
-//                //如果直接点击跳转到本Fragment，setUserVisibleHint方法会先于
-//                //onCreateView调用，所以加载数据前需要先判断视图是否已初始化
-//                getData();
-//
-//            }
-//        }
-//    }
 
     private void getData() {
         String url = URLs.CARDS;

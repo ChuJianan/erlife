@@ -10,6 +10,7 @@ import com.yrkj.yrlife.utils.UIHelper;
 import android.app.Activity;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -23,7 +24,7 @@ import org.xutils.view.annotation.Event;
  * @version 1.0
  * @created 2012-9-18
  */
-public class BaseActivity extends Activity implements OnClickListener{
+public class BaseActivity extends FragmentActivity implements OnClickListener{
 	protected YrApplication appContext;	//全局Context
 	private TextView mTitle;
 	

@@ -16,8 +16,6 @@ import com.yrkj.yrlife.utils.JsonUtils;
 import com.yrkj.yrlife.utils.StringUtils;
 import com.yrkj.yrlife.utils.UIHelper;
 
-import org.apache.http.entity.StringEntity;
-import org.apache.http.protocol.HTTP;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.xutils.common.Callback;
@@ -105,9 +103,9 @@ public class IdeaActivity extends BaseActivity {
     private void sendIdea(String idea) {
         String url = URLs.IDEAR_SET;
         RequestParams params = new RequestParams(url);
-        params.setAsJsonContent(true);
-        params.addBodyParameter("secret_code", URLs.secret_code);
-        params.addBodyParameter("content", JsonUtils.toJson(idea));
+//        params.setAsJsonContent(true);
+        params.addQueryStringParameter("secret_code", URLs.secret_code);
+        params.addQueryStringParameter("content", JsonUtils.toJson(idea));
         x.http().post(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
@@ -130,6 +128,7 @@ public class IdeaActivity extends BaseActivity {
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
                 UIHelper.ToastMessage(appContext, ex.getMessage());
+                mLoadingDialog.dismiss();
             }
 
             @Override

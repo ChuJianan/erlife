@@ -84,12 +84,8 @@
         <activity android:name=".ui.PhoneActivity"/>
         <activity android:name=".ui.AdrListActivity"/>
         <activity android:name=".ui.IdeaActivity"/>
-
-
-
         <activity android:name="com.zxing.activity.CaptureActivity"/>
-        <!--<meta-data android:value="5704de8467e58e78050023f9" android:name="UMENG_APPKEY"/>-->
-        <!--<meta-data android:value="Channel ID" android:name="UMENG_CHANNEL"/>-->
+
     </application>
 
 </manifest>

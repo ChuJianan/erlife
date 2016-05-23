@@ -54,7 +54,7 @@ public class YrApplication extends Application {
     public LocationService locationService;
     public Vibrator mVibrator;
     private Hashtable<String, Object> memCacheRegion = new Hashtable<String, Object>();
-    private static final String APP_ID = "";//APP_ID是从网站申请的
+    private static final String APP_ID = "wx4aca65f58fe822e2";//APP_ID是从网站申请的
     private IWXAPI api;//IWXAPI是第三方app和微信通信的opeanapi接口
 
 
@@ -70,12 +70,10 @@ public class YrApplication extends Application {
 
         //腾讯Bugly声明
         CrashReport.initCrashReport(getApplicationContext(), "900021362", false);
-        CrashReport.setUserSceneTag(getApplicationContext(), 5);
-        CrashReport.putUserData(getApplicationContext(), "userkey", "uservalue");
 
         //百度定位声明
-        locationService = new LocationService(getApplicationContext());
-        mVibrator = (Vibrator) getApplicationContext().getSystemService(Service.VIBRATOR_SERVICE);
+//        locationService = new LocationService(getApplicationContext());
+//        mVibrator = (Vibrator) getApplicationContext().getSystemService(Service.VIBRATOR_SERVICE);
         SDKInitializer.initialize(getApplicationContext());
 
         SharedPreferences preferences = this.getSharedPreferences("yrlife", this.MODE_WORLD_READABLE);

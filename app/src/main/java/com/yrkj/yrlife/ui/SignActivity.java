@@ -13,10 +13,10 @@ import android.widget.TextView;
 import com.yrkj.yrlife.R;
 import com.yrkj.yrlife.api.ApiClient;
 import com.yrkj.yrlife.app.AppException;
-import com.yrkj.yrlife.app.YrApplication;
 import com.yrkj.yrlife.been.URLs;
 import com.yrkj.yrlife.been.User;
 import com.yrkj.yrlife.db.UserDao;
+import com.yrkj.yrlife.ui.fragment.VerifyDialogFragment;
 import com.yrkj.yrlife.utils.JsonUtils;
 import com.yrkj.yrlife.utils.StringUtils;
 import com.yrkj.yrlife.utils.TimeCount;
@@ -25,12 +25,12 @@ import com.yrkj.yrlife.widget.ClearEditText;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.xutils.common.Callback;
+import org.xutils.http.RequestParams;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
-
-import java.security.PrivateKey;
 
 @ContentView(R.layout.activity_sign)
 public class SignActivity extends BaseActivity {
@@ -56,6 +56,7 @@ public class SignActivity extends BaseActivity {
     private ProgressDialog mLoadingDialog;
     private String result;
     SharedPreferences preferences;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,13 +65,6 @@ public class SignActivity extends BaseActivity {
         title.setText("注册");
         timer = new TimeCount(60000, 1000, codeBtn);
         init();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-//        MobclickAgent.onPageStart("注册");
-//        MobclickAgent.onResume(this);
     }
 
     private void init() {
@@ -82,33 +76,35 @@ public class SignActivity extends BaseActivity {
     }
 
     @Event(R.id.signbtn)
-    private void sigbtnEvent(View view){
+    private void sigbtnEvent(View view) {
         phone = phoneEdit.getText().toString();
-        yzm=yzmEdit.getText().toString();
-        name=nameEdit.getText().toString();
-        pwd=pwdEdit.getText().toString();
+        yzm = yzmEdit.getText().toString();
+        name = nameEdit.getText().toString();
+        pwd = pwdEdit.getText().toString();
         if (StringUtils.isEmpty(phone)) {
             UIHelper.ToastMessage(this, "请输入手机号");
         } else if (StringUtils.isMobileNO(phone)) {
-            if (StringUtils.isEmpty(yzm)){
+            if (StringUtils.isEmpty(yzm)) {
                 UIHelper.ToastMessage(this, "请输入验证码");
-            }else {
-                if (yzm.equals(code)){
-                    if (StringUtils.isEmpty(name)){
-                        UIHelper.ToastMessage(this, "请输入用户名");
-                    }else {
-                        if (StringUtils.isEmpty(pwd)){
-                            UIHelper.ToastMessage(this, "请输入密码");
-                        }else{
-                            if (pwd.length()>=6){
+            } else {
+                if (yzm.equals(code)) {
+                    if (StringUtils.isEmpty(name)) {
+                        UIHelper.ToastMessage(this, "请输入密码");
+                    } else {
+                        if (StringUtils.isEmpty(pwd)) {
+                            UIHelper.ToastMessage(this, "请再次输入密码");
+                        } else if (name.equals(pwd)){
+                            if (pwd.length() >= 6) {
                                 mLoadingDialog.show();
-                                getSigin();
-                            }else{
-                                UIHelper.ToastMessage(this, "请输入6位以上的验证码");
+                                getSign();
+                            } else {
+                                UIHelper.ToastMessage(this, "请输入6位以上的密码");
                             }
+                        }else{
+                            UIHelper.ToastMessage(this, "两次输入的密码不同");
                         }
                     }
-                }else {
+                } else {
                     UIHelper.ToastMessage(this, "请输入正确的验证码");
                 }
             }
@@ -124,9 +120,9 @@ public class SignActivity extends BaseActivity {
             UIHelper.ToastMessage(this, "请输入手机号");
         } else if (StringUtils.isMobileNO(phone)) {
             timer.start();
-            mLoadingDialog.show();
-            getCode(phone);
-            UIHelper.ToastMessage(this, "正在请求..");
+                mLoadingDialog.show();
+                getCode(phone);
+                UIHelper.ToastMessage(this, "正在请求..");
         } else {
             UIHelper.ToastMessage(this, "请输入正确的手机号");
         }
@@ -170,75 +166,82 @@ public class SignActivity extends BaseActivity {
         }.start();
     }
 
-    private void getSigin(){
-        final Handler handler=new Handler(){
-            public void  handleMessage(Message msg){
+    private void getSign() {
+        RequestParams params = new RequestParams(URLs.SIGIN);
+        params.addQueryStringParameter("phone", phone);
+//        params.addQueryStringParameter("account", name);
+        params.addQueryStringParameter("pwd", pwd);
+        params.addQueryStringParameter("code", yzm);
+        params.addQueryStringParameter("unique_phone_code", appContext.getAppId());
+        x.http().get(params, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String res) {
                 mLoadingDialog.dismiss();
-                if (!StringUtils.isEmpty(msg.toString())){
-                if (msg.what==1){
-                    UIHelper.ToastMessage(appContext,msg.obj.toString());
-                    User user = JsonUtils.fromJson(result, User.class);
-                    //实例化Editor对象
-                    SharedPreferences.Editor editor = preferences.edit();
-                    //存入数据
-                    if (StringUtils.isEmpty(user.getReal_name())) {
-                        editor.putString("name", user.getAccount());
+                Message msg = new Message();
+                try {
+                    JSONObject jsonObject = new JSONObject(res);
+                    msg.what = jsonObject.getInt("code");
+                    msg.obj = jsonObject.getString("message");
+                    if (msg.what == 1) {
+                        result = jsonObject.getString("result");
+                    }
+                    if (!StringUtils.isEmpty(msg.toString())) {
+                        if (msg.what == 1) {
+                            UIHelper.ToastMessage(appContext, msg.obj.toString());
+                            User user = JsonUtils.fromJson(result, User.class);
+                            //实例化Editor对象
+                            SharedPreferences.Editor editor = preferences.edit();
+                            //存入数据
+                            if (StringUtils.isEmpty(user.getReal_name())) {
+                                editor.putString("name", user.getAccount());
+                            } else {
+                                editor.putString("name", user.getReal_name());
+                            }
+                            editor.putString("phone", user.getPhone());
+                            if (!StringUtils.isEmpty(user.getSex())) {
+                                if (user.getSex().equals("1")) {
+                                    editor.putString("sex", "男");
+                                } else if (user.getSex().equals("2")) {
+                                    editor.putString("sex", "女");
+                                }
+                            } else {
+                                editor.putString("sex", "男");
+                            }
+                            if (!StringUtils.isEmpty(user.getSecret_code())) {
+                                editor.putString("secret_code", user.getSecret_code());
+                                URLs.secret_code = user.getSecret_code();
+                            }
+                            //提交修改
+                            editor.commit();
+                            if (UserDao.delete()) {
+                                UserDao.insert(user);
+                            }
+                            finish();
+                        } else if (msg.what == 2) {
+                            UIHelper.ToastMessage(appContext, msg.obj.toString());
+                        }
                     } else {
-                        editor.putString("name", user.getReal_name());
+                        UIHelper.ToastMessage(appContext, "网络错误，请重试");
                     }
-                    editor.putString("phone", user.getPhone());
-                    if (!StringUtils.isEmpty(user.getSex())){
-                    if (user.getSex().equals("1")) {
-                        editor.putString("sex", "男");
-                    } else if (user.getSex().equals("2")) {
-                        editor.putString("sex", "女");
-                    }
-                    }else{
-                        editor.putString("sex", "男");
-                    }
-                    if (!StringUtils.isEmpty(user.getSecret_code())){
-                        editor.putString("secret_code",user.getSecret_code());
-                        URLs.secret_code=user.getSecret_code();
-                    }
-                    //提交修改
-                    editor.commit();
-                    if (UserDao.delete()){
-                    UserDao.insert(user);
-                    }
-                    finish();
-                }else if (msg.what==2){
-                    UIHelper.ToastMessage(appContext,msg.obj.toString());
-                }
-                }else {
-                    UIHelper.ToastMessage(appContext,"网络错误，请重试");
-                }
-            };
-        };
-        new Thread(){
-            public void run(){
-                Message msg=new Message();
-              try{
-                  String url=URLs.SIGIN+"phone="+phone+"&account="+name+"&pwd="+pwd+"&code="+yzm+"&unique_phone_code="+appContext.getAppId();
-                  result=ApiClient.http_test(appContext,url);
-                  JSONObject jsonObject=new JSONObject(result);
-                  msg.what=jsonObject.getInt("code");
-                  msg.obj=jsonObject.getString("message");
-                  if (msg.what==1){
-                      result=jsonObject.getString("result");
-                  }
-              }catch (AppException e){
+                } catch (JSONException e) {
 
-              }catch (JSONException e){
+                }
+            }
 
-              }
-                handler.sendMessage(msg);
-            };
-        }.start();
-    }
-    @Override
-    protected void onPause() {
-        super.onPause();
-//        MobclickAgent.onPageEnd("注册");
-//        MobclickAgent.onPause(this);
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+                UIHelper.ToastMessage(appContext, ex.getMessage());
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+        });
     }
 }

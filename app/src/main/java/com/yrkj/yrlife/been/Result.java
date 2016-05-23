@@ -16,6 +16,7 @@ public class Result {
     private int code;
     private String message;
     private int   totalPage;
+    private String result;
     public boolean OK(){
          return code==1;
      }
@@ -24,6 +25,9 @@ public class Result {
     }
     public int totalPage(){
         return totalPage;
+    }
+    public String Result(){
+        return result;
     }
     /**
      * 解析调用结果

@@ -191,7 +191,7 @@ public class FragmentNear extends BaseFragment {
 //                Toast.makeText(x.app(), results, Toast.LENGTH_LONG).show();
                 Result result= JsonUtils.fromJson(results,Result.class);
                 if (!result.OK()) {
-//                    throw AppException.custom(result.Message());
+                    UIHelper.ToastMessage(getActivity(),result.Message());
                 }else if (result.nears.size()>0){
                     if (mNearData==null){
                         mNearData=result.nears;

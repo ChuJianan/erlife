@@ -10,8 +10,6 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.Handler;
-import android.os.Looper;
 import android.os.Message;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -22,17 +20,11 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.yrkj.yrlife.R;
-import com.yrkj.yrlife.api.ApiClient;
-import com.yrkj.yrlife.app.AppException;
 import com.yrkj.yrlife.been.URLs;
 import com.yrkj.yrlife.utils.ImageUtils;
-import com.yrkj.yrlife.utils.SharedPreferencesUtil;
-import com.yrkj.yrlife.utils.StringUtils;
 import com.yrkj.yrlife.utils.UIHelper;
-import com.yrkj.yrlife.utils.UploadUtil;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -45,11 +37,6 @@ import org.xutils.x;
 
 import java.io.File;
 import java.io.IOException;
-import java.security.PrivateKey;
-import java.security.PrivilegedAction;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
 
 /**
  * Created by cjn on 2016/3/28.
@@ -90,7 +77,6 @@ public class MeActivity extends BaseActivity {
     }
 
     private void init() {
-        IMAGE_FILE_NAME = ImageUtils.getTempFileName() + IMAGE_FILE_NAME;
         mLoadingDialog = new ProgressDialog(this);
         mLoadingDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         mLoadingDialog.setTitle("提示");
@@ -124,7 +110,11 @@ public class MeActivity extends BaseActivity {
 
     @Event(R.id.avatarImg)
     private void avatarImgEvent(View view) {
-        showDialog();
+        Intent intentFromGallery = new Intent();
+        intentFromGallery.setType("image/*"); // 设置文件类型
+        intentFromGallery.setAction(Intent.ACTION_GET_CONTENT);
+        startActivityForResult(intentFromGallery, IMAGE_REQUEST_CODE);
+//        showDialog();
     }
 
     @Event(R.id.name_rl)
@@ -174,7 +164,7 @@ public class MeActivity extends BaseActivity {
                 } else {
                     mLoadingDialog.show();
                     sex = "男";
-                    String url = URLs.USER_INFO + "secret_code=" + URLs.secret_code + "&sex=1";
+                    String url ="1";//; URLs.USER_INFO + "secret_code=" + URLs.secret_code + "&sex=1";
                     setUserInfo(url);
                     dialog.dismiss();
                 }
@@ -188,7 +178,7 @@ public class MeActivity extends BaseActivity {
                 } else {
                     mLoadingDialog.show();
                     sex = "女";
-                    String url = URLs.USER_INFO + "secret_code=" + URLs.secret_code + "&sex=0";
+                    String url ="0";// URLs.USER_INFO ;//+ "secret_code=" + URLs.secret_code + "&sex=0";
                     setUserInfo(url);
                     dialog.dismiss();
                 }
@@ -336,11 +326,25 @@ public class MeActivity extends BaseActivity {
 
     private void setUserInfo(final String url) {
 
-        final Handler handler = new Handler() {
-            public void handleMessage(Message msg) {
+
+        RequestParams params = new RequestParams(URLs.USER_INFO);
+        params.addQueryStringParameter("secret_code", URLs.secret_code);
+        params.addQueryStringParameter("sex", url);
+        x.http().post(params, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+                Message msg = new Message();
+                try {
+                    JSONObject jsonObject = new JSONObject(result);
+                    msg.what = jsonObject.getInt("code");
+                    msg.obj = jsonObject.getString("message");
+                } catch (JSONException e) {
+
+                }
                 if (msg.obj != null) {
                     mLoadingDialog.dismiss();
                     if (msg.what == 1) {
+                        UIHelper.ToastMessage(MeActivity.this, msg.obj.toString());
                         UIHelper.ToastMessage(MeActivity.this, msg.obj.toString());
                         //实例化Editor对象
                         SharedPreferences.Editor editor = preferences.edit();
@@ -355,29 +359,24 @@ public class MeActivity extends BaseActivity {
                 } else {
                     UIHelper.ToastMessage(MeActivity.this, "网络出错，请稍候...");
                 }
-
             }
 
-            ;
-        };
-        new Thread() {
-            public void run() {
-                Message msg = new Message();
-                try {
-                    result = ApiClient.http_test(appContext, url);
-                    JSONObject jsonObject = new JSONObject(result);
-                    msg.what = jsonObject.getInt("code");
-                    msg.obj = jsonObject.getString("message");
-                } catch (AppException e) {
-
-                } catch (JSONException e) {
-
-                }
-                handler.sendMessage(msg);
+            @Override
+            public void onCancelled(CancelledException cex) {
+                mLoadingDialog.dismiss();
             }
 
-            ;
-        }.start();
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+                mLoadingDialog.dismiss();
+            }
+
+            @Override
+            public void onFinished() {
+                mLoadingDialog.dismiss();
+            }
+        });
+
     }
     private void setHeadImage() {
         mLoadingDialog.show();

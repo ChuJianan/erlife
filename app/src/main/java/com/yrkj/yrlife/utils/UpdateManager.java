@@ -10,9 +10,6 @@ import java.net.URL;
 import java.text.DecimalFormat;
 
 
-
-
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.app.AlertDialog.Builder;

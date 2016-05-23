@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import com.yrkj.yrlife.R;
 import com.yrkj.yrlife.adapter.GridViewMainAdapter;
-import com.yrkj.yrlife.api.ApiClient;
 import com.yrkj.yrlife.app.AppException;
 import com.yrkj.yrlife.app.YrApplication;
 import com.yrkj.yrlife.been.URLs;
@@ -73,7 +72,6 @@ public class FragmentIndex extends BaseFragment{
         });
     }
 
-    ApiClient apiClient;
     Intent intent;
     String string="";
     private  void  init(){
@@ -119,10 +117,7 @@ public class FragmentIndex extends BaseFragment{
 
     }
 
-    private String test()throws AppException, JSONException{
-      String  string = apiClient.http_test(application, URLs.APP_INIT);
-        return  string;
-    }
+
 //    @Override
 //    public void onResume() {
 //        super.onResume();

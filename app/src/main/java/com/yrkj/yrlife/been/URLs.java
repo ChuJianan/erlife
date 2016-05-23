@@ -9,18 +9,19 @@ package com.yrkj.yrlife.been;
  */
 public class URLs extends Entity {
 
+	public static final String UTF_8 = "UTF-8";
 	public static  String secret_code="";
 //	public static String ImageByte="";
 	public static String IMAGE_FILE_NAME="";
-	public static final String HOST = "http://192.168.0.106:8080/";
-//	public static final String HOST = "http://119.10.48.101/";
+//	public static final String HOST = "http://192.168.0.106:8080/";
+	public static final String HOST = "http://119.10.48.101/";
 
 	public static final String APP_INIT = HOST+"wmmanager/app/pro1/app1/addMember";		//应用初始化地址
 	public static final String HOME_ADS = HOST ;		//首页广告地址
 
-	public static final String SECRET_CODE=HOST+"wmmanager/app/pro1/app3/judgeIsExpired?secret_code=";
+	public static final String SECRET_CODE=HOST+"wmmanager/app/pro1/app3/judgeIsExpired";
 	public static final String LOGIN=HOST+"wmmanager/app/pro1/app3/login?";//登录
-	public static final String CODE_GET=HOST+"wmmanager/app/pro1/app2/send_msg_code?phone=";//获取验证码
+	public static final String CODE_GET=HOST+"wmmanager/app/pro1/app2/send_msg_code?";//获取验证码
 	public static final String SIGIN=HOST+"wmmanager/app/pro1/app3/register?";//注册
 	public static final String USER_INFO=HOST+"wmmanager/app/pro1/app3/updateMember?";//用户信息
 	public static final String UPDATE_HEADIMAGE=HOST+"wmmanager/app/pro1/app3/updateHead_Image";//上传头像

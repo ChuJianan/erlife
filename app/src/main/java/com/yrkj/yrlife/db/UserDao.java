@@ -36,7 +36,7 @@ public class UserDao {
      * @param id 用户id
      * @return
      */
-    public static User quer(int id) {
+    public static User query(int id) {
         User user = new User();
         try {
             user = db.findById(User.class, id);

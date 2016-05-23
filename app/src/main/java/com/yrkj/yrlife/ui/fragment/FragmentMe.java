@@ -4,7 +4,10 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.text.Layout;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -28,6 +31,7 @@ import com.yrkj.yrlife.utils.UIHelper;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
+import org.xutils.x;
 
 /**
  * Created by Administrator on 2016/3/17.
@@ -54,14 +58,17 @@ public class FragmentMe extends BaseFragment {
     private ImageView imageView11;
 
 
+
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
 
+        super.onViewCreated(view, savedInstanceState);
         yrApplication = (YrApplication) getActivity().getApplication();
         ls = (LinearLayout) getActivity().findViewById(R.id.ssss);
         ls.setVisibility(View.GONE);
-
+        if (StringUtils.isEmpty(URLs.secret_code)){
+            UIHelper.openLogin(getActivity());
+        }
     }
 
     @Override
@@ -73,11 +80,6 @@ public class FragmentMe extends BaseFragment {
             phoneText.setVisibility(View.VISIBLE);
             textView2.setVisibility(View.VISIBLE);
             imageView11.setVisibility(View.VISIBLE);
-//            bitmap = SharedPreferencesUtil.getBitmapFromSharedPreferences(yrApplication,URLs.IMAGE_FILE_NAME);
-
-//            if (bitmap != null) {
-//                meImg.setImageBitmap(bitmap);
-//            }
             SharedPreferences preferences = yrApplication.getSharedPreferences("yrlife", yrApplication.MODE_WORLD_READABLE);
             String name = preferences.getString("name", "");
             String phone = preferences.getString("phone", "");
@@ -92,7 +94,7 @@ public class FragmentMe extends BaseFragment {
                 meImg.setImageBitmap(ImageUtils.getBitmap(getActivity(), faceimg));
             }
         } else {
-            meImg.setImageLevel(R.mipmap.ic_me_tx);
+            meImg.setImageResource(R.mipmap.ic_me_tx);
             nameText.setVisibility(View.GONE);
             textView2.setVisibility(View.GONE);
             phoneText.setVisibility(View.GONE);
