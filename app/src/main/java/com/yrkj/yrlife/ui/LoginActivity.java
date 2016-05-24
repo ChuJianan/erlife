@@ -95,6 +95,12 @@ public class LoginActivity extends BaseActivity {
         }
     }
 
+    @Event(R.id.wjpwd)
+    private void wjpwdEvent(View view){
+        Intent intent=new Intent(this,FindPasswordActivity.class);
+        startActivity(intent);
+    }
+
     @Event(R.id.sign)
     private void signEvent(View view) {
         Intent intent = new Intent(this, SignActivity.class);
@@ -143,6 +149,8 @@ public class LoginActivity extends BaseActivity {
                         //提交修改
                         editor.commit();
                         finish();
+                    }else if (msg.what==2){
+                        mLoadingDialog.dismiss();
                     }
 
                 } catch (JSONException e) {
@@ -154,18 +162,16 @@ public class LoginActivity extends BaseActivity {
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
                 UIHelper.ToastMessage(appContext, ex.getMessage());
-                mLoadingDialog.dismiss();
             }
 
             @Override
             public void onCancelled(CancelledException cex) {
                 UIHelper.ToastMessage(appContext, "error");
-                mLoadingDialog.dismiss();
             }
 
             @Override
             public void onFinished() {
-
+                mLoadingDialog.dismiss();
             }
         });
     }

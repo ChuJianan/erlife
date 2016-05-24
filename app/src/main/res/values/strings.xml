@@ -4,7 +4,7 @@
     <string name="edittext_login_name">请输入用户名/手机号</string>
     <string name="edittext_login_password">请输入密码</string>
     <string name="zhuce"><u>现在注册</u></string>
-    <string name="wjpwd"><u>忘记密码？</u></string>
+    <string name="wjpwd"><u>忘记密码</u></string>
     <string name="strPoint">小圆点</string>
 
     <string name="pull_to_refresh_pull_label">下拉可以刷新</string>

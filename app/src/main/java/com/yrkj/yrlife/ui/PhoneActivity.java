@@ -117,6 +117,8 @@ public class PhoneActivity extends BaseActivity {
                     UIHelper.ToastMessage(appContext, msg.obj.toString());
                 } else if (msg.what == 2) {
                     UIHelper.ToastMessage(appContext, msg.obj.toString());
+                    timer.onFinish();
+                    codeBtn.setText("获取验证码");
                 }
             }
 
@@ -126,7 +128,7 @@ public class PhoneActivity extends BaseActivity {
             public void run() {
                 Message msg = new Message();
                 try {
-                    String url = URLs.CODE_GET + phone;
+                    String url = URLs.CODE_GET_Z + phone;
                     result = ApiClient.http_test(appContext, url);
                     JSONObject jsonObject = new JSONObject(result);
                     msg.what = jsonObject.getInt("code");
@@ -164,9 +166,13 @@ public class PhoneActivity extends BaseActivity {
                         finish();
                     } else if (msg.what == 2) {
                         UIHelper.ToastMessage(PhoneActivity.this, msg.obj.toString());
+                        timer.onFinish();
+                        codeBtn.setText("获取验证码");
                     }
                 } else {
                     UIHelper.ToastMessage(PhoneActivity.this, "网络出错，请稍候...");
+                    timer.onFinish();
+                    codeBtn.setText("获取验证码");
                 }
 
             }

@@ -92,7 +92,7 @@ public class NameActivity extends BaseActivity {
         RequestParams params = new RequestParams(url);
         params.addQueryStringParameter("secret_code", URLs.secret_code);
         params.addQueryStringParameter("real_name", name);
-        x.http().post(params, new Callback.CommonCallback<String>() {
+        x.http().get(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
                 Message msg = new Message();

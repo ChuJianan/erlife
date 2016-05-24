@@ -330,7 +330,7 @@ public class MeActivity extends BaseActivity {
         RequestParams params = new RequestParams(URLs.USER_INFO);
         params.addQueryStringParameter("secret_code", URLs.secret_code);
         params.addQueryStringParameter("sex", url);
-        x.http().post(params, new Callback.CommonCallback<String>() {
+        x.http().get(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
                 Message msg = new Message();

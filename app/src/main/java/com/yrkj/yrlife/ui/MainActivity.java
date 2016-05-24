@@ -76,8 +76,8 @@ public class MainActivity extends FragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-        AppManager.getAppManager().addActivity(this);
+//        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+//        AppManager.getAppManager().addActivity(this);
         x.view().inject(this);
         initView();
         locationService = new LocationService(getApplicationContext());
@@ -388,6 +388,6 @@ public class MainActivity extends FragmentActivity {
         super.onDestroy();
         UIHelper.city = "";
         //结束Activity&从堆栈中移除
-        AppManager.getAppManager().finishActivity(this);
+//        AppManager.getAppManager().finishActivity(this);
     }
 }

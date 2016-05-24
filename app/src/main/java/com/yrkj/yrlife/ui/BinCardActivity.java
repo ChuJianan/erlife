@@ -116,35 +116,42 @@ public class BinCardActivity extends BaseActivity {
         }
     }
 
-    private void setCard(){
-        String url=URLs.BIND_CARDS;
+    private void setCard() {
+        String url = URLs.BIND_CARDS;
         RequestParams params = new RequestParams(url);
-        params.addQueryStringParameter("secret_code",URLs.secret_code);
-        params.addQueryStringParameter("phone",phoneNub);
-        params.addQueryStringParameter("code",codeNub);
-        params.addQueryStringParameter("card_Number",cardNub);
+        params.addQueryStringParameter("secret_code", URLs.secret_code);
+        params.addQueryStringParameter("phone", phoneNub);
+        params.addQueryStringParameter("code", codeNub);
+        params.addQueryStringParameter("card_Number", cardNub);
         x.http().get(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                try{
+                try {
                     mLoadingDialog.dismiss();
-                    JSONObject json=new JSONObject(result);
-                    int code=json.getInt("code");
-                    String message =json.getString("message");
-                    UIHelper.ToastMessage(appContext,message);
-                }catch (JSONException e){
+                    JSONObject json = new JSONObject(result);
+                    int code = json.getInt("code");
+                    String message = json.getString("message");
+                    UIHelper.ToastMessage(appContext, message);
+                    if (code==2){
+                        timer.onFinish();
+                        codeBtn.setText("发送验证码");
+                    }
+                } catch (JSONException e) {
 
                 }
             }
 
             @Override
             public void onCancelled(CancelledException cex) {
-                UIHelper.ToastMessage(appContext,"cancelled");
+                UIHelper.ToastMessage(appContext, "cancelled");
             }
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                UIHelper.ToastMessage(appContext,ex.getMessage());
+                UIHelper.ToastMessage(appContext, ex.getMessage());
+                code="";
+                timer.onFinish();
+                codeBtn.setText("获取验证码");
             }
 
             @Override
@@ -155,21 +162,29 @@ public class BinCardActivity extends BaseActivity {
     }
 
     private void getCode(final String phone) {
-        RequestParams params=new RequestParams(URLs.CODE_GET);
-        params.addQueryStringParameter("phone",phone);
+        RequestParams params = new RequestParams(URLs.CODE_GET);
+        params.addQueryStringParameter("phone", phone);
         x.http().get(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String s) {
-                Result result= JsonUtils.fromJson(s,Result.class);
-                UIHelper.ToastMessage(appContext,result.Message());
+                Result result = JsonUtils.fromJson(s, Result.class);
+                UIHelper.ToastMessage(appContext, result.Message());
                 mLoadingDialog.dismiss();
-                if (result.OK())
-                    code=result.Result();
+                if (result.OK()) {
+                    code = result.Result();
+                } else {
+                    code="";
+                    timer.onFinish();
+                    codeBtn.setText("获取验证码");
+                }
             }
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
                 mLoadingDialog.dismiss();
+                code="";
+                timer.onFinish();
+                codeBtn.setText("获取验证码");
             }
 
             @Override

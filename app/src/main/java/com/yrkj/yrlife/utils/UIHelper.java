@@ -364,6 +364,7 @@ public class UIHelper {
             mExitTime = System.currentTimeMillis();
         } else {
             AppManager.getAppManager().AppExit(cont);
+            System.exit(0);
         }
     }
 }

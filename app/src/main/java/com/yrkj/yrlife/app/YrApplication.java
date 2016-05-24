@@ -14,7 +14,6 @@ import android.os.Environment;
 import android.os.Vibrator;
 
 import com.baidu.mapapi.SDKInitializer;
-import com.pgyersdk.crash.PgyCrashManager;
 import com.tencent.bugly.crashreport.CrashReport;
 import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
@@ -62,7 +61,7 @@ public class YrApplication extends Application {
     public void onCreate() {
         super.onCreate();
         //蒲公英测试升级声明
-        PgyCrashManager.register(this);
+//        PgyCrashManager.register(this);
 
 
         //xutils声明
@@ -73,8 +72,8 @@ public class YrApplication extends Application {
 
         //百度定位声明
 //        locationService = new LocationService(getApplicationContext());
-//        mVibrator = (Vibrator) getApplicationContext().getSystemService(Service.VIBRATOR_SERVICE);
-        SDKInitializer.initialize(getApplicationContext());
+        mVibrator = (Vibrator) getApplicationContext().getSystemService(Service.VIBRATOR_SERVICE);
+        SDKInitializer.initialize(this);
 
         SharedPreferences preferences = this.getSharedPreferences("yrlife", this.MODE_WORLD_READABLE);
         String secret_code = preferences.getString("secret_code", "");

@@ -137,6 +137,9 @@ public class SignActivity extends BaseActivity {
 
                 } else if (msg.what == 2) {
                     UIHelper.ToastMessage(appContext, msg.obj.toString());
+                    timer.onFinish();
+                    timer.cancel();
+                    codeBtn.setText("获取验证码");
                 }
             }
 
@@ -146,7 +149,7 @@ public class SignActivity extends BaseActivity {
             public void run() {
                 Message msg = new Message();
                 try {
-                    String url = URLs.CODE_GET + phone;
+                    String url = URLs.CODE_GET_Z + phone;
                     result = ApiClient.http_test(appContext, url);
                     JSONObject jsonObject = new JSONObject(result);
                     msg.what = jsonObject.getInt("code");
@@ -155,7 +158,7 @@ public class SignActivity extends BaseActivity {
                         code = jsonObject.getString("result");
                     }
                 } catch (AppException e) {
-
+                    e.printStackTrace();
                 } catch (JSONException e) {
 
                 }
@@ -219,9 +222,13 @@ public class SignActivity extends BaseActivity {
                             finish();
                         } else if (msg.what == 2) {
                             UIHelper.ToastMessage(appContext, msg.obj.toString());
+                            timer.onFinish();
+                            codeBtn.setText("获取验证码");
                         }
                     } else {
                         UIHelper.ToastMessage(appContext, "网络错误，请重试");
+                        timer.onFinish();
+                        codeBtn.setText("获取验证码");
                     }
                 } catch (JSONException e) {
 

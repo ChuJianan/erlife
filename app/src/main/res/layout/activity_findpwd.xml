@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include layout="@layout/include_common_header"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/space_20"
+        android:layout_marginRight="@dimen/space_20"
+        android:layout_marginTop="@dimen/space_30"
+        >
+    <com.yrkj.yrlife.widget.ClearEditText
+        android:layout_width="match_parent"
+        android:id="@+id/phonenub"
+        android:layout_height="40dp"
+        android:hint="请输入手机号"
+        android:textSize="@dimen/text_size_14"
+        android:background="@color/white"
+        />
+
+    </LinearLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/space_20"
+        android:layout_marginRight="@dimen/space_20"
+        android:layout_marginTop="@dimen/space_20"
+        >
+        <com.yrkj.yrlife.widget.ClearEditText
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:id="@+id/yzm"
+            android:textSize="@dimen/text_size_14"
+            android:background="@color/white"
+            android:hint="请输入验证码"
+            android:layout_toLeftOf="@+id/hq_code"
+            android:layout_toStartOf="@+id/hq_code" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:text="获取验证码"
+            android:id="@+id/hq_code"
+            android:textColor="@color/white"
+            android:background="@drawable/bg_btn_code"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+    </RelativeLayout>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginRight="@dimen/space_20"
+        android:layout_marginLeft="@dimen/space_20"
+        android:layout_marginTop="40dp"
+        android:text="下一步"
+        android:textSize="@dimen/text_size_22"
+        android:textColor="@color/white"
+        android:background="@drawable/bg_btn_code"
+        android:id="@+id/next_step"
+        android:layout_gravity="center_horizontal" />
+</LinearLayout>

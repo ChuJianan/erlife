@@ -13,7 +13,8 @@
     <color name="list_item_title_color">#ff505050</color>
     <color name="list_item_subtitle_color">#ff999999</color>
     <color name="list_item_desc_color">#ff909090</color>
-
+    <color name="qq">#00b7ee</color>
+    <color name="wx">#22ac38</color>
 
     <color name="colorPrimary">#ee481f</color>
     <color name="colorPrimaryDark">#eb6725</color>
