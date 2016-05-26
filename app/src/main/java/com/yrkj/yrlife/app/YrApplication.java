@@ -22,6 +22,7 @@ import com.yrkj.yrlife.service.LocationService;
 import com.yrkj.yrlife.utils.MethodsCompat;
 import com.yrkj.yrlife.utils.QRCodeUtil;
 import com.yrkj.yrlife.utils.StringUtils;
+import com.yrkj.yrlife.utils.UIHelper;
 
 import org.xutils.DbManager;
 import org.xutils.x;
@@ -53,8 +54,8 @@ public class YrApplication extends Application {
     public LocationService locationService;
     public Vibrator mVibrator;
     private Hashtable<String, Object> memCacheRegion = new Hashtable<String, Object>();
-    private static final String APP_ID = "wx4aca65f58fe822e2";//APP_ID是从网站申请的
-    private IWXAPI api;//IWXAPI是第三方app和微信通信的opeanapi接口
+
+    public static IWXAPI api;//IWXAPI是第三方app和微信通信的opeanapi接口
 
 
     @Override
@@ -80,9 +81,9 @@ public class YrApplication extends Application {
         URLs.secret_code = secret_code;
         //注册微信
         //通过WXAPIFactory工厂，获取IWXAPI的实列
-        api = WXAPIFactory.createWXAPI(this, APP_ID, true);
+        api = WXAPIFactory.createWXAPI(this, null);
         //将应用的appid注册到微信
-        api.registerApp(APP_ID);
+        api.registerApp(UIHelper.APP_ID);
     }
 
 

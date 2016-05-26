@@ -23,6 +23,7 @@ import com.yrkj.yrlife.ui.LoginActivity;
 import com.yrkj.yrlife.ui.MeActivity;
 import com.yrkj.yrlife.ui.MoreActivity;
 import com.yrkj.yrlife.ui.PayActivity;
+import com.yrkj.yrlife.utils.BitmapManager;
 import com.yrkj.yrlife.utils.ImageUtils;
 import com.yrkj.yrlife.utils.SharedPreferencesUtil;
 import com.yrkj.yrlife.utils.StringUtils;
@@ -54,8 +55,12 @@ public class FragmentMe extends BaseFragment {
     private TextView textView2;
     @ViewInject(R.id.login_textView)
     private TextView login_textView;
-    @ViewInject(R.id.imageView11)
-    private ImageView imageView11;
+    @ViewInject(R.id.money_text)
+    private  TextView money_textView;
+    @ViewInject(R.id.jifen_text)
+    private TextView jifen_textView;
+    @ViewInject(R.id.textView3)
+    private TextView textView3;
 
 
 
@@ -79,41 +84,61 @@ public class FragmentMe extends BaseFragment {
             nameText.setVisibility(View.VISIBLE);
             phoneText.setVisibility(View.VISIBLE);
             textView2.setVisibility(View.VISIBLE);
-            imageView11.setVisibility(View.VISIBLE);
+            textView3.setVisibility(View.VISIBLE);
+            money_textView.setVisibility(View.VISIBLE);
+            jifen_textView.setVisibility(View.VISIBLE);
             SharedPreferences preferences = yrApplication.getSharedPreferences("yrlife", yrApplication.MODE_WORLD_READABLE);
             String name = preferences.getString("name", "");
             String phone = preferences.getString("phone", "");
             String faceimg = preferences.getString("faceimg", "");
+            String head_image=preferences.getString("head_image","");
+            String wx_head_image=preferences.getString("wx_head_image","");
+            long money=preferences.getLong("money",0);
+            int  jifen=preferences.getInt("jifen",0);
             if (name != "" && !name.equals("")) {
                 nameText.setText(name);
             }
             if (phone != "" && !phone.equals("")) {
                 phoneText.setText(phone);
             }
-            if (faceimg != "" && !faceimg.equals("")) {
-                meImg.setImageBitmap(ImageUtils.getBitmap(getActivity(), faceimg));
+            if (StringUtils.isEmpty(head_image)){
+                if (StringUtils.isEmpty(wx_head_image)){
+                    if (faceimg != "" && !faceimg.equals("")) {
+                        meImg.setImageBitmap(ImageUtils.getBitmap(getActivity(), faceimg));
+                    }
+                }else {
+                    UIHelper.showLoadImage(meImg,wx_head_image,"");
+                }
+            }else {
+                UIHelper.showLoadImage(meImg,URLs.IMGURL+head_image,"");
             }
+
+            money_textView.setText(money+"");
+            jifen_textView.setText(jifen+"");
         } else {
             meImg.setImageResource(R.mipmap.ic_me_tx);
             nameText.setVisibility(View.GONE);
             textView2.setVisibility(View.GONE);
             phoneText.setVisibility(View.GONE);
-            imageView11.setVisibility(View.GONE);
+            textView3.setVisibility(View.GONE);
+            money_textView.setVisibility(View.GONE);
+            jifen_textView.setVisibility(View.GONE);
             login_textView.setVisibility(View.VISIBLE);
         }
 
     }
 
     @Event(R.id.me_rl)
-    private void onMerlClick(View view) {
-        if (StringUtils.isEmpty(URLs.secret_code)) {
+    private void merlEvent(View view){
+        if (URLs.secret_code==""){
             UIHelper.openLogin(getActivity());
-        } else {
-            Intent intent = new Intent(getActivity(), MeActivity.class);
-            startActivity(intent);
         }
     }
 
+    /**
+     * 充值
+     * @param view
+     */
     @Event(R.id.rl_cz)
     private void onRlcvzClick(View view) {
 //        UIHelper.ToastMessage(getActivity(),"正在开发...");
@@ -125,6 +150,10 @@ public class FragmentMe extends BaseFragment {
         }
     }
 
+    /**
+     * 卡绑定
+     * @param view
+     */
     @Event(R.id.rl_bin)
     private void onRlbinClick(View view) {
         if (StringUtils.isEmpty(URLs.secret_code)) {
@@ -135,6 +164,10 @@ public class FragmentMe extends BaseFragment {
         }
     }
 
+    /**
+     * 充值记录
+     * @param view
+     */
     @Event(R.id.pay_rl)
     private void onPayrlClick(View view) {
         if (StringUtils.isEmpty(URLs.secret_code)) {
@@ -145,6 +178,10 @@ public class FragmentMe extends BaseFragment {
         }
     }
 
+    /**
+     * 消费记录
+     * @param view
+     */
     @Event(R.id.cost_rl)
     private void onCostrlClick(View view) {
         if (StringUtils.isEmpty(URLs.secret_code)) {
@@ -155,6 +192,29 @@ public class FragmentMe extends BaseFragment {
         }
     }
 
+    /**
+     * 优惠券
+     * @param view
+     */
+    @Event(R.id.quan_rl)
+    private void quanrlEvent(View view){
+
+    }
+
+    /**
+     * 设置
+     * @param view
+     */
+    @Event(R.id.set_rl)
+    private void setrlEvent(View view){
+        Intent intent = new Intent(getActivity(), MoreActivity.class);
+        startActivity(intent);
+    }
+
+    /**
+     * 设置
+     * @param view
+     */
     @Event(R.id.more_rl)
     private void onMorerlClick(View view) {
         Intent intent = new Intent(getActivity(), MoreActivity.class);

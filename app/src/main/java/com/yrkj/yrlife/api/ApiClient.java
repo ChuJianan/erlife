@@ -73,9 +73,9 @@ public class ApiClient {
         return appCookie;
     }
 
-    private static String getUserAgent(YrApplication appContext) {
+    public static String getUserAgent(YrApplication appContext) {
         if(appUserAgent == null || appUserAgent == "") {
-            StringBuilder ua = new StringBuilder("iMeeting");
+            StringBuilder ua = new StringBuilder("yrkj");
             ua.append('/'+appContext.getPackageInfo().versionName+'_'+appContext.getPackageInfo().versionCode);//App版本
             ua.append("/Android");//手机系统平台
             ua.append("/"+android.os.Build.VERSION.RELEASE);//手机系统版本

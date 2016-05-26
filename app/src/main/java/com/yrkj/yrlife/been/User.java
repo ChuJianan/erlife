@@ -71,6 +71,17 @@ public class User extends Entity {
     private String secret_code;//用户密钥
     @Column(name="unique_phone_code")
     private String unique_phone_code;//手机唯一码
+    private String wx_head_pic;//微信头像
+    private String isBind;//是否绑定会员卡
+
+    public String getIsBind() {
+        return isBind;
+    }
+
+    public void setIsBind(String isBind) {
+        this.isBind = isBind;
+    }
+
     public Date getDue_time() {
         return due_time;
     }
@@ -318,6 +329,14 @@ public class User extends Entity {
 
     public void setMerchant_id(String merchant_id) {
         this.merchant_id = merchant_id;
+    }
+
+    public String getWx_head_pic() {
+        return wx_head_pic;
+    }
+
+    public void setWx_head_pic(String wx_head_pic) {
+        this.wx_head_pic = wx_head_pic;
     }
 
     private String have_card;

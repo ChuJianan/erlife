@@ -86,8 +86,9 @@
         <activity android:name=".ui.IdeaActivity"/>
         <activity android:name=".ui.FindPasswordActivity"/>
         <activity android:name=".ui.FindPasswordTActivity"/>
+        <activity android:name=".ui.AboutActivity"/>
+        <activity android:name=".ui.HelpActivity"/>
+        <activity android:name=".wxapi.WXEntryActivity" android:exported="true" android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen"/>
         <activity android:name="com.zxing.activity.CaptureActivity"/>
-
     </application>
-
 </manifest>

@@ -1,6 +1,9 @@
 package com.yrkj.yrlife.ui;
 
 import android.Manifest;
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -42,8 +45,6 @@ public class MoreActivity extends BaseActivity {
 
     @ViewInject(R.id.title)
     TextView title;
-    @ViewInject(R.id.qrcode)
-    ImageView qrcode;
     String result;
 
     @Override
@@ -54,48 +55,26 @@ public class MoreActivity extends BaseActivity {
         preferences = getSharedPreferences("yrlife", MODE_WORLD_READABLE);
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-//        MobclickAgent.onPageStart("更多");
-//        MobclickAgent.onResume(this);
-        filePath = preferences.getString("filepath", "");
-        if (filePath != null && filePath != "" && !filePath.equals("")) {
-            qrcode.setImageBitmap(ImageUtils.getBitmap(MoreActivity.this, filePath));
+    @Event(R.id.me_rl)
+    private void merlEvent(View v) {
+        if (URLs.secret_code == "") {
+            UIHelper.openLogin(this);
         } else {
-            //二维码图片较大时，生成图片、保存文件的时间可能较长，因此放在新线程中
-            new Thread(new Runnable() {
-                @Override
-                public void run() {
-                    final String filepath = "qr_1.png";
-//                    "/data/data/com.yrkj.yrlife/files/"+
-                    int widht = DensityUtil.dip2px(MoreActivity.this, 120);
-                    boolean success = QRCodeUtil.createQRImage(MoreActivity.this, "https://www.baidu.com/", 200, 200, BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher),
-                            filepath);
-                    if (success) {
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                qrcode.setImageBitmap(ImageUtils.getBitmap(MoreActivity.this, filepath));
-                                //实例化Editor对象
-                                SharedPreferences.Editor editor = preferences.edit();
-                                //存入数据
-                                editor.putString("filepath", filepath);
-                                //提交修改
-                                editor.commit();
-                            }
-                        });
-                    }
-                }
-            }).start();
+            Intent intent = new Intent(this, MeActivity.class);
+            startActivity(intent);
         }
     }
 
+    /**
+     * 客服
+     *
+     * @param view
+     */
     @Event(R.id.call_rl)
     private void onCallrlClick(View view) {
 //        UIHelper.ToastMessage(this, "正在开发中...");
         //用intent启动拨打电话
-        Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + "13165094770"));
+        Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + "4001891668"));
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
@@ -109,11 +88,22 @@ public class MoreActivity extends BaseActivity {
         startActivity(intent);
     }
 
+    /**
+     * 常见问题
+     *
+     * @param view
+     */
     @Event(R.id.help_rl)
     private void onHelprlClick(View view) {
-        UIHelper.ToastMessage(this, "正在开发中...");
+        Intent intent = new Intent(this, HelpActivity.class);
+        startActivity(intent);
     }
 
+    /**
+     * 意见反馈
+     *
+     * @param view
+     */
     @Event(R.id.idea_rl)
     private void onIdearlClick(View view) {
 //        UIHelper.ToastMessage(this, "正在开发中...");
@@ -125,22 +115,45 @@ public class MoreActivity extends BaseActivity {
         }
     }
 
+    @Event(R.id.update_rl)
+    private void updaterl(View view) {
+
+    }
+
+    /**
+     * 关于我们
+     *
+     * @param view
+     */
     @Event(R.id.about_rl)
     private void onAboutrlClick(View view) {
-        UIHelper.ToastMessage(this, "正在开发中...");
+//        UIHelper.ToastMessage(this, "正在开发中...");
+        Intent intent = new Intent(this, AboutActivity.class);
+        startActivity(intent);
     }
 
+    /**
+     * 清除缓存
+     *
+     * @param view
+     */
     @Event(R.id.clean_rl)
     private void onCleanrl(View view) {
-        UIHelper.clearAppCache(this);
+        dialog("您确定要清除缓存吗？", 2);
+
     }
 
+    /**
+     * 退出登录
+     *
+     * @param view
+     */
     @Event(R.id.out_btn)
     private void outEvent(View view) {
-        if(StringUtils.isEmpty(URLs.secret_code)){
-            UIHelper.ToastMessage(this,"你还未登录");
-        }else {
-            loginOut();
+        if (StringUtils.isEmpty(URLs.secret_code)) {
+            UIHelper.ToastMessage(this, "你还未登录");
+        } else {
+            dialog("您确定要退出登录吗？", 1);
         }
     }
 
@@ -180,5 +193,30 @@ public class MoreActivity extends BaseActivity {
 
             ;
         }.start();
+    }
+
+    protected void dialog(String context, final int i) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(context);
+        builder.setTitle("提示");
+        builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                if (i == 1) {
+                    loginOut();
+                }
+                if (i == 2) {
+                    UIHelper.clearAppCache(MoreActivity.this);
+                }
+            }
+        });
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.create().show();
     }
 }

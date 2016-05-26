@@ -151,7 +151,7 @@ public class ConsumerActivity extends BaseActivity {
                 if (!result.OK()) {
 //                    throw AppException.custom(result.Message());
                     UIHelper.ToastMessage(appContext,result.Message());
-                    mEmptyView.setText("暂时没有充值记录");
+                    mEmptyView.setText("暂时没有消费记录");
                 }else if (result.consumers.size()>0){
                     if (mConsumerData==null){
                         mConsumerData=result.consumers;

@@ -1,9 +1,12 @@
 package com.yrkj.yrlife.ui;
 
+import android.Manifest;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -12,6 +15,10 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Message;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,7 +31,9 @@ import android.widget.TextView;
 import com.yrkj.yrlife.R;
 import com.yrkj.yrlife.been.URLs;
 import com.yrkj.yrlife.utils.ImageUtils;
+import com.yrkj.yrlife.utils.StringUtils;
 import com.yrkj.yrlife.utils.UIHelper;
+import com.zxing.activity.CaptureActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -44,6 +53,7 @@ import java.io.IOException;
 @ContentView(R.layout.activity_me)
 public class MeActivity extends BaseActivity {
 
+    public static final int MY_PERMISSIONS_CAMERA = 1;
     private static String IMAGE_FILE_NAME = "faceImage.jpg";
     SharedPreferences preferences;
     private String sex;
@@ -92,7 +102,9 @@ public class MeActivity extends BaseActivity {
         String name = preferences.getString("name", "");
         String phone = preferences.getString("phone", "");
         sex = preferences.getString("sex", "");
-        String faceimg=preferences.getString("faceimg","");
+        String faceimg = preferences.getString("faceimg", "");
+        String head_image = preferences.getString("head_image", "");
+        String wx_head_image = preferences.getString("wx_head_image", "");
         if (name != "" && !name.equals("")) {
             nameText.setText(name);
         }
@@ -102,19 +114,27 @@ public class MeActivity extends BaseActivity {
         if (sex != null && sex != "" && !sex.equals("")) {
             sexText.setText(sex);
         }
-        if (faceimg!=""&&!faceimg.equals("")){
-            avatarImg.setImageBitmap(ImageUtils.getBitmap(MeActivity.this,faceimg));
+        if (StringUtils.isEmpty(head_image)) {
+            if (StringUtils.isEmpty(wx_head_image)){
+                if (faceimg != "" && !faceimg.equals("")) {
+                    avatarImg.setImageBitmap(ImageUtils.getBitmap(this, faceimg));
+                }
+            }else {
+                UIHelper.showLoadImage(avatarImg,wx_head_image,"");
+            }
+        } else {
+            UIHelper.showLoadImage(avatarImg, URLs.IMGURL + head_image, "");
         }
     }
 
 
     @Event(R.id.avatarImg)
     private void avatarImgEvent(View view) {
-        Intent intentFromGallery = new Intent();
-        intentFromGallery.setType("image/*"); // 设置文件类型
-        intentFromGallery.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(intentFromGallery, IMAGE_REQUEST_CODE);
-//        showDialog();
+//        Intent intentFromGallery = new Intent();
+//        intentFromGallery.setType("image/*"); // 设置文件类型
+//        intentFromGallery.setAction(Intent.ACTION_GET_CONTENT);
+//        startActivityForResult(intentFromGallery, IMAGE_REQUEST_CODE);
+        showDialog();
     }
 
     @Event(R.id.name_rl)
@@ -164,7 +184,7 @@ public class MeActivity extends BaseActivity {
                 } else {
                     mLoadingDialog.show();
                     sex = "男";
-                    String url ="1";//; URLs.USER_INFO + "secret_code=" + URLs.secret_code + "&sex=1";
+                    String url = "1";//; URLs.USER_INFO + "secret_code=" + URLs.secret_code + "&sex=1";
                     setUserInfo(url);
                     dialog.dismiss();
                 }
@@ -178,7 +198,7 @@ public class MeActivity extends BaseActivity {
                 } else {
                     mLoadingDialog.show();
                     sex = "女";
-                    String url ="0";// URLs.USER_INFO ;//+ "secret_code=" + URLs.secret_code + "&sex=0";
+                    String url = "0";// URLs.USER_INFO ;//+ "secret_code=" + URLs.secret_code + "&sex=0";
                     setUserInfo(url);
                     dialog.dismiss();
                 }
@@ -229,11 +249,19 @@ public class MeActivity extends BaseActivity {
         view.findViewById(R.id.camera_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent takeIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                //下面这句指定调用相机拍照后的照片存储的路径
-                takeIntent.putExtra(MediaStore.EXTRA_OUTPUT,
-                        Uri.fromFile(new File(Environment.getExternalStorageDirectory(), IMAGE_FILE_NAME)));
-                startActivityForResult(takeIntent, CAMERA_REQUEST_CODE);
+                int perssion = ContextCompat.checkSelfPermission(MeActivity.this,
+                        Manifest.permission.CAMERA);
+                if (perssion == PackageManager.PERMISSION_GRANTED) {
+                    Intent takeIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    //下面这句指定调用相机拍照后的照片存储的路径
+                    takeIntent.putExtra(MediaStore.EXTRA_OUTPUT,
+                            Uri.fromFile(new File(Environment.getExternalStorageDirectory(), IMAGE_FILE_NAME)));
+                    startActivityForResult(takeIntent, CAMERA_REQUEST_CODE);
+                } else if (perssion == PackageManager.PERMISSION_DENIED) {
+                    ActivityCompat.requestPermissions(MeActivity.this,
+                            new String[]{Manifest.permission.CAMERA},
+                            MY_PERMISSIONS_CAMERA);
+                }
             }
         });
 
@@ -244,6 +272,9 @@ public class MeActivity extends BaseActivity {
             }
         });
     }
+
+
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -263,7 +294,6 @@ public class MeActivity extends BaseActivity {
             case RESULT_REQUEST_CODE:// 取得裁剪后的图片
                 if (data != null) {
                     setImageToView(data);
-
                     setHeadImage();
                     dialog.dismiss();
                 }
@@ -313,7 +343,7 @@ public class MeActivity extends BaseActivity {
                 //实例化Editor对象
                 SharedPreferences.Editor editor = preferences.edit();
                 //存入数据
-                editor.putString("faceimg",  URLs.IMAGE_FILE_NAME);
+                editor.putString("faceimg", URLs.IMAGE_FILE_NAME);
                 //提交修改
                 editor.commit();
             } catch (IOException e) {
@@ -378,13 +408,14 @@ public class MeActivity extends BaseActivity {
         });
 
     }
+
     private void setHeadImage() {
         mLoadingDialog.show();
-        String url=URLs.UPDATE_HEADIMAGE;
-        RequestParams params=new RequestParams(url);
-        params.addHeader("Content-Type","multipart/form-data");
-        params.addBodyParameter("secret_code",URLs.secret_code);
-        params.addBodyParameter("file", new File("/data/data/com.yrkj.yrlife/files/"+URLs.IMAGE_FILE_NAME));
+        String url = URLs.UPDATE_HEADIMAGE;
+        RequestParams params = new RequestParams(url);
+        params.addHeader("Content-Type", "multipart/form-data");
+        params.addBodyParameter("secret_code", URLs.secret_code);
+        params.addBodyParameter("file", new File("/data/data/com.yrkj.yrlife/files/" + URLs.IMAGE_FILE_NAME));
         params.setMultipart(true);
         x.http().post(params, new Callback.CommonCallback<String>() {
             @Override
@@ -400,7 +431,7 @@ public class MeActivity extends BaseActivity {
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                UIHelper.ToastMessage(appContext,ex.getMessage());
+                UIHelper.ToastMessage(appContext, ex.getMessage());
                 mLoadingDialog.dismiss();
             }
 
@@ -418,4 +449,43 @@ public class MeActivity extends BaseActivity {
 //    }.start();
 //
 //}
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,  String[] permissions,  int[] grantResults) {
+        switch (requestCode){
+            case MY_PERMISSIONS_CAMERA:
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Intent takeIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    //下面这句指定调用相机拍照后的照片存储的路径
+                    takeIntent.putExtra(MediaStore.EXTRA_OUTPUT,
+                            Uri.fromFile(new File(Environment.getExternalStorageDirectory(), IMAGE_FILE_NAME)));
+                    startActivityForResult(takeIntent, CAMERA_REQUEST_CODE);
+                } else {
+                    //用户不同意，向用户展示该权限作用
+                    if (!ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA)) {
+                        AlertDialog dialog = new AlertDialog.Builder(this)
+                                .setMessage("该相机需要赋予使用的权限，不开启将无法正常工作！")
+                                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        UIHelper.startAppSettings(appContext);
+                                    }
+                                })
+                                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        finish();
+                                    }
+                                }).create();
+                        dialog.show();
+                        return;
+                    }
+                }
+                break;
+            default:
+                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+    }
 }

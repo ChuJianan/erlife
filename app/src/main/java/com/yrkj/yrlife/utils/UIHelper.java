@@ -12,6 +12,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Handler;
 import android.os.Message;
+import android.provider.Settings;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Gravity;
@@ -61,6 +62,12 @@ public class UIHelper {
 
     public final static int REQUEST_CODE_FOR_RESULT = 0x01;
     public final static int REQUEST_CODE_FOR_REPLY = 0x02;
+    public static final String APP_ID = "wx4aca65f58fe822e2";//APP_ID是从网站申请的
+    public static final String App_Secret = "a7ad51d4b9bf60fd9d190618835e77f7";//密钥是从网站申请的
+    private static final String PACKAGE_URL_SCHEME = "package:"; // 方案
+    public  static  String OpenId="";
+    public  static  String access_token="";
+    public  static  String refresh_token="";
 
     public static String city = "";
     public static BDLocation location;
@@ -90,6 +97,16 @@ public class UIHelper {
             e.printStackTrace();
         }
         return packageInfo != null;
+    }
+
+    /**
+     * 打开系统应用
+     * @param context
+     */
+    public static void startAppSettings(Context context) {
+        Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+        intent.setData(Uri.parse(PACKAGE_URL_SCHEME + context.getPackageName()));
+        context.startActivity(intent);
     }
 
 

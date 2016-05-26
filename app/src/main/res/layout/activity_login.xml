@@ -140,7 +140,7 @@
                 android:paddingBottom="@dimen/space_5"
                 android:paddingLeft="@dimen/space_10"
                 android:paddingRight="@dimen/space_10"
-                android:id="@+id/button2"
+                android:id="@+id/wx_btn"
                 android:layout_alignParentTop="true"
                 android:layout_toRightOf="@+id/button"
                 android:layout_toEndOf="@+id/button" />

@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Paint;
 import android.os.Bundle;
-import android.os.Handler;
 import android.os.Message;
 import android.view.KeyEvent;
 import android.view.View;
@@ -13,12 +12,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.tencent.mm.sdk.modelmsg.SendAuth;
+import com.tencent.mm.sdk.openapi.IWXAPI;
+import com.tencent.mm.sdk.openapi.WXAPIFactory;
 import com.yrkj.yrlife.R;
-import com.yrkj.yrlife.app.AppException;
-import com.yrkj.yrlife.been.Result;
+import com.yrkj.yrlife.api.ApiClient;
 import com.yrkj.yrlife.been.URLs;
 import com.yrkj.yrlife.been.User;
-import com.yrkj.yrlife.db.UserDao;
 import com.yrkj.yrlife.utils.JsonUtils;
 import com.yrkj.yrlife.utils.StringUtils;
 import com.yrkj.yrlife.utils.UIHelper;
@@ -55,12 +55,16 @@ public class LoginActivity extends BaseActivity {
     private String result;
     private ProgressDialog mLoadingDialog;
     SharedPreferences preferences;
+    // IWXAPI 是第三方app和微信通信的openapi接口
+    private IWXAPI api;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // Set up the login form.
         x.view().inject(this);
+        // 通过WXAPIFactory工厂，获取IWXAPI的实例
+        api = WXAPIFactory.createWXAPI(this, UIHelper.APP_ID, false);
         preferences = getSharedPreferences("yrlife", MODE_WORLD_READABLE);
         init();
     }
@@ -95,9 +99,18 @@ public class LoginActivity extends BaseActivity {
         }
     }
 
+    @Event(R.id.wx_btn)
+    private void wxbtnEvent(View view) {
+        // send oauth request
+        SendAuth.Req req=new SendAuth.Req();
+        req.scope = "snsapi_userinfo";
+        req.state = ApiClient.getUserAgent(appContext);
+        api.sendReq(req);
+    }
+
     @Event(R.id.wjpwd)
-    private void wjpwdEvent(View view){
-        Intent intent=new Intent(this,FindPasswordActivity.class);
+    private void wjpwdEvent(View view) {
+        Intent intent = new Intent(this, FindPasswordActivity.class);
         startActivity(intent);
     }
 
@@ -108,19 +121,20 @@ public class LoginActivity extends BaseActivity {
     }
 
     private void login() {
-        RequestParams params =new RequestParams(URLs.LOGIN);
-        params.addQueryStringParameter("conditions",name);
-        params.addQueryStringParameter("pwd",password);
-        params.addQueryStringParameter("unique_phone_code",appContext.getAppId());
+        RequestParams params = new RequestParams(URLs.LOGIN);
+        params.addQueryStringParameter("conditions", name);
+        params.addQueryStringParameter("pwd", password);
+        params.addQueryStringParameter("unique_phone_code", appContext.getAppId());
         x.http().post(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String res) {
                 Message msg = new Message();
-                try{
+                try {
                     JSONObject json = new JSONObject(res);
                     msg.what = json.getInt("code");
                     msg.obj = json.getString("message");
-                    if (msg.what==1){
+                    UIHelper.ToastMessage(appContext,msg.obj.toString());
+                    if (msg.what == 1) {
                         result = json.getString("result");
                         User user = JsonUtils.fromJson(result, User.class);
                         //实例化Editor对象
@@ -141,15 +155,31 @@ public class LoginActivity extends BaseActivity {
                         } else {
                             editor.putString("sex", "男");
                         }
-                        if (!StringUtils.isEmpty(user.getSecret_code())){
-                            editor.putString("secret_code",user.getSecret_code());
-                            URLs.secret_code=user.getSecret_code();
+                        if (!StringUtils.isEmpty(user.getHead_image())) {
+                            editor.putString("head_image", user.getHead_image());
+                        } else {
+                            editor.putString("head_image", "");
+                        }
+                        if (!StringUtils.isEmpty(user.getWx_head_pic())) {
+                            editor.putString("wx_head_image", user.getWx_head_pic());
+                        } else {
+                            editor.putString("wx_head_image", "");
+                        }
+                        if (!StringUtils.isEmpty(user.getSecret_code())) {
+                            editor.putString("secret_code", user.getSecret_code());
+                            URLs.secret_code = user.getSecret_code();
+                        }
+                        if (StringUtils.isEmpty(user.getIsBind())){
+                            editor.putString("isBind",user.getIsBind());
+                        }else {
+                            editor.putString("isBind","");
                         }
                         editor.putLong("money", user.getTotal_balance().longValue());
+                        editor.putInt("jifen", user.getCard_total_point());
                         //提交修改
                         editor.commit();
                         finish();
-                    }else if (msg.what==2){
+                    } else if (msg.what == 2) {
                         mLoadingDialog.dismiss();
                     }
 
@@ -175,17 +205,19 @@ public class LoginActivity extends BaseActivity {
             }
         });
     }
+
     @Event(R.id.back)
-    private void backEvent(View view){
-        Intent intent=new Intent(LoginActivity.this,MainActivity.class);
+    private void backEvent(View view) {
+        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
         startActivity(intent);
         finish();
     }
+
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         boolean flag = true;
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             //是否退出应用
-           Intent intent=new Intent(LoginActivity.this,MainActivity.class);
+            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
             startActivity(intent);
             finish();
         } else {
@@ -193,5 +225,6 @@ public class LoginActivity extends BaseActivity {
         }
         return flag;
     }
+
 }
 

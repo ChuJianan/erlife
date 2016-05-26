@@ -15,8 +15,6 @@ import com.yrkj.yrlife.api.ApiClient;
 import com.yrkj.yrlife.app.AppException;
 import com.yrkj.yrlife.been.URLs;
 import com.yrkj.yrlife.been.User;
-import com.yrkj.yrlife.db.UserDao;
-import com.yrkj.yrlife.ui.fragment.VerifyDialogFragment;
 import com.yrkj.yrlife.utils.JsonUtils;
 import com.yrkj.yrlife.utils.StringUtils;
 import com.yrkj.yrlife.utils.TimeCount;
@@ -214,11 +212,26 @@ public class SignActivity extends BaseActivity {
                                 editor.putString("secret_code", user.getSecret_code());
                                 URLs.secret_code = user.getSecret_code();
                             }
+                            if (!StringUtils.isEmpty(user.getHead_image())){
+                                editor.putString("head_image",user.getHead_image());
+                            }else{
+                                editor.putString("head_image","");
+                            }
+                            if (!StringUtils.isEmpty(user.getWx_head_pic())){
+                                editor.putString("wx_head_image",user.getWx_head_pic());
+                            }else{
+                                editor.putString("wx_head_image","");
+                            }
+                            if (StringUtils.isEmpty(user.getIsBind())){
+                                editor.putString("isBind",user.getIsBind());
+                            }else {
+                                editor.putString("isBind","");
+                            }
+                            editor.putLong("money", user.getTotal_balance().longValue());
+                            editor.putInt("jifen", user.getCard_total_point());
                             //提交修改
                             editor.commit();
-                            if (UserDao.delete()) {
-                                UserDao.insert(user);
-                            }
+
                             finish();
                         } else if (msg.what == 2) {
                             UIHelper.ToastMessage(appContext, msg.obj.toString());

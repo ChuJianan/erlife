@@ -37,8 +37,13 @@ public class URLs extends Entity {
 	public static final String CONSUME=HOST+"wmmanager/app/pro1/app3/dealRecord?";//消费记录
 	public static final String PAY=HOST+"wmmanager/app/pro1/app2/recharge";//消费记录
 	public static final String FindPWD=HOST+"wmmanager/app/pro1/app3/updatePassword?";//修改，找回密码
+	public static final String Thread_Login=HOST+"wmmanager/app/pro1/app2/third_Party_Logins?";//第三方登陆
 
 
+
+	public static final String WX_ACCESS_TOKEN="https://api.weixin.qq.com/sns/oauth2/access_token?";//获取access_token appid应用唯一标识 secret应用密钥AppSecret code填写第一步获取的code参数 grant_type填authorization_code
+	public static final String WX_USER_INFO="https://api.weixin.qq.com/sns/userinfo?";//获取userinfo access_token调用凭证 openid普通用户的标识，对当前开发者帐号唯一  lang国家地区语言版本，zh_CN 简体，zh_TW 繁体，en 英语，默认为zh-CN
+	public static final String WX_REFRESH_TOKEN="https://api.weixin.qq.com/sns/oauth2/refresh_token?";//获取userinfo appid应用唯一标识 grant_type填refresh_token refresh_token填写通过access_token获取到的refresh_token参数
 
 
 	public static final String UPDATE = HOST ;			//更新地址

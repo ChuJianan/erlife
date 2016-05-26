@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 import com.yrkj.yrlife.R;
 import com.yrkj.yrlife.been.URLs;
-import com.yrkj.yrlife.db.UserDao;
 import com.yrkj.yrlife.utils.StringUtils;
 import com.yrkj.yrlife.utils.UIHelper;
 
@@ -114,7 +113,6 @@ public class NameActivity extends BaseActivity {
                         editor.putString("name", name);
                         //提交修改
                         editor.commit();
-                        UserDao.update(phone, name, "name");
                         finish();
                     } else if (msg.what == 2) {
                         UIHelper.ToastMessage(NameActivity.this, msg.obj.toString());

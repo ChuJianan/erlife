@@ -134,6 +134,7 @@ public class BinCardActivity extends BaseActivity {
                     UIHelper.ToastMessage(appContext, message);
                     if (code==2){
                         timer.onFinish();
+                        timer.cancel();
                         codeBtn.setText("发送验证码");
                     }
                 } catch (JSONException e) {
@@ -151,6 +152,7 @@ public class BinCardActivity extends BaseActivity {
                 UIHelper.ToastMessage(appContext, ex.getMessage());
                 code="";
                 timer.onFinish();
+                timer.cancel();
                 codeBtn.setText("获取验证码");
             }
 
@@ -162,8 +164,8 @@ public class BinCardActivity extends BaseActivity {
     }
 
     private void getCode(final String phone) {
-        RequestParams params = new RequestParams(URLs.CODE_GET);
-        params.addQueryStringParameter("phone", phone);
+        RequestParams params = new RequestParams(URLs.CODE_GET+phone);
+//        params.addQueryStringParameter("phone", phone);
         x.http().get(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String s) {
@@ -175,6 +177,7 @@ public class BinCardActivity extends BaseActivity {
                 } else {
                     code="";
                     timer.onFinish();
+                    timer.cancel();
                     codeBtn.setText("获取验证码");
                 }
             }
@@ -184,6 +187,7 @@ public class BinCardActivity extends BaseActivity {
                 mLoadingDialog.dismiss();
                 code="";
                 timer.onFinish();
+                timer.cancel();
                 codeBtn.setText("获取验证码");
             }
 
