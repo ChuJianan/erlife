@@ -128,7 +128,7 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
                 weixinuser = JsonUtils.fromJson(result, WeixinUsers.class);
                 if (weixinuser.getErrcode() == 0) {
                     SharedPreferences.Editor editor = preferences.edit();
-                    editor.putString("name", weixinuser.getNickname());
+                    editor.putString("nick_name", weixinuser.getNickname());
                     if (weixinuser.getSex() == 1) {
                         editor.putString("sex", "男");
                     } else if (weixinuser.getSex() == 2) {
@@ -234,6 +234,7 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
                 UIHelper.ToastMessage(appContext,ex.getMessage());
+                finish();
             }
 
             @Override

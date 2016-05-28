@@ -1,8 +1,10 @@
 package com.yrkj.yrlife.app;
 
+import android.app.ActivityManager;
 import android.app.Application;
 import android.app.Service;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -12,8 +14,15 @@ import android.net.NetworkInfo;
 import android.net.wifi.WifiManager;
 import android.os.Environment;
 import android.os.Vibrator;
+import android.util.Log;
 
 import com.baidu.mapapi.SDKInitializer;
+import com.tencent.android.tpush.XGIOperateCallback;
+import com.tencent.android.tpush.XGNotifaction;
+import com.tencent.android.tpush.XGPushConfig;
+import com.tencent.android.tpush.XGPushManager;
+import com.tencent.android.tpush.XGPushNotifactionCallback;
+import com.tencent.android.tpush.service.XGPushService;
 import com.tencent.bugly.crashreport.CrashReport;
 import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
@@ -24,6 +33,7 @@ import com.yrkj.yrlife.utils.QRCodeUtil;
 import com.yrkj.yrlife.utils.StringUtils;
 import com.yrkj.yrlife.utils.UIHelper;
 
+import org.apache.http.conn.util.InetAddressUtils;
 import org.xutils.DbManager;
 import org.xutils.x;
 
@@ -35,7 +45,12 @@ import java.io.IOException;
 import java.io.InvalidClassException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
+import java.net.InetAddress;
+import java.net.NetworkInterface;
+import java.net.SocketException;
+import java.util.Enumeration;
 import java.util.Hashtable;
+import java.util.List;
 import java.util.Properties;
 import java.util.UUID;
 
@@ -84,6 +99,23 @@ public class YrApplication extends Application {
         api = WXAPIFactory.createWXAPI(this, null);
         //将应用的appid注册到微信
         api.registerApp(UIHelper.APP_ID);
+
+        XGPushConfig.setAccessId(this, 2100201810);
+        XGPushConfig.setAccessKey(this, "AVLW18B43D2S");
+//        XGPushConfig.enableDebug(this, true);
+//        XGPushManager.registerPush(this, "UserAccount");
+        XGPushManager.registerPush(this, new XGIOperateCallback() {
+            @Override
+            public void onSuccess(Object data, int flag) {
+                Log.d("TPush", "注册成功，设备token为：" + data);
+            }
+
+            @Override
+            public void onFail(Object data, int errCode, String msg) {
+                Log.d("TPush", "注册失败，错误码：" + errCode + ",错误信息：" + msg);
+            }
+        });
+//        Log.d("uuid", XGPushConfig.getToken(this));
     }
 
 
@@ -134,6 +166,38 @@ public class YrApplication extends Application {
             netType = NETTYPE_WIFI;
         }
         return netType;
+    }
+
+    /**
+     * 获取ip地址
+     *
+     * @return
+     */
+    public String getLocalHostIp() {
+        String ipaddress = "";
+        try {
+            Enumeration<NetworkInterface> en = NetworkInterface
+                    .getNetworkInterfaces();
+            // 遍历所用的网络接口
+            while (en.hasMoreElements()) {
+                NetworkInterface nif = en.nextElement();// 得到每一个网络接口绑定的所有ip
+                Enumeration<InetAddress> inet = nif.getInetAddresses();
+                // 遍历每一个接口绑定的所有ip
+                while (inet.hasMoreElements()) {
+                    InetAddress ip = inet.nextElement();
+                    if (!ip.isLoopbackAddress()
+                            && InetAddressUtils.isIPv4Address(ip
+                            .getHostAddress())) {
+                        return ipaddress = "本机的ip是" + "：" + ip.getHostAddress();
+                    }
+                }
+
+            }
+        } catch (SocketException e) {
+            Log.e("feige", "获取本地ip地址失败");
+            e.printStackTrace();
+        }
+        return ipaddress;
     }
 
     /**

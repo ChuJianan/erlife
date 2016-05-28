@@ -27,14 +27,14 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="褚佳楠"
+            android:text=""
             android:textSize="@dimen/text_size_16"
             android:id="@+id/user_name_text" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="13165094770"
+            android:text=""
             android:id="@+id/phone_text"
             android:paddingLeft="@dimen/space_10"
             android:textSize="@dimen/text_size_16"

@@ -168,8 +168,9 @@ public class UIHelper {
     }
 
 
-    public static void openLogin(Activity activity) {
+    public static void openLogin(Activity activity,boolean isMe) {
         Intent intent = new Intent(activity, LoginActivity.class);
+        intent.putExtra("isme",isMe);
         activity.startActivity(intent);
     }
 

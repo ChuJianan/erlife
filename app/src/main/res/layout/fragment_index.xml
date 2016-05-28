@@ -4,6 +4,7 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     android:orientation="vertical">
+
     <ScrollView
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
@@ -34,11 +35,143 @@
                 android:scrollbars="none"
                 android:gravity="center"
                 />
-         <WebView
-             android:layout_width="match_parent"
-             android:layout_height="match_parent"
-             android:id="@+id/center_webView"
-             />
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/space_3"
+                android:background="@color/graywhite"
+                android:weightSum="1">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scaleType="fitXY"
+                    android:src="@mipmap/banner_c"
+                    android:id="@+id/imageView6"
+                     />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingRight="@dimen/space_3"
+                >
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/imageView11"
+                    android:src="@mipmap/bankazhinan" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:id="@+id/imageView35"
+                    android:scaleType="fitXY"
+                    android:src="@mipmap/ic_cline" />
+
+                <LinearLayout
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:weightSum="1">
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/imageView19"
+                        android:src="@mipmap/tehuizhuanqu"
+                        />
+
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="2dp"
+                        android:scaleType="fitXY"
+                        android:id="@+id/imageView36"
+                        android:src="@mipmap/ic_line" />
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/imageView20"
+                            android:scaleType="fitXY"
+                            android:layout_weight="0.1"
+                            android:src="@mipmap/xinshouyouli" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/imageView37"
+                            android:soundEffectsEnabled="false"
+                            android:src="@mipmap/ic_cline"
+                            android:visibility="gone"
+                            />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:scaleType="fitXY"
+                            android:layout_weight="0.1"
+                            android:id="@+id/imageView34"
+                            android:src="@mipmap/jifenguize" />
+                    </LinearLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/space_5"
+                android:paddingTop="@dimen/space_3"
+                android:paddingBottom="@dimen/space_3"
+                android:background="@color/xinshou_bg"
+                android:layout_marginLeft="@dimen/space_3"
+                android:layout_marginRight="@dimen/space_3"
+                >
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/imageView38"
+                    android:src="@mipmap/xinshou_line" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="新手福利"
+                    android:id="@+id/textView14"
+                    android:layout_marginLeft="@dimen/space_6"
+                    android:textColor="@color/xinshou"
+                    android:textSize="@dimen/text_size_22"
+                    />
+            </LinearLayout>
+
+            <com.yrkj.yrlife.widget.MyGridView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/shop_gridView"
+                android:horizontalSpacing="0.0dip"
+                android:listSelector="@null"
+                android:columnWidth="120dp"
+                android:numColumns="3"
+                android:cacheColorHint="@color/white"
+                android:scrollbars="none"
+                android:gravity="center"
+                android:paddingTop="@dimen/space_5"
+                android:stretchMode="columnWidth"
+                android:verticalSpacing="0.0dip"
+                />
+
         </LinearLayout>
     </ScrollView>
+
 </LinearLayout>

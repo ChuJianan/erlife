@@ -9,6 +9,8 @@ import android.content.res.AssetManager;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
@@ -28,6 +30,10 @@ import android.widget.Toast;
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.Poi;
+import com.tencent.android.tpush.XGIOperateCallback;
+import com.tencent.android.tpush.XGPushConfig;
+import com.tencent.android.tpush.XGPushManager;
+import com.tencent.android.tpush.common.Constants;
 import com.yrkj.yrlife.R;
 import com.yrkj.yrlife.app.AppManager;
 import com.yrkj.yrlife.app.YrApplication;
@@ -44,6 +50,8 @@ import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
+
+import java.lang.ref.WeakReference;
 
 
 @ContentView(value = R.layout.activity_main)
@@ -66,12 +74,13 @@ public class MainActivity extends FragmentActivity {
             R.drawable.main_tab_item_category, R.drawable.main_tab_item_down,
             R.drawable.main_tab_item_user};
     // Tab选项卡的文字
-    private String mTextviewArray[] = {"主页", "附近", "卡券", "我的"};
+    private String mTextviewArray[] = {"主页", "洗车", "消息", "我的"};
 
     @ViewInject(R.id.title_home)
     TextView title_home;
     @ViewInject(R.id.location_text)
     TextView LocationResult;
+    Message m = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,12 +96,12 @@ public class MainActivity extends FragmentActivity {
 
         application = (YrApplication) getApplication();
 
-        Log.i("uuid", application.getAppId());
-
 
         //检测新版本
 //        UpdateManager.getUpdateManager().checkAppUpdate(this,false);
     }
+
+
 
     private void insertDummyContactWrapper() {
         int hasWriteContactsPermission = ContextCompat.checkSelfPermission(MainActivity.this,

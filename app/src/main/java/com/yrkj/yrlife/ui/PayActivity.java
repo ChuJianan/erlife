@@ -59,18 +59,7 @@ public class PayActivity extends BaseActivity {
         x.view().inject(this);
         title.setText("会员充值");
         preferences = this.getSharedPreferences("yrlife", this.MODE_WORLD_READABLE);
-        String name = preferences.getString("name", "");
-        String phone = preferences.getString("phone", "");
-        mon = preferences.getLong("money", 0);
-        if (name != "" && !name.equals("")) {
-            nameText.setText(name);
-        }
-        if (phone != "" && !phone.equals("")) {
-            phoneText.setText(phone);
-        }
-        money = mon + "";
-        moneyText.setText(money);
-        money = null;
+
 
         payType.setOnCheckedChangeListener(new android.widget.RadioGroup.OnCheckedChangeListener() {
             @Override
@@ -118,6 +107,27 @@ public class PayActivity extends BaseActivity {
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        String name = preferences.getString("name", "");
+        String nick_name=preferences.getString("nick_name","");
+        String phone = preferences.getString("phone", "");
+        mon = preferences.getLong("money", 0);
+        if (name != "" && !name.equals("")) {
+            nameText.setText(name);
+        }else if(nick_name!=""&&nick_name!=null){
+            nameText.setText(nick_name);
+        }
+        if (phone != "" && !phone.equals("")) {
+            phoneText.setText(phone);
+        }else {
+            phoneText.setText("");
+        }
+        money = mon + "";
+        moneyText.setText(money);
+        money = null;
+    }
 
     @Event(R.id.pay_btn)
     private void payEvent(View view) {

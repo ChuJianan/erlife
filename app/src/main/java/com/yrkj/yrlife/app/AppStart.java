@@ -42,9 +42,6 @@ public class AppStart extends AppCompatActivity {
         //读取SharedPreferences中需要的数据
         preferences = getSharedPreferences("yrlife", MODE_WORLD_READABLE);
         isFirstUse = preferences.getBoolean("isFirstUse", true);
-
-        new Thread() {
-            public void run() {
                 final Message msg = new Message();
                 if (isFirstUse) {
                     msg.what = GO_SHARE;
@@ -72,6 +69,11 @@ public class AppStart extends AppCompatActivity {
                                     editor.putString("name", user.getAccount());
                                 } else {
                                     editor.putString("name", user.getReal_name());
+                                }
+                                if (StringUtils.isEmpty(user.getNick_name())){
+                                    editor.putString("nick_name", user.getNick_name());
+                                }else {
+                                    editor.putString("nick_name", "");
                                 }
                                 editor.putString("phone", user.getPhone());
                                 if (!StringUtils.isEmpty(user.getSex())) {
@@ -128,36 +130,44 @@ public class AppStart extends AppCompatActivity {
 
                     @Override
                     public void onFinished() {
-
+//                        mHandler.sendMessage(msg);
+                        switch (msg.what) {
+                            case GO_HOME:
+                                goHome();
+                                break;
+                            case GO_SHARE:
+                                goShare();
+                                break;
+                        }
                     }
 
                     @Override
                     public void onError(Throwable ex, boolean isOnCallback) {
-
+                        URLs.secret_code = "";
+                        //实例化Editor对象
+                        SharedPreferences.Editor editor = preferences.edit();
+                        editor.putString("secret_code", "");
+                        //提交修改
+                        editor.commit();
                     }
                 });
-                mHandler.sendMessage(msg);
-            }
-
-            ;
-        }.start();
     }
 
-    private Handler mHandler = new Handler() {
-
-        @Override
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case GO_HOME:
-                    goHome();
-                    break;
-                case GO_SHARE:
-                    goShare();
-                    break;
-            }
-//            super.handleMessage(msg);
-        }
-    };
+//    private Handler mHandler = new Handler() {
+//
+//        @Override
+//        public void handleMessage(Message msg) {
+//            switch (msg.what) {
+//                case GO_HOME:
+//                    goHome();
+//                    break;
+//                case GO_SHARE:
+//                    goShare();
+//                    break;
+//            }
+////            super.handleMessage(msg);
+//        }
+//    };
 
     private void goHome() {
         Intent intent = new Intent(this, MainActivity.class);

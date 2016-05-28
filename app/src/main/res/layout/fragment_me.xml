@@ -7,11 +7,11 @@
 
     <RelativeLayout
         android:id="@+id/me_top_rl"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@mipmap/ic_me_top"
-        android:gravity="bottom"
-        android:paddingBottom="@dimen/space_20"
+        android:gravity="center"
+        android:paddingBottom="@dimen/space_2"
         android:paddingLeft="@dimen/space_28">
 
         <LinearLayout
@@ -44,6 +44,7 @@
             android:id="@+id/me_img"
             android:layout_width="60dp"
             android:layout_height="60dp"
+            android:layout_marginTop="@dimen/space_7"
             android:scaleType="centerInside"
             android:src="@mipmap/ic_me_tx" />
 
@@ -52,19 +53,19 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBottom="@+id/me_img"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignTop="@+id/me_img"
+            android:gravity="left"
+            android:paddingTop="@dimen/space_3"
+            android:paddingLeft="@dimen/space_8"
             android:layout_toRightOf="@+id/me_img"
-            android:gravity="center|left"
-            android:padding="@dimen/space_10"
-            android:paddingRight="@dimen/space_10">
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@+id/set_rl">
 
             <TextView
                 android:id="@+id/name_textView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="亿客"
+                android:text=""
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_size_16" />
 
@@ -87,9 +88,10 @@
                 android:layout_alignTop="@+id/name_textView"
                 android:layout_toEndOf="@+id/name_textView"
                 android:layout_toRightOf="@+id/name_textView"
+                android:layout_marginLeft="@dimen/space_5"
                 android:gravity="center"
                 android:paddingLeft="@dimen/space_10"
-                android:text="13165094770"
+                android:text=""
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_size_16" />
 
@@ -121,14 +123,12 @@
                 android:id="@+id/textView3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignBottom="@+id/money_text"
-                android:layout_marginLeft="8dp"
-                android:layout_marginStart="@dimen/space_20"
-                android:layout_toEndOf="@+id/phone_textView"
-                android:layout_toRightOf="@+id/phone_textView"
                 android:text="积分："
                 android:textColor="@color/white"
-                android:textSize="@dimen/text_size_16" />
+                android:textSize="@dimen/text_size_16"
+                android:layout_alignTop="@+id/textView11"
+                android:layout_toRightOf="@+id/textView11"
+                android:layout_toEndOf="@+id/textView11" />
 
             <TextView
                 android:id="@+id/jifen_text"
@@ -140,6 +140,27 @@
                 android:text="200"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_size_16" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:id="@+id/textView11"
+                android:visibility="invisible"
+                android:layout_alignTop="@+id/money_text"
+                android:layout_centerHorizontal="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="积分"
+                android:id="@+id/textView13"
+                android:textSize="@dimen/text_size_16"
+                android:textColor="@color/white"
+                android:layout_marginLeft="@dimen/space_3"
+                android:layout_alignTop="@+id/jifen_text"
+                android:layout_toRightOf="@+id/jifen_text"
+                android:layout_toEndOf="@+id/jifen_text" />
         </RelativeLayout>
 
 

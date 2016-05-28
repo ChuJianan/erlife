@@ -105,11 +105,16 @@ public class MeActivity extends BaseActivity {
         String faceimg = preferences.getString("faceimg", "");
         String head_image = preferences.getString("head_image", "");
         String wx_head_image = preferences.getString("wx_head_image", "");
+        String nick_name=preferences.getString("nick_name","");
         if (name != "" && !name.equals("")) {
             nameText.setText(name);
+        }else if(nick_name!=""&&nick_name!=null){
+            nameText.setText(nick_name);
         }
         if (phone != "" && !phone.equals("")) {
             phoneText.setText(phone);
+        }else{
+            phoneText.setText("");
         }
         if (sex != null && sex != "" && !sex.equals("")) {
             sexText.setText(sex);
@@ -130,10 +135,6 @@ public class MeActivity extends BaseActivity {
 
     @Event(R.id.avatarImg)
     private void avatarImgEvent(View view) {
-//        Intent intentFromGallery = new Intent();
-//        intentFromGallery.setType("image/*"); // 设置文件类型
-//        intentFromGallery.setAction(Intent.ACTION_GET_CONTENT);
-//        startActivityForResult(intentFromGallery, IMAGE_REQUEST_CODE);
         showDialog();
     }
 

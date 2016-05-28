@@ -57,12 +57,15 @@ public class LoginActivity extends BaseActivity {
     SharedPreferences preferences;
     // IWXAPI 是第三方app和微信通信的openapi接口
     private IWXAPI api;
+    private boolean isMe=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // Set up the login form.
         x.view().inject(this);
+        Intent intent=getIntent();
+        isMe=intent.getBooleanExtra("isme",false);
         // 通过WXAPIFactory工厂，获取IWXAPI的实例
         api = WXAPIFactory.createWXAPI(this, UIHelper.APP_ID, false);
         preferences = getSharedPreferences("yrlife", MODE_WORLD_READABLE);
@@ -145,6 +148,11 @@ public class LoginActivity extends BaseActivity {
                         } else {
                             editor.putString("name", user.getReal_name());
                         }
+                        if (StringUtils.isEmpty(user.getNick_name())){
+                            editor.putString("nick_name", user.getNick_name());
+                        }else {
+                            editor.putString("nick_name", "");
+                        }
                         editor.putString("phone", user.getPhone());
                         if (!StringUtils.isEmpty(user.getSex())) {
                             if (user.getSex().equals("1")) {
@@ -208,20 +216,27 @@ public class LoginActivity extends BaseActivity {
 
     @Event(R.id.back)
     private void backEvent(View view) {
+        if (!isMe){
         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
         startActivity(intent);
         finish();
+        }else {
+            finish();
+        }
     }
 
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         boolean flag = true;
+        if (isMe){
+            finish();
+        }else {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            //是否退出应用
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
             startActivity(intent);
             finish();
         } else {
             flag = super.onKeyDown(keyCode, event);
+        }
         }
         return flag;
     }

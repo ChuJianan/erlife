@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="80dp"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:paddingTop="@dimen/space_5"
+    android:paddingBottom="@dimen/space_5"
+    android:background="@drawable/gridview_bg"
+    >
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="洗护套装"
+        android:textSize="@dimen/text_size_16"
+        android:gravity="center"
+        android:textColor="@color/shop_item"
+        android:id="@+id/name" />
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/icon"
+        android:gravity="center"
+        android:layout_marginTop="@dimen/space_3"
+        android:src="@mipmap/xihutaozhuang"/>
+
+
+</LinearLayout>

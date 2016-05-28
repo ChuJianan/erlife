@@ -13,8 +13,8 @@ public class URLs extends Entity {
 	public static  String secret_code="";
 //	public static String ImageByte="";
 	public static String IMAGE_FILE_NAME="";
-	public static final String HOST = "http://192.168.0.106:8080/";
-//	public static final String HOST = "http://119.10.48.101/";
+//	public static final String HOST = "http://192.168.0.106:8080/";
+	public static final String HOST = "http://119.10.48.101/";
 
 	public static final String APP_INIT = HOST+"wmmanager/app/pro1/app1/addMember";		//应用初始化地址
 	public static final String HOME_ADS = HOST ;		//首页广告地址

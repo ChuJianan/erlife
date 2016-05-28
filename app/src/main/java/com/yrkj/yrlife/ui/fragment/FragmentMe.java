@@ -59,6 +59,8 @@ public class FragmentMe extends BaseFragment {
     private  TextView money_textView;
     @ViewInject(R.id.jifen_text)
     private TextView jifen_textView;
+    @ViewInject(R.id.textView13)
+    private TextView textView13;
     @ViewInject(R.id.textView3)
     private TextView textView3;
 
@@ -72,7 +74,7 @@ public class FragmentMe extends BaseFragment {
         ls = (LinearLayout) getActivity().findViewById(R.id.ssss);
         ls.setVisibility(View.GONE);
         if (StringUtils.isEmpty(URLs.secret_code)){
-            UIHelper.openLogin(getActivity());
+            UIHelper.openLogin(getActivity(),false);
         }
     }
 
@@ -85,6 +87,7 @@ public class FragmentMe extends BaseFragment {
             phoneText.setVisibility(View.VISIBLE);
             textView2.setVisibility(View.VISIBLE);
             textView3.setVisibility(View.VISIBLE);
+            textView13.setVisibility(View.VISIBLE);
             money_textView.setVisibility(View.VISIBLE);
             jifen_textView.setVisibility(View.VISIBLE);
             SharedPreferences preferences = yrApplication.getSharedPreferences("yrlife", yrApplication.MODE_WORLD_READABLE);
@@ -93,13 +96,18 @@ public class FragmentMe extends BaseFragment {
             String faceimg = preferences.getString("faceimg", "");
             String head_image=preferences.getString("head_image","");
             String wx_head_image=preferences.getString("wx_head_image","");
+            String nick_name=preferences.getString("nick_name","");
             long money=preferences.getLong("money",0);
             int  jifen=preferences.getInt("jifen",0);
             if (name != "" && !name.equals("")) {
                 nameText.setText(name);
+            }else if(nick_name!=""&&nick_name!=null){
+                nameText.setText(nick_name);
             }
             if (phone != "" && !phone.equals("")) {
                 phoneText.setText(phone);
+            }else{
+                phoneText.setText("");
             }
             if (StringUtils.isEmpty(head_image)){
                 if (StringUtils.isEmpty(wx_head_image)){
@@ -116,11 +124,12 @@ public class FragmentMe extends BaseFragment {
             money_textView.setText(money+"");
             jifen_textView.setText(jifen+"");
         } else {
-            meImg.setImageResource(R.mipmap.ic_me_tx);
+            meImg.setImageResource(R.mipmap.ic_launcher);
             nameText.setVisibility(View.GONE);
             textView2.setVisibility(View.GONE);
             phoneText.setVisibility(View.GONE);
             textView3.setVisibility(View.GONE);
+            textView13.setVisibility(View.GONE);
             money_textView.setVisibility(View.GONE);
             jifen_textView.setVisibility(View.GONE);
             login_textView.setVisibility(View.VISIBLE);
@@ -131,7 +140,7 @@ public class FragmentMe extends BaseFragment {
     @Event(R.id.me_rl)
     private void merlEvent(View view){
         if (URLs.secret_code==""){
-            UIHelper.openLogin(getActivity());
+            UIHelper.openLogin(getActivity(),false);
         }
     }
 
@@ -143,7 +152,7 @@ public class FragmentMe extends BaseFragment {
     private void onRlcvzClick(View view) {
 //        UIHelper.ToastMessage(getActivity(),"正在开发...");
         if (StringUtils.isEmpty(URLs.secret_code)) {
-            UIHelper.openLogin(getActivity());
+            UIHelper.openLogin(getActivity(),false);
         } else {
             Intent intent = new Intent(getActivity(), PayActivity.class);
             startActivity(intent);
@@ -157,7 +166,7 @@ public class FragmentMe extends BaseFragment {
     @Event(R.id.rl_bin)
     private void onRlbinClick(View view) {
         if (StringUtils.isEmpty(URLs.secret_code)) {
-            UIHelper.openLogin(getActivity());
+            UIHelper.openLogin(getActivity(),false);
         } else {
             Intent intent = new Intent(getActivity(), BinCardActivity.class);
             startActivity(intent);
@@ -171,7 +180,7 @@ public class FragmentMe extends BaseFragment {
     @Event(R.id.pay_rl)
     private void onPayrlClick(View view) {
         if (StringUtils.isEmpty(URLs.secret_code)) {
-            UIHelper.openLogin(getActivity());
+            UIHelper.openLogin(getActivity(),false);
         } else {
             Intent intent = new Intent(getActivity(), CzlistActivity.class);
             startActivity(intent);
@@ -185,7 +194,7 @@ public class FragmentMe extends BaseFragment {
     @Event(R.id.cost_rl)
     private void onCostrlClick(View view) {
         if (StringUtils.isEmpty(URLs.secret_code)) {
-            UIHelper.openLogin(getActivity());
+            UIHelper.openLogin(getActivity(),false);
         } else {
             Intent intent = new Intent(getActivity(), ConsumerActivity.class);
             startActivity(intent);

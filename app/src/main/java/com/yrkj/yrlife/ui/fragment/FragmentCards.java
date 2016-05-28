@@ -47,7 +47,7 @@ public class FragmentCards extends BaseFragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         if (StringUtils.isEmpty(URLs.secret_code)) {
-            UIHelper.openLogin(getActivity());
+            UIHelper.openLogin(getActivity(),false);
         } else {
             init();
             getData();
