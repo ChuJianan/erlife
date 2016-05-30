@@ -42,115 +42,135 @@ public class AppStart extends AppCompatActivity {
         //读取SharedPreferences中需要的数据
         preferences = getSharedPreferences("yrlife", MODE_WORLD_READABLE);
         isFirstUse = preferences.getBoolean("isFirstUse", true);
-                final Message msg = new Message();
-                if (isFirstUse) {
-                    msg.what = GO_SHARE;
+        final Message msg = new Message();
+        if (isFirstUse) {
+            msg.what = GO_SHARE;
 //                    mHandler.sendEmptyMessageDelayed(GO_SHARE, SPLASH_DELAY_MILLIS);
-                } else {
-                    msg.what = GO_HOME;
+        } else {
+            msg.what = GO_HOME;
 //                    mHandler.sendEmptyMessageDelayed(GO_HOME,SPLASH_DELAY_MILLIS);
-                }
-                String url = URLs.SECRET_CODE;
-                RequestParams params = new RequestParams(url);
-                params.addQueryStringParameter("secret_code", URLs.secret_code);
-                x.http().get(params, new Callback.CommonCallback<String>() {
-                    @Override
-                    public void onSuccess(String res) {
-                        try {
-                            JSONObject jsonObject = new JSONObject(res);
-                            msg.arg1 = jsonObject.getInt("code");
-                            String message = jsonObject.getString("message");
-                            if (msg.arg1 == 1) {
-                               String result = jsonObject.getString("result");
-                                User user = JsonUtils.fromJson(result, User.class);
-                                SharedPreferences.Editor editor = preferences.edit();
-                                //存入数据
-                                if (StringUtils.isEmpty(user.getReal_name())) {
-                                    editor.putString("name", user.getAccount());
-                                } else {
-                                    editor.putString("name", user.getReal_name());
-                                }
-                                if (StringUtils.isEmpty(user.getNick_name())){
-                                    editor.putString("nick_name", user.getNick_name());
-                                }else {
-                                    editor.putString("nick_name", "");
-                                }
-                                editor.putString("phone", user.getPhone());
-                                if (!StringUtils.isEmpty(user.getSex())) {
-                                    if (user.getSex().equals("1")) {
-                                        editor.putString("sex", "男");
-                                    } else if (user.getSex().equals("0")) {
-                                        editor.putString("sex", "女");
-                                    }
-                                } else {
-                                    editor.putString("sex", "男");
-                                }
-                                if (!StringUtils.isEmpty(user.getHead_image())){
-                                    editor.putString("head_image",user.getHead_image());
-                                }else{
-                                    editor.putString("head_image","");
-                                }
-                                if (!StringUtils.isEmpty(user.getSecret_code())){
-                                    editor.putString("secret_code",user.getSecret_code());
-                                    URLs.secret_code=user.getSecret_code();
-                                }
-                                if (!StringUtils.isEmpty(user.getWx_head_pic())){
-                                    editor.putString("wx_head_image",user.getWx_head_pic());
-                                }else{
-                                    editor.putString("wx_head_image","");
-                                }
-                                if (StringUtils.isEmpty(user.getIsBind())){
-                                    editor.putString("isBind",user.getIsBind());
-                                }else {
-                                    editor.putString("isBind","");
-                                }
-                                editor.putLong("money", user.getTotal_balance().longValue());
-                                editor.putInt("jifen", user.getCard_total_point());
-                                //提交修改
-                                editor.putString("user", jsonObject.getString("result"));
-                                editor.commit();
-                            } else if (msg.arg1 == 2) {
-                                URLs.secret_code = "";
-                                //实例化Editor对象
-                                SharedPreferences.Editor editor = preferences.edit();
-                                editor.putString("secret_code", "");
-                                //提交修改
-                                editor.commit();
+        }
+        if (URLs.secret_code != "") {
+            String url = URLs.SECRET_CODE;
+            RequestParams params = new RequestParams(url);
+            params.addQueryStringParameter("secret_code", URLs.secret_code);
+            x.http().get(params, new Callback.CommonCallback<String>() {
+                @Override
+                public void onSuccess(String res) {
+                    try {
+                        JSONObject jsonObject = new JSONObject(res);
+                        msg.arg1 = jsonObject.getInt("code");
+                        String message = jsonObject.getString("message");
+                        if (msg.arg1 == 1) {
+                            String result = jsonObject.getString("result");
+                            User user = JsonUtils.fromJson(result, User.class);
+                            SharedPreferences.Editor editor = preferences.edit();
+                            //存入数据
+                            if (StringUtils.isEmpty(user.getReal_name())) {
+                                editor.putString("name", user.getAccount());
+                            } else {
+                                editor.putString("name", user.getReal_name());
                             }
-                        } catch (JSONException e) {
-
+                            if (StringUtils.isEmpty(user.getNick_name())) {
+                                editor.putString("nick_name", user.getNick_name());
+                            } else {
+                                editor.putString("nick_name", "");
+                            }
+                            editor.putString("phone", user.getPhone());
+                            if (!StringUtils.isEmpty(user.getSex())) {
+                                if (user.getSex().equals("1")) {
+                                    editor.putString("sex", "男");
+                                } else if (user.getSex().equals("0")) {
+                                    editor.putString("sex", "女");
+                                }
+                            } else {
+                                editor.putString("sex", "男");
+                            }
+                            if (!StringUtils.isEmpty(user.getHead_image())) {
+                                editor.putString("head_image", user.getHead_image());
+                            } else {
+                                editor.putString("head_image", "");
+                            }
+                            if (!StringUtils.isEmpty(user.getSecret_code())) {
+                                editor.putString("secret_code", user.getSecret_code());
+                                URLs.secret_code = user.getSecret_code();
+                            }
+                            if (!StringUtils.isEmpty(user.getWx_head_pic())) {
+                                editor.putString("wx_head_image", user.getWx_head_pic());
+                            } else {
+                                editor.putString("wx_head_image", "");
+                            }
+                            if (StringUtils.isEmpty(user.getIsBind())) {
+                                editor.putString("isBind", user.getIsBind());
+                            } else {
+                                editor.putString("isBind", "");
+                            }
+                            if (user.getTotal_balance() == null) {
+                                editor.putLong("money", 0);
+                            } else {
+                                editor.putLong("money", user.getTotal_balance().longValue());
+                            }
+                            editor.putInt("jifen", user.getCard_total_point());
+                            //提交修改
+                            editor.putString("user", jsonObject.getString("result"));
+                            editor.commit();
+                        } else if (msg.arg1 == 2) {
+                            URLs.secret_code = "";
+                            //实例化Editor对象
+                            SharedPreferences.Editor editor = preferences.edit();
+                            editor.putString("secret_code", "");
+                            //提交修改
+                            editor.commit();
                         }
+                    } catch (JSONException e) {
 
                     }
 
-                    @Override
-                    public void onCancelled(CancelledException cex) {
+                }
 
-                    }
+                @Override
+                public void onCancelled(CancelledException cex) {
 
-                    @Override
-                    public void onFinished() {
+                }
+
+                @Override
+                public void onFinished() {
 //                        mHandler.sendMessage(msg);
-                        switch (msg.what) {
-                            case GO_HOME:
-                                goHome();
-                                break;
-                            case GO_SHARE:
-                                goShare();
-                                break;
-                        }
+                    switch (msg.what) {
+                        case GO_HOME:
+                            goHome();
+                            break;
+                        case GO_SHARE:
+                            goShare();
+                            break;
                     }
+                }
 
-                    @Override
-                    public void onError(Throwable ex, boolean isOnCallback) {
-                        URLs.secret_code = "";
-                        //实例化Editor对象
-                        SharedPreferences.Editor editor = preferences.edit();
-                        editor.putString("secret_code", "");
-                        //提交修改
-                        editor.commit();
-                    }
-                });
+                @Override
+                public void onError(Throwable ex, boolean isOnCallback) {
+                    URLs.secret_code = "";
+                    //实例化Editor对象
+                    SharedPreferences.Editor editor = preferences.edit();
+                    editor.putString("secret_code", "");
+                    //提交修改
+                    editor.commit();
+                }
+            });
+        } else {
+            try {
+                Thread.sleep(SPLASH_DELAY_MILLIS);
+                switch (msg.what) {
+                    case GO_HOME:
+                        goHome();
+                        break;
+                    case GO_SHARE:
+                        goShare();
+                        break;
+                }
+            } catch (InterruptedException e) {
+
+            }
+        }
     }
 
 //    private Handler mHandler = new Handler() {

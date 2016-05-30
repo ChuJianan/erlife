@@ -1,6 +1,14 @@
 apply plugin: 'com.android.application'
 
 android {
+    signingConfigs {
+        yrkj {
+            keyAlias 'yrkj'
+            keyPassword '000000'
+            storeFile file('E:/Android/yrlife/yrkj.jks')
+            storePassword '000000'
+        }
+    }
     compileSdkVersion 23
     buildToolsVersion "23.0.2"
 
@@ -16,18 +24,15 @@ android {
         }
     }
 
-//    sourceSets {
-//        main {
-//            jniLibs.srcDirs  =['libs']
-//        }
-//        debug.setRoot('build-types/debug')
-//        release.setRoot('build-types/release')
-//    }
 
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.yrkj
+        }
+        debug {
+            signingConfig signingConfigs.yrkj
         }
     }
 }

@@ -85,8 +85,8 @@ public class MainActivity extends FragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-//        AppManager.getAppManager().addActivity(this);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        AppManager.getAppManager().addActivity(this);
         x.view().inject(this);
         initView();
         locationService = new LocationService(getApplicationContext());

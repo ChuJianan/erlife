@@ -159,14 +159,14 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
             @Override
             public void onFinished() {
                 setUser(weixinuser);
-
             }
         });
     }
 
-    private void setUser(WeixinUsers weixinuser) {
+    private void setUser(final WeixinUsers weixinuser) {
         RequestParams params=new RequestParams(URLs.Thread_Login);
         params.addQueryStringParameter("openId",weixinuser.getOpenid());
+        params.addQueryStringParameter("union_id",weixinuser.getUnionid());
         params.addQueryStringParameter("sex",weixinuser.getSex()+"");
         params.addQueryStringParameter("head_image",weixinuser.getHeadimgurl());
         params.addQueryStringParameter("nick_name",weixinuser.getNickname());
@@ -229,6 +229,7 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
                 }catch (JSONException e){
 
                 }
+                AppManager.getAppManager().finishActivity(LoginActivity.class);
             }
 
             @Override
@@ -240,12 +241,12 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
             @Override
             public void onCancelled(CancelledException cex) {
                 UIHelper.ToastMessage(appContext,"error");
+                finish();
             }
 
             @Override
             public void onFinished() {
                 mLoadingDialog.dismiss();
-                AppManager.getAppManager().finishActivity(LoginActivity.class);
                 finish();
             }
         });

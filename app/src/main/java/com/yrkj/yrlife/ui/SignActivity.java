@@ -227,7 +227,11 @@ public class SignActivity extends BaseActivity {
                             }else {
                                 editor.putString("isBind","");
                             }
-                            editor.putLong("money", user.getTotal_balance().longValue());
+                            if (user.getTotal_balance()==null){
+                                editor.putLong("money", 0);
+                            }else {
+                                editor.putLong("money", user.getTotal_balance().longValue());
+                            }
                             editor.putInt("jifen", user.getCard_total_point());
                             //提交修改
                             editor.commit();

@@ -63,7 +63,7 @@ public class UIHelper {
     public final static int REQUEST_CODE_FOR_RESULT = 0x01;
     public final static int REQUEST_CODE_FOR_REPLY = 0x02;
     public static final String APP_ID = "wx4aca65f58fe822e2";//APP_ID是从网站申请的
-    public static final String App_Secret = "a7ad51d4b9bf60fd9d190618835e77f7";//密钥是从网站申请的
+    public static final String App_Secret = "e289ab5aba52ce52941ead32519859ca";//密钥是从网站申请的
     private static final String PACKAGE_URL_SCHEME = "package:"; // 方案
     public  static  String OpenId="";
     public  static  String access_token="";
@@ -382,6 +382,7 @@ public class UIHelper {
             mExitTime = System.currentTimeMillis();
         } else {
             AppManager.getAppManager().AppExit(cont);
+            AppManager.getAppManager().finishAllActivity();
             System.exit(0);
         }
     }
