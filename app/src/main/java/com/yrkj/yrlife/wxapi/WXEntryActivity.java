@@ -7,14 +7,20 @@ import android.os.Bundle;
 import com.tencent.mm.sdk.modelbase.BaseReq;
 import com.tencent.mm.sdk.modelbase.BaseResp;
 import com.tencent.mm.sdk.modelmsg.SendAuth;
+import com.tencent.mm.sdk.modelpay.PayReq;
 import com.tencent.mm.sdk.openapi.IWXAPIEventHandler;
+import com.tencent.mm.sdk.openapi.WXAPIFactory;
 import com.yrkj.yrlife.app.AppManager;
+import com.yrkj.yrlife.app.YrApplication;
+import com.yrkj.yrlife.been.Result;
 import com.yrkj.yrlife.been.URLs;
 import com.yrkj.yrlife.been.User;
+import com.yrkj.yrlife.been.WeixinPay;
 import com.yrkj.yrlife.been.WeixinUsers;
 import com.yrkj.yrlife.been.Weixins;
 import com.yrkj.yrlife.ui.BaseActivity;
 import com.yrkj.yrlife.ui.LoginActivity;
+import com.yrkj.yrlife.ui.PayActivity;
 import com.yrkj.yrlife.utils.JsonUtils;
 import com.yrkj.yrlife.utils.StringUtils;
 import com.yrkj.yrlife.utils.UIHelper;
@@ -25,6 +31,8 @@ import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
 import org.xutils.x;
 
+import java.math.BigDecimal;
+
 /**
  * Created by cjn on 2016/5/25.
  */
@@ -32,6 +40,7 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
 
     private ProgressDialog mLoadingDialog;
     SharedPreferences preferences;
+    private static String appUserAgent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +55,7 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
         mLoadingDialog = new ProgressDialog(this);
         mLoadingDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
 //        mLoadingDialog.setTitle("提示");
-        mLoadingDialog.setMessage("正在登录……");
+        mLoadingDialog.setMessage("正在努力的加载，请稍后……");
         mLoadingDialog.setCancelable(false);
     }
 
@@ -62,8 +71,6 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
         switch (resp.errCode) {
             case BaseResp.ErrCode.ERR_OK:
                 String code = ((SendAuth.Resp) resp).code;
-                String openId = resp.openId;
-                final String url = URLs.WX_ACCESS_TOKEN + "appid=" + UIHelper.APP_ID + "&secret=" + UIHelper.App_Secret + "&code=" + code + "&grant_type=authorization_code";
                 RequestParams params = new RequestParams(URLs.WX_ACCESS_TOKEN);
                 params.addQueryStringParameter("appid", UIHelper.APP_ID);
                 params.addQueryStringParameter("secret", UIHelper.App_Secret);
@@ -79,7 +86,7 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
                             UIHelper.refresh_token = wx.getRefresh_token();
                             //实例化Editor对象
                             SharedPreferences.Editor editor = preferences.edit();
-                            editor.putString("opendid", wx.getOpenid());
+                            editor.putString("openid", wx.getOpenid());
                             editor.putString("access_token", wx.getAccess_token());
                             editor.putString("refresh_token", wx.getRefresh_token());
                             //提交修改
@@ -101,23 +108,27 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
 
                     @Override
                     public void onFinished() {
-                        setUser();
+                        if (UIHelper.isLogin) {
+                            setUser();
+                        } else {
+                            setPay();
+                        }
                     }
                 });
                 break;
             case BaseResp.ErrCode.ERR_AUTH_DENIED:
                 UIHelper.ToastMessage(appContext, "由于您已拒绝授权，请选择其他的登录方式");
-//                UIHelper.openLogin(this);
                 finish();
                 break;
             case BaseResp.ErrCode.ERR_USER_CANCEL:
                 UIHelper.ToastMessage(appContext, "您已取消授权，请选择其他的登录方式");
-//                UIHelper.openLogin(this);
                 finish();
                 break;
         }
     }
-    WeixinUsers weixinuser=new WeixinUsers();
+
+    WeixinUsers weixinuser = new WeixinUsers();
+
     private void setUser() {
         RequestParams params = new RequestParams(URLs.WX_USER_INFO);
         params.addQueryStringParameter("access_token", UIHelper.access_token);
@@ -164,22 +175,22 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
     }
 
     private void setUser(final WeixinUsers weixinuser) {
-        RequestParams params=new RequestParams(URLs.Thread_Login);
-        params.addQueryStringParameter("openId",weixinuser.getOpenid());
-        params.addQueryStringParameter("union_id",weixinuser.getUnionid());
-        params.addQueryStringParameter("sex",weixinuser.getSex()+"");
-        params.addQueryStringParameter("head_image",weixinuser.getHeadimgurl());
-        params.addQueryStringParameter("nick_name",weixinuser.getNickname());
-        params.addQueryStringParameter("unique_phone_code",appContext.getAppId());
+        RequestParams params = new RequestParams(URLs.Thread_Login);
+        params.addQueryStringParameter("openId", weixinuser.getOpenid());
+        params.addQueryStringParameter("union_id", weixinuser.getUnionid());
+        params.addQueryStringParameter("sex", weixinuser.getSex() + "");
+        params.addQueryStringParameter("head_image", weixinuser.getHeadimgurl());
+        params.addQueryStringParameter("nick_name", weixinuser.getNickname());
+        params.addQueryStringParameter("unique_phone_code", appContext.getAppId());
         x.http().post(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                try{
-                    JSONObject json=new JSONObject(result);
-                    int code=json.getInt("code");
-                    String message=json.getString("message");
-                    if (code==1){
-                    User user=JsonUtils.fromJson(json.getString("result"),User.class);
+                try {
+                    JSONObject json = new JSONObject(result);
+                    int code = json.getInt("code");
+                    String message = json.getString("message");
+                    if (code == 1) {
+                        User user = JsonUtils.fromJson(json.getString("result"), User.class);
                         //实例化Editor对象
                         SharedPreferences.Editor editor = preferences.edit();
                         //存入数据
@@ -212,21 +223,21 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
                             editor.putString("secret_code", user.getSecret_code());
                             URLs.secret_code = user.getSecret_code();
                         }
-                        if (StringUtils.isEmpty(user.getIsBind())){
-                            editor.putString("isBind",user.getIsBind());
-                        }else {
-                            editor.putString("isBind","");
+                        if (StringUtils.isEmpty(user.getIsBind())) {
+                            editor.putString("isBind", user.getIsBind());
+                        } else {
+                            editor.putString("isBind", "");
                         }
-                        if (user.getTotal_balance()==null){
+                        if (user.getTotal_balance() == null) {
                             editor.putLong("money", 0);
-                        }else {
+                        } else {
                             editor.putLong("money", user.getTotal_balance().longValue());
                         }
                         editor.putInt("jifen", user.getCard_total_point());
                         //提交修改
                         editor.commit();
                     }
-                }catch (JSONException e){
+                } catch (JSONException e) {
 
                 }
                 AppManager.getAppManager().finishActivity(LoginActivity.class);
@@ -234,13 +245,13 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                UIHelper.ToastMessage(appContext,ex.getMessage());
+                UIHelper.ToastMessage(appContext, ex.getMessage());
                 finish();
             }
 
             @Override
             public void onCancelled(CancelledException cex) {
-                UIHelper.ToastMessage(appContext,"error");
+                UIHelper.ToastMessage(appContext, "error");
                 finish();
             }
 
@@ -251,4 +262,70 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
             }
         });
     }
+
+    WeixinPay weixinPay;
+
+    private void setPay() {
+        String url = URLs.PAY;
+        RequestParams params = new RequestParams(url);
+        params.setHeader("User-Agent", getUserAgent(appContext));
+        params.addParameter("secret_code", URLs.secret_code);
+//        params.addParameter("pay_kind",pay_kind);
+        params.addParameter("amount", UIHelper.bigDecimal);
+        params.addParameter("unique_phone_code", appContext.getAppId());
+//        params.addParameter("ip",appContext.getLocalHostIp());
+        params.addParameter("openid", UIHelper.OpenId);
+        x.http().post(params, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String result) {
+                mLoadingDialog.dismiss();
+                Result res = JsonUtils.fromJson(result, Result.class);
+                if (res.OK()) {
+                    appContext.api = WXAPIFactory.createWXAPI(WXEntryActivity.this, UIHelper.APP_ID, false);
+                    weixinPay = res.getWxpay();
+                    UIHelper.orderNumber = weixinPay.getOrderNumber();
+                    PayReq request = new PayReq();
+                    request.appId = UIHelper.APP_ID;
+                    request.partnerId = UIHelper.PARTNERID;
+                    request.prepayId = weixinPay.getPrePayId();
+                    request.packageValue = "Sign=WXPay";
+                    request.nonceStr = weixinPay.getNonceStr();
+                    request.timeStamp = weixinPay.getTimeStamp();
+                    request.sign = weixinPay.getPaySign();
+                    appContext.api.sendReq(request);
+                } else {
+                    UIHelper.ToastMessage(WXEntryActivity.this, res.Message());
+                }
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+                UIHelper.ToastMessage(WXEntryActivity.this, ex.getMessage());
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+                UIHelper.ToastMessage(WXEntryActivity.this, "error");
+            }
+
+            @Override
+            public void onFinished() {
+                finish();
+            }
+        });
+    }
+
+    private static String getUserAgent(YrApplication appContext) {
+        if (appUserAgent == null || appUserAgent == "") {
+            StringBuilder ua = new StringBuilder("iMeeting");
+            ua.append('/' + appContext.getPackageInfo().versionName + '_' + appContext.getPackageInfo().versionCode);//App版本
+            ua.append("/Android");//手机系统平台
+            ua.append("/" + android.os.Build.VERSION.RELEASE);//手机系统版本
+            ua.append("/" + android.os.Build.MODEL); //手机型号
+            ua.append("/" + appContext.getAppId());//客户端唯一标识
+            appUserAgent = ua.toString();
+        }
+        return appUserAgent;
+    }
+
 }

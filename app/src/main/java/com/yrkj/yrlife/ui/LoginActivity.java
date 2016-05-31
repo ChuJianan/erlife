@@ -105,6 +105,7 @@ public class LoginActivity extends BaseActivity {
     @Event(R.id.wx_btn)
     private void wxbtnEvent(View view) {
         // send oauth request
+        UIHelper.isLogin=true;
         SendAuth.Req req=new SendAuth.Req();
         req.scope = "snsapi_userinfo";
         req.state = ApiClient.getUserAgent(appContext);
@@ -187,6 +188,9 @@ public class LoginActivity extends BaseActivity {
                         }else {
                             editor.putLong("money", user.getTotal_balance().longValue());
                         }
+                        editor.putString("openid", "");
+                        editor.putString("access_token", "");
+                        editor.putString("refresh_token", "");
                         editor.putInt("jifen", user.getCard_total_point());
                         //提交修改
                         editor.commit();

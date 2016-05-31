@@ -27,7 +27,7 @@
                 android:layout_height="wrap_content"
                 android:text="微信"
                 android:textColor="#aaabab"
-                android:textSize="@dimen/text_size_18" />
+                android:textSize="@dimen/text_size_16" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -36,7 +36,7 @@
                 android:text="2016年4月22日   15：33：26"
                 android:textColor="#aaabab"
                 android:id="@+id/date_pay"
-                android:textSize="@dimen/text_size_13" />
+                android:textSize="@dimen/text_size_12" />
         </LinearLayout>
 
         <LinearLayout
@@ -53,7 +53,7 @@
             android:text="+100.00元"
             android:id="@+id/pay_money"
             android:textColor="@color/paycolor"
-            android:textSize="@dimen/text_size_18"
+            android:textSize="@dimen/text_size_16"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true" />

@@ -30,6 +30,6 @@
         android:gravity="center"
         android:text="正在获取消费记录"
         android:textColor="@color/gray"
-        android:textSize="@dimen/text_size_24"
+        android:textSize="@dimen/text_size_19"
         android:visibility="gone" />
 </LinearLayout>

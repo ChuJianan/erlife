@@ -13,7 +13,7 @@
         android:hint="请输入密码"
         android:inputType="textPassword"
         android:padding="@dimen/space_3"
-        android:textSize="@dimen/text_size_15"
+        android:textSize="@dimen/text_size_14"
         android:layout_marginLeft="@dimen/space_15"
         android:layout_marginRight="@dimen/space_15"
         android:id="@+id/password"
@@ -22,7 +22,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="支持英文字母及数字，限6-16位字符"
-        android:textSize="@dimen/space_12"
+        android:textSize="@dimen/space_10"
         android:layout_marginLeft="@dimen/space_25"
         />
     <com.yrkj.yrlife.widget.ClearEditText
@@ -31,7 +31,7 @@
         android:hint="请再次输入密码"
         android:padding="@dimen/space_3"
         android:inputType="textPassword"
-        android:textSize="@dimen/text_size_15"
+        android:textSize="@dimen/text_size_14"
         android:background="@color/white"
         android:layout_marginTop="@dimen/space_30"
         android:layout_marginLeft="@dimen/space_15"
@@ -42,7 +42,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="支持英文字母及数字，限6-16位字符"
-        android:textSize="@dimen/space_12"
+        android:textSize="@dimen/space_10"
         android:layout_marginLeft="@dimen/space_25"
         />
 
@@ -50,7 +50,7 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:text="确认"
-        android:textSize="@dimen/text_size_22"
+        android:textSize="@dimen/text_size_18"
         android:textColor="@color/white"
         android:id="@+id/sign_btn"
 

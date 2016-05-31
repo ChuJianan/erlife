@@ -12,6 +12,7 @@
         android:layout_height="40dp"
         android:background="@color/white"
         android:layout_marginTop="35dp"
+        android:textSize="@dimen/text_size_15"
         android:paddingLeft="@dimen/space_10"
         android:hint="请输入姓名"
         />
@@ -20,6 +21,7 @@
         android:layout_height="wrap_content"
         android:text="支持英文字母及汉字，限2-16位字符"
         android:textColor="#aaabab"
+        android:textSize="@dimen/text_size_12"
         android:layout_marginLeft="@dimen/space_10"
         />
 </LinearLayout>

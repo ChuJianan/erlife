@@ -73,14 +73,15 @@ public class FragmentMe extends BaseFragment {
         yrApplication = (YrApplication) getActivity().getApplication();
         ls = (LinearLayout) getActivity().findViewById(R.id.ssss);
         ls.setVisibility(View.GONE);
-        if (StringUtils.isEmpty(URLs.secret_code)){
-            UIHelper.openLogin(getActivity(),false);
-        }
+
     }
 
     @Override
     public void onResume() {
         super.onResume();
+//        if (StringUtils.isEmpty(URLs.secret_code)){
+//            UIHelper.openLogin(getActivity(),false);
+//        }
         if (!StringUtils.isEmpty(URLs.secret_code)) {
             login_textView.setVisibility(View.GONE);
             nameText.setVisibility(View.VISIBLE);

@@ -27,6 +27,7 @@
                 android:id="@+id/card_code"
                 android:hint="会员卡号"
                 android:layout_width="260dp"
+                android:textSize="@dimen/text_size_14"
                 android:layout_height="30dp"
                 android:layout_gravity="center"
                 android:layout_marginLeft="@dimen/space_20"
@@ -46,6 +47,7 @@
             <com.yrkj.yrlife.widget.ClearEditText
                 android:layout_width="260dp"
                 android:layout_height="30dp"
+                android:textSize="@dimen/text_size_14"
                 android:hint="手机号"
                 android:id="@+id/phone_edit"
                 android:background="@color/white"
@@ -69,6 +71,7 @@
                 android:layout_height="30dp"
                 android:layout_marginLeft="@dimen/space_20"
                 android:hint="验证码"
+                android:textSize="@dimen/text_size_14"
                 android:id="@+id/code_edit"
                 android:background="@color/white"/>
             <Button
@@ -94,7 +97,7 @@
                 android:background="@drawable/bg_btn_head"
                 android:text="提交"
                 android:textColor="@color/white"
-                android:textSize="@dimen/text_size_18"/>
+                android:textSize="@dimen/text_size_16"/>
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

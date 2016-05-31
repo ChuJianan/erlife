@@ -42,7 +42,7 @@
                         android:layout_height="wrap_content"
                         android:text="个人资料"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/text_size_18"
+                        android:textSize="@dimen/text_size_16"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="@dimen/space_15"/>
                     <ImageView
@@ -67,7 +67,7 @@
                         android:layout_height="wrap_content"
                         android:text="常见问题"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/text_size_18"
+                        android:textSize="@dimen/text_size_16"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="@dimen/space_15"/>
                     <ImageView
@@ -92,7 +92,7 @@
                         android:layout_height="wrap_content"
                         android:text="清除缓存"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/text_size_18"
+                        android:textSize="@dimen/text_size_16"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="@dimen/space_15"/>
                     <ImageView
@@ -117,7 +117,7 @@
                         android:layout_height="wrap_content"
                         android:text="版本更新"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/text_size_18"
+                        android:textSize="@dimen/text_size_16"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="@dimen/space_15"/>
                     <ImageView
@@ -142,7 +142,7 @@
                         android:layout_height="wrap_content"
                         android:text="关于我们"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/text_size_18"
+                        android:textSize="@dimen/text_size_16"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="@dimen/space_15"/>
                     <ImageView
@@ -167,7 +167,7 @@
                         android:layout_height="wrap_content"
                         android:text="意见反馈"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/text_size_18"
+                        android:textSize="@dimen/text_size_16"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="@dimen/space_15"/>
                     <ImageView
@@ -193,7 +193,7 @@
                         android:layout_height="wrap_content"
                         android:text="客服中心"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/text_size_18"
+                        android:textSize="@dimen/text_size_16"
                         android:layout_centerVertical="true"
                         android:layout_marginLeft="@dimen/space_15"/>
                     <TextView
@@ -203,6 +203,7 @@
                         android:layout_alignParentRight="true"
                         android:layout_centerInParent="true"
                         android:textColor="@color/black"
+                        android:textSize="@dimen/text_size_13"
                         />
 
                 </RelativeLayout>

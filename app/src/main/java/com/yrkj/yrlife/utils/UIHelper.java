@@ -31,6 +31,7 @@ import com.yrkj.yrlife.ui.LoginActivity;
 
 import java.io.File;
 import java.io.IOException;
+import java.math.BigDecimal;
 
 
 /**
@@ -64,11 +65,14 @@ public class UIHelper {
     public final static int REQUEST_CODE_FOR_REPLY = 0x02;
     public static final String APP_ID = "wx4aca65f58fe822e2";//APP_ID是从网站申请的
     public static final String App_Secret = "e289ab5aba52ce52941ead32519859ca";//密钥是从网站申请的
+    public static final String PARTNERID="partnerid";
     private static final String PACKAGE_URL_SCHEME = "package:"; // 方案
-    public  static  String OpenId="";
-    public  static  String access_token="";
-    public  static  String refresh_token="";
-
+    public static String OpenId = "";
+    public static String access_token = "";
+    public static String refresh_token = "";
+    public static boolean isLogin = false;
+    public static BigDecimal bigDecimal;
+    public static String orderNumber="";
     public static String city = "";
     public static BDLocation location;
     /**
@@ -101,6 +105,7 @@ public class UIHelper {
 
     /**
      * 打开系统应用
+     *
      * @param context
      */
     public static void startAppSettings(Context context) {
@@ -168,9 +173,9 @@ public class UIHelper {
     }
 
 
-    public static void openLogin(Activity activity,boolean isMe) {
+    public static void openLogin(Activity activity, boolean isMe) {
         Intent intent = new Intent(activity, LoginActivity.class);
-        intent.putExtra("isme",isMe);
+        intent.putExtra("isme", isMe);
         activity.startActivity(intent);
     }
 

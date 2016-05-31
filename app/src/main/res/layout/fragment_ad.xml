@@ -6,60 +6,16 @@
     android:orientation="vertical">
 
     <include layout="@layout/include_common_header" />
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/notice_listView"
+        android:divider="@color/line"
+        android:dividerHeight="@dimen/space_1"
+        android:cacheColorHint="@android:color/transparent"
+        android:listSelector="@android:color/transparent"
+        />
 
 
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="@dimen/space_10">
-
-            <TextView
-                android:id="@+id/textView4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
-                android:text=""
-                android:visibility="invisible" />
-
-            <TextView
-                android:id="@+id/text_quan"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentTop="true"
-                android:layout_toEndOf="@+id/textView4"
-                android:layout_toRightOf="@+id/textView4"
-                android:background="@drawable/bg_card_btn"
-                android:gravity="center"
-                android:padding="@dimen/space_5"
-                android:text="券"
-                android:textSize="@dimen/text_size_18" />
-
-            <TextView
-                android:id="@+id/text_card"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:layout_toLeftOf="@+id/textView4"
-                android:layout_toStartOf="@+id/textView4"
-                android:background="@drawable/bg_card_btn"
-                android:gravity="center"
-                android:padding="@dimen/space_5"
-                android:text="卡"
-                android:textSize="@dimen/text_size_18" />
-        </RelativeLayout>
-            <android.support.v4.view.ViewPager
-                android:id="@+id/view_pager"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-        </LinearLayout>
 </LinearLayout>

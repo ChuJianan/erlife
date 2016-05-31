@@ -19,6 +19,9 @@
     <color name="xinshou_bg">#efeff0</color>
     <color name="line">#efefef</color>
     <color name="shop_item">#9a9fa0</color>
+    <color name="textcolor3">#ff727272</color>
+    <color name="textcolor">#ff3d3d3d</color>
+    <color name="bgcolor">#fff1f1f1</color>
 
     <color name="colorPrimary">#ee481f</color>
     <color name="colorPrimaryDark">#eb6725</color>

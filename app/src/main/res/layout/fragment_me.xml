@@ -200,7 +200,7 @@
                 android:paddingLeft="@dimen/space_18"
                 android:text="我要充值"
                 android:textColor="@color/black"
-                android:textSize="@dimen/text_size_18" />
+                android:textSize="@dimen/text_size_16" />
 
             <ImageView
                 android:id="@+id/imageView12"
@@ -247,7 +247,7 @@
                 android:paddingLeft="@dimen/space_18"
                 android:text="会员卡绑定"
                 android:textColor="@color/black"
-                android:textSize="@dimen/text_size_18" />
+                android:textSize="@dimen/text_size_16" />
 
             <ImageView
                 android:id="@+id/imageView17"
@@ -294,7 +294,7 @@
                 android:paddingLeft="@dimen/space_18"
                 android:text="消费明细"
                 android:textColor="@color/black"
-                android:textSize="@dimen/text_size_18" />
+                android:textSize="@dimen/text_size_16" />
 
             <ImageView
                 android:id="@+id/imageView25"
@@ -341,7 +341,7 @@
                 android:paddingLeft="@dimen/space_18"
                 android:text="充值记录"
                 android:textColor="@color/black"
-                android:textSize="@dimen/text_size_18" />
+                android:textSize="@dimen/text_size_16" />
 
             <ImageView
                 android:id="@+id/imageView22"
@@ -387,7 +387,7 @@
                 android:paddingLeft="@dimen/space_18"
                 android:text="我的优惠券"
                 android:textColor="@color/black"
-                android:textSize="@dimen/text_size_18" />
+                android:textSize="@dimen/text_size_16" />
 
             <ImageView
                 android:id="@+id/imageView1111"
@@ -433,7 +433,7 @@
                 android:paddingLeft="@dimen/space_18"
                 android:text="设  置"
                 android:textColor="@color/black"
-                android:textSize="@dimen/text_size_18" />
+                android:textSize="@dimen/text_size_16" />
 
             <ImageView
                 android:id="@+id/imageView28"

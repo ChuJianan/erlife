@@ -15,6 +15,7 @@ import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTabHost;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.text.method.ScrollingMovementMethod;
@@ -37,6 +38,7 @@ import com.tencent.android.tpush.common.Constants;
 import com.yrkj.yrlife.R;
 import com.yrkj.yrlife.app.AppManager;
 import com.yrkj.yrlife.app.YrApplication;
+import com.yrkj.yrlife.been.URLs;
 import com.yrkj.yrlife.service.LocationService;
 import com.yrkj.yrlife.ui.fragment.FragmentAd;
 import com.yrkj.yrlife.ui.fragment.FragmentIndex;
@@ -52,6 +54,7 @@ import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
 import java.lang.ref.WeakReference;
+import java.util.zip.Inflater;
 
 
 @ContentView(value = R.layout.activity_main)
@@ -214,6 +217,18 @@ public class MainActivity extends FragmentActivity {
             mTabHost.getTabWidget().getChildAt(i)
                     .setBackgroundResource(R.mipmap.ic_bg_btm);
         }
+//        mTabHost.getTabWidget().getChildTabViewAt(3).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (StringUtils.isEmpty(URLs.secret_code)){
+//                    UIHelper.openLogin(MainActivity.this,true);
+//                }else {
+//                    FragmentTransaction localFragmentTransaction = getSupportFragmentManager().beginTransaction();
+//                    localFragmentTransaction.show(this.chargingFragment).hide(this.captureFragment).hide(this.userFragment).hide(this.noticeFragment).hide(this.homeFragment).commit();
+//                    this.captureFragment.closeCameraManager();
+//                }
+//            }
+//        });
     }
 
     @Override

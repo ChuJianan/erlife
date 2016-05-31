@@ -93,7 +93,9 @@ public class YrApplication extends Application {
 
         SharedPreferences preferences = this.getSharedPreferences("yrlife", this.MODE_WORLD_READABLE);
         String secret_code = preferences.getString("secret_code", "");
+        String openid = preferences.getString("openid", "");
         URLs.secret_code = secret_code;
+        UIHelper.OpenId=openid;
         //注册微信
         //通过WXAPIFactory工厂，获取IWXAPI的实列
         api = WXAPIFactory.createWXAPI(this, null);
