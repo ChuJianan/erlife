@@ -1,306 +1,246 @@
 package com.yrkj.yrlife.ui.fragment;
 
+import android.content.Intent;
+import android.content.res.AssetFileDescriptor;
+import android.graphics.Bitmap;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Vibrator;
+import android.view.SurfaceHolder;
+import android.view.SurfaceView;
+import android.view.SurfaceHolder.Callback;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.zxing.BarcodeFormat;
 import com.yrkj.yrlife.R;
-import com.yrkj.yrlife.adapter.ListViewNearAdapter;
-import com.yrkj.yrlife.app.AppException;
-import com.yrkj.yrlife.been.Near;
-import com.yrkj.yrlife.been.Result;
-import com.yrkj.yrlife.been.URLs;
-import com.yrkj.yrlife.utils.DateUtils;
-import com.yrkj.yrlife.utils.JsonUtils;
-import com.yrkj.yrlife.utils.StringUtils;
-import com.yrkj.yrlife.utils.UIHelper;
-import com.yrkj.yrlife.widget.PullToRefreshListView;
+
+import com.zxing.camera.CameraManager;
+import com.zxing.decoding.CaptureActivityHandler;
+import com.zxing.decoding.InactivityTimer;
+import com.zxing.view.ViewfinderView;
 
 
-import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
+import com.zxing.decoding.DecodeHandlerInterface;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Vector;
 import java.util.logging.XMLFormatter;
 
 /**
  * Created by Administrator on 2016/3/17.
  */
 @ContentView(R.layout.fragment_near)
-public class FragmentNear extends BaseFragment {
+public class FragmentNear extends BaseFragment implements Callback ,DecodeHandlerInterface{
+    private CaptureActivityHandler handler;
+    @ViewInject(R.id.viewfinder_view)
+    private ViewfinderView viewfinderView;
+    private boolean hasSurface;
+    private Vector<BarcodeFormat> decodeFormats;
+    private String characterSet;
+    private InactivityTimer inactivityTimer;
+    private MediaPlayer mediaPlayer;
+    private boolean playBeep;
+    private static final float BEEP_VOLUME = 0.10f;
+    private boolean vibrate;
     View view;
     LinearLayout ls;
-    ListViewNearAdapter mNearAdapter;
-    List<Near> mNearData = new ArrayList<Near>();
-    private long mLastTime; //上次加载时间
-    private View mNearFooter;
-    private TextView mNearMore;
-    private ProgressBar mNearProgress;
-    private int pageNo = 1;//当前页数
-    private int pageSize = 10;//每页个数
-    private boolean isViewInited = false;
 
-//    private PoiSearch mPoiSearch = null;
 
-    @ViewInject(R.id.near_listView)
-    private PullToRefreshListView mNearView;
-    @ViewInject(R.id.empty_text)
-    private TextView mEmptyView;
+    @ViewInject(R.id.title)
+    private TextView title;
 
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        this.view=view;
+        CameraManager.init(getActivity().getApplication());
         view.findViewById(R.id.back).setVisibility(View.INVISIBLE);
-        TextView textView = (TextView) view.findViewById(R.id.title);
-        textView.setText("附近网点");
+        title.setText("无卡洗车");
         ls = (LinearLayout) getActivity().findViewById(R.id.ssss);
         ls.setVisibility(View.GONE);
-        initView();
+        hasSurface = false;
+        inactivityTimer = new InactivityTimer(getActivity());
     }
 
-    private void initView() {
-//        mPoiSearch = PoiSearch.newInstance();
-//        // 设置检索监听器
-//        mPoiSearch.setOnGetPoiSearchResultListener(poiSearchListener);
-
-        mNearView.setEmptyView(mEmptyView);
-        mNearFooter = getActivity().getLayoutInflater().inflate(R.layout.listview_footer, null);
-        mNearMore = (TextView)mNearFooter.findViewById(R.id.listview_foot_more);
-        mNearProgress = (ProgressBar)mNearFooter.findViewById(R.id.listview_foot_progress);
-        mNearAdapter = new ListViewNearAdapter(getActivity(), mNearData);
-        mNearView.addFooterView(mNearFooter);
-        mNearView.setAdapter(mNearAdapter);
-        mNearView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view,
-                                    int position, long id) {
-                if(position == 0 || view == mNearFooter) return;
-
-
-            }
-        });
-        mNearView.setOnScrollListener(new AbsListView.OnScrollListener() {
-
-            @Override
-            public void onScroll(AbsListView view, int firstVisibleItem,
-                                 int visibleItemCount, int totalItemCount) {
-                // TODO Auto-generated method stub
-                mNearView.onScroll(view, firstVisibleItem, visibleItemCount, totalItemCount);
-
-            }
-
-            @Override
-            public void onScrollStateChanged(AbsListView view, int scrollState) {
-                // TODO Auto-generated method stub
-                (mNearView).onScrollStateChanged(view, scrollState);
-                if (mNearData.isEmpty())
-                    return;
-
-                // 判断是否滚动到底部
-                boolean scrollEnd = false;
-                try {
-                    if (view.getPositionForView(mNearFooter) == view
-                            .getLastVisiblePosition())
-                        scrollEnd = true;
-                    mNearMore.setText(R.string.load_full);
-                    mNearProgress.setVisibility(View.GONE);
-                } catch (Exception e) {
-                    scrollEnd = false;
-                }
-
-                int lvDataState = StringUtils.toInt(mNearView.getTag());
-                if (scrollEnd && lvDataState == UIHelper.LISTVIEW_DATA_MORE) {
-                    mNearView.setTag(UIHelper.LISTVIEW_DATA_LOADING);
-                    mNearMore.setText(R.string.load_ing);
-                    mNearProgress.setVisibility(View.VISIBLE);
-                    // 当前pageNo+1
-                    pageNo++;
-                    loadCloudData(pageNo);
-                }
-
-            }});
-        mNearView.setOnRefreshListener(new PullToRefreshListView.OnRefreshListener() {
-            //下拉列表刷新
-            @Override
-            public void onRefresh() {
-//			mNearData.removeAll(mNearData);
-//				loadCloudData(pageNo1+1);
-                mNearProgress.setVisibility(ProgressBar.GONE);
-                mNearView.onRefreshComplete(DateUtils.format(new Date(), getString(R.string.pull_to_refresh_update_pattern)));
-                mNearView.setSelection(0);
-
-            }
-        });
-        isViewInited=true;
-    }
     @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        long now = System.currentTimeMillis();
-        //10分钟内不重复加载信息
-        if (mLastTime > 0 && now - mLastTime < 1000 * 60 * 10) {
-            return;
-        }else{
-            if (getUserVisibleHint()) {
-                //如果直接点击跳转到本Fragment，setUserVisibleHint方法会先于
-                //onCreateView调用，所以加载数据前需要先判断视图是否已初始化
-                loadCloudData(pageNo);
-            }
+    public void onResume() {
+        super.onResume();
+        SurfaceView surfaceView = (SurfaceView) view.findViewById(R.id.preview_view);
+        SurfaceHolder surfaceHolder = surfaceView.getHolder();
+        if (hasSurface) {
+            initCamera(surfaceHolder);
+        } else {
+            surfaceHolder.addCallback(this);
+            surfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
         }
-    }
-    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        //由于ViewPager的预加载，没法正确判断当前Fragment是否可见
-        //这个方法解决问题正确判断可见性
-        super.setUserVisibleHint(isVisibleToUser);
-        long now = System.currentTimeMillis();
-        //10分钟内不重复加载信息
-        if (mLastTime > 0 && now - mLastTime < 1000 * 60 * 10) {
-            return;
-        }else{
-            if (getUserVisibleHint() && isViewInited) {
-                //如果直接点击跳转到本Fragment，setUserVisibleHint方法会先于
-                //onCreateView调用，所以加载数据前需要先判断视图是否已初始化
-                loadCloudData(pageNo);
+        decodeFormats = null;
+        characterSet = null;
 
-            }
+        playBeep = true;
+        AudioManager audioService = (AudioManager) getActivity().getSystemService(getActivity().AUDIO_SERVICE);
+        if (audioService.getRingerMode() != AudioManager.RINGER_MODE_NORMAL) {
+            playBeep = false;
+        }
+        initBeepSound();
+        vibrate = true;
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (handler != null) {
+            handler.quitSynchronously();
+            handler = null;
+        }
+        CameraManager.get().closeDriver();
+    }
+
+    @Override
+    public void onDestroy() {
+        inactivityTimer.shutdown();
+        super.onDestroy();
+    }
+
+    /**
+     * Handler scan result
+     * @param result
+     * @param barcode
+     */
+    public void handleDecode(com.google.zxing.Result result, Bitmap barcode) {
+        inactivityTimer.onActivity();
+        playBeepSoundAndVibrate();
+        String resultString = result.getText();
+        //FIXME
+        if (resultString.equals("")) {
+            Toast.makeText(getContext(), "Scan failed!", Toast.LENGTH_SHORT).show();
+        }else {
+//			System.out.println("Result:"+resultString);
+            Intent resultIntent = new Intent();
+            Bundle bundle = new Bundle();
+            bundle.putString("result", resultString);
+            resultIntent.putExtras(bundle);
+            getActivity().setResult(getActivity().RESULT_OK, resultIntent);
         }
     }
 
-    private void loadCloudData(int pageNo) {
-        String url= URLs.NEAR;
-        RequestParams params = new RequestParams(url);
-        params.addQueryStringParameter("lat", UIHelper.location.getLatitude()+"");
-        params.addQueryStringParameter("lng", UIHelper.location.getLongitude()+"");
-        params.addQueryStringParameter("pagenumber",pageNo+"");
-        x.http().get(params, new Callback.CommonCallback<String>() {
+    private void initCamera(SurfaceHolder surfaceHolder) {
+        try {
+            CameraManager.get().openDriver(surfaceHolder);
+        } catch (IOException ioe) {
+            return;
+        } catch (RuntimeException e) {
+            return;
+        }
+        if (handler == null) {
 
-            @Override
-            public void onSuccess(String results) {
-//                Toast.makeText(x.app(), results, Toast.LENGTH_LONG).show();
-                Result result= JsonUtils.fromJson(results,Result.class);
-                if (!result.OK()) {
-                    UIHelper.ToastMessage(getActivity(),result.Message());
-                }else if (result.nears.size()>0){
-                    if (mNearData==null){
-                        mNearData=result.nears;
-                        mNearView.setTag(UIHelper.LISTVIEW_DATA_MORE);
-                        mNearAdapter.setNear(mNearData);
-                        mNearAdapter.notifyDataSetChanged();
-                    }else if (result.nears.size()<pageSize){
-                        mNearData=result.nears;
-                        mNearView.setTag(UIHelper.LISTVIEW_DATA_FULL);
-                        mNearAdapter.addNear(mNearData);
-                        mNearAdapter.notifyDataSetChanged();
-                        mNearProgress.setVisibility(View.GONE);
-                        mNearMore.setText(R.string.load_full);
-                    }else {
-                        mNearData = result.nears;
-                        mNearView.setTag(UIHelper.LISTVIEW_DATA_MORE);
-                        mNearAdapter.addNear(mNearData);
-                        mNearAdapter.notifyDataSetChanged();
-                        mNearMore.setText(R.string.load_more);
-                    }
-                }else {
-                    mNearView.setTag(UIHelper.LISTVIEW_DATA_FULL);
-                    mNearMore.setText(R.string.load_full);
-                    mNearProgress.setVisibility(View.GONE);
-                }
-                mLastTime = System.currentTimeMillis();
-            }
-
-            @Override
-            public void onError(Throwable ex, boolean isOnCallback) {
-                Toast.makeText(x.app(), ex.getMessage(), Toast.LENGTH_LONG).show();
-            }
-
-            @Override
-            public void onCancelled(CancelledException cex) {
-                Toast.makeText(x.app(), "cancelled", Toast.LENGTH_LONG).show();
-            }
-
-            @Override
-            public void onFinished() {
-
-            }
-        });
+        }
     }
+
+    public void surfaceChanged(SurfaceHolder holder, int format, int width,
+                               int height) {
+
+    }
+
+    public void surfaceCreated(SurfaceHolder holder) {
+        if (!hasSurface) {
+            hasSurface = true;
+            initCamera(holder);
+        }
+
+    }
+
+    public void surfaceDestroyed(SurfaceHolder holder) {
+        hasSurface = false;
+
+    }
+    public ViewfinderView getViewfinderView() {
+        return viewfinderView;
+    }
+
+    public Handler getHandler() {
+        return handler;
+    }
+
+    public void drawViewfinder() {
+        viewfinderView.drawViewfinder();
+
+    }
+
+    private void initBeepSound() {
+        if (playBeep && mediaPlayer == null) {
+            // The volume on STREAM_SYSTEM is not adjustable, and users found it
+            // too loud,
+            // so we now play on the music stream.
+            getActivity().setVolumeControlStream(AudioManager.STREAM_MUSIC);
+            mediaPlayer = new MediaPlayer();
+            mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+            mediaPlayer.setOnCompletionListener(beepListener);
+
+            AssetFileDescriptor file = getResources().openRawResourceFd(
+                    R.raw.beep);
+            try {
+                mediaPlayer.setDataSource(file.getFileDescriptor(),
+                        file.getStartOffset(), file.getLength());
+                file.close();
+                mediaPlayer.setVolume(BEEP_VOLUME, BEEP_VOLUME);
+                mediaPlayer.prepare();
+            } catch (IOException e) {
+                mediaPlayer = null;
+            }
+        }
+    }
+
+    private static final long VIBRATE_DURATION = 200L;
+
+    private void playBeepSoundAndVibrate() {
+        if (playBeep && mediaPlayer != null) {
+            mediaPlayer.start();
+        }
+        if (vibrate) {
+            Vibrator vibrator = (Vibrator)getActivity().getSystemService(getActivity().VIBRATOR_SERVICE);
+            vibrator.vibrate(VIBRATE_DURATION);
+        }
+    }
+
     /**
-     * POI检索监听器
+     * When the beep has finished playing, rewind to queue up another one.
      */
-//    OnGetPoiSearchResultListener poiSearchListener = new OnGetPoiSearchResultListener() {
-//        @Override
-//        public void onGetPoiDetailResult(PoiDetailResult result) {
-//            if (result.error != SearchResult.ERRORNO.NO_ERROR) {
-//                //详情检索失败
-//                // result.error请参考SearchResult.ERRORNO
-//            }
-//            else {
-//                //检索成功
-//                Log.i("poi",result.toString());
-//            }
-//        }
-//        @Override
-//        public void onGetPoiResult(PoiResult poiResult) {
-//            if (poiResult == null
-//                    || poiResult.error == SearchResult.ERRORNO.RESULT_NOT_FOUND) {// 没有找到检索结果
-//                Toast.makeText(getActivity(), "未找到结果",
-//                        Toast.LENGTH_LONG).show();
-//                return;
-//            }
-//            if (poiResult.error == SearchResult.ERRORNO.NO_ERROR) {// 检索结果正常返回
-//                totalPage = poiResult.getTotalPageNum();// 获取总分页数
-//                List<PoiInfo> infos=poiResult.getAllPoi();
-//                for (int i=0;i<infos.size();i++){
-//                    Near near=new Near();
-//                    near.setAdr(infos.get(i).address);
-//                    near.setNid(infos.get(i).name);
-//                    near.setTel(infos.get(i).phoneNum);
-//                    near.setDis(i+1+"");
-//                    lData.add(near);
-//                }
-//                lNearAdapter.notifyDataSetChanged();
-//            }
-//    }
-//    };
-
-
+    private final MediaPlayer.OnCompletionListener beepListener = new MediaPlayer.OnCompletionListener() {
+        public void onCompletion(MediaPlayer mediaPlayer) {
+            mediaPlayer.seekTo(0);
+        }
+    };
     /**
-     * 附近检索
+     * you should get result like this.
+     *
+     * String scanResult = data.getExtras().getString("result");
      */
-//    private void nearbySearch(int page) {
-//        PoiNearbySearchOption nearbySearchOption = new PoiNearbySearchOption();
-//        nearbySearchOption.location(new LatLng(UIHelper.location.getLatitude(), UIHelper.location.getLongitude()));
-//        nearbySearchOption.keyword("银行");
-//        nearbySearchOption.radius(1000);// 检索半径，单位是米
-//        nearbySearchOption.pageNum(page);
-//        mPoiSearch.searchNearby(nearbySearchOption);// 发起附近检索请求
-//    }
-//
-//        class MyPoiOverlay extends PoiOverlay {
-//            public MyPoiOverlay(BaiduMap arg0) {
-//                super(arg0);
-//            }
-//            @Override
-//            public boolean onPoiClick(int arg0) {
-//                super.onPoiClick(arg0);
-//                PoiInfo poiInfo = getPoiResult().getAllPoi().get(arg0);
-//                // 检索poi详细信息
-//                mPoiSearch.searchPoiDetail(new PoiDetailSearchOption()
-//                        .poiUid(poiInfo.uid));
-//                return true;
-//            }
-//        }
+    @Override
+    public void resturnScanResult(int resultCode, Intent data) {
 
+//		Toast.makeText(getActivity(), data.getExtras().getString("result"), 0)
+//				.show();
+    }
+    @Override
+    public void launchProductQuary(String url) {
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
+        startActivity(intent);
+    }
 }

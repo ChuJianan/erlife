@@ -119,20 +119,20 @@ public final class ViewfinderView extends View {
             paint.setColor(frameColor);
             // canvas.drawRect(frame.left, frame.top, frame.right + 1, frame.top + 2, paint);
             //左上角
-            canvas.drawRect(frame.left, frame.top, frame.left + 15, frame.top + 5, paint);
-            canvas.drawRect(frame.left, frame.top, frame.left + 5, frame.top + 15, paint);
+            canvas.drawRect(frame.left, frame.top, frame.left + 45, frame.top + 7, paint);
+            canvas.drawRect(frame.left, frame.top, frame.left + 7, frame.top + 45, paint);
             // canvas.drawRect(frame.left, frame.top + 2, frame.left + 2, frame.bottom - 1, paint);
             //右上角
-            canvas.drawRect(frame.right - 15, frame.top, frame.right, frame.top + 5, paint);
-            canvas.drawRect(frame.right - 5, frame.top, frame.right, frame.top + 15, paint);
+            canvas.drawRect(frame.right - 45, frame.top, frame.right, frame.top + 7, paint);
+            canvas.drawRect(frame.right - 7, frame.top, frame.right, frame.top + 45, paint);
             //左下角
-            canvas.drawRect(frame.left, frame.bottom - 5, frame.left + 15, frame.bottom, paint);
-            canvas.drawRect(frame.left, frame.bottom - 15, frame.left + 5, frame.bottom, paint);
+            canvas.drawRect(frame.left, frame.bottom - 7, frame.left + 45, frame.bottom, paint);
+            canvas.drawRect(frame.left, frame.bottom - 45, frame.left + 7, frame.bottom, paint);
             //canvas.drawRect(frame.right - 1, frame.top, frame.right + 1, frame.bottom - 1, paint);
             //canvas.drawRect(frame.left, frame.bottom - 1, frame.right + 1, frame.bottom + 1, paint);
             //右下角
-            canvas.drawRect(frame.right - 15, frame.bottom - 5, frame.right, frame.bottom, paint);
-            canvas.drawRect(frame.right - 5, frame.bottom - 15, frame.right, frame.bottom, paint);
+            canvas.drawRect(frame.right - 45, frame.bottom - 7, frame.right, frame.bottom, paint);
+            canvas.drawRect(frame.right - 7, frame.bottom - 45, frame.right, frame.bottom, paint);
             // Draw a red "laser scanner" line through the middle to show decoding is active
 //            paint.setColor(laserColor);
 //            paint.setAlpha(SCANNER_ALPHA[scannerAlpha]);
