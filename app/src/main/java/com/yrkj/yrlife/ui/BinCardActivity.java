@@ -158,7 +158,7 @@ public class BinCardActivity extends BaseActivity {
 
             @Override
             public void onFinished() {
-
+                mLoadingDialog.dismiss();
             }
         });
     }

@@ -36,8 +36,9 @@ import com.zxing.activity.CaptureActivity;
 final class DecodeThread extends Thread {
 
   public static final String BARCODE_BITMAP = "barcode_bitmap";
-  private final CaptureActivity activity;
+  private  CaptureActivity activity;
   private final Hashtable<DecodeHintType, Object> hints;
+  private  DecodeHandlerInterface handlerInterface;
   private Handler handler;
   private final CountDownLatch handlerInitLatch;
 
@@ -67,6 +68,32 @@ final class DecodeThread extends Thread {
     hints.put(DecodeHintType.NEED_RESULT_POINT_CALLBACK, resultPointCallback);
   }
 
+  DecodeThread(DecodeHandlerInterface handlerInterface,
+               Vector<BarcodeFormat> decodeFormats, String characterSet,
+               ResultPointCallback resultPointCallback) {
+
+    this.handlerInterface = handlerInterface;
+    handlerInitLatch = new CountDownLatch(1);
+
+    hints = new Hashtable<DecodeHintType, Object>(3);
+
+    if (decodeFormats == null || decodeFormats.isEmpty()) {
+      decodeFormats = new Vector<BarcodeFormat>();
+      decodeFormats.addAll(DecodeFormatManager.ONE_D_FORMATS);
+      decodeFormats.addAll(DecodeFormatManager.QR_CODE_FORMATS);
+      decodeFormats.addAll(DecodeFormatManager.DATA_MATRIX_FORMATS);
+    }
+
+    hints.put(DecodeHintType.POSSIBLE_FORMATS, decodeFormats);
+
+    if (characterSet != null) {
+      hints.put(DecodeHintType.CHARACTER_SET, characterSet);
+    }
+
+    hints.put(DecodeHintType.NEED_RESULT_POINT_CALLBACK,
+            resultPointCallback);
+  }
+
   Handler getHandler() {
     try {
       handlerInitLatch.await();
@@ -79,7 +106,13 @@ final class DecodeThread extends Thread {
   @Override
   public void run() {
     Looper.prepare();
-    handler = new DecodeHandler(activity, hints);
+    if (activity!=null){
+      handler = new DecodeHandler(activity, hints);
+    }
+
+    if (handlerInterface!=null){
+      handler = new DecodeHandler(handlerInterface, hints);
+    }
     handlerInitLatch.countDown();
     Looper.loop();
   }

@@ -65,7 +65,7 @@ public class UIHelper {
     public final static int REQUEST_CODE_FOR_REPLY = 0x02;
     public static final String APP_ID = "wx4aca65f58fe822e2";//APP_ID是从网站申请的
     public static final String App_Secret = "e289ab5aba52ce52941ead32519859ca";//密钥是从网站申请的
-    public static final String PARTNERID="partnerid";
+    public static final String PARTNERID="1347776201";
     private static final String PACKAGE_URL_SCHEME = "package:"; // 方案
     public static String OpenId = "";
     public static String access_token = "";

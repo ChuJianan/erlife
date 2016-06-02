@@ -1,14 +1,24 @@
 package com.yrkj.yrlife.ui.fragment;
 
+import android.Manifest;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.AssetFileDescriptor;
 import android.graphics.Bitmap;
+import android.hardware.Camera;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Vibrator;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.SurfaceHolder.Callback;
@@ -22,6 +32,10 @@ import android.widget.Toast;
 import com.google.zxing.BarcodeFormat;
 import com.yrkj.yrlife.R;
 
+import com.yrkj.yrlife.app.AppManager;
+import com.yrkj.yrlife.ui.NearActivity;
+import com.yrkj.yrlife.utils.UIHelper;
+import com.zxing.activity.CaptureActivity;
 import com.zxing.camera.CameraManager;
 import com.zxing.decoding.CaptureActivityHandler;
 import com.zxing.decoding.InactivityTimer;
@@ -30,8 +44,10 @@ import com.zxing.view.ViewfinderView;
 
 import org.xutils.http.RequestParams;
 import org.xutils.view.annotation.ContentView;
+import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
+
 import com.zxing.decoding.DecodeHandlerInterface;
 
 import java.io.IOException;
@@ -45,7 +61,7 @@ import java.util.logging.XMLFormatter;
  * Created by Administrator on 2016/3/17.
  */
 @ContentView(R.layout.fragment_near)
-public class FragmentNear extends BaseFragment implements Callback ,DecodeHandlerInterface{
+public class FragmentNear extends BaseFragment implements Callback, DecodeHandlerInterface {
     private CaptureActivityHandler handler;
     @ViewInject(R.id.viewfinder_view)
     private ViewfinderView viewfinderView;
@@ -56,10 +72,12 @@ public class FragmentNear extends BaseFragment implements Callback ,DecodeHandle
     private MediaPlayer mediaPlayer;
     private boolean playBeep;
     private static final float BEEP_VOLUME = 0.10f;
+    public static final int MY_PERMISSIONS_CAMERA = 1;
     private boolean vibrate;
     View view;
     LinearLayout ls;
-
+    Camera camera = null;
+    boolean isCamera=false;
 
     @ViewInject(R.id.title)
     private TextView title;
@@ -68,14 +86,32 @@ public class FragmentNear extends BaseFragment implements Callback ,DecodeHandle
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        this.view=view;
-        CameraManager.init(getActivity().getApplication());
+
+        this.view = view;
+        CameraManager.init(getActivity());
         view.findViewById(R.id.back).setVisibility(View.INVISIBLE);
         title.setText("无卡洗车");
         ls = (LinearLayout) getActivity().findViewById(R.id.ssss);
         ls.setVisibility(View.GONE);
         hasSurface = false;
         inactivityTimer = new InactivityTimer(getActivity());
+    }
+
+    @Event(R.id.kd_rl)
+    private void kdrlEvent(View view) {
+      CameraManager.get().flashHandler();
+
+    }
+
+    @Event(R.id.shuru_rl)
+    private void shururlEvent(View view) {
+
+    }
+
+    @Event(R.id.near_rl)
+    private void nearrlEvent(View view) {
+        Intent intent = new Intent(getActivity(), NearActivity.class);
+        startActivity(intent);
     }
 
     @Override
@@ -93,7 +129,7 @@ public class FragmentNear extends BaseFragment implements Callback ,DecodeHandle
         characterSet = null;
 
         playBeep = true;
-        AudioManager audioService = (AudioManager) getActivity().getSystemService(getActivity().AUDIO_SERVICE);
+        AudioManager audioService = (AudioManager) getActivity().getSystemService(Context.AUDIO_SERVICE);
         if (audioService.getRingerMode() != AudioManager.RINGER_MODE_NORMAL) {
             playBeep = false;
         }
@@ -119,6 +155,7 @@ public class FragmentNear extends BaseFragment implements Callback ,DecodeHandle
 
     /**
      * Handler scan result
+     *
      * @param result
      * @param barcode
      */
@@ -129,7 +166,7 @@ public class FragmentNear extends BaseFragment implements Callback ,DecodeHandle
         //FIXME
         if (resultString.equals("")) {
             Toast.makeText(getContext(), "Scan failed!", Toast.LENGTH_SHORT).show();
-        }else {
+        } else {
 //			System.out.println("Result:"+resultString);
             Intent resultIntent = new Intent();
             Bundle bundle = new Bundle();
@@ -148,7 +185,8 @@ public class FragmentNear extends BaseFragment implements Callback ,DecodeHandle
             return;
         }
         if (handler == null) {
-
+            handler = new CaptureActivityHandler(this, decodeFormats,
+                    characterSet);
         }
     }
 
@@ -169,6 +207,7 @@ public class FragmentNear extends BaseFragment implements Callback ,DecodeHandle
         hasSurface = false;
 
     }
+
     public ViewfinderView getViewfinderView() {
         return viewfinderView;
     }
@@ -213,7 +252,7 @@ public class FragmentNear extends BaseFragment implements Callback ,DecodeHandle
             mediaPlayer.start();
         }
         if (vibrate) {
-            Vibrator vibrator = (Vibrator)getActivity().getSystemService(getActivity().VIBRATOR_SERVICE);
+            Vibrator vibrator = (Vibrator) getActivity().getSystemService(Context.VIBRATOR_SERVICE);
             vibrator.vibrate(VIBRATE_DURATION);
         }
     }
@@ -226,9 +265,10 @@ public class FragmentNear extends BaseFragment implements Callback ,DecodeHandle
             mediaPlayer.seekTo(0);
         }
     };
+
     /**
      * you should get result like this.
-     *
+     * <p/>
      * String scanResult = data.getExtras().getString("result");
      */
     @Override
@@ -237,10 +277,62 @@ public class FragmentNear extends BaseFragment implements Callback ,DecodeHandle
 //		Toast.makeText(getActivity(), data.getExtras().getString("result"), 0)
 //				.show();
     }
+
     @Override
     public void launchProductQuary(String url) {
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
         startActivity(intent);
+    }
+
+
+    public static void turnLightOn(Camera mCamera) {
+        if (mCamera == null) {
+            return;
+        }
+        Camera.Parameters parameters = mCamera.getParameters();
+        if (parameters == null) {
+            return;
+        }
+        List<String> flashModes = parameters.getSupportedFlashModes();
+        // Check if camera flash exists
+        if (flashModes == null) {
+            // Use the screen as a flashlight (next best thing)
+            return;
+        }
+        String flashMode = parameters.getFlashMode();
+        if (!Camera.Parameters.FLASH_MODE_TORCH.equals(flashMode)) {
+            // Turn on the flash
+            if (flashModes.contains(Camera.Parameters.FLASH_MODE_TORCH)) {
+                parameters.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
+                mCamera.setParameters(parameters);
+            } else {
+            }
+        }
+    }
+
+    public static void turnLightOff(Camera mCamera) {
+        if (mCamera == null) {
+            return;
+        }
+        Camera.Parameters parameters = mCamera.getParameters();
+        if (parameters == null) {
+            return;
+        }
+        List<String> flashModes = parameters.getSupportedFlashModes();
+        String flashMode = parameters.getFlashMode();
+        // Check if camera flash exists
+        if (flashModes == null) {
+            return;
+            }
+        if (!Camera.Parameters.FLASH_MODE_OFF.equals(flashMode)) {
+            // Turn off the flash
+            if (flashModes.contains(Camera.Parameters.FLASH_MODE_OFF)) {
+                parameters.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
+                mCamera.setParameters(parameters);
+                } else {
+//                Log.e(TAG, "FLASH_MODE_OFF not supported");
+            }
+        }
     }
 }

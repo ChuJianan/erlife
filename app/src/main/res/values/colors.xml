@@ -51,6 +51,7 @@
     <color name="btm_gray">#EEEFEF</color>
     <color name="tab_selected">#00C5FF</color>
     <color name="tab_normal">#EAEAEA</color>
+    <color name="wash_text">#aaabab</color>
 
     <color name="full_transparent">#00000000</color>
     <color name="half_transparent">#aa000000</color>

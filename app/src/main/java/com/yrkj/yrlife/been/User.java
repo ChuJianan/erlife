@@ -10,66 +10,36 @@ import java.util.Date;
  * 用户信息
  * Created by cjn on 2016/5/9.
  */
-@Table(name = "user")
 public class User extends Entity {
 
-    @Column(name="account")
     private String account;//登录帐号
-    @Column(name="pwd")
     private String pwd;//登录密码
-    @Column(name="real_name")
     private String real_name;//姓名
-    @Column(name="nick_name")
     private String nick_name;//昵称
-    @Column(name="sex")
     private String sex;//性别
-    @Column(name="phone")
     private String phone;//手机
-    @Column(name="email")
     private String email;//邮箱
-    @Column(name="member_grade_type_id")
     private int member_grade_type_id;//会员等级分表
-    @Column(name="member_type")
     private String member_type;//会员类型
-    @Column(name="head_image")
     private String head_image;//头像
-    @Column(name="isenable")
     private String isenable;//是否禁用或启用
-    @Column(name="province")
     private String province;//省
-    @Column(name="city")
     private String city;//市
-    @Column(name="zone")
     private String zone;//区
-    @Column(name="detail_address")
     private String detail_address;//详情地址
-    @Column(name="card_total_point")
     private int card_total_point;//卡总积分
-    @Column(name="memo")
     private String memo;//备注
-    @Column(name="sort")
     private int sort;//排序
-    @Column(name="isdel")
     private String isdel;//是否删除
-    @Column(name="create_time")
     private Date create_time;//创建时间
-    @Column(name="create_id")
     private int create_id;//创建人编号
-    @Column(name="update_time")
     private Date update_time;//修改时间
-    @Column(name="update_id")
     private int update_id;//修改人编号
-    @Column(name="total_balance")
     private BigDecimal total_balance;//会员总余额
-    @Column(name="total_consume")
     private BigDecimal total_consume;//会员累计消费金
-    @Column(name="card_number")
     private String card_number;//
-    @Column(name="due_time")
     private Date due_time;//过期时间
-    @Column(name="secret_code")
     private String secret_code;//用户密钥
-    @Column(name="unique_phone_code")
     private String unique_phone_code;//手机唯一码
     private String wx_head_pic;//微信头像
     private String isBind;//是否绑定会员卡

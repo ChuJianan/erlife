@@ -29,7 +29,7 @@
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.FLASHLIGHT" />
-    <!--<uses-feature android:name="android.hardware.camera.autofocus"/>-->
+    <uses-feature android:name="android.hardware.camera"/>
 
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.BROADCAST_STICKY" />
@@ -113,6 +113,7 @@
 
 
         <activity android:name=".wxapi.WXEntryActivity" android:exported="true" android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen"/>
+        <activity android:name=".wxapi.WXPayEntryActivity" android:exported="true" android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen"/>
         <activity android:name="com.zxing.activity.CaptureActivity"/>
 
         <!-- 【必须】 (2.30及以上版新增)展示通知的activity -->

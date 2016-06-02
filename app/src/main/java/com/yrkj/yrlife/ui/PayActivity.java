@@ -19,6 +19,7 @@ import com.yrkj.yrlife.been.Result;
 import com.yrkj.yrlife.been.URLs;
 import com.yrkj.yrlife.been.WeixinPay;
 import com.yrkj.yrlife.utils.JsonUtils;
+import com.yrkj.yrlife.utils.Md5;
 import com.yrkj.yrlife.utils.StringUtils;
 import com.yrkj.yrlife.utils.UIHelper;
 import com.yrkj.yrlife.widget.RadioGroup;
@@ -163,6 +164,7 @@ public class PayActivity extends BaseActivity {
                 req.state = ApiClient.getUserAgent(appContext);
                 api.sendReq(req);
             } else {
+                mLoadingDialog.show();
                 setPay();
             }
         }
@@ -187,16 +189,19 @@ public class PayActivity extends BaseActivity {
                 Result res = JsonUtils.fromJson(result, Result.class);
                 if (res.OK()) {
                     WeixinPay weixinPay = res.getWxpay();
-                    UIHelper.orderNumber = weixinPay.getOrderNumber();
+                    UIHelper.orderNumber = weixinPay.getOut_trade_no();
                     PayReq request = new PayReq();
                     request.appId = UIHelper.APP_ID;
                     request.partnerId = UIHelper.PARTNERID;
+                    request.openId=UIHelper.OpenId;
                     request.prepayId = weixinPay.getPrePayId();
                     request.packageValue = "Sign=WXPay";
                     request.nonceStr = weixinPay.getNonceStr();
                     request.timeStamp = weixinPay.getTimeStamp();
-                    request.sign = weixinPay.getPaySign();
-                    api.sendReq(request);
+                    String md5= Md5.encode("appid="+UIHelper.APP_ID+"&noncestr="+weixinPay.getNonceStr()+"&package=Sign=WXPay"+"&partnerid="+
+                            UIHelper.PARTNERID+"&prepayid="+weixinPay.getPrePayId()+"&timestamp="+weixinPay.getTimeStamp()+"&key=qingdaoyirenkeji8888888888888888");
+                    request.sign = md5;
+                    appContext.api.sendReq(request);
                 } else {
                     UIHelper.ToastMessage(PayActivity.this, res.Message());
                 }
@@ -216,7 +221,8 @@ public class PayActivity extends BaseActivity {
 
             @Override
             public void onFinished() {
-                finish();
+                mLoadingDialog.dismiss();
+//                finish();
             }
         });
     }

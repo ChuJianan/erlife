@@ -1,0 +1,525 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/graywhite"
+    >
+    <include layout="@layout/include_common_header"/>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:gravity="center"
+        android:paddingTop="@dimen/space_10"
+        android:paddingLeft="@dimen/space_15"
+        android:paddingRight="@dimen/space_15"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/space_12"
+        >
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageView43"
+            android:src="@mipmap/bianhao" />
+        <com.yrkj.yrlife.widget.ClearEditText
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:background="@color/white"
+            android:layout_marginLeft="@dimen/space_15"
+            android:id="@+id/wash_machid_edit"
+            />
+    </LinearLayout>
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView44"
+        android:layout_gravity="center_horizontal"
+        android:src="@mipmap/down_curr"
+        android:layout_marginTop="@dimen/space_10"
+        />
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/space_20"
+        android:visibility="gone"
+        >
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="left"
+            android:background="@color/white"
+            android:paddingTop="@dimen/space_10"
+            android:paddingBottom="@dimen/space_10"
+            android:paddingLeft="@dimen/space_15"
+
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="洗车机地址"
+                android:id="@+id/textView18"
+                android:textSize="@dimen/text_size_14"
+                android:textColor="@color/xinshou" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/space_8"
+                android:text="山东省青岛市辽阳西路72号B座203-204车位"
+                android:textSize="@dimen/text_size_14"
+                android:id="@+id/wash_adr"
+                android:textColor="@color/quan_text_color" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:paddingTop="@dimen/space_10"
+            android:paddingBottom="@dimen/space_10"
+            android:paddingLeft="@dimen/space_15"
+            android:gravity="left"
+            android:layout_marginTop="@dimen/space_2"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="洗车机编号"
+                android:textSize="@dimen/text_size_14"
+                android:textColor="@color/xinshou"
+                android:id="@+id/textView20" />
+
+            <TextView
+                android:layout_marginLeft="@dimen/space_8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1000888"
+                android:textSize="@dimen/text_size_14"
+                android:textColor="@color/quan_text_color"
+                android:id="@+id/wash_machid" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:layout_marginTop="@dimen/space_2"
+            android:paddingTop="@dimen/space_10"
+            android:paddingBottom="@dimen/space_10"
+            android:paddingLeft="@dimen/space_15"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="有无空位"
+                android:textSize="@dimen/text_size_14"
+                android:textColor="@color/xinshou"
+                android:id="@+id/textView22" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="空闲"
+                android:textSize="@dimen/text_size_14"
+                android:textColor="@color/quan_text_color"
+                android:layout_marginLeft="@dimen/space_22"
+                android:id="@+id/wash_isfree" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:layout_marginTop="@dimen/space_8"
+            android:paddingTop="@dimen/space_10"
+            android:paddingBottom="@dimen/space_10"
+            android:paddingLeft="@dimen/space_15"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="持卡人姓名"
+                android:id="@+id/textView24"
+                android:textSize="@dimen/text_size_14"
+                android:textColor="@color/xinshou"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="小亿"
+                android:id="@+id/wash_name"
+                android:textSize="@dimen/text_size_14"
+                android:textColor="@color/quan_text_color"
+                android:layout_marginLeft="@dimen/space_8"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:layout_marginTop="@dimen/space_2"
+            android:paddingTop="@dimen/space_10"
+            android:paddingBottom="@dimen/space_10"
+            android:paddingLeft="@dimen/space_15"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="卡 号"
+                android:id="@+id/textView26"
+                android:textSize="@dimen/text_size_14"
+                android:textColor="@color/xinshou"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="37020500001"
+                android:id="@+id/wash_cardnub"
+                android:textSize="@dimen/text_size_14"
+                android:textColor="@color/quan_text_color"
+                android:layout_marginLeft="47dp"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:layout_marginTop="@dimen/space_2"
+            android:paddingTop="@dimen/space_10"
+            android:paddingBottom="@dimen/space_10"
+            android:paddingLeft="@dimen/space_15"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="卡内余额"
+                android:id="@+id/textView28"
+                android:textSize="@dimen/text_size_14"
+                android:textColor="@color/xinshou"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="123.00"
+                android:id="@+id/wash_nub"
+                android:textSize="@dimen/text_size_14"
+                android:textColor="@color/quan_text_color"
+                android:layout_marginLeft="@dimen/space_22"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="元"
+                android:textColor="@color/quan_text_color"
+                android:textSize="@dimen/text_size_14"
+                android:layout_marginLeft="@dimen/space_2"
+                android:id="@+id/textView30" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginTop="@dimen/space_30"
+        android:padding="@dimen/space_10"
+        android:visibility="gone"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="洗车进行中..."
+            android:textColor="@color/quan_text_color"
+            android:textSize="@dimen/text_size_18"
+            android:id="@+id/textView31" />
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:gravity="center"
+            android:layout_marginTop="@dimen/space_10"
+            android:background="@drawable/xf_bg">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="您已消费"
+                android:textColor="@color/quan_text_color"
+                android:textSize="@dimen/text_size_15"
+                android:id="@+id/textView32" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2.50"
+                android:layout_marginLeft="@dimen/space_15"
+                android:id="@+id/wash_pay"
+                android:textSize="@dimen/text_size_20"
+                android:textColor="@color/paycolor"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="元"
+                android:textColor="@color/paycolor"
+                android:id="@+id/textView34"
+                android:textSize="@dimen/text_size_17"
+                />
+        </LinearLayout>
+    </LinearLayout>
+
+
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/space_22"
+        android:background="@drawable/xf_bg"
+        android:gravity="center_horizontal"
+        android:padding="@dimen/space_15"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="结算单"
+            android:textColor="@color/quan_text_color"
+            android:textSize="@dimen/text_size_20"
+            android:id="@+id/textView19"
+            android:gravity="center_vertical" />
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/space_10"
+            android:layout_marginTop="@dimen/space_6"
+            >
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_10"
+                android:id="@+id/linearLayout2">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="交易流水号："
+                    android:textColor="@color/wash_text"
+                    android:textSize="@dimen/text_size_14"
+                    android:id="@+id/textView21" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="053201688"
+                    android:textColor="@color/wash_text"
+                    android:textSize="@dimen/text_size_14"
+                    android:layout_marginLeft="@dimen/space_5"
+                    android:id="@+id/textView23" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/linearLayout2"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:id="@+id/linearLayout3"
+                android:layout_marginTop="@dimen/space_7"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="设 备 编  号  :"
+                    android:textColor="@color/wash_text"
+                    android:textSize="@dimen/text_size_14"
+
+                    android:id="@+id/textView25" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="1000888"
+                    android:textColor="@color/wash_text"
+                    android:textSize="@dimen/text_size_14"
+                    android:layout_marginLeft="@dimen/space_9"
+                    android:id="@+id/textView27" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/linearLayout3"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="@dimen/space_7"
+                android:id="@+id/linearLayout4">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="设 备 地  址  :"
+                    android:id="@+id/textView29"
+                    android:layout_below="@+id/linearLayout3"
+                    android:textColor="@color/wash_text"
+                    android:textSize="@dimen/text_size_14"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="山东省青岛市辽阳西路72号\nB座203-204车位"
+                    android:id="@+id/textView33"
+                    android:singleLine="false"
+                    android:textColor="@color/wash_text"
+                    android:textSize="@dimen/text_size_14"
+                    android:layout_marginLeft="@dimen/space_9"
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/linearLayout4"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="@dimen/space_7"
+                android:id="@+id/linearLayout5">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="消 费 日  期  :"
+                    android:id="@+id/textView35"
+                    android:textColor="@color/wash_text"
+                    android:textSize="@dimen/text_size_14"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="2016/05/12"
+                    android:id="@+id/textView36"
+                    android:textColor="@color/wash_text"
+                    android:textSize="@dimen/text_size_14"
+                    android:layout_marginLeft="@dimen/space_9"
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/linearLayout5"
+                android:layout_marginTop="@dimen/space_7"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:id="@+id/linearLayout6">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="付款人卡号："
+                    android:id="@+id/textView37"
+                    android:textColor="@color/wash_text"
+                    android:textSize="@dimen/text_size_14"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="053200008888"
+                    android:id="@+id/textView38"
+                    android:textColor="@color/wash_text"
+                    android:textSize="@dimen/text_size_14"
+                    android:layout_marginLeft="@dimen/space_5"
+                    />
+            </LinearLayout>
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/linearLayout6"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="@dimen/space_15"
+                android:layout_marginLeft="@dimen/space_12"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="本次消费："
+                    android:id="@+id/textView39"
+                    android:textColor="@color/quan_text_color"
+                    android:textSize="@dimen/text_size_18"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="12.50"
+                    android:id="@+id/textView40"
+                    android:textColor="@color/quan_text_color"
+                    android:textSize="@dimen/text_size_18"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="元"
+                    android:id="@+id/textView41"
+                    android:textColor="@color/quan_text_color"
+                    android:textSize="@dimen/text_size_18"
+                    />
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <Button
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:text="确定"
+        android:id="@+id/wash_btn"
+        android:layout_gravity="center"
+        android:textColor="@color/white"
+        android:background="@drawable/bg_btn_code"
+        android:layout_marginTop="@dimen/space_25"
+        android:visibility="visible"
+        />
+
+</LinearLayout>

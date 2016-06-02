@@ -8,9 +8,11 @@ import com.tencent.mm.sdk.constants.ConstantsAPI;
 import com.tencent.mm.sdk.modelbase.BaseReq;
 import com.tencent.mm.sdk.modelbase.BaseResp;
 import com.tencent.mm.sdk.openapi.IWXAPIEventHandler;
+import com.yrkj.yrlife.app.AppManager;
 import com.yrkj.yrlife.been.Result;
 import com.yrkj.yrlife.been.URLs;
 import com.yrkj.yrlife.ui.BaseActivity;
+import com.yrkj.yrlife.ui.PayActivity;
 import com.yrkj.yrlife.utils.JsonUtils;
 import com.yrkj.yrlife.utils.UIHelper;
 
@@ -80,6 +82,7 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
 
                         @Override
                         public void onFinished() {
+                            AppManager.getAppManager().finishActivity(PayActivity.class);
                             finish();
                             mLoadingDialog.dismiss();
                         }

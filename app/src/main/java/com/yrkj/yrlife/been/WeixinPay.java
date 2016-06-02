@@ -9,12 +9,12 @@ public class WeixinPay extends Entity {
     private String paySign;// 签名
     private String nonceStr;//随机字符串
 
-    public String getOrderNumber() {
-        return orderNumber;
+    public String getOut_trade_no() {
+        return out_trade_no;
     }
 
-    public void setOrderNumber(String orderNumber) {
-        this.orderNumber = orderNumber;
+    public void setOut_trade_no(String out_trade_no) {
+        this.out_trade_no = out_trade_no;
     }
 
     public String getNonceStr() {
@@ -49,6 +49,6 @@ public class WeixinPay extends Entity {
         this.prePayId = prePayId;
     }
 
-    private String orderNumber;//订单号
+    private String out_trade_no;//订单号
 
 }

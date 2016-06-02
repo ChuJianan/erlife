@@ -40,8 +40,8 @@ import com.zxing.view.ViewfinderResultPointCallback;
 public final class CaptureActivityHandler extends Handler {
 
 	private static final String TAG = CaptureActivityHandler.class.getSimpleName();
-
-	private final CaptureActivity activity;
+	private  DecodeHandlerInterface handlerInterface;
+	private  CaptureActivity activity;
 	private final DecodeThread decodeThread;
 	private State state;
 
@@ -63,6 +63,20 @@ public final class CaptureActivityHandler extends Handler {
 		restartPreviewAndDecode();
 	}
 
+	public CaptureActivityHandler(DecodeHandlerInterface handlerInterface,
+								  Vector<BarcodeFormat> decodeFormats, String characterSet) {
+		this.handlerInterface = handlerInterface;
+		decodeThread = new DecodeThread(handlerInterface, decodeFormats,
+				characterSet, new ViewfinderResultPointCallback(
+				handlerInterface.getViewfinderView()));
+		decodeThread.start();
+		state = State.SUCCESS;
+		// Start ourselves capturing previews and decoding.
+		CameraManager.get().startPreview();
+		restartPreviewAndDecode();
+	}
+
+
 	@Override
 	public void handleMessage(Message message) {
 		if (message.what == R.id.auto_focus) {
@@ -83,8 +97,12 @@ public final class CaptureActivityHandler extends Handler {
 			/***********************************************************************/
 			Bitmap barcode = bundle == null ? null :
 				(Bitmap) bundle.getParcelable(DecodeThread.BARCODE_BITMAP);//���ñ����߳�
-
+			if (handlerInterface!=null){
+				handlerInterface.handleDecode((Result) message.obj, barcode);
+			}
+			if (activity!=null){
 			activity.handleDecode((Result) message.obj, barcode);//���ؽ��
+			}
 			/***********************************************************************/
 		}else if (message.what == R.id.decode_failed) {
 			// We're decoding as fast as possible, so when one decode fails, start another.
@@ -92,14 +110,25 @@ public final class CaptureActivityHandler extends Handler {
 			CameraManager.get().requestPreviewFrame(decodeThread.getHandler(), R.id.decode);
 		}else if (message.what == R.id.return_scan_result) {
 			Log.d(TAG, "Got return scan result message");
+			if (activity!=null){
 			activity.setResult(Activity.RESULT_OK, (Intent) message.obj);
 			activity.finish();
+			}
+			if (handlerInterface!=null) {
+				handlerInterface.resturnScanResult(
+						DecodeHandlerInterface.RESULT_STATE_OK, (Intent) message.obj);
+			}
 		}else if (message.what == R.id.launch_product_query) {
 			Log.d(TAG, "Got product query message");
 			String url = (String) message.obj;
+			if (activity!=null){
 			Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
 			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
 			activity.startActivity(intent);
+			}
+			if (handlerInterface!=null){
+			handlerInterface.launchProductQuary(url);
+			}
 		}
 	}
 
@@ -124,7 +153,12 @@ public final class CaptureActivityHandler extends Handler {
 			state = State.PREVIEW;
 			CameraManager.get().requestPreviewFrame(decodeThread.getHandler(), R.id.decode);
 			CameraManager.get().requestAutoFocus(this, R.id.auto_focus);
+			if (handlerInterface!=null){
+			handlerInterface.drawViewfinder();
+			}
+			if (activity!=null){
 			activity.drawViewfinder();
+			}
 		}
 	}
 

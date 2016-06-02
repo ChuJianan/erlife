@@ -283,7 +283,7 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
                 if (res.OK()) {
                     appContext.api = WXAPIFactory.createWXAPI(WXEntryActivity.this, UIHelper.APP_ID, false);
                     weixinPay = res.getWxpay();
-                    UIHelper.orderNumber = weixinPay.getOrderNumber();
+                    UIHelper.orderNumber = weixinPay.getOut_trade_no();
                     PayReq request = new PayReq();
                     request.appId = UIHelper.APP_ID;
                     request.partnerId = UIHelper.PARTNERID;

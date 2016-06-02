@@ -165,6 +165,8 @@ public class MoreActivity extends BaseActivity {
                     SharedPreferences.Editor editor = preferences.edit();
                     editor.putString("secret_code", "");
                     URLs.secret_code = "";
+                    editor.clear();
+                    editor.putBoolean("isFirstUse", false);
                     editor.commit();
                     UIHelper.ToastMessage(appContext, msg.obj.toString());
                 } else if (msg.what == 2) {
