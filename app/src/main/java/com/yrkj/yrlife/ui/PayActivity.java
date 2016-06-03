@@ -154,25 +154,15 @@ public class PayActivity extends BaseActivity {
                 UIHelper.ToastMessage(this, "请选择充值金额");
             }
         } else {
-            if (UIHelper.OpenId == "") {
-                BigDecimal bigDecimal = new BigDecimal("0.01");
-//                BigDecimal bigDecimal = new BigDecimal(money);
-                UIHelper.isLogin = false;
-                UIHelper.bigDecimal = bigDecimal;
-                SendAuth.Req req = new SendAuth.Req();
-                req.scope = "snsapi_userinfo";
-                req.state = ApiClient.getUserAgent(appContext);
-                api.sendReq(req);
-            } else {
                 mLoadingDialog.show();
                 setPay();
-            }
         }
     }
 
     private void setPay() {
         String url = URLs.PAY;
         BigDecimal bigDecimal = new BigDecimal("0.01");
+        UIHelper.bigDecimal=bigDecimal;
 //        BigDecimal bigDecimal = new BigDecimal(money);
         RequestParams params = new RequestParams(url);
         params.setHeader("User-Agent", getUserAgent(appContext));
@@ -181,7 +171,6 @@ public class PayActivity extends BaseActivity {
         params.addParameter("amount", bigDecimal);
         params.addParameter("unique_phone_code", appContext.getAppId());
 //        params.addParameter("ip",appContext.getLocalHostIp());
-        params.addParameter("openid", UIHelper.OpenId);
         x.http().post(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {

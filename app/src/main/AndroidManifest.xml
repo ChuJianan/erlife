@@ -59,7 +59,7 @@
         android:theme="@style/AppTheme">
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
-            android:value="GiasCvBR0f40LrZ1iemutLRb" />
+            android:value="mEwi7F4mZPgLzOcGGU9hpgpW" />
         <!-- 【必须】 请将YOUR_ACCESS_ID修改为APP的AccessId，“21”开头的10位数字，中间没空格 -->
         <meta-data
             android:name="XG_V2_ACCESS_ID"
@@ -109,9 +109,12 @@
         <activity android:name=".ui.AboutActivity"/>
         <activity android:name=".ui.HelpActivity"/>
         <activity android:name=".ui.NearActivity"/>
+        <activity android:name=".ui.WashActivity"/>
 
 
-
+        <!--<activity-->
+            <!--android:name="com.tencent.bugly.beta.ui.BetaActivity"-->
+            <!--android:theme="@android:style/Theme.Translucent" />-->
         <activity android:name=".wxapi.WXEntryActivity" android:exported="true" android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen"/>
         <activity android:name=".wxapi.WXPayEntryActivity" android:exported="true" android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen"/>
         <activity android:name="com.zxing.activity.CaptureActivity"/>

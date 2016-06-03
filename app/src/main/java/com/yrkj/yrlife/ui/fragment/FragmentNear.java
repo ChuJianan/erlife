@@ -34,6 +34,7 @@ import com.yrkj.yrlife.R;
 
 import com.yrkj.yrlife.app.AppManager;
 import com.yrkj.yrlife.ui.NearActivity;
+import com.yrkj.yrlife.ui.WashActivity;
 import com.yrkj.yrlife.utils.UIHelper;
 import com.zxing.activity.CaptureActivity;
 import com.zxing.camera.CameraManager;
@@ -105,7 +106,8 @@ public class FragmentNear extends BaseFragment implements Callback, DecodeHandle
 
     @Event(R.id.shuru_rl)
     private void shururlEvent(View view) {
-
+        Intent intent=new Intent(getActivity(), WashActivity.class);
+        startActivity(intent);
     }
 
     @Event(R.id.near_rl)
@@ -168,11 +170,12 @@ public class FragmentNear extends BaseFragment implements Callback, DecodeHandle
             Toast.makeText(getContext(), "Scan failed!", Toast.LENGTH_SHORT).show();
         } else {
 //			System.out.println("Result:"+resultString);
-            Intent resultIntent = new Intent();
+            Intent resultIntent = new Intent(getActivity(),WashActivity.class);
             Bundle bundle = new Bundle();
             bundle.putString("result", resultString);
             resultIntent.putExtras(bundle);
-            getActivity().setResult(getActivity().RESULT_OK, resultIntent);
+//            getActivity().setResult(getActivity().RESULT_OK, resultIntent);
+            startActivity(resultIntent);
         }
     }
 
@@ -283,56 +286,5 @@ public class FragmentNear extends BaseFragment implements Callback, DecodeHandle
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
         startActivity(intent);
-    }
-
-
-    public static void turnLightOn(Camera mCamera) {
-        if (mCamera == null) {
-            return;
-        }
-        Camera.Parameters parameters = mCamera.getParameters();
-        if (parameters == null) {
-            return;
-        }
-        List<String> flashModes = parameters.getSupportedFlashModes();
-        // Check if camera flash exists
-        if (flashModes == null) {
-            // Use the screen as a flashlight (next best thing)
-            return;
-        }
-        String flashMode = parameters.getFlashMode();
-        if (!Camera.Parameters.FLASH_MODE_TORCH.equals(flashMode)) {
-            // Turn on the flash
-            if (flashModes.contains(Camera.Parameters.FLASH_MODE_TORCH)) {
-                parameters.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
-                mCamera.setParameters(parameters);
-            } else {
-            }
-        }
-    }
-
-    public static void turnLightOff(Camera mCamera) {
-        if (mCamera == null) {
-            return;
-        }
-        Camera.Parameters parameters = mCamera.getParameters();
-        if (parameters == null) {
-            return;
-        }
-        List<String> flashModes = parameters.getSupportedFlashModes();
-        String flashMode = parameters.getFlashMode();
-        // Check if camera flash exists
-        if (flashModes == null) {
-            return;
-            }
-        if (!Camera.Parameters.FLASH_MODE_OFF.equals(flashMode)) {
-            // Turn off the flash
-            if (flashModes.contains(Camera.Parameters.FLASH_MODE_OFF)) {
-                parameters.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
-                mCamera.setParameters(parameters);
-                } else {
-//                Log.e(TAG, "FLASH_MODE_OFF not supported");
-            }
-        }
     }
 }

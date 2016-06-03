@@ -23,6 +23,8 @@ import com.tencent.android.tpush.XGPushConfig;
 import com.tencent.android.tpush.XGPushManager;
 import com.tencent.android.tpush.XGPushNotifactionCallback;
 import com.tencent.android.tpush.service.XGPushService;
+import com.tencent.bugly.Bugly;
+//import com.tencent.bugly.crashreport.CrashReport;
 import com.tencent.bugly.crashreport.CrashReport;
 import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
@@ -85,7 +87,7 @@ public class YrApplication extends Application {
 
         //腾讯Bugly声明
         CrashReport.initCrashReport(getApplicationContext(), "900021362", false);
-
+//        Bugly.init(getApplicationContext(), "900021362", false);
         //百度定位声明
 //        locationService = new LocationService(getApplicationContext());
         mVibrator = (Vibrator) getApplicationContext().getSystemService(Service.VIBRATOR_SERVICE);

@@ -70,7 +70,6 @@ public class UIHelper {
     public static String OpenId = "";
     public static String access_token = "";
     public static String refresh_token = "";
-    public static boolean isLogin = false;
     public static BigDecimal bigDecimal;
     public static String orderNumber="";
     public static String city = "";

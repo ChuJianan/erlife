@@ -22,6 +22,7 @@ import com.yrkj.yrlife.ui.BaseActivity;
 import com.yrkj.yrlife.ui.LoginActivity;
 import com.yrkj.yrlife.ui.PayActivity;
 import com.yrkj.yrlife.utils.JsonUtils;
+import com.yrkj.yrlife.utils.Md5;
 import com.yrkj.yrlife.utils.StringUtils;
 import com.yrkj.yrlife.utils.UIHelper;
 
@@ -108,11 +109,7 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
 
                     @Override
                     public void onFinished() {
-                        if (UIHelper.isLogin) {
                             setUser();
-                        } else {
-                            setPay();
-                        }
                     }
                 });
                 break;
@@ -262,70 +259,4 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
             }
         });
     }
-
-    WeixinPay weixinPay;
-
-    private void setPay() {
-        String url = URLs.PAY;
-        RequestParams params = new RequestParams(url);
-        params.setHeader("User-Agent", getUserAgent(appContext));
-        params.addParameter("secret_code", URLs.secret_code);
-//        params.addParameter("pay_kind",pay_kind);
-        params.addParameter("amount", UIHelper.bigDecimal);
-        params.addParameter("unique_phone_code", appContext.getAppId());
-//        params.addParameter("ip",appContext.getLocalHostIp());
-        params.addParameter("openid", UIHelper.OpenId);
-        x.http().post(params, new Callback.CommonCallback<String>() {
-            @Override
-            public void onSuccess(String result) {
-                mLoadingDialog.dismiss();
-                Result res = JsonUtils.fromJson(result, Result.class);
-                if (res.OK()) {
-                    appContext.api = WXAPIFactory.createWXAPI(WXEntryActivity.this, UIHelper.APP_ID, false);
-                    weixinPay = res.getWxpay();
-                    UIHelper.orderNumber = weixinPay.getOut_trade_no();
-                    PayReq request = new PayReq();
-                    request.appId = UIHelper.APP_ID;
-                    request.partnerId = UIHelper.PARTNERID;
-                    request.prepayId = weixinPay.getPrePayId();
-                    request.packageValue = "Sign=WXPay";
-                    request.nonceStr = weixinPay.getNonceStr();
-                    request.timeStamp = weixinPay.getTimeStamp();
-                    request.sign = weixinPay.getPaySign();
-                    appContext.api.sendReq(request);
-                } else {
-                    UIHelper.ToastMessage(WXEntryActivity.this, res.Message());
-                }
-            }
-
-            @Override
-            public void onError(Throwable ex, boolean isOnCallback) {
-                UIHelper.ToastMessage(WXEntryActivity.this, ex.getMessage());
-            }
-
-            @Override
-            public void onCancelled(CancelledException cex) {
-                UIHelper.ToastMessage(WXEntryActivity.this, "error");
-            }
-
-            @Override
-            public void onFinished() {
-                finish();
-            }
-        });
-    }
-
-    private static String getUserAgent(YrApplication appContext) {
-        if (appUserAgent == null || appUserAgent == "") {
-            StringBuilder ua = new StringBuilder("iMeeting");
-            ua.append('/' + appContext.getPackageInfo().versionName + '_' + appContext.getPackageInfo().versionCode);//App版本
-            ua.append("/Android");//手机系统平台
-            ua.append("/" + android.os.Build.VERSION.RELEASE);//手机系统版本
-            ua.append("/" + android.os.Build.MODEL); //手机型号
-            ua.append("/" + appContext.getAppId());//客户端唯一标识
-            appUserAgent = ua.toString();
-        }
-        return appUserAgent;
-    }
-
 }

@@ -105,7 +105,6 @@ public class LoginActivity extends BaseActivity {
     @Event(R.id.wx_btn)
     private void wxbtnEvent(View view) {
         // send oauth request
-        UIHelper.isLogin=true;
         SendAuth.Req req=new SendAuth.Req();
         req.scope = "snsapi_userinfo";
         req.state = ApiClient.getUserAgent(appContext);

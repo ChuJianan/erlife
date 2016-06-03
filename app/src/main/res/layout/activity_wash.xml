@@ -6,7 +6,7 @@
     >
     <include layout="@layout/include_common_header"/>
     <LinearLayout
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:gravity="center"
         android:paddingTop="@dimen/space_10"
@@ -14,35 +14,45 @@
         android:paddingRight="@dimen/space_15"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/space_12"
+        android:id="@+id/wash_top_l"
         >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            >
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/imageView43"
+                android:src="@mipmap/bianhao" />
+            <com.yrkj.yrlife.widget.ClearEditText
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:background="@color/white"
+                android:layout_marginLeft="@dimen/space_15"
+                android:id="@+id/wash_machid_edit"
+                />
+        </LinearLayout>
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/imageView43"
-            android:src="@mipmap/bianhao" />
-        <com.yrkj.yrlife.widget.ClearEditText
-            android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:background="@color/white"
-            android:layout_marginLeft="@dimen/space_15"
-            android:id="@+id/wash_machid_edit"
+            android:id="@+id/imageView44"
+            android:layout_gravity="center_horizontal"
+            android:src="@mipmap/down_curr"
+            android:layout_marginTop="@dimen/space_15"
             />
     </LinearLayout>
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/imageView44"
-        android:layout_gravity="center_horizontal"
-        android:src="@mipmap/down_curr"
-        android:layout_marginTop="@dimen/space_10"
-        />
+
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/space_20"
         android:visibility="gone"
+        android:id="@+id/wash_center1_l"
         >
 
         <LinearLayout
@@ -246,6 +256,7 @@
         android:layout_marginTop="@dimen/space_30"
         android:padding="@dimen/space_10"
         android:visibility="gone"
+        android:id="@+id/wash_btm_l"
         >
 
         <TextView
@@ -303,6 +314,8 @@
         android:background="@drawable/xf_bg"
         android:gravity="center_horizontal"
         android:padding="@dimen/space_15"
+        android:visibility="gone"
+        android:id="@+id/wash_balance_l"
         >
         <TextView
             android:layout_width="wrap_content"
@@ -342,7 +355,7 @@
                     android:textColor="@color/wash_text"
                     android:textSize="@dimen/text_size_14"
                     android:layout_marginLeft="@dimen/space_5"
-                    android:id="@+id/textView23" />
+                    android:id="@+id/wash_order_no" />
             </LinearLayout>
 
             <LinearLayout
@@ -372,7 +385,7 @@
                     android:textColor="@color/wash_text"
                     android:textSize="@dimen/text_size_14"
                     android:layout_marginLeft="@dimen/space_9"
-                    android:id="@+id/textView27" />
+                    android:id="@+id/wash_machid_dis" />
             </LinearLayout>
 
             <LinearLayout
@@ -396,10 +409,10 @@
                     />
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="172dp"
                     android:layout_height="wrap_content"
-                    android:text="山东省青岛市辽阳西路72号\nB座203-204车位"
-                    android:id="@+id/textView33"
+                    android:text="山东省青岛市辽阳西路72号B座203-204车位"
+                    android:id="@+id/wash_adr_dis"
                     android:singleLine="false"
                     android:textColor="@color/wash_text"
                     android:textSize="@dimen/text_size_14"
@@ -430,7 +443,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="2016/05/12"
-                    android:id="@+id/textView36"
+                    android:id="@+id/wash_date"
                     android:textColor="@color/wash_text"
                     android:textSize="@dimen/text_size_14"
                     android:layout_marginLeft="@dimen/space_9"
@@ -460,7 +473,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="053200008888"
-                    android:id="@+id/textView38"
+                    android:id="@+id/wash_cardnub_dis"
                     android:textColor="@color/wash_text"
                     android:textSize="@dimen/text_size_14"
                     android:layout_marginLeft="@dimen/space_5"
@@ -491,7 +504,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="12.50"
-                    android:id="@+id/textView40"
+                    android:id="@+id/wash_pay_dis"
                     android:textColor="@color/quan_text_color"
                     android:textSize="@dimen/text_size_18"
                     />
@@ -510,16 +523,51 @@
 
     </LinearLayout>
 
-    <Button
-        android:layout_width="200dp"
-        android:layout_height="50dp"
-        android:text="确定"
-        android:id="@+id/wash_btn"
-        android:layout_gravity="center"
-        android:textColor="@color/white"
-        android:background="@drawable/bg_btn_code"
-        android:layout_marginTop="@dimen/space_25"
-        android:visibility="visible"
-        />
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/xf_bg"
+        android:gravity="center"
+        android:visibility="gone"
+        android:id="@+id/wash_warn_l"
+        >
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/imageView45"
+            android:src="@mipmap/wash_warn" />
+
+        <TextView
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:singleLine="false"
+            android:gravity="center"
+            android:text="当前设备正在运行请稍后适配"
+            android:layout_marginLeft="@dimen/space_10"
+            android:textColor="@color/quan_text_color"
+            android:textSize="@dimen/text_size_17"
+            android:id="@+id/warn_text" />
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <Button
+            android:layout_width="200dp"
+            android:layout_height="50dp"
+            android:text="确定"
+            android:id="@+id/wash_btn"
+            android:layout_gravity="center|bottom"
+            android:textColor="@color/white"
+            android:background="@drawable/bg_btn_code"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="@dimen/space_30"
+            />
+    </RelativeLayout>
+
 
 </LinearLayout>
