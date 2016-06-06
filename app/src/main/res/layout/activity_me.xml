@@ -25,7 +25,7 @@
         <com.yrkj.yrlife.widget.RoundImageView
             android:layout_width="60dp"
             android:layout_height="60dp"
-            android:src="@mipmap/ic_me_tx"
+            android:src="@mipmap/ic_launcher"
             android:scaleType="centerInside"
             android:id="@+id/avatarImg"
             android:layout_alignTop="@+id/textView5"

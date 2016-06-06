@@ -13,8 +13,8 @@ public class URLs extends Entity {
 	public static  String secret_code="";
 //	public static String ImageByte="";
 	public static String IMAGE_FILE_NAME="";
-//	public static final String HOST = "http://192.168.0.106:8080/";
-	public static final String HOST = "http://40057179.nat123.net/";
+	public static final String HOST = "http://192.168.0.106:8080/";
+//	public static final String HOST = "http://40057179.nat123.net/";
 //	public static final String HOST = "http://119.10.48.101/";
 
 	public static final String APP_INIT = HOST+"wmmanager/app/pro1/app1/addMember";		//应用初始化地址
@@ -40,6 +40,9 @@ public class URLs extends Entity {
 	public static final String QUERY_PAY=HOST+"wmmanager/app/pro1/app2/queryPayment?";//查询充值
 	public static final String FindPWD=HOST+"wmmanager/app/pro1/app3/updatePassword?";//修改，找回密码
 	public static final String Thread_Login=HOST+"wmmanager/app/pro1/app2/third_Party_Logins?";//第三方登陆
+	public static final String WASH_NO_CARD=HOST+"wmmanager/app/pro1/app1/unCardWashing?";//无卡洗车
+	public static final String Load204Info=HOST+"wmmanager/app/pro1/app1/load204Info?";//实时消费金额
+	public static final String PAYCONFIRM=HOST+"wmmanager/app/pro1/app1/payConfirm?";//无卡洗车结算
 
 
 

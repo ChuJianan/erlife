@@ -3,6 +3,7 @@ package com.yrkj.yrlife.utils;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -113,6 +114,14 @@ public class UIHelper {
         context.startActivity(intent);
     }
 
+    public static ProgressDialog progressDialog(Activity context,String message){
+        ProgressDialog  mLoadingDialog = new ProgressDialog(context);
+        mLoadingDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        mLoadingDialog.setTitle("提示");
+        mLoadingDialog.setMessage(message);
+        mLoadingDialog.setCancelable(false);
+        return mLoadingDialog;
+    }
 
     /**
      * 加载显示图片

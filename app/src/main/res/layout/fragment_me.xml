@@ -46,7 +46,7 @@
             android:layout_height="60dp"
             android:layout_marginTop="@dimen/space_7"
             android:scaleType="centerInside"
-            android:src="@mipmap/ic_me_tx" />
+            android:src="@mipmap/ic_launcher" />
 
         <RelativeLayout
             android:id="@+id/me_rl"

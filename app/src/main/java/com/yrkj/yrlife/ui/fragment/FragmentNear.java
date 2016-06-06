@@ -32,9 +32,14 @@ import android.widget.Toast;
 import com.google.zxing.BarcodeFormat;
 import com.yrkj.yrlife.R;
 
+import com.yrkj.yrlife.app.AppException;
 import com.yrkj.yrlife.app.AppManager;
+import com.yrkj.yrlife.been.Result;
+import com.yrkj.yrlife.been.URLs;
+import com.yrkj.yrlife.been.Washing_no_card_record;
 import com.yrkj.yrlife.ui.NearActivity;
 import com.yrkj.yrlife.ui.WashActivity;
+import com.yrkj.yrlife.utils.JsonUtils;
 import com.yrkj.yrlife.utils.UIHelper;
 import com.zxing.activity.CaptureActivity;
 import com.zxing.camera.CameraManager;

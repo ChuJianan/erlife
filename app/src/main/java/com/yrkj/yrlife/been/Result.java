@@ -3,6 +3,7 @@ package com.yrkj.yrlife.been;
 import com.yrkj.yrlife.app.AppException;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.List;
 
@@ -18,6 +19,9 @@ public class Result {
     private int   totalPage;
     private WeixinPay wxpay;
     private String result;
+    private Washing_no_card_record washing_no_card_record;
+    private BigDecimal spend_money;
+    private PayConfirm payConfirm;
     public boolean OK(){
          return code==1;
      }
@@ -33,6 +37,15 @@ public class Result {
     public String Result(){
         return result;
     }
+    public Washing_no_card_record washing(){
+        return washing_no_card_record;
+    }
+    public BigDecimal spend_money(){
+        return spend_money;
+    }
+    public PayConfirm payconfirm(){
+        return payConfirm;
+    }
     /**
      * 解析调用结果
      *
@@ -42,7 +55,6 @@ public class Result {
      */
     public static Result parse(String jsonString) throws IOException, AppException {
         Result result = null;
-
         return result;
     }
 

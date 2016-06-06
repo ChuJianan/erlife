@@ -1,20 +1,36 @@
 package com.yrkj.yrlife.ui;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.yrkj.yrlife.R;
+import com.yrkj.yrlife.been.PayConfirm;
+import com.yrkj.yrlife.been.Result;
 import com.yrkj.yrlife.been.TestData;
+import com.yrkj.yrlife.been.URLs;
+import com.yrkj.yrlife.been.Washing_no_card_record;
+import com.yrkj.yrlife.utils.JsonUtils;
 import com.yrkj.yrlife.utils.StringUtils;
+import com.yrkj.yrlife.utils.UIHelper;
 import com.yrkj.yrlife.widget.ClearEditText;
 
+import org.xutils.common.Callback;
+import org.xutils.http.RequestParams;
 import org.xutils.view.annotation.ContentView;
+import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * Created by cjn on 2016/6/3.
@@ -68,29 +84,228 @@ public class WashActivity extends BaseActivity {
     private TextView title;
 
     String mach_id;
-
+    private ProgressDialog mLoadingDialog;
+    SharedPreferences preferences;
+    String name;
+    String nick_name;
+    int iBtn = 0;
+    Washing_no_card_record wash;
+    private final Timer timer = new Timer();
+    private TimerTask task;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         x.view().inject(this);
         title.setText("无卡洗车");
+        init();
         Intent intent = getIntent();
         mach_id = intent.getStringExtra("result");
         if (StringUtils.isEmpty(mach_id)) {
             wash_btn.setText("确定");
+            iBtn = 0;
             wash_top_l.setVisibility(View.VISIBLE);
             wash_center_l.setVisibility(View.GONE);
             wash_btm_l.setVisibility(View.GONE);
             wash_balance_l.setVisibility(View.GONE);
             wash_warn_l.setVisibility(View.GONE);
         } else {
-            wash_btn.setText("开始洗车");
-            wash_top_l.setVisibility(View.GONE);
+            mLoadingDialog.show();
+            wash_top_l.setVisibility(View.INVISIBLE);
             wash_center_l.setVisibility(View.VISIBLE);
             wash_warn_l.setVisibility(View.GONE);
             wash_btm_l.setVisibility(View.GONE);
             wash_balance_l.setVisibility(View.GONE);
+            getWash_record();
         }
+    }
+
+    private void init() {
+        preferences = getSharedPreferences("yrlife", MODE_WORLD_READABLE);
+        name = preferences.getString("name", "");
+        nick_name = preferences.getString("nick_name", "");
+        mLoadingDialog = UIHelper.progressDialog(this, "正在努力加载......");
+    }
+
+    private void getWash_record() {
+        RequestParams params = new RequestParams(URLs.WASH_NO_CARD);
+        params.addQueryStringParameter("secret_code", URLs.secret_code);
+        params.addQueryStringParameter("machineNo", mach_id);
+        params.addQueryStringParameter("lat", UIHelper.location.getLatitude() + "");
+        params.addQueryStringParameter("lng", UIHelper.location.getLongitude() + "");
+        x.http().get(params, new org.xutils.common.Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String string) {
+                Result result = JsonUtils.fromJson(string, Result.class);
+                UIHelper.ToastMessage(appContext, result.Message());
+                if (!result.OK()) {
+                    wash_btn.setText("返回");
+                    warn_text.setText(result.Message());
+                    wash_top_l.setVisibility(View.INVISIBLE);
+                    wash_center_l.setVisibility(View.GONE);
+                    wash_warn_l.setVisibility(View.VISIBLE);
+                    wash_btm_l.setVisibility(View.GONE);
+                    wash_balance_l.setVisibility(View.GONE);
+                    iBtn = -1;
+                } else {
+                    iBtn = 1;
+                    wash = result.washing();
+                    wash_adr.setText(wash.getAddress());
+                    wash_machid.setText(wash.getMachine_number());
+                    wash_isfree.setText("空闲");
+                    if (name != "" && !name.equals("")) {
+                        wash_name.setText(name);
+                    } else if (nick_name != "" && nick_name != null) {
+                        wash_name.setText(nick_name);
+                    }
+                    wash_cardnub.setText(wash.getCard_number());
+                    wash_nub.setText(wash.getTotal_money() + "");
+                }
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+                UIHelper.ToastMessage(appContext, ex.getMessage());
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+                UIHelper.ToastMessage(appContext, "error");
+            }
+
+            @Override
+            public void onFinished() {
+                mLoadingDialog.dismiss();
+            }
+        });
+
+    }
+
+    @Event(R.id.wash_btn)
+    private void washbtnEvent(View view) {
+        switch (iBtn) {
+            case 0://通过编号去查找洗车机
+                mach_id = wash_machid_edit.getText().toString();
+                getWash_record();
+                break;
+            case 1://开始洗车，启动请求实时金额
+                final Handler handler = new Handler() {
+                    @Override
+                    public void handleMessage(Message msg) {
+                        // TODO Auto-generated method stub
+                        // 要做的事情
+                        super.handleMessage(msg);
+                        load_Info();
+                    }
+                };
+                task = new TimerTask() {
+                    @Override
+                    public void run() {
+                        // TODO Auto-generated method stub
+                        Message message = new Message();
+                        message.what = 1;
+                        handler.sendMessage(message);
+                    }
+                };
+                timer.schedule(task, 5000, 5000);
+                break;
+            case 2://无卡洗车结算
+                mLoadingDialog.show();
+                if (timer != null) {
+                    timer.cancel();
+                }
+                payconfirm();
+                break;
+            case 3://去评级
+                break;
+            case -1://错误，返回
+                finish();
+                break;
+        }
+    }
+
+    private void load_Info() {
+        RequestParams params = new RequestParams(URLs.Load204Info);
+        params.addQueryStringParameter("machineNo", wash.getMachine_number());
+        params.addQueryStringParameter("belongCode", wash.getBelong());
+        params.addQueryStringParameter("secret_code", URLs.secret_code);
+        x.http().get(params, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String string) {
+                Result result = JsonUtils.fromJson(string, Result.class);
+                if (result.OK()) {
+                    iBtn = 2;
+                    wash_top_l.setVisibility(View.INVISIBLE);
+                    wash_center_l.setVisibility(View.VISIBLE);
+                    wash_warn_l.setVisibility(View.GONE);
+                    wash_btm_l.setVisibility(View.VISIBLE);
+                    wash_balance_l.setVisibility(View.GONE);
+                    wash_pay.setText(result.spend_money() + "");
+                } else {
+
+                }
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+                UIHelper.ToastMessage(appContext, ex.getMessage());
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+                UIHelper.ToastMessage(appContext, "error");
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+        });
+    }
+
+    private void payconfirm() {
+        RequestParams params = new RequestParams(URLs.PAYCONFIRM);
+        params.addQueryStringParameter("machineNo", wash.getMachine_number());
+        params.addQueryStringParameter("belongCode", wash.getBelong());
+        params.addQueryStringParameter("&secret_code", URLs.secret_code);
+        x.http().get(params, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String string) {
+                Result result = JsonUtils.fromJson(string, Result.class);
+                if (result.OK()) {
+                    iBtn = 3;
+                    PayConfirm payconfirm = result.payconfirm();
+                    wash_top_l.setVisibility(View.INVISIBLE);
+                    wash_center_l.setVisibility(View.GONE);
+                    wash_warn_l.setVisibility(View.GONE);
+                    wash_btm_l.setVisibility(View.GONE);
+                    wash_balance_l.setVisibility(View.VISIBLE);
+                    wash_order_no.setText(payconfirm.getBelong());
+                    wash_adr_dis.setText(payconfirm.getAddress());
+                    wash_pay_dis.setText(payconfirm.getTotalmoney() + "");
+                    wash_date.setText(payconfirm.getTime());
+                    wash_machid_dis.setText(payconfirm.getMachinenumber());
+                    wash_cardnub_dis.setText(payconfirm.getCardnumber());
+                } else {
+
+                }
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+                UIHelper.ToastMessage(appContext, ex.getMessage());
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+                UIHelper.ToastMessage(appContext, "error");
+            }
+
+            @Override
+            public void onFinished() {
+                mLoadingDialog.dismiss();
+            }
+        });
+
     }
 }

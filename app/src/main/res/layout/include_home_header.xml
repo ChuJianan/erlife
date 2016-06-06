@@ -58,6 +58,7 @@
         android:layout_alignParentRight="true"
         android:scaleType="center"
         android:id="@+id/sweep"
+        android:visibility="gone"
         android:src="@mipmap/ic_sweep" />
 
 
