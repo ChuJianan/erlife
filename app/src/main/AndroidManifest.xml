@@ -110,11 +110,13 @@
         <activity android:name=".ui.HelpActivity"/>
         <activity android:name=".ui.NearActivity"/>
         <activity android:name=".ui.WashActivity"/>
+        <activity android:name=".ui.NewsActivity"/>
+        <activity android:name=".ui.NewsBrowserActivity"/>
 
 
-        <!--<activity-->
-            <!--android:name="com.tencent.bugly.beta.ui.BetaActivity"-->
-            <!--android:theme="@android:style/Theme.Translucent" />-->
+        <activity
+            android:name="com.tencent.bugly.beta.ui.BetaActivity"
+            android:theme="@android:style/Theme.Translucent" />
         <activity android:name=".wxapi.WXEntryActivity" android:exported="true" android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen"/>
         <activity android:name=".wxapi.WXPayEntryActivity" android:exported="true" android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen"/>
         <activity android:name="com.zxing.activity.CaptureActivity"/>

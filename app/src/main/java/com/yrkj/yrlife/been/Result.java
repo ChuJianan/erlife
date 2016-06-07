@@ -14,6 +14,7 @@ public class Result {
     public List<Near> nears= Collections.emptyList();
     public List<Consumer> consumers=Collections.emptyList();
     public List<Pay> pays=Collections.emptyList();
+    public List<News> news=Collections.emptyList();
     private int code;
     private String message;
     private int   totalPage;

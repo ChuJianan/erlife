@@ -86,8 +86,8 @@ public class YrApplication extends Application {
         x.Ext.init(this);
 
         //腾讯Bugly声明
-        CrashReport.initCrashReport(getApplicationContext(), "900021362", false);
-//        Bugly.init(getApplicationContext(), "900021362", false);
+//        CrashReport.initCrashReport(getApplicationContext(), "900021362", false);
+        Bugly.init(getApplicationContext(), "900021362", false);
         //百度定位声明
 //        locationService = new LocationService(getApplicationContext());
         mVibrator = (Vibrator) getApplicationContext().getSystemService(Service.VIBRATOR_SERVICE);

@@ -60,7 +60,6 @@ import java.util.zip.Inflater;
 @ContentView(value = R.layout.activity_main)
 public class MainActivity extends FragmentActivity {
 
-    public static final int MY_PERMISSIONS_CAMERA = 1;
     final private int REQUEST_CODE_ASK_PERMISSIONS = 123;
     private LocationService locationService;//定位
     YrApplication application;
@@ -147,33 +146,6 @@ public class MainActivity extends FragmentActivity {
                     }
                 }
                 break;
-            case MY_PERMISSIONS_CAMERA:
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    Intent intent = new Intent(this, CaptureActivity.class);
-                    startActivityForResult(intent, 0);
-                } else {
-                    //用户不同意，向用户展示该权限作用
-                    if (!ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA)) {
-                        AlertDialog dialog = new AlertDialog.Builder(this)
-                                .setMessage("该相机需要赋予使用的权限，不开启将无法正常工作！")
-                                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        startAppSettings();
-                                    }
-                                })
-                                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        finish();
-                                    }
-                                }).create();
-                        dialog.show();
-                        return;
-                    }
-                }
-                break;
             default:
                 super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
@@ -217,18 +189,36 @@ public class MainActivity extends FragmentActivity {
             mTabHost.getTabWidget().getChildAt(i)
                     .setBackgroundResource(R.mipmap.ic_bg_btm);
         }
-//        mTabHost.getTabWidget().getChildTabViewAt(3).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (StringUtils.isEmpty(URLs.secret_code)){
-//                    UIHelper.openLogin(MainActivity.this,true);
-//                }else {
-//                    FragmentTransaction localFragmentTransaction = getSupportFragmentManager().beginTransaction();
-//                    localFragmentTransaction.show(this.chargingFragment).hide(this.captureFragment).hide(this.userFragment).hide(this.noticeFragment).hide(this.homeFragment).commit();
-//                    this.captureFragment.closeCameraManager();
-//                }
-//            }
-//        });
+        mTabHost.getTabWidget().getChildTabViewAt(3).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (StringUtils.isEmpty(URLs.secret_code)){
+                    UIHelper.openLogin(MainActivity.this,true);
+                }else {
+                    mTabHost.setCurrentTab(3);
+                }
+            }
+        });
+        mTabHost.getTabWidget().getChildTabViewAt(2).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (StringUtils.isEmpty(URLs.secret_code)){
+                    UIHelper.openLogin(MainActivity.this,true);
+                }else {
+                    mTabHost.setCurrentTab(2);
+                }
+            }
+        });
+        mTabHost.getTabWidget().getChildTabViewAt(1).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (StringUtils.isEmpty(URLs.secret_code)){
+                    UIHelper.openLogin(MainActivity.this,true);
+                }else {
+                    mTabHost.setCurrentTab(1);
+                }
+            }
+        });
     }
 
     @Override
@@ -246,20 +236,6 @@ public class MainActivity extends FragmentActivity {
         }
     }
 
-    @Event(R.id.sweep)
-    private void sweepEvent(View view) {
-        int perssion = ContextCompat.checkSelfPermission(MainActivity.this,
-                Manifest.permission.CAMERA);
-        if (perssion == PackageManager.PERMISSION_GRANTED) {
-            Intent intent = new Intent(this, CaptureActivity.class);
-            startActivityForResult(intent, 0);
-        } else if (perssion == PackageManager.PERMISSION_DENIED) {
-            ActivityCompat.requestPermissions(MainActivity.this,
-                    new String[]{Manifest.permission.CAMERA},
-                    MY_PERMISSIONS_CAMERA);
-        }
-
-    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

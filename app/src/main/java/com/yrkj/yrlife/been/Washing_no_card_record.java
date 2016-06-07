@@ -13,7 +13,7 @@ public class Washing_no_card_record extends Entity {
     private String card_number;//卡编号
     private int card_id;//卡id
     private BigDecimal total_money;//卡总金额
-    private Date create_time;//创建时间
+    private String create_timeStr;//创建时间
     private String isfinish;//本次洗车是否结算完，1代表结算完，默认是0
     private String belong;//本次洗车单号
     private String notice;//存放提示语，如“洗车机距离过远”
@@ -78,12 +78,12 @@ public class Washing_no_card_record extends Entity {
         this.total_money = total_money;
     }
 
-    public Date getCreate_time() {
-        return create_time;
+    public String getCreate_timeStr() {
+        return create_timeStr;
     }
 
-    public void setCreate_time(Date create_time) {
-        this.create_time = create_time;
+    public void setCreate_timeStr(String create_timeStr) {
+        this.create_timeStr = create_timeStr;
     }
 
     public String getIsfinish() {

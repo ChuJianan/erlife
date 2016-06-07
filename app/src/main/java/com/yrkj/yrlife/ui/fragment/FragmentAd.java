@@ -1,5 +1,6 @@
 package com.yrkj.yrlife.ui.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 import com.yrkj.yrlife.R;
 import com.yrkj.yrlife.adapter.ListViewNoticeAdapter;
 import com.yrkj.yrlife.ui.MainActivity;
+import com.yrkj.yrlife.ui.NewsActivity;
 
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
@@ -43,7 +45,10 @@ public class FragmentAd extends BaseFragment {
         notice_listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+                if (position==0) {
+                    Intent intent=new Intent(getActivity(), NewsActivity.class);
+                    startActivity(intent);
+                }
             }
         });
     }

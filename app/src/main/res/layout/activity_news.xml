@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <include layout="@layout/include_common_header"/>
+
+    <com.yrkj.yrlife.widget.PullToRefreshListView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:divider="@color/line"
+        android:dividerHeight="@dimen/space_1"
+
+        android:id="@+id/news_list"
+        />
+    <TextView
+        android:id="@+id/empty_text"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="正在获取消息..."
+        android:textColor="@color/gray"
+        android:textSize="@dimen/text_size_19"
+        android:visibility="gone" />
+</LinearLayout>
