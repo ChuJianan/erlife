@@ -193,7 +193,7 @@ public class MainActivity extends FragmentActivity {
             @Override
             public void onClick(View v) {
                 if (StringUtils.isEmpty(URLs.secret_code)){
-                    UIHelper.openLogin(MainActivity.this,true);
+                    UIHelper.openLogin(MainActivity.this);
                 }else {
                     mTabHost.setCurrentTab(3);
                 }
@@ -203,7 +203,7 @@ public class MainActivity extends FragmentActivity {
             @Override
             public void onClick(View v) {
                 if (StringUtils.isEmpty(URLs.secret_code)){
-                    UIHelper.openLogin(MainActivity.this,true);
+                    UIHelper.openLogin(MainActivity.this);
                 }else {
                     mTabHost.setCurrentTab(2);
                 }
@@ -213,7 +213,7 @@ public class MainActivity extends FragmentActivity {
             @Override
             public void onClick(View v) {
                 if (StringUtils.isEmpty(URLs.secret_code)){
-                    UIHelper.openLogin(MainActivity.this,true);
+                    UIHelper.openLogin(MainActivity.this);
                 }else {
                     mTabHost.setCurrentTab(1);
                 }

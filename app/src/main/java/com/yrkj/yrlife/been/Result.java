@@ -22,7 +22,7 @@ public class Result {
     private String result;
     private Washing_no_card_record washing_no_card_record;
     private BigDecimal spend_money;
-    private PayConfirm payConfirm;
+    private PayConfirm payconfirm;
     public boolean OK(){
          return code==1;
      }
@@ -45,7 +45,7 @@ public class Result {
         return spend_money;
     }
     public PayConfirm payconfirm(){
-        return payConfirm;
+        return payconfirm;
     }
     /**
      * 解析调用结果

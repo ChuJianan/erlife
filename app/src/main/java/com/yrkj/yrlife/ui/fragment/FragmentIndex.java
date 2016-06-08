@@ -87,7 +87,7 @@ public class FragmentIndex extends BaseFragment{
                 switch (position) {
                     case 0://充值
                         if (URLs.secret_code==""){
-                            UIHelper.openLogin(getActivity(),true);
+                            UIHelper.openLogin(getActivity());
                         }else{
                         intent = new Intent(getActivity(), PayActivity.class);
                         startActivity(intent);
@@ -102,7 +102,7 @@ public class FragmentIndex extends BaseFragment{
                         break;
                     case 3://会员卡绑定
                         if (URLs.secret_code==""){
-                            UIHelper.openLogin(getActivity(),true);
+                            UIHelper.openLogin(getActivity());
                         }else {
                             intent = new Intent(getActivity(), BinCardActivity.class);
                             startActivity(intent);
@@ -110,14 +110,14 @@ public class FragmentIndex extends BaseFragment{
                         break;
                     case 4://优惠券
                         if (URLs.secret_code==""){
-                            UIHelper.openLogin(getActivity(),true);
+                            UIHelper.openLogin(getActivity());
                         }else {
 
                         }
                         break;
                     case 5://扫码洗车
                         if (URLs.secret_code==""){
-                            UIHelper.openLogin(getActivity(),true);
+                            UIHelper.openLogin(getActivity());
                         }else {
 
                         }

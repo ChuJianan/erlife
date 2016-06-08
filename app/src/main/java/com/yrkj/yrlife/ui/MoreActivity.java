@@ -58,7 +58,7 @@ public class MoreActivity extends BaseActivity {
     @Event(R.id.me_rl)
     private void merlEvent(View v) {
         if (URLs.secret_code == "") {
-            UIHelper.openLogin(this,false);
+            UIHelper.openLogin(this);
         } else {
             Intent intent = new Intent(this, MeActivity.class);
             startActivity(intent);
@@ -108,7 +108,7 @@ public class MoreActivity extends BaseActivity {
     private void onIdearlClick(View view) {
 //        UIHelper.ToastMessage(this, "正在开发中...");
         if (StringUtils.isEmpty(URLs.secret_code)) {
-            UIHelper.openLogin(this,false);
+            UIHelper.openLogin(this);
         } else {
             Intent intent = new Intent(this, IdeaActivity.class);
             startActivity(intent);

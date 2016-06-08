@@ -74,7 +74,7 @@ public class FragmentMe extends BaseFragment {
         ls = (LinearLayout) getActivity().findViewById(R.id.ssss);
         ls.setVisibility(View.GONE);
         if (StringUtils.isEmpty(URLs.secret_code)){
-            UIHelper.openLogin(getActivity(),false);
+            UIHelper.openLogin(getActivity());
         }
     }
 
@@ -143,7 +143,7 @@ public class FragmentMe extends BaseFragment {
     @Event(R.id.me_rl)
     private void merlEvent(View view){
         if (URLs.secret_code==""){
-            UIHelper.openLogin(getActivity(),false);
+            UIHelper.openLogin(getActivity());
         }
     }
 
@@ -155,7 +155,7 @@ public class FragmentMe extends BaseFragment {
     private void onRlcvzClick(View view) {
 //        UIHelper.ToastMessage(getActivity(),"正在开发...");
         if (StringUtils.isEmpty(URLs.secret_code)) {
-            UIHelper.openLogin(getActivity(),false);
+            UIHelper.openLogin(getActivity());
         } else {
             Intent intent = new Intent(getActivity(), PayActivity.class);
             startActivity(intent);
@@ -169,7 +169,7 @@ public class FragmentMe extends BaseFragment {
     @Event(R.id.rl_bin)
     private void onRlbinClick(View view) {
         if (StringUtils.isEmpty(URLs.secret_code)) {
-            UIHelper.openLogin(getActivity(),false);
+            UIHelper.openLogin(getActivity());
         } else {
             Intent intent = new Intent(getActivity(), BinCardActivity.class);
             startActivity(intent);
@@ -183,7 +183,7 @@ public class FragmentMe extends BaseFragment {
     @Event(R.id.pay_rl)
     private void onPayrlClick(View view) {
         if (StringUtils.isEmpty(URLs.secret_code)) {
-            UIHelper.openLogin(getActivity(),false);
+            UIHelper.openLogin(getActivity());
         } else {
             Intent intent = new Intent(getActivity(), CzlistActivity.class);
             startActivity(intent);
@@ -197,7 +197,7 @@ public class FragmentMe extends BaseFragment {
     @Event(R.id.cost_rl)
     private void onCostrlClick(View view) {
         if (StringUtils.isEmpty(URLs.secret_code)) {
-            UIHelper.openLogin(getActivity(),false);
+            UIHelper.openLogin(getActivity());
         } else {
             Intent intent = new Intent(getActivity(), ConsumerActivity.class);
             startActivity(intent);
