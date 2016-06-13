@@ -30,7 +30,9 @@ import android.widget.TextView;
 
 import com.yrkj.yrlife.R;
 import com.yrkj.yrlife.been.URLs;
+import com.yrkj.yrlife.been.User;
 import com.yrkj.yrlife.utils.ImageUtils;
+import com.yrkj.yrlife.utils.JsonUtils;
 import com.yrkj.yrlife.utils.StringUtils;
 import com.yrkj.yrlife.utils.UIHelper;
 import com.zxing.activity.CaptureActivity;
@@ -422,18 +424,37 @@ public class MeActivity extends BaseActivity {
             @Override
             public void onSuccess(String result) {
 //                UIHelper.ToastMessage(appContext,result);
-                mLoadingDialog.dismiss();
+                try{
+                    JSONObject json = new JSONObject(result);
+                    String string=json.getString("result");
+                    SharedPreferences.Editor editor = preferences.edit();
+                    User user = JsonUtils.fromJson(string, User.class);
+                    if (!StringUtils.isEmpty(user.getHead_image())) {
+                        editor.putString("head_image", user.getHead_image());
+                    } else {
+                        editor.putString("head_image", "");
+                    }
+                    if (!StringUtils.isEmpty(user.getWx_head_pic())) {
+                        editor.putString("wx_head_image", user.getWx_head_pic());
+                    } else {
+                        editor.putString("wx_head_image", "");
+                    }
+                    UIHelper.showLoadImage(avatarImg, URLs.IMGURL + user.getHead_image(), "");
+                }catch (JSONException e){
+                    e.printStackTrace();
+                }
+
+
             }
 
             @Override
             public void onCancelled(CancelledException cex) {
-                mLoadingDialog.dismiss();
+
             }
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
                 UIHelper.ToastMessage(appContext, ex.getMessage());
-                mLoadingDialog.dismiss();
             }
 
             @Override

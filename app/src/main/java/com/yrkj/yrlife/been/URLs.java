@@ -43,7 +43,9 @@ public class URLs extends Entity {
 	public static final String WASH_NO_CARD=HOST+"wmmanager/app/pro1/app1/unCardWashing?";//无卡洗车
 	public static final String Load204Info=HOST+"wmmanager/app/pro1/app1/load204Info?";//实时消费金额
 	public static final String PAYCONFIRM=HOST+"wmmanager/app/pro1/app1/payConfirm?";//无卡洗车结算
-	public static final String NEWS=HOST+"wmmanager/app/pro1/app1/systemMessage?";//无卡洗车结算
+	public static final String NEWS=HOST+"wmmanager/app/pro1/app1/systemMessage?";//新闻
+	public static final String RATE=HOST+"wmmanager/app/pro1/app1/remarkStar?";//评星
+
 
 
 

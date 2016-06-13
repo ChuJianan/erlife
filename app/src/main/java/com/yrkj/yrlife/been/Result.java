@@ -26,6 +26,9 @@ public class Result {
     public boolean OK(){
          return code==1;
      }
+    public boolean isOK(){
+        return code==3;
+    }
     public String Message(){
         return message;
     }

@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.baidu.mapapi.model.LatLng;
@@ -25,6 +26,7 @@ import java.util.List;
  */
 public class ListViewNearAdapter extends BaseAdapter {
 
+    private Context context;
     private List<Near> listItems;
     private LayoutInflater listContainer; // 视图容器
 
@@ -34,9 +36,11 @@ public class ListViewNearAdapter extends BaseAdapter {
         public TextView tel;
         public TextView dis;
         public ImageView img;
+        public LinearLayout daohang;
     }
 
     public ListViewNearAdapter(Context context, List<Near> data) {
+        this.context=context;
         this.listContainer = LayoutInflater.from(context);
         this.listItems = data;
     }
@@ -60,12 +64,13 @@ public class ListViewNearAdapter extends BaseAdapter {
             holder.tel = (TextView) convertView.findViewById(R.id.tel_text);
             holder.dis = (TextView) convertView.findViewById(R.id.dis_text);
             holder.img = (ImageView) convertView.findViewById(R.id.adr_img);
+            holder.daohang=(LinearLayout)convertView.findViewById(R.id.daohang);
 
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        Near near = listItems.get(position);
+        final Near near = listItems.get(position);
         holder.nid.setText(near.getMachine_name());
         holder.adr.setText(near.getAddress());
 //        holder.tel.setText(near.getTel());
@@ -76,7 +81,18 @@ public class ListViewNearAdapter extends BaseAdapter {
         holder.dis.setText(bigDecimal.setScale(2,BigDecimal.ROUND_HALF_UP).toString());
 //        holder.img.setImageBitmap();
         UIHelper.showLoadImage(holder.img, URLs.IMGURL+near.getMachine_pic(),"");
-
+        holder.daohang.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (UIHelper.isInstallPackage("com.baidu.BaiduMap")){
+                    UIHelper.openBaiduMap(Double.parseDouble(near.getLat()),Double.parseDouble(near.getLng()),near.getAddress(),context);
+                }else if (UIHelper.isInstallPackage("com.autonavi.minimap")){
+                    UIHelper.openGaoDeMap(Double.parseDouble(near.getLat()),Double.parseDouble(near.getLng()),near.getAddress(),context);
+                }else {
+                    UIHelper.ToastMessage(context,"非常抱歉，您的手机上暂没我们支持的地图导航，请下载百度地图或高德地图");
+                }
+            }
+        });
         return convertView;
     }
 

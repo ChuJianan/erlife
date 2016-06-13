@@ -3,6 +3,7 @@ package com.yrkj.yrlife.ui;
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -21,6 +22,7 @@ import com.yrkj.yrlife.R;
 import com.yrkj.yrlife.api.ApiClient;
 import com.yrkj.yrlife.app.AppException;
 import com.yrkj.yrlife.been.URLs;
+import com.yrkj.yrlife.utils.DataCleanManager;
 import com.yrkj.yrlife.utils.DensityUtil;
 import com.yrkj.yrlife.utils.ImageUtils;
 import com.yrkj.yrlife.utils.QRCodeUtil;
@@ -45,7 +47,10 @@ public class MoreActivity extends BaseActivity {
 
     @ViewInject(R.id.title)
     TextView title;
+    @ViewInject(R.id.cache_size)
+    TextView cache_size;
     String result;
+    private ProgressDialog mLoadingDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +58,19 @@ public class MoreActivity extends BaseActivity {
         x.view().inject(this);
         title.setText("更多");
         preferences = getSharedPreferences("yrlife", MODE_WORLD_READABLE);
+        try{
+        cache_size.setText(DataCleanManager.getTotalCacheSize(appContext));
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        init();
+    }
+    private void init(){
+        mLoadingDialog = new ProgressDialog(this);
+        mLoadingDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        mLoadingDialog.setTitle("提示");
+        mLoadingDialog.setMessage("正在努力的加载……");
+        mLoadingDialog.setCancelable(false);
     }
 
     @Event(R.id.me_rl)
@@ -162,6 +180,7 @@ public class MoreActivity extends BaseActivity {
         final Handler handler = new Handler() {
             public void handleMessage(Message msg) {
                 if (msg.what == 1) {
+                    mLoadingDialog.dismiss();
                     SharedPreferences.Editor editor = preferences.edit();
                     editor.putString("secret_code", "");
                     URLs.secret_code = "";
@@ -206,10 +225,19 @@ public class MoreActivity extends BaseActivity {
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
                 if (i == 1) {
+                    mLoadingDialog.show();
                     loginOut();
                 }
                 if (i == 2) {
-                    UIHelper.clearAppCache(MoreActivity.this);
+                    mLoadingDialog.show();
+//                    UIHelper.clearAppCache(MoreActivity.this);
+                    try{
+                        DataCleanManager.clearAllCache(appContext);
+                        mLoadingDialog.dismiss();
+                        cache_size.setText(DataCleanManager.getTotalCacheSize(appContext));
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
                 }
             }
         });

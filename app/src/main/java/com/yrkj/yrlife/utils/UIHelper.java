@@ -16,6 +16,7 @@ import android.os.Message;
 import android.provider.Settings;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
@@ -123,6 +124,76 @@ public class UIHelper {
         return mLoadingDialog;
     }
 
+    public static void openBaiduMap(double lat, double lon, String describle,Context activity) {
+        try {
+            StringBuilder loc = new StringBuilder();
+            loc.append("intent://map/direction?origin=latlng:");
+            loc.append(lat);
+            loc.append(",");
+            loc.append(lon);
+            loc.append("|name:");
+            loc.append("我的位置");
+            loc.append("&destination=latlng:");
+            loc.append(lat);
+            loc.append(",");
+            loc.append(lon);
+            loc.append("|name:");
+            loc.append(describle);
+            loc.append("&mode=driving");
+            loc.append("&referer=Autohome|GasStation#Intent;scheme=bdapp;package=com.baidu.BaiduMap;end");
+            Intent intent = Intent.getIntent(loc.toString());
+            if (isInstallPackage("com.baidu.BaiduMap")) {
+                activity.startActivity(intent); //启动调用
+                Log.e("GasStation", "百度地图客户端已经安装");
+            } else {
+                Log.e("GasStation", "没有安装百度地图客户端");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public static void openGaoDeMap(double lon, double lat, String describle,Context activity) {
+        try {
+            double[] gd_lat_lon = bdToGaoDe(lon, lat);
+            StringBuilder loc = new StringBuilder();
+            loc.append("androidamap://viewMap?sourceApplication=XX");
+            loc.append("&poiname=");
+            loc.append(describle);
+            loc.append("&lat=");
+            loc.append(gd_lat_lon[0]);
+            loc.append("&lon=");
+            loc.append(gd_lat_lon[1]);
+            loc.append("&dev=0");
+            Intent intent = Intent.getIntent(loc.toString());
+            activity.startActivity(intent);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    public static boolean isInstallPackage(String packageName) {
+        return new File("/data/data/" + packageName).exists();
+    }
+    public static double[] bdToGaoDe(double bd_lat, double bd_lon) {
+        double[] gd_lat_lon = new double[2];
+        double PI = 3.14159265358979324 * 3000.0 / 180.0;
+        double x = bd_lon - 0.0065, y = bd_lat - 0.006;
+        double z = Math.sqrt(x * x + y * y) - 0.00002 * Math.sin(y * PI);
+        double theta = Math.atan2(y, x) - 0.000003 * Math.cos(x * PI);
+        gd_lat_lon[0] = z * Math.cos(theta);
+        gd_lat_lon[1] = z * Math.sin(theta);
+        return gd_lat_lon;
+    }
+
+    public static double[] gaoDeToBaidu(double gd_lon, double gd_lat) {
+        double[] bd_lat_lon = new double[2];
+        double PI = 3.14159265358979324 * 3000.0 / 180.0;
+        double x = gd_lon, y = gd_lat;
+        double z = Math.sqrt(x * x + y * y) + 0.00002 * Math.sin(y * PI);
+        double theta = Math.atan2(y, x) + 0.000003 * Math.cos(x * PI);
+        bd_lat_lon[0] = z * Math.cos(theta) + 0.0065;
+        bd_lat_lon[1] = z * Math.sin(theta) + 0.006;
+        return bd_lat_lon;
+    }
     /**
      * 加载显示图片
      *

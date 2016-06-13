@@ -20,6 +20,7 @@ import com.yrkj.yrlife.ui.BinCardActivity;
 import com.yrkj.yrlife.ui.ConsumerActivity;
 import com.yrkj.yrlife.ui.NearActivity;
 import com.yrkj.yrlife.ui.PayActivity;
+import com.yrkj.yrlife.ui.WashsActivity;
 import com.yrkj.yrlife.utils.BitmapManager;
 import com.yrkj.yrlife.utils.UIHelper;
 import com.yrkj.yrlife.widget.MyGridView;
@@ -119,7 +120,8 @@ public class FragmentIndex extends BaseFragment{
                         if (URLs.secret_code==""){
                             UIHelper.openLogin(getActivity());
                         }else {
-
+                            intent=new Intent(getActivity(), WashsActivity.class);
+                            startActivity(intent);
                         }
                         break;
                     case 6://账单

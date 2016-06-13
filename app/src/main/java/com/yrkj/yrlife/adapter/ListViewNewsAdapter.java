@@ -65,7 +65,8 @@ public class ListViewNewsAdapter extends BaseAdapter {
         holder.title.setText(news.getTitle());
         holder.date.setText(news.getPublish_timeStr());
         holder.outline.setText("");
-        UIHelper.showLoadImage(holder.img, URLs.IMGURL+news.getNav_img(),"error");
+        news.setNav_img(news.getNav_img().replaceAll("\\\\", "/"));
+        UIHelper.showLoadImage(holder.img, URLs.IMGURL+news.getNav_img(),"");
 
         return convertView;
     }

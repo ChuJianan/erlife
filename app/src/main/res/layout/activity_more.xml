@@ -102,7 +102,18 @@
                         android:layout_centerVertical="true"
                         android:layout_alignParentRight="true"
                         android:layout_alignParentEnd="true"
-                        android:layout_marginRight="@dimen/space_10"/>
+                        android:layout_marginRight="@dimen/space_10"
+                        android:id="@+id/imageView46" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="1.24MB"
+                        android:textSize="@dimen/text_size_13"
+                        android:id="@+id/cache_size"
+                        android:layout_centerVertical="true"
+                        android:layout_toLeftOf="@+id/imageView46"
+                        android:layout_toStartOf="@+id/imageView46" />
                 </RelativeLayout>
                 <RelativeLayout
                     android:id="@+id/update_rl"
@@ -213,7 +224,7 @@
     <Button
         android:id="@+id/out_btn"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="50dp"
         android:background="@drawable/bg_btn_code"
         android:text="退出当前帐号"
         android:focusable="false"

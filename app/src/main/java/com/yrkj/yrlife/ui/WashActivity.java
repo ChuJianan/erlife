@@ -228,6 +228,12 @@ public class WashActivity extends BaseActivity {
                 payconfirm();
                 break;
             case 3://去评级
+                Intent intent=new Intent(WashActivity.this,RateActivity.class);
+                Bundle bundle=new Bundle();
+                bundle.putSerializable("wash",wash);
+                intent.putExtras(bundle);
+                startActivity(intent);
+                finish();
                 break;
             case -1://错误，返回
                 finish();
@@ -246,10 +252,29 @@ public class WashActivity extends BaseActivity {
                 Result result = JsonUtils.fromJson(string, Result.class);
                 if (result.OK()) {
                     iBtn = 2;
-
                     wash_pay.setText(result.spend_money() + "");
                 } else {
-
+                    if (result.isOK()){
+                        wash_btn.setText("去评价");
+                        mLoadingDialog.show();
+                        if (timer != null) {
+                            timer.cancel();
+                        }
+                        iBtn = 3;
+                        PayConfirm payconfirm = result.payconfirm();
+                        wash_top_l.setVisibility(View.GONE);
+                        wash_center_l.setVisibility(View.GONE);
+                        wash_warn_l.setVisibility(View.GONE);
+                        wash_btm_l.setVisibility(View.GONE);
+                        wash_balance_l.setVisibility(View.VISIBLE);
+                        wash_order_no.setText(payconfirm.getBelong());
+                        wash_adr_dis.setText(payconfirm.getAddress());
+                        wash_pay_dis.setText(payconfirm.getTotalmoney() + "");
+                        wash_date.setText(payconfirm.getTime());
+                        wash_machid_dis.setText(payconfirm.getMachinenumber());
+                        wash_cardnub_dis.setText(payconfirm.getCardnumber());
+                        mLoadingDialog.dismiss();
+                    }
                 }
             }
 

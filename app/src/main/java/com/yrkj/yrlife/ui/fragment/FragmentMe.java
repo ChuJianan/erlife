@@ -123,7 +123,6 @@ public class FragmentMe extends BaseFragment {
             }else {
                 UIHelper.showLoadImage(meImg,URLs.IMGURL+head_image,"");
             }
-
             money_textView.setText(money+"");
             jifen_textView.setText(jifen+"");
         } else {
