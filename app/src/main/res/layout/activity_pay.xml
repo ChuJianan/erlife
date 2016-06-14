@@ -119,7 +119,7 @@
             android:padding="@dimen/space_5"
             >
             <RadioButton
-                android:layout_width="100dp"
+                android:layout_width="87dp"
                 android:layout_height="50dp"
                 android:text="20元"
                 android:textSize="@dimen/text_size_15"
@@ -130,7 +130,7 @@
                 />
 
             <RadioButton
-                android:layout_width="100dp"
+                android:layout_width="87dp"
                 android:layout_height="50dp"
                 android:text="50元"
                 android:layout_marginLeft="@dimen/space_15"
@@ -142,7 +142,7 @@
                  />
 
             <RadioButton
-                android:layout_width="100dp"
+                android:layout_width="87dp"
                 android:layout_height="50dp"
                 android:text="100元"
                 android:layout_marginLeft="@dimen/space_15"
@@ -160,7 +160,7 @@
             android:gravity="center"
             android:padding="@dimen/space_5">
             <RadioButton
-                android:layout_width="100dp"
+                android:layout_width="87dp"
                 android:layout_height="50dp"
                 android:text="200元"
                 android:button="@null"
@@ -170,7 +170,7 @@
                 android:id="@+id/t_20_radio" />
 
             <RadioButton
-                android:layout_width="100dp"
+                android:layout_width="87dp"
                 android:layout_height="50dp"
                 android:text="300元"
                 android:layout_marginLeft="@dimen/space_15"
@@ -181,7 +181,7 @@
                 android:id="@+id/t_30_radio" />
 
             <RadioButton
-                android:layout_width="100dp"
+                android:layout_width="87dp"
                 android:layout_height="50dp"
                 android:text="500元"
                 android:layout_marginLeft="@dimen/space_15"

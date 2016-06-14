@@ -199,6 +199,7 @@ public class WashActivity extends BaseActivity {
                 wash_balance_l.setVisibility(View.GONE);
                 wash_pay.setText("0");
                 wash_btn.setText("结算");
+                iBtn=2;
                 final Handler handler = new Handler() {
                     @Override
                     public void handleMessage(Message msg) {
