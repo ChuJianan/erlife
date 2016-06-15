@@ -114,6 +114,7 @@
         <activity android:name=".ui.NewsBrowserActivity"/>
         <activity android:name=".ui.RateActivity"/>
         <activity android:name=".ui.WashsActivity"/>
+        <activity android:name=".ui.BindPhoneActivity"/>
 
 
         <activity

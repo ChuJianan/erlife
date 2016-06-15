@@ -99,7 +99,7 @@ public class FragmentIndex extends BaseFragment{
                         startActivity(intent);
                         break;
                     case 2://我的爱车
-
+                        UIHelper.ToastMessage(getActivity(), "正在开发中...");
                         break;
                     case 3://会员卡绑定
                         if (URLs.secret_code==""){
@@ -110,11 +110,12 @@ public class FragmentIndex extends BaseFragment{
                         }
                         break;
                     case 4://优惠券
-                        if (URLs.secret_code==""){
-                            UIHelper.openLogin(getActivity());
-                        }else {
-
-                        }
+//                        if (URLs.secret_code==""){
+//                            UIHelper.openLogin(getActivity());
+//                        }else {
+//
+//                        }
+                        UIHelper.ToastMessage(getActivity(), "正在开发中...");
                         break;
                     case 5://扫码洗车
                         if (URLs.secret_code==""){

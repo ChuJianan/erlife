@@ -93,6 +93,7 @@ public class WashActivity extends BaseActivity {
     private final Timer timer = new Timer();
     private TimerTask task;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -275,6 +276,13 @@ public class WashActivity extends BaseActivity {
                         wash_machid_dis.setText(payconfirm.getMachinenumber());
                         wash_cardnub_dis.setText(payconfirm.getCardnumber());
                         mLoadingDialog.dismiss();
+                        float mon=wash.getTotal_money().floatValue()-payconfirm.getTotalmoney().floatValue();
+                        //实例化Editor对象
+                        SharedPreferences.Editor editor = preferences.edit();
+                        //存入数据
+                        editor.putFloat("money", mon);
+                        //提交修改
+                        editor.commit();
                     }
                 }
             }
@@ -320,6 +328,13 @@ public class WashActivity extends BaseActivity {
                     wash_date.setText(payconfirm.getTime());
                     wash_machid_dis.setText(payconfirm.getMachinenumber());
                     wash_cardnub_dis.setText(payconfirm.getCardnumber());
+                    float mon=wash.getTotal_money().floatValue()-payconfirm.getTotalmoney().floatValue();
+                    //实例化Editor对象
+                    SharedPreferences.Editor editor = preferences.edit();
+                    //存入数据
+                    editor.putFloat("money", mon);
+                    //提交修改
+                    editor.commit();
                 } else {
 
                 }

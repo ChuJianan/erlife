@@ -69,16 +69,16 @@ public class ConsumerActivity extends BaseActivity {
     private void initView() {
         mConsumerView.setEmptyView(mEmptyView);
         mConsumerFooter = this.getLayoutInflater().inflate(R.layout.listview_footer, null);
-        mConsumerMore = (TextView)mConsumerFooter.findViewById(R.id.listview_foot_more);
-        mConsumerProgress = (ProgressBar)mConsumerFooter.findViewById(R.id.listview_foot_progress);
-        mConsumerAdapter = new ListViewConsumerAdapter(this,mConsumerData);
+        mConsumerMore = (TextView) mConsumerFooter.findViewById(R.id.listview_foot_more);
+        mConsumerProgress = (ProgressBar) mConsumerFooter.findViewById(R.id.listview_foot_progress);
+        mConsumerAdapter = new ListViewConsumerAdapter(this, mConsumerData);
         mConsumerView.addFooterView(mConsumerFooter);
         mConsumerView.setAdapter(mConsumerAdapter);
         mConsumerView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
-                if(position == 0 || view == mConsumerFooter) return;
+                if (position == 0 || view == mConsumerFooter) return;
 
 
             }
@@ -97,6 +97,7 @@ public class ConsumerActivity extends BaseActivity {
             public void onScrollStateChanged(AbsListView view, int scrollState) {
                 // TODO Auto-generated method stub
                 (mConsumerView).onScrollStateChanged(view, scrollState);
+                if (mConsumerData!=null)
                 if (mConsumerData.isEmpty())
                     return;
 
@@ -122,13 +123,17 @@ public class ConsumerActivity extends BaseActivity {
                     loadCloudData(pageNo);
                 }
 
-            }});
+            }
+        });
         mConsumerView.setOnRefreshListener(new PullToRefreshListView.OnRefreshListener() {
             //下拉列表刷新
             @Override
             public void onRefresh() {
-//			mConsumerData.removeAll(mConsumerData);
-//				loadCloudData(pageNo1+1);
+                mConsumerData.clear();
+                mConsumerData.removeAll(mConsumerData);
+                mConsumerData=null;
+                loadCloudData(1);
+                pageNo=1;
                 mConsumerProgress.setVisibility(ProgressBar.GONE);
                 mConsumerView.onRefreshComplete(DateUtils.format(new Date(), getString(R.string.pull_to_refresh_update_pattern)));
                 mConsumerView.setSelection(0);
@@ -137,42 +142,43 @@ public class ConsumerActivity extends BaseActivity {
         });
 //        isViewInited=true;
     }
+
     private void loadCloudData(int pageNo) {
-        String url= URLs.CONSUME;
+        String url = URLs.CONSUME;
         RequestParams params = new RequestParams(url);
         params.addQueryStringParameter("secret_code", URLs.secret_code);
-        params.addQueryStringParameter("pagenumber",pageNo+"");
+        params.addQueryStringParameter("pagenumber", pageNo + "");
         x.http().get(params, new Callback.CommonCallback<String>() {
 
             @Override
             public void onSuccess(String results) {
 //                Toast.makeText(x.app(), results, Toast.LENGTH_LONG).show();
-                Result result= JsonUtils.fromJson(results,Result.class);
+                Result result = JsonUtils.fromJson(results, Result.class);
                 if (!result.OK()) {
 //                    throw AppException.custom(result.Message());
-                    UIHelper.ToastMessage(appContext,result.Message());
+                    UIHelper.ToastMessage(appContext, result.Message());
                     mEmptyView.setText("暂时没有消费记录");
-                }else if (result.consumers.size()>0){
-                    if (mConsumerData==null){
-                        mConsumerData=result.consumers;
+                } else if (result.consumers.size() > 0) {
+                    if (mConsumerData == null) {
+                        mConsumerData = result.consumers;
                         mConsumerView.setTag(UIHelper.LISTVIEW_DATA_MORE);
                         mConsumerAdapter.setConsumer(mConsumerData);
                         mConsumerAdapter.notifyDataSetChanged();
-                    }else if (result.consumers.size()<pageSize){
-                        mConsumerData=result.consumers;
+                    } else if (result.consumers.size() < pageSize) {
+                        mConsumerData = result.consumers;
                         mConsumerView.setTag(UIHelper.LISTVIEW_DATA_FULL);
                         mConsumerAdapter.addConsumer(mConsumerData);
                         mConsumerAdapter.notifyDataSetChanged();
                         mConsumerProgress.setVisibility(View.GONE);
                         mConsumerMore.setText(R.string.load_full);
-                    }else {
+                    } else {
                         mConsumerData = result.consumers;
                         mConsumerView.setTag(UIHelper.LISTVIEW_DATA_MORE);
                         mConsumerAdapter.addConsumer(mConsumerData);
                         mConsumerAdapter.notifyDataSetChanged();
                         mConsumerMore.setText(R.string.load_more);
                     }
-                }else {
+                } else {
                     mConsumerView.setTag(UIHelper.LISTVIEW_DATA_FULL);
                     mConsumerMore.setText(R.string.load_full);
                     mConsumerProgress.setVisibility(View.GONE);

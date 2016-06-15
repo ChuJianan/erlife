@@ -1,6 +1,7 @@
 package com.yrkj.yrlife.wxapi;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
@@ -19,6 +20,7 @@ import com.yrkj.yrlife.been.WeixinPay;
 import com.yrkj.yrlife.been.WeixinUsers;
 import com.yrkj.yrlife.been.Weixins;
 import com.yrkj.yrlife.ui.BaseActivity;
+import com.yrkj.yrlife.ui.BindPhoneActivity;
 import com.yrkj.yrlife.ui.LoginActivity;
 import com.yrkj.yrlife.ui.PayActivity;
 import com.yrkj.yrlife.utils.JsonUtils;
@@ -172,7 +174,8 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
     }
 
     private void setUser(final WeixinUsers weixinuser) {
-        RequestParams params = new RequestParams(URLs.Thread_Login);
+        final RequestParams params = new RequestParams(URLs.Thread_Login);
+        final RequestParams params1 = new RequestParams();
         params.addQueryStringParameter("openId", weixinuser.getOpenid());
         params.addQueryStringParameter("union_id", weixinuser.getUnionid());
         params.addQueryStringParameter("sex", weixinuser.getSex() + "");
@@ -226,18 +229,29 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
                             editor.putString("isBind", "");
                         }
                         if (user.getTotal_balance() == null) {
-                            editor.putLong("money", 0);
+                            editor.putFloat("money", 0);
                         } else {
-                            editor.putLong("money", user.getTotal_balance().longValue());
+                            editor.putFloat("money", user.getTotal_balance().floatValue());
                         }
                         editor.putInt("jifen", user.getCard_total_point());
                         //提交修改
                         editor.commit();
+                        AppManager.getAppManager().finishActivity(LoginActivity.class);
+                    }else if (code==3){
+                        params1.addQueryStringParameter("openId", weixinuser.getOpenid());
+                        params1.addQueryStringParameter("union_id", weixinuser.getUnionid());
+                        params1.addQueryStringParameter("sex", weixinuser.getSex() + "");
+                        params1.addQueryStringParameter("head_image", weixinuser.getHeadimgurl());
+                        params1.addQueryStringParameter("nick_name", weixinuser.getNickname());
+                        params1.addQueryStringParameter("unique_phone_code", appContext.getAppId());
+                        Intent intent=new Intent(WXEntryActivity.this, BindPhoneActivity.class);
+                        intent.putExtra("params",params1.toString());
+                        startActivity(intent);
+                        finish();
                     }
                 } catch (JSONException e) {
 
                 }
-                AppManager.getAppManager().finishActivity(LoginActivity.class);
             }
 
             @Override

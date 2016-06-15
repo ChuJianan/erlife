@@ -94,6 +94,7 @@ public class CzlistActivity extends BaseActivity {
             public void onScrollStateChanged(AbsListView view, int scrollState) {
                 // TODO Auto-generated method stub
                 (mPayView).onScrollStateChanged(view, scrollState);
+                if (mPayData!=null)
                 if (mPayData.isEmpty())
                     return;
 
@@ -124,8 +125,11 @@ public class CzlistActivity extends BaseActivity {
             //下拉列表刷新
             @Override
             public void onRefresh() {
-//			mPayData.removeAll(mPayData);
-//				loadCloudData(pageNo1+1);
+                mPayData.clear();
+			    mPayData.removeAll(mPayData);
+                mPayData=null;
+				loadCloudData(1);
+                pageNo=1;
                 mPayProgress.setVisibility(ProgressBar.GONE);
                 mPayView.onRefreshComplete(DateUtils.format(new Date(), getString(R.string.pull_to_refresh_update_pattern)));
                 mPayView.setSelection(0);

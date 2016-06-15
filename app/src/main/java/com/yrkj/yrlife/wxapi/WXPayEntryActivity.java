@@ -20,6 +20,8 @@ import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
 import org.xutils.x;
 
+import java.math.BigDecimal;
+
 /**
  * Created by cjn on 2016/5/31.
  */
@@ -27,14 +29,14 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
 
     private ProgressDialog mLoadingDialog;
     SharedPreferences preferences;
-    Long mon, mon1;
+    float mon;float mon1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         init();
         preferences = getSharedPreferences("yrlife", MODE_WORLD_READABLE);
         appContext.api.handleIntent(getIntent(),this);
-        mon = preferences.getLong("money", 0);
+        mon = preferences.getFloat("money", 0);
 
     }
     private void init() {
@@ -59,12 +61,14 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
                             Result result= JsonUtils.fromJson(res,Result.class);
                             UIHelper.ToastMessage(appContext,result.Message());
                             if (result.OK()){
-                                mon1 = UIHelper.bigDecimal.longValue();
+                                mon1 = UIHelper.bigDecimal.floatValue();
                                 mon = mon1 + mon;
+                                BigDecimal b = new BigDecimal(mon);
+                                float f1 = b.setScale(2, BigDecimal.ROUND_HALF_UP).floatValue();
                                 //实例化Editor对象
                                 SharedPreferences.Editor editor = preferences.edit();
                                 //存入数据
-                                editor.putLong("money", mon);
+                                editor.putFloat("money", f1);
                                 //提交修改
                                 editor.commit();
                             }
@@ -94,7 +98,8 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
                 finish();
                 break;
             case BaseResp.ErrCode.ERR_USER_CANCEL:
-                UIHelper.ToastMessage(appContext, resp.errCode+"您已取消支付，稍后可以在订单中继续支付");
+                UIHelper.ToastMessage(appContext, resp.errCode+"您已取消支付");
+                AppManager.getAppManager().finishActivity(PayActivity.class);
                 finish();
                 break;
         }

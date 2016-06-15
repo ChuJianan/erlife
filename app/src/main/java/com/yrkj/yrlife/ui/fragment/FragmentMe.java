@@ -100,7 +100,7 @@ public class FragmentMe extends BaseFragment {
             String head_image=preferences.getString("head_image","");
             String wx_head_image=preferences.getString("wx_head_image","");
             String nick_name=preferences.getString("nick_name","");
-            long money=preferences.getLong("money",0);
+            float money=preferences.getFloat("money",0);
             int  jifen=preferences.getInt("jifen",0);
             if (name != "" && !name.equals("")) {
                 nameText.setText(name);
@@ -209,7 +209,7 @@ public class FragmentMe extends BaseFragment {
      */
     @Event(R.id.quan_rl)
     private void quanrlEvent(View view){
-
+        UIHelper.ToastMessage(getActivity(), "正在开发中...");
     }
 
     /**

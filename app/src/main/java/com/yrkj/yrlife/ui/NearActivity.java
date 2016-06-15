@@ -28,7 +28,9 @@ import org.xutils.x;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by cjn on 2016/5/28.
@@ -38,6 +40,7 @@ public class NearActivity extends BaseActivity {
 
     ListViewNearAdapter mNearAdapter;
     List<Near> mNearData = new ArrayList<Near>();
+    List<Near> mNearDatas = new ArrayList<Near>();
     private View mNearFooter;
     private TextView mNearMore;
     private ProgressBar mNearProgress;
@@ -92,6 +95,7 @@ public class NearActivity extends BaseActivity {
             public void onScrollStateChanged(AbsListView view, int scrollState) {
                 // TODO Auto-generated method stub
                 (mNearView).onScrollStateChanged(view, scrollState);
+                if (mNearData!=null)
                 if (mNearData.isEmpty())
                     return;
 
@@ -123,8 +127,11 @@ public class NearActivity extends BaseActivity {
             //下拉列表刷新
             @Override
             public void onRefresh() {
-//			mNearData.removeAll(mNearData);
-//				loadCloudData(pageNo1+1);
+                mNearDatas=mNearData;
+                mNearData.removeAll(mNearData);
+                mNearData=null;
+                loadCloudData(1);
+                pageNo=1;
                 mNearProgress.setVisibility(ProgressBar.GONE);
                 mNearView.onRefreshComplete(DateUtils.format(new Date(), getString(R.string.pull_to_refresh_update_pattern)));
                 mNearView.setSelection(0);

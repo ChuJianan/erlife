@@ -188,6 +188,7 @@ public class MoreActivity extends BaseActivity {
                     editor.putBoolean("isFirstUse", false);
                     editor.commit();
                     UIHelper.ToastMessage(appContext, msg.obj.toString());
+                    finish();
                 } else if (msg.what == 2) {
                     UIHelper.ToastMessage(appContext, msg.obj.toString());
                 }

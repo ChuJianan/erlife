@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/graywhite"
     android:weightSum="1">
@@ -81,19 +83,29 @@
         android:padding="@dimen/space_8">
 
         <RadioButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:button="@drawable/radiobutton_weixin"
+            android:layout_width="140dp"
+            android:layout_height="40dp"
             android:id="@+id/weixin_radio"
-            android:background="@color/white"
+            android:button="@null"
+            android:background="@drawable/radiobutton_weixin"
+            android:text="微信支付"
+            android:textColor="@color/pay_itemcolor"
+            android:textSize="@dimen/text_size_16"
+            android:gravity="center"
+            android:paddingLeft="@dimen/space_12"
             android:layout_marginRight="@dimen/space_10"/>
 
         <RadioButton
-            android:background="@color/white"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:button="@drawable/radiobutton"
+            android:background="@drawable/radiobutton"
+            android:layout_width="140dp"
+            android:layout_height="40dp"
+            android:button="@null"
             android:id="@+id/zhifubao_radio"
+            android:text="支付宝支付"
+            android:textColor="@color/pay_itemcolor"
+            android:textSize="@dimen/text_size_16"
+            android:gravity="center"
+            android:paddingLeft="@dimen/space_12"
             android:layout_marginLeft="@dimen/space_10"/>
     </RadioGroup>
 
@@ -121,12 +133,13 @@
             <RadioButton
                 android:layout_width="87dp"
                 android:layout_height="50dp"
-                android:text="20元"
+                android:text="0.01元"
                 android:textSize="@dimen/text_size_15"
                 android:background="@drawable/radio_money"
                 android:gravity="center"
                 android:id="@+id/t_2_radio"
                 android:button="@null"
+
                 />
 
             <RadioButton

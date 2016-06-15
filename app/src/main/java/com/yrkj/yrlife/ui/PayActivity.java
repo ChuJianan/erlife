@@ -44,7 +44,7 @@ public class PayActivity extends BaseActivity {
     RadioButton moneyRadioButton;
     String payTypeNub;
     String money;
-    Long mon, mon1;
+    float mon, mon1;
     boolean isFirst = true;
     @ViewInject(R.id.pay_radio)
     private android.widget.RadioGroup payType;
@@ -64,6 +64,7 @@ public class PayActivity extends BaseActivity {
     int pay_kind;
     // IWXAPI 是第三方app和微信通信的openapi接口
     private IWXAPI api;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -98,15 +99,11 @@ public class PayActivity extends BaseActivity {
                 if (moneyRadioButton != null) {
                     if (isFirst) {
                         money = moneyRadioButton.getText().toString();
-                        if (money.length() <= 3) {
-                            money = money.substring(0, 2);
-                        }
-                        if (money.length() > 3) {
-                            money = money.substring(0, 3);
-                        }
+
+                        money = money.substring(0, money.length() - 1);
 
                         Log.i("money", mon + "");
-                        isFirst = false;
+                        isFirst = true;
                     }
                 }
             }
@@ -128,7 +125,7 @@ public class PayActivity extends BaseActivity {
         String name = preferences.getString("name", "");
         String nick_name = preferences.getString("nick_name", "");
         String phone = preferences.getString("phone", "");
-        mon = preferences.getLong("money", 0);
+        mon = preferences.getFloat("money", 0);
         if (name != "" && !name.equals("")) {
             nameText.setText(name);
         } else if (nick_name != "" && nick_name != null) {
@@ -154,16 +151,16 @@ public class PayActivity extends BaseActivity {
                 UIHelper.ToastMessage(this, "请选择充值金额");
             }
         } else {
-                mLoadingDialog.show();
-                setPay();
+            mLoadingDialog.show();
+            setPay();
         }
     }
 
     private void setPay() {
         String url = URLs.PAY;
-        BigDecimal bigDecimal = new BigDecimal("0.01");
-        UIHelper.bigDecimal=bigDecimal;
-//        BigDecimal bigDecimal = new BigDecimal(money);
+//        BigDecimal bigDecimal = new BigDecimal("0.01");
+        BigDecimal bigDecimal = new BigDecimal(money);
+        UIHelper.bigDecimal = bigDecimal;
         RequestParams params = new RequestParams(url);
         params.setHeader("User-Agent", getUserAgent(appContext));
         params.addParameter("secret_code", URLs.secret_code);
@@ -174,7 +171,6 @@ public class PayActivity extends BaseActivity {
         x.http().post(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                mLoadingDialog.dismiss();
                 Result res = JsonUtils.fromJson(result, Result.class);
                 if (res.OK()) {
                     WeixinPay weixinPay = res.getWxpay();
@@ -182,15 +178,21 @@ public class PayActivity extends BaseActivity {
                     PayReq request = new PayReq();
                     request.appId = UIHelper.APP_ID;
                     request.partnerId = UIHelper.PARTNERID;
-                    request.openId=UIHelper.OpenId;
+                    request.openId = UIHelper.OpenId;
                     request.prepayId = weixinPay.getPrePayId();
                     request.packageValue = "Sign=WXPay";
                     request.nonceStr = weixinPay.getNonceStr();
                     request.timeStamp = weixinPay.getTimeStamp();
-                    String md5= Md5.encode("appid="+UIHelper.APP_ID+"&noncestr="+weixinPay.getNonceStr()+"&package=Sign=WXPay"+"&partnerid="+
-                            UIHelper.PARTNERID+"&prepayid="+weixinPay.getPrePayId()+"&timestamp="+weixinPay.getTimeStamp()+"&key=qingdaoyirenkeji8888888888888888");
+                    String md5 = Md5.encode("appid=" + UIHelper.APP_ID + "&noncestr=" + weixinPay.getNonceStr() + "&package=Sign=WXPay" + "&partnerid=" +
+                            UIHelper.PARTNERID + "&prepayid=" + weixinPay.getPrePayId() + "&timestamp=" + weixinPay.getTimeStamp() + "&key=qingdaoyirenkeji8888888888888888");
                     request.sign = md5;
-                    appContext.api.sendReq(request);
+                    if (!StringUtils.isEmpty(request.prepayId)) {
+                        appContext.api.sendReq(request);
+                    } else {
+                        UIHelper.ToastMessage(appContext, "出现一点小问题，请稍后再试");
+                        finish();
+                    }
+
                 } else {
                     UIHelper.ToastMessage(PayActivity.this, res.Message());
                 }

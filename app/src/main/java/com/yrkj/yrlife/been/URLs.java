@@ -23,6 +23,7 @@ public class URLs extends Entity {
 	public static final String SECRET_CODE=HOST+"wmmanager/app/pro1/app3/judgeIsExpired";
 	public static final String LOGIN=HOST+"wmmanager/app/pro1/app3/login?";//登录
 	public static final String CODE_GET=HOST+"wmmanager/app/pro1/app2/send_msg_code?phone=";//绑卡，密码找回获取验证码
+	public static final String CODE_GET_B=HOST+"wmmanager/app/pro1/app2/sendMsgJudge?phone=";//绑定手机号获取验证码
 	public static final String CODE_GET_Z=HOST+"wmmanager/app/pro1/app2/sendMsgCodeCheck?phone=";//注册、更改手机号获取验证码
 	public static final String CODE_GET_F=HOST+"wmmanager/app/pro1/app2/send_msg_findPsw?phone=";//找回密码手机号获取验证码
 	public static final String SIGIN=HOST+"wmmanager/app/pro1/app3/register?";//注册
@@ -40,6 +41,7 @@ public class URLs extends Entity {
 	public static final String QUERY_PAY=HOST+"wmmanager/app/pro1/app2/queryPayment?";//查询充值
 	public static final String FindPWD=HOST+"wmmanager/app/pro1/app3/updatePassword?";//修改，找回密码
 	public static final String Thread_Login=HOST+"wmmanager/app/pro1/app2/third_Party_Logins?";//第三方登陆
+	public static final String Thread_Login_JUDGE=HOST+"wmmanager/app/pro1/app2/third_Login_judge?";//第三方登陆绑定手机号
 	public static final String WASH_NO_CARD=HOST+"wmmanager/app/pro1/app1/unCardWashing?";//无卡洗车
 	public static final String Load204Info=HOST+"wmmanager/app/pro1/app1/load204Info?";//实时消费金额
 	public static final String PAYCONFIRM=HOST+"wmmanager/app/pro1/app1/payConfirm?";//无卡洗车结算
