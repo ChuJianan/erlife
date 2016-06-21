@@ -46,6 +46,7 @@ import com.yrkj.yrlife.ui.fragment.FragmentMe;
 import com.yrkj.yrlife.ui.fragment.FragmentNear;
 import com.yrkj.yrlife.utils.StringUtils;
 import com.yrkj.yrlife.utils.UIHelper;
+import com.yrkj.yrlife.utils.UpdateManager;
 import com.zxing.activity.CaptureActivity;
 
 import org.xutils.view.annotation.ContentView;
@@ -100,7 +101,7 @@ public class MainActivity extends FragmentActivity {
 
 
         //检测新版本
-//        UpdateManager.getUpdateManager().checkAppUpdate(this,false);
+      //  UpdateManager.getUpdateManager().checkAppUpdate(this,false);
     }
 
 
@@ -228,7 +229,7 @@ public class MainActivity extends FragmentActivity {
         if (locationService == null) {
             UIHelper.ToastMessage(MainActivity.this, "请到设置中打开定位，并允许程序获取定位权限");
         } else {
-            if (UIHelper.city != "" && !UIHelper.city.equals("")) {
+            if (StringUtils.isEmpty(UIHelper.city)) {
                 locationService.unregisterListener(mListener); //注销掉监听
                 locationService.stop(); //停止定位服务
                 LocationResult.setText(UIHelper.city);

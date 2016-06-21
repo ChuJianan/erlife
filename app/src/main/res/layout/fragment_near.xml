@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="30dp"
+            android:layout_marginBottom="25dp"
             android:gravity="center"
             android:id="@+id/linearLayout">
 
@@ -105,7 +105,7 @@
             android:layout_height="wrap_content"
             android:layout_above="@+id/linearLayout"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="18dp"
+            android:layout_marginBottom="14dp"
             android:gravity="center"
             android:id="@+id/kd_rl">
 

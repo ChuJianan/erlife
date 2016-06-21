@@ -3,6 +3,9 @@ package com.yrkj.yrlife.widget.letterview;
 import java.util.ArrayList;
 import java.util.HashMap;
 import android.content.Context;
+import android.content.res.Resources;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Gravity;
@@ -13,7 +16,10 @@ import android.widget.BaseAdapter;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 
+import com.yrkj.yrlife.R;
 import com.yrkj.yrlife.utils.UIHelper;
+
+import org.apache.http.client.cache.Resource;
 
 public class LetterListView extends FrameLayout implements MyLetterListView.OnTouchingLetterChangedListener {
 	private MyListView listView;
@@ -64,8 +70,10 @@ public class LetterListView extends FrameLayout implements MyLetterListView.OnTo
 		
 		listView.setVerticalScrollBarEnabled(false);
 		listView.setLayoutParams(listViewParams);
+		listView.setDivider(new ColorDrawable(context.getResources().getColor(R.color.wash_text)));
+		listView.setDividerHeight(1);
 		
-		LayoutParams letterParams = new LayoutParams(90, LayoutParams.WRAP_CONTENT,Gravity.RIGHT);
+		LayoutParams letterParams = new LayoutParams(90, 950,Gravity.RIGHT|Gravity.CENTER_VERTICAL);
 		myLetterListView = new MyLetterListView(context);
 		myLetterListView.setOnTouchingLetterChangedListener(this);
 		myLetterListView.setLayoutParams(letterParams);

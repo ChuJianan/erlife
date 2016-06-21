@@ -125,15 +125,15 @@ public class CzlistActivity extends BaseActivity {
             //下拉列表刷新
             @Override
             public void onRefresh() {
-                mPayData.clear();
-			    mPayData.removeAll(mPayData);
+//                mPayData.clear();
+//			    mPayData.removeAll(mPayData);
                 mPayData=null;
 				loadCloudData(1);
                 pageNo=1;
                 mPayProgress.setVisibility(ProgressBar.GONE);
                 mPayView.onRefreshComplete(DateUtils.format(new Date(), getString(R.string.pull_to_refresh_update_pattern)));
                 mPayView.setSelection(0);
-
+                UIHelper.ToastMessage(appContext,"刷新成功");
             }
         });
 //        isViewInited=true;

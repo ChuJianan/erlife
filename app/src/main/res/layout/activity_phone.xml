@@ -23,20 +23,22 @@
             android:paddingLeft="@dimen/space_5"
             android:layout_marginTop="@dimen/space_25"/>
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/space_15">
 
             <com.yrkj.yrlife.widget.ClearEditText
-                android:layout_width="240dp"
+                android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:background="@color/white"
                 android:hint="请输入验证码"
                 android:textSize="@dimen/text_size_16"
                 android:paddingLeft="@dimen/space_5"
                 android:id="@+id/code_edit"
-                />
+                android:layout_alignParentTop="true"
+                android:layout_toLeftOf="@+id/code_btn"
+                android:layout_toStartOf="@+id/code_btn" />
             <Button
                 android:id="@+id/code_btn"
                 android:layout_width="100dp"
@@ -45,9 +47,10 @@
                 android:text="获取验证码"
                 android:textSize="@dimen/text_size_13"
                 android:textColor="@color/white"
-                android:layout_marginLeft="@dimen/space_15"
-                />
-        </LinearLayout>
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true" />
+        </RelativeLayout>
         <Button
             android:layout_width="match_parent"
             android:layout_height="40dp"

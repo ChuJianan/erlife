@@ -318,10 +318,6 @@ public class SlideShowView extends FrameLayout {
                 // 这里一般调用服务端接口获取一组轮播图片，下面是从百度找的几个图片
 
                 imageUrls = new String[]{
-//                        "http://image.rakuten.co.jp/carpicaism/cabinet/03221233/03230692/img58616691.jpg",
-//                        "http://image.rakuten.co.jp/carpicaism/cabinet/03221233/03230692/img58616648.jpg",
-//                        "http://imgsrc.baidu.com/forum/pic/item/4143fa8b87d6277f01e950c128381f30e824fc17.jpg",
-//                        "http://pic8.58cdn.com.cn/p1/big/n_s12408890976816988134.jpg"
                         "http://qpic.cn/0t77Yl2BL",
                         "http://qpic.cn/ajr0Ofpjw",
                         "http://qpic.cn/JuPvjmav7",

@@ -5,15 +5,15 @@
     android:orientation="vertical" >
 
     <Button
-        android:layout_width="220dp"
-        android:layout_height="wrap_content"
+        android:layout_width="130dp"
+        android:layout_height="40dp"
         android:text="立即体验"
         android:id="@+id/gui"
         android:gravity="center"
-        android:textSize="@dimen/text_size_18"
+        android:textSize="@dimen/text_size_16"
         android:textColor="@color/white"
-        android:layout_marginBottom="@dimen/space_14"
-        android:background="@drawable/bg_btn_head"
+        android:layout_marginBottom="@dimen/space_25"
+        android:background="@drawable/gui_btn_bg"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />
 </RelativeLayout>

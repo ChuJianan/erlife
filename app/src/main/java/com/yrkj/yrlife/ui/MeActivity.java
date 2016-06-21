@@ -1,8 +1,11 @@
 package com.yrkj.yrlife.ui;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.ContentUris;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -11,9 +14,11 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Message;
+import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -31,6 +36,7 @@ import android.widget.TextView;
 import com.yrkj.yrlife.R;
 import com.yrkj.yrlife.been.URLs;
 import com.yrkj.yrlife.been.User;
+import com.yrkj.yrlife.utils.GetImagePath;
 import com.yrkj.yrlife.utils.ImageUtils;
 import com.yrkj.yrlife.utils.JsonUtils;
 import com.yrkj.yrlife.utils.StringUtils;
@@ -62,6 +68,7 @@ public class MeActivity extends BaseActivity {
     private static final int IMAGE_REQUEST_CODE = 0;
     private static final int CAMERA_REQUEST_CODE = 1;
     private static final int RESULT_REQUEST_CODE = 2;
+    private static final int SELECT_PIC_KITKAT = 3;
     @ViewInject(R.id.title)
     private TextView title;
     @ViewInject(R.id.avatarImg)
@@ -127,7 +134,7 @@ public class MeActivity extends BaseActivity {
                     avatarImg.setImageBitmap(ImageUtils.getBitmap(this, faceimg));
                 }
             }else {
-                UIHelper.showLoadImage(avatarImg,wx_head_image,"");
+                x.image().bind(avatarImg,wx_head_image);
             }
         } else {
             UIHelper.showLoadImage(avatarImg, URLs.IMGURL + head_image, "");
@@ -243,10 +250,15 @@ public class MeActivity extends BaseActivity {
         view.findViewById(R.id.grall_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intentFromGallery = new Intent();
+                Intent intentFromGallery = new Intent(Intent.ACTION_GET_CONTENT);
                 intentFromGallery.setType("image/*"); // 设置文件类型
-                intentFromGallery.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(intentFromGallery, IMAGE_REQUEST_CODE);
+//                intentFromGallery.addCategory(Intent.CATEGORY_OPENABLE);
+//                startActivityForResult(intentFromGallery, IMAGE_REQUEST_CODE);
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
+                    startActivityForResult(intentFromGallery,SELECT_PIC_KITKAT);
+                } else {
+                    startActivityForResult(intentFromGallery,IMAGE_REQUEST_CODE);
+                }
             }
         });
         view.findViewById(R.id.camera_btn).setOnClickListener(new View.OnClickListener() {
@@ -290,6 +302,13 @@ public class MeActivity extends BaseActivity {
                     e.printStackTrace();// 用户点击取消操作
                 }
                 break;
+            case SELECT_PIC_KITKAT:
+                try {
+                    startPhotoZoom(data.getData());
+                } catch (NullPointerException e) {
+                    e.printStackTrace();// 用户点击取消操作
+                }
+                break;
             case CAMERA_REQUEST_CODE:// 调用相机拍照
                 File temp = new File(Environment.getExternalStorageDirectory() + "/" + IMAGE_FILE_NAME);
                 startPhotoZoom(Uri.fromFile(temp));
@@ -315,16 +334,23 @@ public class MeActivity extends BaseActivity {
             Log.i("tag", "The uri is not exist.");
         }
         Intent intent = new Intent("com.android.camera.action.CROP");
-        intent.setDataAndType(uri, "image/*");
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
+            String url= GetImagePath.getPath(appContext,uri);
+            intent.setDataAndType(Uri.fromFile(new File(url)), "image/*");
+        }else{
+            intent.setDataAndType(uri, "image/*");
+        }
         // 设置裁剪
         intent.putExtra("crop", "true");
         // aspectX aspectY 是宽高的比例
         intent.putExtra("aspectX", 1);
         intent.putExtra("aspectY", 1);
         // outputX outputY 是裁剪图片宽高
-        intent.putExtra("outputX", 1280);
-        intent.putExtra("outputY", 1280);
+        intent.putExtra("outputX", 300);
+        intent.putExtra("outputY", 300);
         intent.putExtra("return-data", true);
+        intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
+        intent.putExtra("noFaceDetection", true);
         startActivityForResult(intent, RESULT_REQUEST_CODE);
     }
 

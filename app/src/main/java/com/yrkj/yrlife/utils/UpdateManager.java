@@ -202,8 +202,8 @@ public class UpdateManager {
 	private void getCurrentVersion(){
         try { 
         	PackageInfo info = mContext.getPackageManager().getPackageInfo(mContext.getPackageName(), 0);
-        	curVersionName = info.versionName;
-        	curVersionCode = info.versionCode;
+        	curVersionName = info.versionName;//1.0.
+        	curVersionCode = info.versionCode;//3
         } catch (NameNotFoundException e) {    
 			e.printStackTrace(System.err);
 		} 
@@ -214,19 +214,35 @@ public class UpdateManager {
 	 */
 	private void showNoticeDialog(){
 		Builder builder = new Builder(mContext);
-		builder.setTitle("软件版本更新");
-		builder.setMessage(updateMsg);
-		builder.setPositiveButton("立即更新", new OnClickListener() {			
+//		builder.setTitle("软件版本更新");
+		final LayoutInflater inflater = LayoutInflater.from(mContext);
+		View v = inflater.inflate(R.layout.update_dialog, null);
+		TextView message= (TextView)v.findViewById(R.id.message);
+		TextView title= (TextView)v.findViewById(R.id.title);
+		TextView date= (TextView)v.findViewById(R.id.date);
+		TextView size= (TextView)v.findViewById(R.id.package_size);
+		TextView code= (TextView)v.findViewById(R.id.code);
+
+		title.setText(mUpdate.getTitle());
+		message.setText(updateMsg);
+		date.setText(mUpdate.getDate());
+		size.setText(mUpdate.getPackage_size());
+		code.setText(mUpdate.getVersionCode());
+
+//		builder.setMessage(updateMsg);
+		builder.setView(v);
+		builder.setPositiveButton("下次再说", new OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				dialog.dismiss();
-				showDownloadDialog();			
+
 			}
 		});
-		builder.setNegativeButton("以后再说", new OnClickListener() {			
+		builder.setNegativeButton("立即更新", new OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				dialog.dismiss();				
+				dialog.dismiss();
+				showDownloadDialog();
 			}
 		});
 		noticeDialog = builder.create();

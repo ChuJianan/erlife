@@ -59,7 +59,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/white"
-                    android:layout_marginTop="@dimen/space_3"
+                    android:layout_marginTop="@dimen/space_1"
                     android:padding="@dimen/space_14">
 
                     <TextView
@@ -84,7 +84,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/white"
-                    android:layout_marginTop="@dimen/space_3"
+                    android:layout_marginTop="@dimen/space_1"
                     android:padding="@dimen/space_14">
 
                     <TextView
@@ -120,7 +120,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/white"
-                    android:layout_marginTop="@dimen/space_3"
+                    android:layout_marginTop="@dimen/space_1"
                     android:padding="@dimen/space_14">
 
                     <TextView
@@ -145,7 +145,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/white"
-                    android:layout_marginTop="@dimen/space_3"
+                    android:layout_marginTop="@dimen/space_1"
                     android:padding="@dimen/space_14">
 
                     <TextView
@@ -170,7 +170,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/white"
-                    android:layout_marginTop="@dimen/space_3"
+                    android:layout_marginTop="@dimen/space_1"
                     android:padding="@dimen/space_14">
 
                     <TextView
@@ -196,7 +196,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/white"
-                    android:layout_marginTop="@dimen/space_3"
+                    android:layout_marginTop="@dimen/space_1"
                     android:padding="@dimen/space_14">
 
                     <TextView

@@ -129,15 +129,15 @@ public class ConsumerActivity extends BaseActivity {
             //下拉列表刷新
             @Override
             public void onRefresh() {
-                mConsumerData.clear();
-                mConsumerData.removeAll(mConsumerData);
+//                mConsumerData.clear();
+//                mConsumerData.removeAll(mConsumerData);
                 mConsumerData=null;
                 loadCloudData(1);
                 pageNo=1;
                 mConsumerProgress.setVisibility(ProgressBar.GONE);
                 mConsumerView.onRefreshComplete(DateUtils.format(new Date(), getString(R.string.pull_to_refresh_update_pattern)));
                 mConsumerView.setSelection(0);
-
+                UIHelper.ToastMessage(appContext,"刷新成功");
             }
         });
 //        isViewInited=true;

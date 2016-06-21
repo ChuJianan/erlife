@@ -118,7 +118,7 @@ public class FragmentMe extends BaseFragment {
                         meImg.setImageBitmap(ImageUtils.getBitmap(getActivity(), faceimg));
                     }
                 }else {
-                    UIHelper.showLoadImage(meImg,wx_head_image,"");
+                    x.image().bind(meImg,wx_head_image);
                 }
             }else {
                 UIHelper.showLoadImage(meImg,URLs.IMGURL+head_image,"");
@@ -143,9 +143,21 @@ public class FragmentMe extends BaseFragment {
     private void merlEvent(View view){
         if (URLs.secret_code==""){
             UIHelper.openLogin(getActivity());
+        }else {
+            Intent intent=new Intent(getActivity(),MeActivity.class);
+            startActivity(intent);
         }
     }
 
+    @Event(R.id.me_img)
+    private void meimgEvent(View view){
+        if (URLs.secret_code==""){
+            UIHelper.openLogin(getActivity());
+        }else {
+            Intent intent=new Intent(getActivity(),MeActivity.class);
+            startActivity(intent);
+        }
+    }
     /**
      * 充值
      * @param view
@@ -231,5 +243,6 @@ public class FragmentMe extends BaseFragment {
         Intent intent = new Intent(getActivity(), MoreActivity.class);
         startActivity(intent);
     }
+
 
 }

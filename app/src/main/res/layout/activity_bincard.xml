@@ -23,12 +23,12 @@
                 android:layout_gravity="center"
                 android:src="@mipmap/ic_cardnub"/>
             <com.yrkj.yrlife.widget.ClearEditText
-                android:padding="@dimen/space_4"
+                android:paddingLeft="@dimen/space_5"
                 android:id="@+id/card_code"
                 android:hint="会员卡号"
                 android:layout_width="260dp"
                 android:textSize="@dimen/text_size_14"
-                android:layout_height="30dp"
+                android:layout_height="40dp"
                 android:layout_gravity="center"
                 android:layout_marginLeft="@dimen/space_20"
                 android:background="@color/white"/>
@@ -46,8 +46,9 @@
                 />
             <com.yrkj.yrlife.widget.ClearEditText
                 android:layout_width="260dp"
-                android:layout_height="30dp"
+                android:layout_height="40dp"
                 android:textSize="@dimen/text_size_14"
+                android:paddingLeft="@dimen/space_5"
                 android:hint="手机号"
                 android:id="@+id/phone_edit"
                 android:background="@color/white"
@@ -68,16 +69,17 @@
                 />
             <com.yrkj.yrlife.widget.ClearEditText
                 android:layout_width="170dp"
-                android:layout_height="30dp"
+                android:layout_height="40dp"
                 android:layout_marginLeft="@dimen/space_20"
                 android:hint="验证码"
                 android:textSize="@dimen/text_size_14"
+                android:paddingLeft="@dimen/space_5"
                 android:id="@+id/code_edit"
                 android:background="@color/white"/>
             <Button
                 android:id="@+id/code_btn"
                 android:layout_width="80dp"
-                android:layout_height="30dp"
+                android:layout_height="40dp"
                 android:layout_marginLeft="@dimen/space_10"
                 android:text="获取验证码"
                 android:textColor="@color/white"

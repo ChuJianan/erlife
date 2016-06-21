@@ -6,6 +6,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.graphics.PixelFormat;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
@@ -15,6 +16,8 @@ import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 
+import org.xutils.image.AsyncDrawable;
+
 /**
  * Created by Administrator on 2016/3/21.
  */
@@ -23,6 +26,7 @@ public class RoundImageView extends ImageView {
     private Matrix matrix = new Matrix();
     ImageView view;
     Bitmap bitmap;
+
     public RoundImageView(Context context) {
         super(context);
         // TODO Auto-generated constructor stub
@@ -49,10 +53,23 @@ public class RoundImageView extends ImageView {
             return;
         }
 
-        Bitmap b =  ((BitmapDrawable)drawable).getBitmap();
+        Bitmap b = null;
+        if (drawable instanceof BitmapDrawable) {
+            b = ((BitmapDrawable) drawable).getBitmap();
+        } else if (drawable instanceof AsyncDrawable) {
+            b = Bitmap.createBitmap(
+                    getWidth(),
+                    getHeight(),
+                    drawable.getOpacity() != PixelFormat.OPAQUE ? Bitmap.Config.ARGB_8888
+                            : Bitmap.Config.RGB_565);
+            Canvas canvas1 = new Canvas(b);
+            // canvas.setBitmap(bitmap);
+            drawable.setBounds(0, 0, drawable.getIntrinsicWidth(),
+                    drawable.getIntrinsicHeight());
+            drawable.draw(canvas1);
+        }
 
-        if(null == b)
-        {
+        if (null == b) {
             return;
         }
 
@@ -61,13 +78,13 @@ public class RoundImageView extends ImageView {
         int w = getWidth(), h = getHeight();
 
 
-        Bitmap roundBitmap =  getCroppedBitmap(bitmap, w);
+        Bitmap roundBitmap = getCroppedBitmap(bitmap, w);
         canvas.drawBitmap(roundBitmap, 0, 0, null);
     }
 
     public static Bitmap getCroppedBitmap(Bitmap bmp, int radius) {
         Bitmap sbmp;
-        if(bmp.getWidth() != radius || bmp.getHeight() != radius)
+        if (bmp.getWidth() != radius || bmp.getHeight() != radius)
             sbmp = Bitmap.createScaledBitmap(bmp, radius, radius, false);
         else
             sbmp = bmp;
@@ -83,9 +100,9 @@ public class RoundImageView extends ImageView {
         paint.setFilterBitmap(true);
         paint.setDither(true);
         canvas.drawARGB(0, 0, 0, 0);
-        paint.setColor(Color.parseColor("#BAB399"));
-        canvas.drawCircle(sbmp.getWidth() / 2+0.7f, sbmp.getHeight() / 2+0.7f,
-                sbmp.getWidth() / 2+0.1f, paint);
+        paint.setColor(Color.parseColor("#ffffff"));
+        canvas.drawCircle(sbmp.getWidth() / 2 + 0.7f, sbmp.getHeight() / 2 + 0.7f,
+                sbmp.getWidth() / 2 + 0.1f, paint);
         paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
         canvas.drawBitmap(sbmp, rect, rect, paint);
 

@@ -390,11 +390,11 @@ public class ApiClient {
      * @return
      */
     public static Update checkVersion(final YrApplication appContext) throws AppException {
-        String url = makeURL(URLs.UPDATE, new HashMap<String, Object>(){{
-            put("mac", appContext.getMacAddress());
-        }});
+//        String url = makeURL(URLs.UPDATE, new HashMap<String, Object>(){{
+//            put("mac", appContext.getMacAddress());
+//        }});
         try{
-            return Update.parse(http_get(appContext, url));
+            return Update.parse(_get(appContext, URLs.UPDATE));
         }catch(Exception e){
             if(e instanceof AppException)
                 throw (AppException)e;

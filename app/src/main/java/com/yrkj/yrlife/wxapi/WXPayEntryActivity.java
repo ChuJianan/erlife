@@ -54,7 +54,7 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
                 mLoadingDialog.show();
                 if (resp.getType()== ConstantsAPI.COMMAND_PAY_BY_WX){
                     RequestParams params=new RequestParams(URLs.QUERY_PAY);
-                    params.addQueryStringParameter("orderNumber",UIHelper.orderNumber);
+                    params.addQueryStringParameter("out_trade_no",UIHelper.orderNumber);
                     x.http().get(params, new Callback.CommonCallback<String>() {
                         @Override
                         public void onSuccess(String res) {

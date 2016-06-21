@@ -40,7 +40,6 @@ public class NearActivity extends BaseActivity {
 
     ListViewNearAdapter mNearAdapter;
     List<Near> mNearData = new ArrayList<Near>();
-    List<Near> mNearDatas = new ArrayList<Near>();
     private View mNearFooter;
     private TextView mNearMore;
     private ProgressBar mNearProgress;
@@ -59,9 +58,14 @@ public class NearActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         x.view().inject(this);
+        if (UIHelper.location==null){
+            UIHelper.ToastMessage(appContext,"无法获取定位，无法使用此功能");
+            finish();
+        }else {
         title.setText("附近网点");
         initView();
         loadCloudData(pageNo);
+        }
     }
 
     private void initView() {
@@ -127,15 +131,13 @@ public class NearActivity extends BaseActivity {
             //下拉列表刷新
             @Override
             public void onRefresh() {
-                mNearDatas=mNearData;
-                mNearData.removeAll(mNearData);
                 mNearData=null;
                 loadCloudData(1);
                 pageNo=1;
                 mNearProgress.setVisibility(ProgressBar.GONE);
                 mNearView.onRefreshComplete(DateUtils.format(new Date(), getString(R.string.pull_to_refresh_update_pattern)));
                 mNearView.setSelection(0);
-
+                UIHelper.ToastMessage(appContext,"刷新成功");
             }
         });
     }

@@ -174,6 +174,7 @@ public class BinCardActivity extends BaseActivity {
                 mLoadingDialog.dismiss();
                 if (result.OK()) {
                     code = result.Result();
+                    finish();
                 } else {
                     code="";
                     timer.onFinish();

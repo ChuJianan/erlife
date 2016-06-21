@@ -49,18 +49,18 @@ public class MyLetterListView extends View {
 	    int width = getWidth();
 	    int singleHeight = height / INDEX_KEY.length;
 	    for(int i=0;i<INDEX_KEY.length;i++){
-			paint.setTextSize(50);//设置导航栏文字大小
+			paint.setTextSize(45);//设置导航栏文字大小
 	    	 paint.setColor(Color.parseColor("#ffa0a0a0"));
 	       //英文字体加粗
-	       paint.setTypeface(Typeface.DEFAULT_BOLD);
-	       paint.setAntiAlias(true);
+//	       paint.setTypeface(Typeface.DEFAULT_BOLD);
+//	       paint.setAntiAlias(true);
 	       if(i == choose){
 	    	   paint.setColor(Color.BLACK);
 	    	   //中文字体加粗
-	    	   paint.setFakeBoldText(true);
+//	    	   paint.setFakeBoldText(true);
 	       }
 	       float xPos = (width/2  - paint.measureText(INDEX_KEY[i])/2);
-	       float yPos = singleHeight * i+ singleHeight;
+	       float yPos = singleHeight * i+singleHeight;
 	       canvas.drawText(INDEX_KEY[i], xPos, yPos, paint);
 	       paint.reset();
 	    }

@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -356,5 +357,42 @@ public class WashActivity extends BaseActivity {
             }
         });
 
+    }
+    @Event(R.id.back)
+    private void backEvent(View view){
+        if (timer != null) {
+            timer.cancel();
+        }
+        if (StringUtils.isEmpty(wash.getMachine_number())){
+            finish();
+        }else{
+        payconfirm();
+        Intent intent=new Intent(WashActivity.this,RateActivity.class);
+        Bundle bundle=new Bundle();
+        bundle.putSerializable("wash",wash);
+        intent.putExtras(bundle);
+        startActivity(intent);
+        finish();
+        }
+    }
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        boolean flag = true;
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            if (timer != null) {
+                timer.cancel();
+            }
+            if (StringUtils.isEmpty(wash.getMachine_number())){
+                finish();
+            }else{
+            payconfirm();
+            Intent intent=new Intent(WashActivity.this,RateActivity.class);
+            Bundle bundle=new Bundle();
+            bundle.putSerializable("wash",wash);
+            intent.putExtras(bundle);
+            startActivity(intent);
+            finish();
+            }
+        }
+        return flag;
     }
 }

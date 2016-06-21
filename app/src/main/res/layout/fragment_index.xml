@@ -132,8 +132,7 @@
                 android:layout_height="wrap_content"
                 android:paddingLeft="@dimen/space_5"
                 android:paddingTop="@dimen/space_3"
-                android:paddingBottom="@dimen/space_3"
-                android:background="@color/xinshou_bg"
+                android:background="@color/white"
                 android:layout_marginLeft="@dimen/space_3"
                 android:layout_marginRight="@dimen/space_3"
                 >

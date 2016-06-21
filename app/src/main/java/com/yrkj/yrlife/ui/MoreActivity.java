@@ -28,6 +28,7 @@ import com.yrkj.yrlife.utils.ImageUtils;
 import com.yrkj.yrlife.utils.QRCodeUtil;
 import com.yrkj.yrlife.utils.StringUtils;
 import com.yrkj.yrlife.utils.UIHelper;
+import com.yrkj.yrlife.utils.UpdateManager;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -135,7 +136,7 @@ public class MoreActivity extends BaseActivity {
 
     @Event(R.id.update_rl)
     private void updaterl(View view) {
-
+       // UpdateManager.getUpdateManager().checkAppUpdate(this,false);
     }
 
     /**
@@ -188,6 +189,7 @@ public class MoreActivity extends BaseActivity {
                     editor.putBoolean("isFirstUse", false);
                     editor.commit();
                     UIHelper.ToastMessage(appContext, msg.obj.toString());
+                    DataCleanManager.clearAllCache(appContext);
                     finish();
                 } else if (msg.what == 2) {
                     UIHelper.ToastMessage(appContext, msg.obj.toString());

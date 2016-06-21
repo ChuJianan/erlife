@@ -5,6 +5,7 @@ import android.graphics.drawable.Drawable;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
+import android.view.ContextMenu;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
@@ -84,7 +85,14 @@ public class ClearEditText extends EditText implements
         }
         return super.onTouchEvent(event);
     }
-
+    @Override
+    protected void onCreateContextMenu(ContextMenu menu) {
+        //不做任何处理，为了阻止长按的时候弹出上下文菜单
+    }
+    @Override
+    public boolean getDefaultEditable() {
+        return false;
+    }
     /**
      * 当ClearEditText焦点发生变化的时候，判断里面字符串长度设置清除图标的显示与隐藏
      */
