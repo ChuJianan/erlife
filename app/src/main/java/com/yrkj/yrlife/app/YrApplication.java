@@ -112,6 +112,7 @@ public class YrApplication extends Application {
             @Override
             public void onSuccess(Object data, int flag) {
                 Log.d("TPush", "注册成功，设备token为：" + data);
+                UIHelper.token=data.toString();
             }
 
             @Override

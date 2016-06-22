@@ -20,12 +20,12 @@
             android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="35dp"
             android:paddingLeft="@dimen/space_5"
             android:background="@color/white"
             android:id="@+id/relativeLayout">
 
-            <EditText
+            <com.yrkj.yrlife.widget.ClearEditText
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:id="@+id/name"
@@ -49,7 +49,7 @@
             android:layout_marginTop="0dp"
             android:id="@+id/relativeLayout2">
 
-            <EditText
+             <com.yrkj.yrlife.widget.ClearEditText
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:id="@+id/password"
@@ -68,7 +68,7 @@
             android:text="登录"
             android:id="@+id/login"
             android:layout_below="@+id/relativeLayout2"
-            android:layout_marginTop="48dp"
+            android:layout_marginTop="15dp"
             android:background="@drawable/bg_btn_code"
             android:textSize="@dimen/text_size_17"
             android:textColor="@color/white"
@@ -106,42 +106,30 @@
             android:orientation="horizontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="67dp"
+            android:layout_marginTop="18dp"
+            android:layout_below="@+id/textView23"
+            android:layout_centerHorizontal="true"
+            android:gravity="center"
+            android:id="@+id/relativeLayout7">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/icon_wx_logo"
+                android:id="@+id/wx_btn"
+                />
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="第三方登录"
+            android:id="@+id/textView23"
             android:layout_below="@+id/sign"
             android:layout_centerHorizontal="true"
-            android:padding="@dimen/space_3"
-            android:gravity="center">
-
-            <Button
-                android:layout_width="140dp"
-                android:layout_height="40dp"
-                android:text="QQ登录"
-                android:textColor="@color/qq"
-                android:textSize="@dimen/text_size_16"
-                android:background="@drawable/icon_qq_btn"
-                android:drawableLeft="@mipmap/icon_qq_logo"
-                android:layout_marginLeft="@dimen/space_3"
-                android:id="@+id/button"
-                android:layout_marginRight="@dimen/space_20"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
-
-            <Button
-                android:layout_width="140dp"
-                android:layout_height="40dp"
-                android:drawableLeft="@mipmap/icon_wx_logo"
-                android:text="微信登录"
-                android:layout_marginLeft="@dimen/space_20"
-                android:textColor="@color/wx"
-                android:background="@drawable/icon_wx_btn"
-                android:textSize="@dimen/text_size_16"
-                android:id="@+id/wx_btn"
-                android:layout_marginRight="@dimen/space_3"
-                android:layout_alignParentTop="true"
-                android:layout_toRightOf="@+id/button"
-                android:layout_toEndOf="@+id/button" />
-        </RelativeLayout>
+            android:layout_marginTop="30dp"
+            android:textSize="@dimen/text_size_12"
+            android:textColor="@color/san_login"
+            />
     </RelativeLayout>
 
 </LinearLayout>

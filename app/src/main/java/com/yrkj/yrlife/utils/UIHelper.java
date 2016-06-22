@@ -76,6 +76,7 @@ public class UIHelper {
     public static String orderNumber="";
     public static String city = "";
     public static BDLocation location;
+    public static String token;
     /**
      * 全局web样式
      */

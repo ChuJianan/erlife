@@ -167,6 +167,7 @@ public class BindPhoneActivity extends Activity {
         final RequestParams params = new RequestParams(URLs.Thread_Login_JUDGE+this.params);
         params.addQueryStringParameter("phone", phone);
         params.addQueryStringParameter("code", code);
+        params.addQueryStringParameter("tokenAndFlag",UIHelper.token+"And");
         x.http().post(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {

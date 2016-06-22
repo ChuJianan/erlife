@@ -22,6 +22,7 @@ import com.yrkj.yrlife.been.User;
 import com.yrkj.yrlife.utils.JsonUtils;
 import com.yrkj.yrlife.utils.StringUtils;
 import com.yrkj.yrlife.utils.UIHelper;
+import com.yrkj.yrlife.widget.ClearEditText;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -39,9 +40,9 @@ import org.xutils.x;
 public class LoginActivity extends BaseActivity {
 
     @ViewInject(value = R.id.name)
-    private EditText nameText;
+    private ClearEditText nameText;
     @ViewInject(value = R.id.password)
-    private EditText pwdText;
+    private ClearEditText pwdText;
     @ViewInject(value = R.id.sign)
     private TextView sign;
     @ViewInject(value = R.id.login)
@@ -125,6 +126,7 @@ public class LoginActivity extends BaseActivity {
         params.addQueryStringParameter("conditions", name);
         params.addQueryStringParameter("pwd", password);
         params.addQueryStringParameter("unique_phone_code", appContext.getAppId());
+        params.addQueryStringParameter("tokenAndFlag",UIHelper.token+"And");
         x.http().post(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String res) {

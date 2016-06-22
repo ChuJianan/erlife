@@ -363,7 +363,7 @@ public class WashActivity extends BaseActivity {
         if (timer != null) {
             timer.cancel();
         }
-        if (StringUtils.isEmpty(wash.getMachine_number())){
+        if (wash==null){
             finish();
         }else{
         payconfirm();
@@ -381,7 +381,7 @@ public class WashActivity extends BaseActivity {
             if (timer != null) {
                 timer.cancel();
             }
-            if (StringUtils.isEmpty(wash.getMachine_number())){
+            if (wash==null){
                 finish();
             }else{
             payconfirm();

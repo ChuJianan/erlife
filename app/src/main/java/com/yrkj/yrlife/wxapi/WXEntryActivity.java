@@ -182,6 +182,7 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
         params.addQueryStringParameter("head_image", weixinuser.getHeadimgurl());
         params.addQueryStringParameter("nick_name", weixinuser.getNickname());
         params.addQueryStringParameter("unique_phone_code", appContext.getAppId());
+        params.addQueryStringParameter("tokenAndFlag",UIHelper.token+"And");
         x.http().post(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {

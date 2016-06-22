@@ -8,23 +8,22 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:id="@+id/back"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="horizontal"
         >
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_centerVertical="true"
-        android:layout_margin="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="@dimen/space_11"
         android:background="@mipmap/ic_back_cur"
-
          />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="返回"
-            android:layout_gravity="center"
+            android:layout_marginTop="@dimen/space_11"
+            android:layout_marginLeft="@dimen/space_3"
             android:textColor="@color/white"
             android:textSize="@dimen/text_size_19"
             />

@@ -43,6 +43,7 @@
             android:layout_gravity="center_horizontal"
             android:src="@mipmap/down_curr"
             android:layout_marginTop="@dimen/space_15"
+            android:visibility="gone"
             />
     </LinearLayout>
 

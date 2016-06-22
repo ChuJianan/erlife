@@ -33,7 +33,7 @@
         android:inputType="textPassword"
         android:textSize="@dimen/text_size_14"
         android:background="@color/white"
-        android:layout_marginTop="@dimen/space_30"
+        android:layout_marginTop="@dimen/space_20"
         android:layout_marginLeft="@dimen/space_15"
         android:layout_marginRight="@dimen/space_15"
         android:id="@+id/passwordt"

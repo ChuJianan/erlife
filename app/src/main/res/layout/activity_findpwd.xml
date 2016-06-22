@@ -17,6 +17,7 @@
         android:id="@+id/phonenub"
         android:layout_height="40dp"
         android:hint="请输入手机号"
+        android:paddingLeft="@dimen/space_3"
         android:textSize="@dimen/text_size_14"
         android:background="@color/white"
         />
@@ -36,6 +37,7 @@
             android:textSize="@dimen/text_size_14"
             android:background="@color/white"
             android:hint="请输入验证码"
+            android:paddingLeft="@dimen/space_3"
             android:layout_toLeftOf="@+id/hq_code"
             android:layout_toStartOf="@+id/hq_code" />
 

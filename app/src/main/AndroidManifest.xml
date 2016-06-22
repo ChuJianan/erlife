@@ -115,7 +115,7 @@
         <activity android:name=".ui.RateActivity"/>
         <activity android:name=".ui.WashsActivity"/>
         <activity android:name=".ui.BindPhoneActivity"/>
-
+        <activity android:name=".ui.XiedingActivity"/>
 
         <activity
             android:name="com.tencent.bugly.beta.ui.BetaActivity"
