@@ -179,6 +179,7 @@ public class ConsumerActivity extends BaseActivity {
                         mConsumerMore.setText(R.string.load_more);
                     }
                 } else {
+                    mEmptyView.setText("暂时没有充值记录");
                     mConsumerView.setTag(UIHelper.LISTVIEW_DATA_FULL);
                     mConsumerMore.setText(R.string.load_full);
                     mConsumerProgress.setVisibility(View.GONE);

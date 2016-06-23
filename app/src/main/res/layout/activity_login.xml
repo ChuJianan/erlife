@@ -28,7 +28,7 @@
             <com.yrkj.yrlife.widget.ClearEditText
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:id="@+id/name"
+                android:id="@+id/name_phone"
                 android:textSize="@dimen/text_size_14"
                 android:layout_alignParentTop="true"
                 android:layout_marginLeft="@dimen/space_5"
@@ -46,7 +46,7 @@
             android:layout_alignStart="@+id/relativeLayout"
             android:background="@color/white"
             android:paddingLeft="@dimen/space_5"
-            android:layout_marginTop="0dp"
+            android:layout_marginTop="8dp"
             android:id="@+id/relativeLayout2">
 
              <com.yrkj.yrlife.widget.ClearEditText

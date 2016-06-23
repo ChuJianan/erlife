@@ -3,7 +3,7 @@
     android:layout_width="fill_parent"
     android:layout_height="@dimen/home_top"
     android:background="@mipmap/bg_common_header"
-    android:gravity="center_vertical" >
+    >
 
     <LinearLayout
         android:paddingLeft="@dimen/space_5"
@@ -40,17 +40,6 @@
         android:textColor="@color/white"
         android:textSize="@dimen/text_size_18"
          />
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_marginBottom="5dp"
-        android:layout_marginTop="5dp"
-        android:scaleType="centerInside"
-        android:visibility="gone"
-        android:src="@mipmap/ic_launcher"
-        android:id="@+id/imageView10" />
 
     <ImageView
         android:layout_width="@dimen/home_top"

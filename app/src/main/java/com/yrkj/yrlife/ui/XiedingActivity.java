@@ -28,7 +28,7 @@ public class XiedingActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         x.view().inject(this);
-        title.setText("常见问题");
+        title.setText("亿人生活用户协议");
         initWebView();
         mWebView.loadUrl("file:///android_asset/userAgreement.html");
     }

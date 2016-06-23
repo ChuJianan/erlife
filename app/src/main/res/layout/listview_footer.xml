@@ -21,6 +21,7 @@
         android:gravity="center"
         android:padding="5dp"
         android:text="@string/load_ing"
-        android:textColor="@color/listitem_black" />
+        android:textSize="@dimen/text_size_13"
+        android:textColor="@color/pulldownlistview_time_color" />
 
 </LinearLayout>

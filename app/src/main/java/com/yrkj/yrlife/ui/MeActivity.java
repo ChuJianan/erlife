@@ -62,6 +62,7 @@ import java.io.IOException;
 public class MeActivity extends BaseActivity {
 
     public static final int MY_PERMISSIONS_CAMERA = 1;
+    public static final int MY_PERMISSIONS_STORAGE = 2;
     private static String IMAGE_FILE_NAME = "faceImage.jpg";
     SharedPreferences preferences;
     private String sex;
@@ -250,15 +251,25 @@ public class MeActivity extends BaseActivity {
         view.findViewById(R.id.grall_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intentFromGallery = new Intent(Intent.ACTION_GET_CONTENT);
-                intentFromGallery.setType("image/*"); // 设置文件类型
-//                intentFromGallery.addCategory(Intent.CATEGORY_OPENABLE);
+                int perssion = ContextCompat.checkSelfPermission(MeActivity.this,
+                        Manifest.permission.READ_PHONE_STATE);
+                if (perssion == PackageManager.PERMISSION_GRANTED) {
+                    Intent takeIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    Intent intentFromGallery = new Intent(Intent.ACTION_GET_CONTENT);
+                    intentFromGallery.setType("image/*"); // 设置文件类型
+                    intentFromGallery.addCategory(Intent.CATEGORY_OPENABLE);
 //                startActivityForResult(intentFromGallery, IMAGE_REQUEST_CODE);
-                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
-                    startActivityForResult(intentFromGallery,SELECT_PIC_KITKAT);
-                } else {
-                    startActivityForResult(intentFromGallery,IMAGE_REQUEST_CODE);
+                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
+                        startActivityForResult(intentFromGallery,SELECT_PIC_KITKAT);
+                    } else {
+                        startActivityForResult(intentFromGallery,IMAGE_REQUEST_CODE);
+                    }
+                } else if (perssion == PackageManager.PERMISSION_DENIED) {
+                    ActivityCompat.requestPermissions(MeActivity.this,
+                            new String[]{Manifest.permission.READ_PHONE_STATE},
+                            MY_PERMISSIONS_STORAGE);
                 }
+
             }
         });
         view.findViewById(R.id.camera_btn).setOnClickListener(new View.OnClickListener() {
@@ -334,7 +345,8 @@ public class MeActivity extends BaseActivity {
             Log.i("tag", "The uri is not exist.");
         }
         Intent intent = new Intent("com.android.camera.action.CROP");
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT&&
+                android.os.Build.VERSION.SDK_INT< Build.VERSION_CODES.LOLLIPOP) {
             String url= GetImagePath.getPath(appContext,uri);
             intent.setDataAndType(Uri.fromFile(new File(url)), "image/*");
         }else{
@@ -515,6 +527,41 @@ public class MeActivity extends BaseActivity {
                     if (!ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA)) {
                         AlertDialog dialog = new AlertDialog.Builder(this)
                                 .setMessage("该相机需要赋予使用的权限，不开启将无法正常工作！")
+                                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        UIHelper.startAppSettings(appContext);
+                                    }
+                                })
+                                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        finish();
+                                    }
+                                }).create();
+                        dialog.show();
+                        return;
+                    }
+                }
+                break;
+            case MY_PERMISSIONS_STORAGE:
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    Intent takeIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    Intent intentFromGallery = new Intent(Intent.ACTION_GET_CONTENT);
+                    intentFromGallery.setType("image/*"); // 设置文件类型
+                    intentFromGallery.addCategory(Intent.CATEGORY_OPENABLE);
+//                startActivityForResult(intentFromGallery, IMAGE_REQUEST_CODE);
+                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.KITKAT) {
+                        startActivityForResult(intentFromGallery,SELECT_PIC_KITKAT);
+                    } else {
+                        startActivityForResult(intentFromGallery,IMAGE_REQUEST_CODE);
+                    }
+                } else {
+                    //用户不同意，向用户展示该权限作用
+                    if (!ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_PHONE_STATE)) {
+                        AlertDialog dialog = new AlertDialog.Builder(this)
+                                .setMessage("该图库需要赋予使用的权限，不开启将无法正常工作！")
                                 .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {

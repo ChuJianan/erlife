@@ -21,6 +21,7 @@ import com.yrkj.yrlife.R;
 import com.yrkj.yrlife.api.ApiClient;
 import com.yrkj.yrlife.app.AppException;
 import com.yrkj.yrlife.app.AppManager;
+import com.yrkj.yrlife.been.Result;
 import com.yrkj.yrlife.been.URLs;
 import com.yrkj.yrlife.been.User;
 import com.yrkj.yrlife.utils.JsonUtils;
@@ -116,7 +117,14 @@ public class SignActivity extends BaseActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked){
                     isCheck=true;
+                    int phone=phoneEdit.getText().toString().length();
+                    if(phone==11){
+                        codeBtn.setBackgroundResource(R.drawable.bg_btn_code);
+                    }else{
+                        codeBtn.setBackgroundColor(getResources().getColor(R.color.dim_foreground_light_inverse_disabled));
+                    }
                 }else{
+                    codeBtn.setBackgroundColor(getResources().getColor(R.color.dim_foreground_light_inverse_disabled));
                     isCheck=false;
                 }
             }
@@ -148,6 +156,7 @@ public class SignActivity extends BaseActivity {
                 sign_btn.setBackgroundResource(R.drawable.bg_btn_code);
                 sign_btn.setClickable(true);
             } else {
+
                 sign_btn.setClickable(false);
             }
         }
@@ -174,8 +183,10 @@ public class SignActivity extends BaseActivity {
             editStart = yzmEdit.getSelectionStart();
             editEnd = yzmEdit.getSelectionEnd();
             if (temp.length() > 6) {
+                sub_code.setBackgroundColor(getResources().getColor(R.color.dim_foreground_light_inverse_disabled));
                 sub_code.setClickable(false);
             } else if (temp.length() < 6) {
+                sub_code.setBackgroundColor(getResources().getColor(R.color.dim_foreground_light_inverse_disabled));
                 sub_code.setClickable(false);
             } else if (temp.length() == 6) {
                 sub_code.setBackgroundResource(R.drawable.bg_btn_code);
@@ -220,8 +231,10 @@ public class SignActivity extends BaseActivity {
             editStart = phoneEdit.getSelectionStart();
             editEnd = phoneEdit.getSelectionEnd();
             if (temp.length() > 11) {
+                codeBtn.setBackgroundColor(getResources().getColor(R.color.dim_foreground_light_inverse_disabled));
                 codeBtn.setClickable(false);
             } else if (temp.length() < 11) {
+                codeBtn.setBackgroundColor(getResources().getColor(R.color.dim_foreground_light_inverse_disabled));
                 codeBtn.setClickable(false);
             } else if (temp.length() == 11&&isCheck) {
                 codeBtn.setBackgroundResource(R.drawable.bg_btn_code);
@@ -264,14 +277,43 @@ public class SignActivity extends BaseActivity {
     @Event(R.id.sub_code)
     private void subcodeEvent(View view) {
         yzm = yzmEdit.getText().toString();
+        mLoadingDialog.show();
         if (!StringUtils.isEmpty(yzm)) {
             if (code.equals(yzm)) {
-                input_pwd.setTextColor(getResources().getColor(R.color.paycolor));
-                input_phone.setTextColor(getResources().getColor(R.color.sign_top));
-                input_code.setTextColor(getResources().getColor(R.color.sign_top));
-                sign_bottom.setVisibility(View.VISIBLE);
-                sign_center.setVisibility(View.GONE);
-                sign_top.setVisibility(View.GONE);
+                RequestParams params=new RequestParams(URLs.Code_Check);
+                params.addQueryStringParameter("phone",phone);
+                params.addQueryStringParameter("code",code);
+                x.http().get(params, new Callback.CommonCallback<String>() {
+                    @Override
+                    public void onSuccess(String string) {
+                        Result result=JsonUtils.fromJson(string,Result.class);
+                        UIHelper.ToastMessage(appContext,result.Message());
+                        if (result.OK()){
+                        input_pwd.setTextColor(getResources().getColor(R.color.paycolor));
+                        input_phone.setTextColor(getResources().getColor(R.color.sign_top));
+                        input_code.setTextColor(getResources().getColor(R.color.sign_top));
+                        sign_bottom.setVisibility(View.VISIBLE);
+                        sign_center.setVisibility(View.GONE);
+                        sign_top.setVisibility(View.GONE);
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable ex, boolean isOnCallback) {
+                        UIHelper.ToastMessage(appContext,ex.getMessage());
+                    }
+
+                    @Override
+                    public void onCancelled(CancelledException cex) {
+                        UIHelper.ToastMessage(appContext,"cancel");
+                    }
+
+                    @Override
+                    public void onFinished() {
+                        mLoadingDialog.dismiss();
+                    }
+                });
+
             } else {
                 UIHelper.ToastMessage(appContext, "验证码输入错误，请重新输入");
             }
@@ -351,13 +393,11 @@ public class SignActivity extends BaseActivity {
         RequestParams params = new RequestParams(URLs.SIGIN);
         params.addQueryStringParameter("phone", phone);
         params.addQueryStringParameter("pwd", pwd);
-        params.addQueryStringParameter("code", yzm);
         params.addQueryStringParameter("unique_phone_code", appContext.getAppId());
         params.addQueryStringParameter("tokenAndFlag", UIHelper.token + "And");
         x.http().get(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String res) {
-                mLoadingDialog.dismiss();
                 Message msg = new Message();
                 try {
                     JSONObject jsonObject = new JSONObject(res);
@@ -444,7 +484,7 @@ public class SignActivity extends BaseActivity {
 
             @Override
             public void onFinished() {
-
+                mLoadingDialog.dismiss();
             }
         });
     }

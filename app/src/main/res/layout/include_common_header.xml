@@ -26,6 +26,7 @@
             android:layout_marginLeft="@dimen/space_3"
             android:textColor="@color/white"
             android:textSize="@dimen/text_size_19"
+            android:visibility="invisible"
             />
     </LinearLayout>
     <LinearLayout
@@ -51,20 +52,18 @@
         android:layout_height="fill_parent"
         android:layout_toLeftOf="@+id/oper_layout"
         android:layout_toRightOf="@+id/back"
-        android:layout_marginLeft="30dp"
+        android:layout_marginLeft="10dp"
         android:gravity="center" >
 
         <TextView
             android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="fill_parent"
-            android:layout_gravity="center"
             android:gravity="center_vertical"
-            android:paddingLeft="10.0dip"
-            android:paddingRight="10.0dip"
             android:singleLine="true"
+            android:text="无卡洗车"
             android:textColor="@color/white"
-            android:textSize="@dimen/section_title_text_size" />
+            android:textSize="@dimen/text_size_18" />
     </LinearLayout>
 
     <ImageView

@@ -45,7 +45,7 @@ public class SlideShowView extends FrameLayout {
     private ImageLoader imageLoader = ImageLoader.getInstance();
 
     //轮播图图片数量
-    private final static int IMAGE_COUNT = 4;
+    public   static int IMAGE_COUNT = 4;
     //自动轮播的时间间隔
     private final static int TIME_INTERVAL = 5;
     //自动轮播启用开关
@@ -317,7 +317,8 @@ public class SlideShowView extends FrameLayout {
             try {
                 // 这里一般调用服务端接口获取一组轮播图片，下面是从百度找的几个图片
 
-                imageUrls = new String[]{
+                imageUrls = //UIHelper.img_urls;
+                        new String[]{
                         "http://qpic.cn/0t77Yl2BL",
                         "http://qpic.cn/ajr0Ofpjw",
                         "http://qpic.cn/JuPvjmav7",

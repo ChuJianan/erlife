@@ -8,12 +8,15 @@ import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 
 import com.yrkj.yrlife.R;
+import com.yrkj.yrlife.been.Result;
 import com.yrkj.yrlife.been.URLs;
 import com.yrkj.yrlife.been.User;
 import com.yrkj.yrlife.ui.MainActivity;
 import com.yrkj.yrlife.ui.ShareActivity;
 import com.yrkj.yrlife.utils.JsonUtils;
 import com.yrkj.yrlife.utils.StringUtils;
+import com.yrkj.yrlife.utils.UIHelper;
+import com.yrkj.yrlife.widget.SlideShowView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -171,6 +174,41 @@ public class AppStart extends AppCompatActivity {
 
             }
         }
+//        RequestParams params = new RequestParams(URLs.HOME_ADS);
+//        x.http().get(params, new Callback.CommonCallback<String>() {
+//            @Override
+//            public void onSuccess(String string) {
+//                Result result=JsonUtils.fromJson(string,Result.class);
+//                UIHelper.ToastMessage(application,result.Message());
+//                if (result.OK()){
+//                    UIHelper.img_urls=result.getImg_urls();
+//                    SlideShowView.IMAGE_COUNT=result.count();
+//                }
+//            }
+//
+//            @Override
+//            public void onError(Throwable ex, boolean isOnCallback) {
+//
+//            }
+//
+//            @Override
+//            public void onCancelled(CancelledException cex) {
+//
+//            }
+//
+//            @Override
+//            public void onFinished() {
+//                switch (msg.what) {
+//                    case GO_HOME:
+//                        goHome();
+//                        break;
+//                    case GO_SHARE:
+//                        goShare();
+//                        break;
+//                }
+//            }
+//        });
+
     }
 
 //    private Handler mHandler = new Handler() {

@@ -13,7 +13,10 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -43,6 +46,7 @@ import org.xutils.x;
 @ContentView(R.layout.activity_more)
 public class MoreActivity extends BaseActivity {
 
+    public static final int MY_PERMISSIONS_STORAGE = 2;
     SharedPreferences preferences;
     String filePath;
 
@@ -93,18 +97,16 @@ public class MoreActivity extends BaseActivity {
     private void onCallrlClick(View view) {
 //        UIHelper.ToastMessage(this, "正在开发中...");
         //用intent启动拨打电话
-        Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + "4001891668"));
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
+        int perssion = ContextCompat.checkSelfPermission(MoreActivity.this,
+                Manifest.permission.CALL_PHONE);
+        if (perssion == PackageManager.PERMISSION_GRANTED) {
+            dialog("是否拨打客服电话？",3);
+        }else if (perssion == PackageManager.PERMISSION_DENIED) {
+            ActivityCompat.requestPermissions(MoreActivity.this,
+                    new String[]{Manifest.permission.READ_PHONE_STATE},
+                    MY_PERMISSIONS_STORAGE);
         }
-        startActivity(intent);
+
     }
 
     /**
@@ -242,6 +244,20 @@ public class MoreActivity extends BaseActivity {
                         e.printStackTrace();
                     }
                 }
+                if (i==3){
+                    Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + "4001891668"));
+                    if (ActivityCompat.checkSelfPermission(MoreActivity.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                        // TODO: Consider calling
+                        //    ActivityCompat#requestPermissions
+                        // here to request the missing permissions, and then overriding
+                        //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                        //                                          int[] grantResults)
+                        // to handle the case where the user grants the permission. See the documentation
+                        // for ActivityCompat#requestPermissions for more details.
+                        return;
+                    }
+                    startActivity(intent);
+                }
             }
         });
         builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
@@ -251,5 +267,39 @@ public class MoreActivity extends BaseActivity {
             }
         });
         builder.create().show();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode){
+            case MY_PERMISSIONS_STORAGE:
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    dialog("是否拨打客服电话？",3);
+                } else {
+                    //用户不同意，向用户展示该权限作用
+                    if (!ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CALL_PHONE)) {
+                        android.support.v7.app.AlertDialog dialog = new android.support.v7.app.AlertDialog.Builder(this)
+                                .setMessage("该功能需要赋予使用的权限，不开启将无法正常工作！")
+                                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        UIHelper.startAppSettings(appContext);
+                                    }
+                                })
+                                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        finish();
+                                    }
+                                }).create();
+                        dialog.show();
+                        return;
+                    }
+                }
+                break;
+            default:
+                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
     }
 }

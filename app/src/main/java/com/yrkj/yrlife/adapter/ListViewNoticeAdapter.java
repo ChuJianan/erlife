@@ -69,11 +69,11 @@ public class ListViewNoticeAdapter extends BaseAdapter {
         holder.title.setText(iconName[position]);
         holder.img.setImageResource(icon[position]);
 
-        if (position==0){
+//        if (position==0){
             holder.num.setVisibility(View.GONE);
-        }else {
-            holder.num.setText(position+"");
-        }
+//        }else {
+//            holder.num.setText(position+"");
+//        }
         holder.content.setText(content[position]);
         return convertView;
     }

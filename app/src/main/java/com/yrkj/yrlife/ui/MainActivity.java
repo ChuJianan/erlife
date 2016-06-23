@@ -61,6 +61,7 @@ import java.util.zip.Inflater;
 @ContentView(value = R.layout.activity_main)
 public class MainActivity extends FragmentActivity {
 
+    public static final int MY_PERMISSIONS_CAMERA = 1;
     final private int REQUEST_CODE_ASK_PERMISSIONS = 123;
     private LocationService locationService;//定位
     YrApplication application;
@@ -92,10 +93,10 @@ public class MainActivity extends FragmentActivity {
         AppManager.getAppManager().addActivity(this);
         x.view().inject(this);
         initView();
-        locationService = new LocationService(getApplicationContext());
-        if (locationService == null) {
+//        locationService = new LocationService(getApplicationContext());
+//        if (locationService == null) {
             insertDummyContactWrapper();
-        }
+//        }
 
         application = (YrApplication) getApplication();
 
@@ -117,6 +118,7 @@ public class MainActivity extends FragmentActivity {
                     new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION},
                     REQUEST_CODE_ASK_PERMISSIONS);
         }
+
     }
 
     @Override
@@ -130,6 +132,32 @@ public class MainActivity extends FragmentActivity {
                     if (!ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_COARSE_LOCATION)) {
                         AlertDialog dialog = new AlertDialog.Builder(this)
                                 .setMessage("定位服务需要赋予使用的权限，不开启将无法正常工作！")
+                                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        startAppSettings();
+                                    }
+                                })
+                                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        finish();
+                                    }
+                                }).create();
+                        dialog.show();
+                        return;
+                    }
+                }
+                break;
+            case MY_PERMISSIONS_CAMERA:
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    mTabHost.setCurrentTab(2);
+                } else {
+                    //用户不同意，向用户展示该权限作用
+                    if (!ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA)) {
+                        AlertDialog dialog = new AlertDialog.Builder(this)
+                                .setMessage("该相机需要赋予使用的权限，不开启将无法正常工作！")
                                 .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
@@ -206,7 +234,20 @@ public class MainActivity extends FragmentActivity {
                 if (StringUtils.isEmpty(URLs.secret_code)){
                     UIHelper.openLogin(MainActivity.this);
                 }else {
-                    mTabHost.setCurrentTab(2);
+                    if (UIHelper.location==null){
+                        UIHelper.ToastMessage(MainActivity.this,"无法获取定位，无法使用此功能");
+                        finish();
+                    }else {
+                        int perssion = ContextCompat.checkSelfPermission(MainActivity.this,
+                                Manifest.permission.CAMERA);
+                        if (perssion == PackageManager.PERMISSION_GRANTED) {
+                            mTabHost.setCurrentTab(2);
+                        } else if (perssion == PackageManager.PERMISSION_DENIED) {
+                            ActivityCompat.requestPermissions(MainActivity.this,
+                                    new String[]{Manifest.permission.CAMERA},
+                                    MY_PERMISSIONS_CAMERA);
+                        }
+                    }
                 }
             }
         });
@@ -229,7 +270,7 @@ public class MainActivity extends FragmentActivity {
         if (locationService == null) {
             UIHelper.ToastMessage(MainActivity.this, "请到设置中打开定位，并允许程序获取定位权限");
         } else {
-            if (StringUtils.isEmpty(UIHelper.city)) {
+            if (!StringUtils.isEmpty(UIHelper.city)) {
                 locationService.unregisterListener(mListener); //注销掉监听
                 locationService.stop(); //停止定位服务
                 LocationResult.setText(UIHelper.city);
@@ -350,6 +391,7 @@ public class MainActivity extends FragmentActivity {
                 }
 
             }
+                Log.e("baidu",location.getLocType()+"");
         }
 
     };

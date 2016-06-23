@@ -177,6 +177,7 @@ public class CzlistActivity extends BaseActivity {
                     mPayView.setTag(UIHelper.LISTVIEW_DATA_FULL);
                     mPayMore.setText(R.string.load_full);
                     mPayProgress.setVisibility(View.GONE);
+                    mEmptyView.setText("暂时没有充值记录");
                 }
                 mLastTime = System.currentTimeMillis();
             }

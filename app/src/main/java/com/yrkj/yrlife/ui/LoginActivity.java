@@ -39,7 +39,7 @@ import org.xutils.x;
 @ContentView(value = R.layout.activity_login)
 public class LoginActivity extends BaseActivity {
 
-    @ViewInject(value = R.id.name)
+    @ViewInject(R.id.name_phone)
     private ClearEditText nameText;
     @ViewInject(value = R.id.password)
     private ClearEditText pwdText;

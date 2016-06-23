@@ -23,7 +23,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/pull_to_refresh_pull_label"
                 android:textColor="@color/pulldownlistview_color"
-                android:textSize="17.0sp" />
+                android:textSize="@dimen/text_size_15" />
 
             <TextView
                 android:id="@+id/head_lastUpdatedTextView"

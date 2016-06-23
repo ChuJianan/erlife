@@ -14,7 +14,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="60dp"
+            android:layout_marginTop="40dp"
             android:gravity="center"
             android:orientation="horizontal">
             <ImageView
@@ -28,7 +28,7 @@
                 android:hint="会员卡号"
                 android:layout_width="260dp"
                 android:textSize="@dimen/text_size_14"
-                android:layout_height="40dp"
+                android:layout_height="43dp"
                 android:layout_gravity="center"
                 android:layout_marginLeft="@dimen/space_20"
                 android:background="@color/white"/>
@@ -37,7 +37,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:layout_marginTop="@dimen/space_18"
+            android:layout_marginTop="@dimen/space_13"
             android:orientation="horizontal">
             <ImageView
                 android:layout_width="wrap_content"
@@ -46,7 +46,7 @@
                 />
             <com.yrkj.yrlife.widget.ClearEditText
                 android:layout_width="260dp"
-                android:layout_height="40dp"
+                android:layout_height="43dp"
                 android:textSize="@dimen/text_size_14"
                 android:paddingLeft="@dimen/space_5"
                 android:hint="手机号"
@@ -59,7 +59,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:layout_marginTop="@dimen/space_18"
+            android:layout_marginTop="@dimen/space_13"
             android:orientation="horizontal"
             >
             <ImageView
@@ -69,7 +69,7 @@
                 />
             <com.yrkj.yrlife.widget.ClearEditText
                 android:layout_width="170dp"
-                android:layout_height="40dp"
+                android:layout_height="43dp"
                 android:layout_marginLeft="@dimen/space_20"
                 android:hint="验证码"
                 android:textSize="@dimen/text_size_14"
@@ -79,7 +79,7 @@
             <Button
                 android:id="@+id/code_btn"
                 android:layout_width="80dp"
-                android:layout_height="40dp"
+                android:layout_height="43dp"
                 android:layout_marginLeft="@dimen/space_10"
                 android:text="获取验证码"
                 android:textColor="@color/white"
@@ -90,7 +90,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:layout_marginTop="@dimen/space_30">
+            android:layout_marginTop="@dimen/space_20">
             <Button
                 android:id="@+id/sub_btn"
                 android:layout_width="300dp"

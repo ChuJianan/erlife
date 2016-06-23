@@ -16,8 +16,8 @@ android {
         applicationId "com.yrkj.yrlife"
         minSdkVersion 15
         targetSdkVersion 23
-        versionCode 4
-        versionName "1.0.5"
+        versionCode 5
+        versionName "1.0.6"
         ndk {
             //设置支持的SO库架构
             abiFilters 'armeabi' //, 'x86', 'armeabi-v7a', 'x86_64', 'arm64-v8a'
@@ -44,8 +44,8 @@ dependencies {
     compile 'com.android.support:design:23.2.0'
     compile 'com.google.android.gms:play-services-appindexing:8.1.0'
     compile 'org.xutils:xutils:3.3.34'
-//    compile 'com.tencent.bugly:crashreport:2.1.5' //其中latest.release指代最新版本号，也可以指定明确的版本号，例如2.1.5
-//    compile 'com.tencent.bugly:nativecrashreport:2.2.0' //其中latest.release指代最新版本号，也可以指定明确的版本号，例如2.2.0
+    //    compile 'com.tencent.bugly:crashreport:2.1.5' //其中latest.release指代最新版本号，也可以指定明确的版本号，例如2.1.5
+    //    compile 'com.tencent.bugly:nativecrashreport:2.2.0' //其中latest.release指代最新版本号，也可以指定明确的版本号，例如2.2.0
     compile 'com.tencent.bugly:crashreport_upgrade:1.0.2'
     //其中latest.release指代最新版本号，也可以指定明确的版本号，例如1.2.8
     //    compile 'com.pgyersdk:sdk:2.2.2'

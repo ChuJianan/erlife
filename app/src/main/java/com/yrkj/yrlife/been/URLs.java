@@ -13,12 +13,12 @@ public class URLs extends Entity {
 	public static  String secret_code="";
 //	public static String ImageByte="";
 	public static String IMAGE_FILE_NAME="";
-	public static final String HOST = "http://192.168.3.132:8080/";
+//	public static final String HOST = "http://192.168.3.2:8080/";
 //	public static final String HOST = "http://40057179.nat123.net/";
-//	public static final String HOST = "http://119.10.48.101/";
+	public static final String HOST = "http://119.10.48.101/";
 
 	public static final String APP_INIT = HOST+"wmmanager/app/pro1/app1/addMember";		//应用初始化地址
-	public static final String HOME_ADS = HOST ;		//首页广告地址
+	public static final String HOME_ADS = HOST+"wmmanager/app/pro1/app1/loadBannerImage" ;		//首页广告地址
 
 	public static final String SECRET_CODE=HOST+"wmmanager/app/pro1/app3/judgeIsExpired";
 	public static final String LOGIN=HOST+"wmmanager/app/pro1/app3/login?";//登录
@@ -47,7 +47,7 @@ public class URLs extends Entity {
 	public static final String PAYCONFIRM=HOST+"wmmanager/app/pro1/app1/payConfirm?";//无卡洗车结算
 	public static final String NEWS=HOST+"wmmanager/app/pro1/app1/systemMessage?";//新闻
 	public static final String RATE=HOST+"wmmanager/app/pro1/app1/remarkStar?";//评星
-
+	public static final String Code_Check=HOST+"wmmanager/app/pro1/app3/regCheckCode?";//注册验证码验证
 
 
 

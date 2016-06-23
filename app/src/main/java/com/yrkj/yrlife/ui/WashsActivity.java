@@ -1,7 +1,10 @@
 package com.yrkj.yrlife.ui;
 
+import android.Manifest;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.AssetFileDescriptor;
 import android.graphics.Bitmap;
 import android.media.AudioManager;
@@ -10,6 +13,10 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Vibrator;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
@@ -18,6 +25,8 @@ import android.widget.Toast;
 
 import com.google.zxing.BarcodeFormat;
 import com.yrkj.yrlife.R;
+import com.yrkj.yrlife.utils.UIHelper;
+import com.zxing.activity.CaptureActivity;
 import com.zxing.camera.CameraManager;
 import com.zxing.decoding.CaptureActivityHandler;
 import com.zxing.decoding.DecodeHandlerInterface;
@@ -57,10 +66,59 @@ public class WashsActivity extends BaseActivity implements SurfaceHolder.Callbac
         super.onCreate(savedInstanceState);
         x.view().inject(this);
         title.setText("无卡洗车");
-        CameraManager.init(this);
+        insertDummyContactWrapper();
+
         hasSurface = false;
-        inactivityTimer = new InactivityTimer(this);
     }
+
+    public void insertDummyContactWrapper(){
+        int perssion = ContextCompat.checkSelfPermission(WashsActivity.this,
+                Manifest.permission.CAMERA);
+        if (perssion == PackageManager.PERMISSION_GRANTED) {
+            CameraManager.init(this);
+            inactivityTimer = new InactivityTimer(this);
+        } else if (perssion == PackageManager.PERMISSION_DENIED) {
+            ActivityCompat.requestPermissions(WashsActivity.this,
+                    new String[]{Manifest.permission.CAMERA},
+                    MY_PERMISSIONS_CAMERA);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case MY_PERMISSIONS_CAMERA:
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    CameraManager.init(this);
+                    inactivityTimer = new InactivityTimer(this);
+                } else {
+                    //用户不同意，向用户展示该权限作用
+                    if (!ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA)) {
+                        AlertDialog dialog = new AlertDialog.Builder(this)
+                                .setMessage("该相机需要赋予使用的权限，不开启将无法正常工作！")
+                                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        UIHelper.startAppSettings(appContext);
+                                    }
+                                })
+                                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        finish();
+                                    }
+                                }).create();
+                        dialog.show();
+                        return;
+                    }
+                }
+                break;
+            default:
+                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+    }
+
     @Event(R.id.kd_rl)
     private void kdrlEvent(View view) {
         CameraManager.get().flashHandler();

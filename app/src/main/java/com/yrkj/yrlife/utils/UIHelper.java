@@ -67,16 +67,17 @@ public class UIHelper {
     public final static int REQUEST_CODE_FOR_REPLY = 0x02;
     public static final String APP_ID = "wx4aca65f58fe822e2";//APP_ID是从网站申请的
     public static final String App_Secret = "e289ab5aba52ce52941ead32519859ca";//密钥是从网站申请的
-    public static final String PARTNERID="1347776201";
+    public static final String PARTNERID = "1347776201";
     private static final String PACKAGE_URL_SCHEME = "package:"; // 方案
     public static String OpenId = "";
     public static String access_token = "";
     public static String refresh_token = "";
     public static BigDecimal bigDecimal;
-    public static String orderNumber="";
+    public static String orderNumber = "";
     public static String city = "";
     public static BDLocation location;
     public static String token;
+    public static String[] img_urls={};
     /**
      * 全局web样式
      */
@@ -113,11 +114,12 @@ public class UIHelper {
     public static void startAppSettings(Context context) {
         Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
         intent.setData(Uri.parse(PACKAGE_URL_SCHEME + context.getPackageName()));
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         context.startActivity(intent);
     }
 
-    public static ProgressDialog progressDialog(Activity context,String message){
-        ProgressDialog  mLoadingDialog = new ProgressDialog(context);
+    public static ProgressDialog progressDialog(Activity context, String message) {
+        ProgressDialog mLoadingDialog = new ProgressDialog(context);
         mLoadingDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         mLoadingDialog.setTitle("提示");
         mLoadingDialog.setMessage(message);
@@ -125,7 +127,7 @@ public class UIHelper {
         return mLoadingDialog;
     }
 
-    public static void openBaiduMap(double lat, double lon, String describle,Context activity) {
+    public static void openBaiduMap(double lat, double lon, String describle, Context activity) {
         try {
             StringBuilder loc = new StringBuilder();
             loc.append("intent://map/direction?origin=latlng:");
@@ -153,9 +155,10 @@ public class UIHelper {
             e.printStackTrace();
         }
     }
-    public static void openGaoDeMap(double lon, double lat, String describle,Context activity) {
+
+    public static void openGaoDeMap(double lon, double lat, String describle, Context activity) {
         try {
-            double[] gd_lat_lon = bdToGaoDe(lon, lat);
+            double[] gd_lat_lon = {lon,lat};
             StringBuilder loc = new StringBuilder();
             loc.append("androidamap://viewMap?sourceApplication=XX");
             loc.append("&poiname=");
@@ -171,10 +174,12 @@ public class UIHelper {
             e.printStackTrace();
         }
     }
+
     public static boolean isInstallPackage(String packageName) {
         return new File("/data/data/" + packageName).exists();
     }
-    public static double[] bdToGaoDe(double bd_lat, double bd_lon) {
+
+    public static double[] bdToGaoDe(double bd_lat, double bd_lon,Context context) {
         double[] gd_lat_lon = new double[2];
         double PI = 3.14159265358979324 * 3000.0 / 180.0;
         double x = bd_lon - 0.0065, y = bd_lat - 0.006;
@@ -195,6 +200,7 @@ public class UIHelper {
         bd_lat_lon[1] = z * Math.sin(theta) + 0.006;
         return bd_lat_lon;
     }
+
     /**
      * 加载显示图片
      *

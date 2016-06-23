@@ -18,11 +18,13 @@ public class Result {
     private int code;
     private String message;
     private int   totalPage;
+    private int count;
     private WeixinPay wxpay;
     private String result;
     private Washing_no_card_record washing_no_card_record;
     private BigDecimal spend_money;
     private PayConfirm payconfirm;
+    private String[] imageAbsoluteUrl={};
     public boolean OK(){
          return code==1;
      }
@@ -49,6 +51,12 @@ public class Result {
     }
     public PayConfirm payconfirm(){
         return payconfirm;
+    }
+    public String[] getImg_urls(){
+        return imageAbsoluteUrl;
+    }
+    public int count(){
+        return count;
     }
     /**
      * 解析调用结果

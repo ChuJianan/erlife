@@ -108,8 +108,9 @@ public class GetImagePath  {
                 return cursor.getString(index);
             }
         } finally {
-            if (cursor != null)
+            if (cursor != null){
                 cursor.close();
+            }
         }
         return null;
     }
