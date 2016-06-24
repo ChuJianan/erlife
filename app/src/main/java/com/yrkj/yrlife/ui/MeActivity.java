@@ -156,8 +156,9 @@ public class MeActivity extends BaseActivity {
 
     @Event(R.id.phone_rl)
     private void phonerlEvent(View view) {
-        Intent intent = new Intent(this, PhoneActivity.class);
-        startActivity(intent);
+//        Intent intent = new Intent(this, PhoneActivity.class);
+//        startActivity(intent);
+        UIHelper.ToastMessage(appContext,"暂时不可修改手机号");
     }
 
 
@@ -477,6 +478,7 @@ public class MeActivity extends BaseActivity {
                     } else {
                         editor.putString("wx_head_image", "");
                     }
+                    editor.commit();
                     UIHelper.showLoadImage(avatarImg, URLs.IMGURL + user.getHead_image(), "");
                 }catch (JSONException e){
                     e.printStackTrace();

@@ -42,7 +42,7 @@ public class PayActivity extends BaseActivity {
 
     RadioButton radioButton;
     RadioButton moneyRadioButton;
-    String payTypeNub;
+    String payTypeNub= "微信";
     String money;
     float mon, mon1;
     boolean isFirst = true;
@@ -61,7 +61,7 @@ public class PayActivity extends BaseActivity {
     SharedPreferences preferences;
     private ProgressDialog mLoadingDialog;
     private static String appUserAgent;
-    int pay_kind;
+    int pay_kind=1;
     // IWXAPI 是第三方app和微信通信的openapi接口
     private IWXAPI api;
 

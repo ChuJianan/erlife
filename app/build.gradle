@@ -16,8 +16,8 @@ android {
         applicationId "com.yrkj.yrlife"
         minSdkVersion 15
         targetSdkVersion 23
-        versionCode 5
-        versionName "1.0.6"
+        versionCode 6
+        versionName "1.0.7"
         ndk {
             //设置支持的SO库架构
             abiFilters 'armeabi' //, 'x86', 'armeabi-v7a', 'x86_64', 'arm64-v8a'
@@ -62,4 +62,5 @@ dependencies {
     compile files('E:/Android/yrlife/libs/jg_filter_sdk_1.1.jar')
     compile files('E:/Android/yrlife/libs/wup-1.0.0.E-SNAPSHOT.jar')
     compile files('E:/Android/yrlife/libs/Xg_sdk_v2.45_20160510_1845.jar')
+    compile files('E:/Android/yrlife/libs/BaiduNaviSDK_3.1.1.jar')
 }

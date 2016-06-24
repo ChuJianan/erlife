@@ -78,6 +78,7 @@ public class NewsActivity extends BaseActivity {
                     String url=mNewsData.get(position-1).getDetail_url();
                     Intent intent=new Intent(NewsActivity.this,NewsBrowserActivity.class);
                     intent.putExtra("url",url);
+                    intent.putExtra("title",mNewsData.get(position-1).getTitle());
                     startActivity(intent);
                 }
 

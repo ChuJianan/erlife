@@ -1,13 +1,19 @@
 package com.yrkj.yrlife.ui;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebStorage;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.TextView;
 
 import com.yrkj.yrlife.R;
 import com.yrkj.yrlife.been.URLs;
@@ -26,6 +32,8 @@ public class NewsBrowserActivity extends BaseActivity {
 
     @ViewInject(R.id.webview)
     private WebView mWebView;
+    @ViewInject(R.id.title)
+    TextView title;
     String mUrl;
 
     @Override
@@ -33,6 +41,9 @@ public class NewsBrowserActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         x.view().inject(this);
         mUrl = getIntent().getStringExtra("url");
+        String string=getIntent().getStringExtra("title");
+        title.setText(string);
+
         if (StringUtils.isEmpty(mUrl)) {
             UIHelper.ToastMessage(this, "无效地址");
             finish();
@@ -66,7 +77,22 @@ public class NewsBrowserActivity extends BaseActivity {
         mWebView.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                view.loadUrl(url);
+                if (url.startsWith("tel:")){
+                    Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse(url));
+                    if (ActivityCompat.checkSelfPermission(NewsBrowserActivity.this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                        // TODO: Consider calling
+                        //    ActivityCompat#requestPermissions
+                        // here to request the missing permissions, and then overriding
+                        //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                        //                                          int[] grantResults)
+                        // to handle the case where the user grants the permission. See the documentation
+                        // for ActivityCompat#requestPermissions for more details.
+                        return true;
+                    }
+                    startActivity(intent);
+                }else if (url.startsWith("http:")||url.startsWith("https:")){
+                    view.loadUrl(url);
+                }
                 return true;
             }
         });

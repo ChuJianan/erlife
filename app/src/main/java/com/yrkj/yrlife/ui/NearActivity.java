@@ -1,5 +1,6 @@
 package com.yrkj.yrlife.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AbsListView;
@@ -81,7 +82,11 @@ public class NearActivity extends BaseActivity {
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
                 if (position == 0 || view == mNearFooter) return;
-
+                String url=mNearData.get(position-1).getDetailUrl();
+                Intent intent=new Intent(NearActivity.this,NewsBrowserActivity.class);
+                intent.putExtra("url",url);
+                intent.putExtra("title",mNearData.get(position-1).getMachine_name());
+                startActivity(intent);
 
             }
         });

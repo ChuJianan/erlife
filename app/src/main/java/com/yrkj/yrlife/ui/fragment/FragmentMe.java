@@ -221,7 +221,8 @@ public class FragmentMe extends BaseFragment {
      */
     @Event(R.id.quan_rl)
     private void quanrlEvent(View view){
-        UIHelper.ToastMessage(getActivity(), "正在开发中...");
+//        UIHelper.ToastMessage(getActivity(), "正在开发中...");
+        UIHelper.openTestActivity(getActivity());
     }
 
     /**

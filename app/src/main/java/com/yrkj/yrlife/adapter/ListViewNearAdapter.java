@@ -78,7 +78,8 @@ public class ListViewNearAdapter extends BaseAdapter {
         holder.adr.setText(near.getAddress());
 //        holder.tel.setText(near.getTel());
         LatLng p1=new LatLng(UIHelper.location.getLatitude(),UIHelper.location.getLongitude());
-        LatLng p2=new LatLng(Double.parseDouble(near.getLat()) ,Double.parseDouble(near.getLng()));
+//        p1=UIHelper.converter(p1);
+        final LatLng p2=new LatLng(Double.parseDouble(near.getLat()) ,Double.parseDouble(near.getLng()));
         double p3=DistanceUtil.getDistance(p1,p2)/1000;
         BigDecimal bigDecimal=new BigDecimal(p3);
         holder.dis.setText(bigDecimal.setScale(2,BigDecimal.ROUND_HALF_UP).toString());
@@ -92,6 +93,7 @@ public class ListViewNearAdapter extends BaseAdapter {
                 }else if (UIHelper.isInstallPackage("com.autonavi.minimap")){
                     UIHelper.openGaoDeMap(Double.parseDouble(near.getLat()),Double.parseDouble(near.getLng()),near.getAddress(),context);
                 }else {
+//                    UIHelper.openNavigation(context,p2,near.getMachine_name());
                     UIHelper.ToastMessage(context,"非常抱歉，您的手机上暂没我们支持的地图导航，请下载百度地图或高德地图");
                 }
             }

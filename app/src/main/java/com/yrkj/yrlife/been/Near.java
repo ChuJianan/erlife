@@ -56,6 +56,13 @@ public class Near extends Entity {
     private String lng;//经度
     private String lat;//纬度
     private String machine_pic;//图片地址
+    private String detailUrl;//详情地址
 
+    public String getDetailUrl() {
+        return detailUrl;
+    }
 
+    public void setDetailUrl(String detailUrl) {
+        this.detailUrl = detailUrl;
+    }
 }

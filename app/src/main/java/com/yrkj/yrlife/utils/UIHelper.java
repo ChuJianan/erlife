@@ -23,6 +23,8 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.baidu.location.BDLocation;
+import com.baidu.mapapi.model.LatLng;
+import com.baidu.mapapi.utils.CoordinateConverter;
 import com.yrkj.yrlife.R;
 import com.yrkj.yrlife.api.ApiClient;
 import com.yrkj.yrlife.app.AppException;
@@ -30,6 +32,10 @@ import com.yrkj.yrlife.app.AppManager;
 import com.yrkj.yrlife.app.YrApplication;
 import com.yrkj.yrlife.ui.BrowserActivity;
 import com.yrkj.yrlife.ui.LoginActivity;
+import com.yrkj.yrlife.ui.NaviActivity;
+import com.yrkj.yrlife.ui.TestActivity;
+
+import org.xutils.view.annotation.ContentView;
 
 import java.io.File;
 import java.io.IOException;
@@ -77,7 +83,7 @@ public class UIHelper {
     public static String city = "";
     public static BDLocation location;
     public static String token;
-    public static String[] img_urls={};
+    public static String[] img_urls = {};
     /**
      * 全局web样式
      */
@@ -118,6 +124,20 @@ public class UIHelper {
         context.startActivity(intent);
     }
 
+    /**
+     * 坐标转换
+     * @param sourceLatLng
+     * @return
+     */
+    public static LatLng converter(LatLng sourceLatLng) {
+        CoordinateConverter converter = new CoordinateConverter();
+        converter.from(CoordinateConverter.CoordType.GPS);
+        // sourceLatLng待转换坐标
+        converter.coord(sourceLatLng);
+        LatLng desLatLng = converter.convert();
+        return desLatLng;
+    }
+
     public static ProgressDialog progressDialog(Activity context, String message) {
         ProgressDialog mLoadingDialog = new ProgressDialog(context);
         mLoadingDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
@@ -125,6 +145,15 @@ public class UIHelper {
         mLoadingDialog.setMessage(message);
         mLoadingDialog.setCancelable(false);
         return mLoadingDialog;
+    }
+
+    public static void openNavigation(Context activity, LatLng p2,String name){
+        Intent intent=new Intent(activity, NaviActivity.class);
+
+        intent.putExtra("lng",p2);
+        intent.putExtra("name",name);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        activity.startActivity(intent);
     }
 
     public static void openBaiduMap(double lat, double lon, String describle, Context activity) {
@@ -158,7 +187,7 @@ public class UIHelper {
 
     public static void openGaoDeMap(double lon, double lat, String describle, Context activity) {
         try {
-            double[] gd_lat_lon = {lon,lat};
+            double[] gd_lat_lon = {lon, lat};
             StringBuilder loc = new StringBuilder();
             loc.append("androidamap://viewMap?sourceApplication=XX");
             loc.append("&poiname=");
@@ -179,7 +208,7 @@ public class UIHelper {
         return new File("/data/data/" + packageName).exists();
     }
 
-    public static double[] bdToGaoDe(double bd_lat, double bd_lon,Context context) {
+    public static double[] bdToGaoDe(double bd_lat, double bd_lon, Context context) {
         double[] gd_lat_lon = new double[2];
         double PI = 3.14159265358979324 * 3000.0 / 180.0;
         double x = bd_lon - 0.0065, y = bd_lat - 0.006;
@@ -258,6 +287,10 @@ public class UIHelper {
         }.start();
     }
 
+    public static void openTestActivity(Activity activity) {
+        Intent intent = new Intent(activity, TestActivity.class);
+        activity.startActivity(intent);
+    }
 
     public static void openLogin(Activity activity) {
         Intent intent = new Intent(activity, LoginActivity.class);
