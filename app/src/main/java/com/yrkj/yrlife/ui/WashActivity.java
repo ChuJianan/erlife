@@ -1,6 +1,8 @@
 package com.yrkj.yrlife.ui;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -30,6 +32,7 @@ import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
+import java.math.BigDecimal;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -93,6 +96,8 @@ public class WashActivity extends BaseActivity {
     Washing_no_card_record wash;
     private final Timer timer = new Timer();
     private TimerTask task;
+    private boolean isWash = true;
+    float spend_money;
 
 
     @Override
@@ -103,6 +108,8 @@ public class WashActivity extends BaseActivity {
         init();
         Intent intent = getIntent();
         mach_id = intent.getStringExtra("result");
+        String wash_gson = preferences.getString("wash_gson", "");
+        boolean iswash = preferences.getBoolean("isWash", false);
         if (StringUtils.isEmpty(mach_id)) {
             wash_btn.setText("确定");
             iBtn = 0;
@@ -112,9 +119,34 @@ public class WashActivity extends BaseActivity {
             wash_balance_l.setVisibility(View.GONE);
             wash_warn_l.setVisibility(View.GONE);
         } else {
-            mLoadingDialog.show();
-            wash_top_l.setVisibility(View.GONE);
-            getWash_record();
+            if (iswash) {
+                wash=JsonUtils.fromJson(wash_gson,Washing_no_card_record.class);
+                spend_money=getIntent().getFloatExtra("spend_money",0);
+                wash_btn.setText("结算");
+                wash_adr.setText(wash.getAddress());
+                wash_machid.setText(wash.getMachine_number());
+                wash_isfree.setText("正在洗车");
+                if (name != "" && !name.equals("")) {
+                    wash_name.setText(name);
+                } else if (nick_name != "" && nick_name != null) {
+                    wash_name.setText(nick_name);
+                }
+                wash_top_l.setVisibility(View.GONE);
+                wash_center_l.setVisibility(View.VISIBLE);
+                wash_warn_l.setVisibility(View.GONE);
+                wash_btm_l.setVisibility(View.VISIBLE);
+                wash_balance_l.setVisibility(View.GONE);
+                wash_cardnub.setText(wash.getCard_number());
+                wash_nub.setText(wash.getTotal_money() + "");
+                wash_pay.setText(spend_money + "");
+                iBtn = 2;
+                isWash=false;
+                load_Info();
+            } else {
+                mLoadingDialog.show();
+                wash_top_l.setVisibility(View.GONE);
+                getWash_record();
+            }
         }
     }
 
@@ -134,6 +166,7 @@ public class WashActivity extends BaseActivity {
         x.http().get(params, new org.xutils.common.Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String string) {
+                isWash = false;
                 Result result = JsonUtils.fromJson(string, Result.class);
                 UIHelper.ToastMessage(appContext, result.Message());
                 if (!result.OK()) {
@@ -164,6 +197,15 @@ public class WashActivity extends BaseActivity {
                     wash_balance_l.setVisibility(View.GONE);
                     wash_cardnub.setText(wash.getCard_number());
                     wash_nub.setText(wash.getTotal_money() + "");
+                    //实例化Editor对象
+                    SharedPreferences.Editor editor = preferences.edit();
+                    //存入数据
+                    editor.putString("Machine_number", wash.getMachine_number());
+                    editor.putString("belongCode", wash.getBelong());
+                    editor.putBoolean("isWash", true);
+                    editor.putString("wash_gson", JsonUtils.toJson(wash));
+                    //提交修改
+                    editor.commit();
                 }
             }
 
@@ -192,8 +234,10 @@ public class WashActivity extends BaseActivity {
             case 0://通过编号去查找洗车机
                 mach_id = wash_machid_edit.getText().toString();
                 getWash_record();
+                isWash = false;
                 break;
             case 1://开始洗车，启动请求实时金额
+                isWash = false;
                 wash_top_l.setVisibility(View.GONE);
                 wash_center_l.setVisibility(View.VISIBLE);
                 wash_warn_l.setVisibility(View.GONE);
@@ -201,7 +245,7 @@ public class WashActivity extends BaseActivity {
                 wash_balance_l.setVisibility(View.GONE);
                 wash_pay.setText("0");
                 wash_btn.setText("结算");
-                iBtn=2;
+                iBtn = 2;
                 final Handler handler = new Handler() {
                     @Override
                     public void handleMessage(Message msg) {
@@ -228,12 +272,14 @@ public class WashActivity extends BaseActivity {
                 if (timer != null) {
                     timer.cancel();
                 }
-                payconfirm();
+//                payconfirm();
+                dialog("您确定结束洗车吗？", 2);
                 break;
             case 3://去评级
-                Intent intent=new Intent(WashActivity.this,RateActivity.class);
-                Bundle bundle=new Bundle();
-                bundle.putSerializable("wash",wash);
+                isWash = true;
+                Intent intent = new Intent(WashActivity.this, RateActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("wash", wash);
                 intent.putExtras(bundle);
                 startActivity(intent);
                 finish();
@@ -252,12 +298,13 @@ public class WashActivity extends BaseActivity {
         x.http().get(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String string) {
+                isWash = false;
                 Result result = JsonUtils.fromJson(string, Result.class);
                 if (result.OK()) {
                     iBtn = 2;
                     wash_pay.setText(result.spend_money() + "");
                 } else {
-                    if (result.isOK()){
+                    if (result.isOK()) {
                         wash_btn.setText("去评价");
                         mLoadingDialog.show();
                         if (timer != null) {
@@ -277,11 +324,12 @@ public class WashActivity extends BaseActivity {
                         wash_machid_dis.setText(payconfirm.getMachinenumber());
                         wash_cardnub_dis.setText(payconfirm.getCardnumber());
                         mLoadingDialog.dismiss();
-                        float mon=wash.getTotal_money().floatValue()-payconfirm.getTotalmoney().floatValue();
+                        float mon = wash.getTotal_money().floatValue() - payconfirm.getTotalmoney().floatValue();
                         //实例化Editor对象
                         SharedPreferences.Editor editor = preferences.edit();
                         //存入数据
                         editor.putFloat("money", mon);
+                        editor.putBoolean("isWash", false);
                         //提交修改
                         editor.commit();
                     }
@@ -307,14 +355,16 @@ public class WashActivity extends BaseActivity {
 
     private void payconfirm() {
         RequestParams params = new RequestParams(URLs.PAYCONFIRM);
-        params.setConnectTimeout(1000*30);
+        params.setConnectTimeout(1000 * 30);
         params.addQueryStringParameter("machineNo", wash.getMachine_number());
         params.addQueryStringParameter("belongCode", wash.getBelong());
         params.addQueryStringParameter("secret_code", URLs.secret_code);
         x.http().get(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String string) {
+                isWash = true;
                 Result result = JsonUtils.fromJson(string, Result.class);
+                UIHelper.ToastMessage(appContext, result.Message());
                 if (result.OK()) {
                     iBtn = 3;
                     PayConfirm payconfirm = result.payconfirm();
@@ -329,11 +379,12 @@ public class WashActivity extends BaseActivity {
                     wash_date.setText(payconfirm.getTime());
                     wash_machid_dis.setText(payconfirm.getMachinenumber());
                     wash_cardnub_dis.setText(payconfirm.getCardnumber());
-                    float mon=wash.getTotal_money().floatValue()-payconfirm.getTotalmoney().floatValue();
+                    float mon = wash.getTotal_money().floatValue() - payconfirm.getTotalmoney().floatValue();
                     //实例化Editor对象
                     SharedPreferences.Editor editor = preferences.edit();
                     //存入数据
                     editor.putFloat("money", mon);
+                    editor.putBoolean("isWash", false);
                     //提交修改
                     editor.commit();
                 } else {
@@ -358,41 +409,64 @@ public class WashActivity extends BaseActivity {
         });
 
     }
+
     @Event(R.id.back)
-    private void backEvent(View view){
+    private void backEvent(View view) {
         if (timer != null) {
             timer.cancel();
         }
-        if (wash==null){
+        if (isWash) {
             finish();
-        }else{
-        payconfirm();
-        Intent intent=new Intent(WashActivity.this,RateActivity.class);
-        Bundle bundle=new Bundle();
-        bundle.putSerializable("wash",wash);
-        intent.putExtras(bundle);
-        startActivity(intent);
-        finish();
+        } else {
+            dialog("您确定结束洗车吗？", 1);
         }
     }
+
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         boolean flag = true;
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             if (timer != null) {
                 timer.cancel();
             }
-            if (wash==null){
+            if (isWash) {
                 finish();
-            }else{
-            payconfirm();
-            Intent intent=new Intent(WashActivity.this,RateActivity.class);
-            Bundle bundle=new Bundle();
-            bundle.putSerializable("wash",wash);
-            intent.putExtras(bundle);
-            startActivity(intent);
-            finish();
+            } else {
+                dialog("您确定结束洗车吗？", 1);
+
             }
         }
         return flag;
+    }
+
+    private void dialog(String context, final int i) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(context);
+        builder.setTitle("提示");
+        builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                if (i == 1) {
+                    payconfirm();
+                    Intent intent = new Intent(WashActivity.this, RateActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("wash", wash);
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+                    finish();
+                }
+                if (i == 2) {
+                    payconfirm();
+                }
+
+            }
+        });
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.create().show();
     }
 }

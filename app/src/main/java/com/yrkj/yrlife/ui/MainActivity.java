@@ -1,8 +1,10 @@
 package com.yrkj.yrlife.ui;
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
@@ -38,23 +40,30 @@ import com.tencent.android.tpush.common.Constants;
 import com.yrkj.yrlife.R;
 import com.yrkj.yrlife.app.AppManager;
 import com.yrkj.yrlife.app.YrApplication;
+import com.yrkj.yrlife.been.PayConfirm;
+import com.yrkj.yrlife.been.Result;
 import com.yrkj.yrlife.been.URLs;
+import com.yrkj.yrlife.been.Washing_no_card_record;
 import com.yrkj.yrlife.service.LocationService;
 import com.yrkj.yrlife.ui.fragment.FragmentAd;
 import com.yrkj.yrlife.ui.fragment.FragmentIndex;
 import com.yrkj.yrlife.ui.fragment.FragmentMe;
 import com.yrkj.yrlife.ui.fragment.FragmentNear;
+import com.yrkj.yrlife.utils.JsonUtils;
 import com.yrkj.yrlife.utils.StringUtils;
 import com.yrkj.yrlife.utils.UIHelper;
 import com.yrkj.yrlife.utils.UpdateManager;
 import com.zxing.activity.CaptureActivity;
 
+import org.xutils.common.Callback;
+import org.xutils.http.RequestParams;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
 import java.lang.ref.WeakReference;
+import java.math.BigDecimal;
 import java.util.zip.Inflater;
 
 
@@ -85,6 +94,10 @@ public class MainActivity extends FragmentActivity {
     @ViewInject(R.id.location_text)
     TextView LocationResult;
     Message m = null;
+    SharedPreferences preferences;
+    private ProgressDialog mLoadingDialog;
+    Washing_no_card_record wash;
+    BigDecimal spend_money;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,20 +105,62 @@ public class MainActivity extends FragmentActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         AppManager.getAppManager().addActivity(this);
         x.view().inject(this);
+        preferences = getSharedPreferences("yrlife", MODE_WORLD_READABLE);
         initView();
 //        locationService = new LocationService(getApplicationContext());
 //        if (locationService == null) {
-            insertDummyContactWrapper();
+        insertDummyContactWrapper();
 //        }
 
         application = (YrApplication) getApplication();
+        boolean isWash = preferences.getBoolean("isWash", false);
 
+        if (isWash) {
+            String washstring=preferences.getString("wash_gson","");
+            wash=JsonUtils.fromJson(washstring,Washing_no_card_record.class);
+            isWash();
+        }
 
         //检测新版本
-      //  UpdateManager.getUpdateManager().checkAppUpdate(this,false);
+        //  UpdateManager.getUpdateManager().checkAppUpdate(this,false);
     }
 
+    private void isWash() {
+        String belongCode = preferences.getString("belongCode", "");
+        String Machine_number = preferences.getString("Machine_number", "");
+        RequestParams params = new RequestParams(URLs.IsWashing);
+        params.addQueryStringParameter("belongCode", belongCode);
+        params.addQueryStringParameter("secret_code", URLs.secret_code);
+        params.addQueryStringParameter("machineNo", Machine_number);
+        x.http().get(params, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String string) {
+                Result result = JsonUtils.fromJson(string, Result.class);
+                if (result.OK()) {
+                    spend_money=result.spend_money();
+                    dialog("您的洗车还未结束，是否继续洗车？");
 
+                } else {
+
+                }
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+        });
+    }
 
     private void insertDummyContactWrapper() {
         int hasWriteContactsPermission = ContextCompat.checkSelfPermission(MainActivity.this,
@@ -192,6 +247,7 @@ public class MainActivity extends FragmentActivity {
      * 初始化组件
      */
     private void initView() {
+        mLoadingDialog=UIHelper.progressDialog(this,"正在努力加载...");
         LocationResult.setMovementMethod(ScrollingMovementMethod.getInstance());
 
         //设置字体
@@ -221,9 +277,9 @@ public class MainActivity extends FragmentActivity {
         mTabHost.getTabWidget().getChildTabViewAt(3).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (StringUtils.isEmpty(URLs.secret_code)){
+                if (StringUtils.isEmpty(URLs.secret_code)) {
                     UIHelper.openLogin(MainActivity.this);
-                }else {
+                } else {
                     mTabHost.setCurrentTab(3);
                 }
             }
@@ -231,13 +287,13 @@ public class MainActivity extends FragmentActivity {
         mTabHost.getTabWidget().getChildTabViewAt(2).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (StringUtils.isEmpty(URLs.secret_code)){
+                if (StringUtils.isEmpty(URLs.secret_code)) {
                     UIHelper.openLogin(MainActivity.this);
-                }else {
-                    if (UIHelper.location==null){
-                        UIHelper.ToastMessage(MainActivity.this,"无法获取定位，无法使用此功能");
+                } else {
+                    if (UIHelper.location == null) {
+                        UIHelper.ToastMessage(MainActivity.this, "无法获取定位，无法使用此功能");
                         finish();
-                    }else {
+                    } else {
                         int perssion = ContextCompat.checkSelfPermission(MainActivity.this,
                                 Manifest.permission.CAMERA);
                         if (perssion == PackageManager.PERMISSION_GRANTED) {
@@ -254,9 +310,9 @@ public class MainActivity extends FragmentActivity {
         mTabHost.getTabWidget().getChildTabViewAt(1).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (StringUtils.isEmpty(URLs.secret_code)){
+                if (StringUtils.isEmpty(URLs.secret_code)) {
                     UIHelper.openLogin(MainActivity.this);
-                }else {
+                } else {
                     mTabHost.setCurrentTab(1);
                 }
             }
@@ -391,7 +447,7 @@ public class MainActivity extends FragmentActivity {
                 }
 
             }
-                Log.e("baidu",location.getLocType()+"");
+            Log.e("baidu", location.getLocType() + "");
         }
 
     };
@@ -432,5 +488,72 @@ public class MainActivity extends FragmentActivity {
         UIHelper.city = "";
         //结束Activity&从堆栈中移除
 //        AppManager.getAppManager().finishActivity(this);
+    }
+    private void dialog(String context) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(context);
+        builder.setTitle("提示");
+        builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                Intent intent=new Intent(MainActivity.this,WashActivity.class);
+                intent.putExtra("result",wash.getMachine_number());
+                intent.putExtra("spend_money",spend_money.floatValue());
+                startActivity(intent);
+            }
+        });
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener(){
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                mLoadingDialog.show();
+               payconfirm();
+            }
+        });
+        builder.create().show();
+    }
+    private void payconfirm() {
+        RequestParams params = new RequestParams(URLs.PAYCONFIRM);
+        params.setConnectTimeout(1000*30);
+        params.addQueryStringParameter("machineNo", wash.getMachine_number());
+        params.addQueryStringParameter("belongCode", wash.getBelong());
+        params.addQueryStringParameter("secret_code", URLs.secret_code);
+        x.http().get(params, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String string) {
+                Result result = JsonUtils.fromJson(string, Result.class);
+                UIHelper.ToastMessage(MainActivity.this,result.Message());
+                if (result.OK()) {
+                    PayConfirm payconfirm = result.payconfirm();
+                    float mon=wash.getTotal_money().floatValue()-payconfirm.getTotalmoney().floatValue();
+                    //实例化Editor对象
+                    SharedPreferences.Editor editor = preferences.edit();
+                    //存入数据
+                    editor.putFloat("money", mon);
+                    editor.putBoolean("isWash",false);
+                    //提交修改
+                    editor.commit();
+                } else {
+
+                }
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+                UIHelper.ToastMessage(MainActivity.this, ex.getMessage());
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+                UIHelper.ToastMessage(MainActivity.this, "error");
+            }
+
+            @Override
+            public void onFinished() {
+                mLoadingDialog.dismiss();
+            }
+        });
+
     }
 }

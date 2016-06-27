@@ -126,6 +126,9 @@
         <activity android:name=".ui.BindPhoneActivity" />
         <activity android:name=".ui.XiedingActivity" />
         <activity android:name=".ui.TestActivity" />
+        <activity android:name=".ui.NearsBrowserActivity"/>
+
+
         <activity
             android:name=".ui.NaviActivity"
             android:exported="true"

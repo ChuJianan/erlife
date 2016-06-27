@@ -83,9 +83,10 @@ public class NearActivity extends BaseActivity {
                                     int position, long id) {
                 if (position == 0 || view == mNearFooter) return;
                 String url=mNearData.get(position-1).getDetailUrl();
-                Intent intent=new Intent(NearActivity.this,NewsBrowserActivity.class);
+                Intent intent=new Intent(NearActivity.this,NearsBrowserActivity.class);
                 intent.putExtra("url",url);
                 intent.putExtra("title",mNearData.get(position-1).getMachine_name());
+                intent.putExtra("number",mNearData.get(position-1).getMachine_number());
                 startActivity(intent);
 
             }

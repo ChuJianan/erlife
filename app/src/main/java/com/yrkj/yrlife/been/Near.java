@@ -10,6 +10,15 @@ import org.xutils.view.annotation.Event;
 public class Near extends Entity {
 
     private  String machine_name;//设备名称
+    private  String machine_number;//设备编号
+
+    public String getMachine_number() {
+        return machine_number;
+    }
+
+    public void setMachine_number(String machine_number) {
+        this.machine_number = machine_number;
+    }
 
     public String getMachine_name() {
         return machine_name;

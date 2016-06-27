@@ -40,7 +40,7 @@
             android:layout_width="60dp"
             android:layout_height="match_parent"
             android:layout_margin="5dp"
-            android:background="@drawable/bg_btn_head"
+            android:background="@drawable/bg_btn_code"
             android:text="刷新"
             android:textColor="@color/white"
             android:textSize="@dimen/text_size_18"

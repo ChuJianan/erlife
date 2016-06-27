@@ -48,6 +48,7 @@ public class URLs extends Entity {
 	public static final String NEWS=HOST+"wmmanager/app/pro1/app1/systemMessage?";//新闻
 	public static final String RATE=HOST+"wmmanager/app/pro1/app1/remarkStar?";//评星
 	public static final String Code_Check=HOST+"wmmanager/app/pro1/app3/regCheckCode?";//注册验证码验证
+	public static final String IsWashing=HOST+"wmmanager/app/pro1/app1/queryWhichStep?";//是否正在洗车
 
 
 
