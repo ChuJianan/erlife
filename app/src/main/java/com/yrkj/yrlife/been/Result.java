@@ -11,53 +11,66 @@ import java.util.List;
  * Created by cjn on 2016/5/17.
  */
 public class Result {
-    public List<Near> nears= Collections.emptyList();
-    public List<Consumer> consumers=Collections.emptyList();
-    public List<Pay> pays=Collections.emptyList();
-    public List<News> news=Collections.emptyList();
+    public List<Near> nears = Collections.emptyList();
+    public List<Consumer> consumers = Collections.emptyList();
+    public List<Pay> pays = Collections.emptyList();
+    public List<News> news = Collections.emptyList();
+    public List<MyIdear> myFeedBackList = Collections.emptyList();
     private int code;
     private String message;
-    private int   totalPage;
+    private int totalPage;
     private int count;
     private WeixinPay wxpay;
     private String result;
     private Washing_no_card_record washing_no_card_record;
     private BigDecimal spend_money;
     private PayConfirm payconfirm;
-    private String[] imageAbsoluteUrl={};
-    public boolean OK(){
-         return code==1;
-     }
-    public boolean isOK(){
-        return code==3;
+    private String[] imageAbsoluteUrl = {};
+
+    public boolean OK() {
+        return code == 1;
     }
-    public String Message(){
+
+    public boolean isOK() {
+        return code == 3;
+    }
+
+    public String Message() {
         return message;
     }
-    public int totalPage(){
+
+    public int totalPage() {
         return totalPage;
     }
-    public WeixinPay getWxpay(){
+
+    public WeixinPay getWxpay() {
         return wxpay;
     }
-    public String Result(){
+
+    public String Result() {
         return result;
     }
-    public Washing_no_card_record washing(){
+
+    public Washing_no_card_record washing() {
         return washing_no_card_record;
     }
-    public BigDecimal spend_money(){
+
+    public BigDecimal spend_money() {
         return spend_money;
     }
-    public PayConfirm payconfirm(){
+
+    public PayConfirm payconfirm() {
         return payconfirm;
     }
-    public String[] getImg_urls(){
+
+    public String[] getImg_urls() {
         return imageAbsoluteUrl;
     }
-    public int count(){
+
+    public int count() {
         return count;
     }
+
     /**
      * 解析调用结果
      *
@@ -71,7 +84,7 @@ public class Result {
     }
 
     @Override
-    public String toString(){
+    public String toString() {
         return String.format("RESULT: CODE:%d,MSG:%s", code, message);
     }
 

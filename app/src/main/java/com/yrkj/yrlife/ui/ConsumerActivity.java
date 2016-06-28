@@ -164,6 +164,8 @@ public class ConsumerActivity extends BaseActivity {
                         mConsumerView.setTag(UIHelper.LISTVIEW_DATA_MORE);
                         mConsumerAdapter.setConsumer(mConsumerData);
                         mConsumerAdapter.notifyDataSetChanged();
+                        mConsumerProgress.setVisibility(View.GONE);
+                        mConsumerMore.setText(R.string.load_full);
                     } else if (result.consumers.size() < pageSize) {
                         mConsumerData = result.consumers;
                         mConsumerView.setTag(UIHelper.LISTVIEW_DATA_FULL);

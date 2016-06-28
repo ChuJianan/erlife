@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.yrkj.yrlife.R;
 import com.yrkj.yrlife.adapter.ListViewNoticeAdapter;
+import com.yrkj.yrlife.ui.FeedbackActivity;
 import com.yrkj.yrlife.ui.MainActivity;
 import com.yrkj.yrlife.ui.NewsActivity;
 
@@ -47,6 +48,10 @@ public class FragmentAd extends BaseFragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (position==0) {
                     Intent intent=new Intent(getActivity(), NewsActivity.class);
+                    startActivity(intent);
+                }
+                if (position==1){
+                    Intent intent=new Intent((getActivity()), FeedbackActivity.class);
                     startActivity(intent);
                 }
             }

@@ -127,7 +127,7 @@
         <activity android:name=".ui.XiedingActivity" />
         <activity android:name=".ui.TestActivity" />
         <activity android:name=".ui.NearsBrowserActivity"/>
-
+        <activity android:name=".ui.FeedbackActivity"/>
 
         <activity
             android:name=".ui.NaviActivity"
@@ -233,5 +233,19 @@
                 <action android:name="com.tencent.android.tpush.action.FEEDBACK" />
             </intent-filter>
         </receiver>
+
+        <!--支付宝接口-->
+        <activity
+            android:name="com.alipay.sdk.app.H5PayActivity"
+            android:configChanges="orientation|keyboardHidden|navigation"
+            android:exported="false"
+            android:screenOrientation="behind" >
+        </activity>
+        <activity
+            android:name="com.alipay.sdk.auth.AuthActivity"
+            android:configChanges="orientation|keyboardHidden|navigation"
+            android:exported="false"
+            android:screenOrientation="behind" >
+        </activity>
     </application>
 </manifest>

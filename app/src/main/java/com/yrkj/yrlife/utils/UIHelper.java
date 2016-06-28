@@ -313,6 +313,17 @@ public class UIHelper {
             ToastMessage(activity, "无法浏览此网页", 500);
         }
     }
+    public static void showBrowser(Context activity, String url) {
+        try {
+            Uri uri = Uri.parse(url);
+            Intent it = new Intent(Intent.ACTION_VIEW, uri, activity, BrowserActivity.class);
+            it.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            activity.startActivity(it);
+        } catch (Exception e) {
+            e.printStackTrace();
+            ToastMessage(activity, "无法浏览此网页", 500);
+        }
+    }
 
 
     /**

@@ -61,7 +61,7 @@
             android:layout_height="fill_parent"
             android:gravity="center_vertical"
             android:singleLine="true"
-            android:text="无卡洗车"
+            android:text="亿人生活"
             android:textColor="@color/white"
             android:textSize="@dimen/text_size_18" />
     </LinearLayout>

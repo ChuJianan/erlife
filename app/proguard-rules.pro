@@ -29,3 +29,12 @@
 -keep public class * extends android.content.BroadcastReceiver
 -keep class com.tencent.android.tpush.**  {* ;}
 -keep class com.tencent.mid.**  {* ;}
+
+-libraryjars libs/alipaySDK-2015060516.jar
+
+-keep class com.alipay.android.app.IAlixPay{*;}
+-keep class com.alipay.android.app.IAlixPay$Stub{*;}
+-keep class com.alipay.android.app.IRemoteServiceCallback{*;}
+-keep class com.alipay.android.app.IRemoteServiceCallback$Stub{*;}
+-keep class com.alipay.sdk.app.PayTask{ public *;}
+-keep class com.alipay.sdk.app.AuthTask{ public *;}

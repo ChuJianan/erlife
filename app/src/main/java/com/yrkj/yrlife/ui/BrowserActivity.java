@@ -2,11 +2,13 @@ package com.yrkj.yrlife.ui;
 
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import com.tencent.android.tpush.XGPushManager;
 import com.yrkj.yrlife.R;
 import com.yrkj.yrlife.been.URLs;
 import com.yrkj.yrlife.utils.StringUtils;
@@ -70,5 +72,22 @@ public class BrowserActivity extends BaseActivity {
 		}
 	}
 
+	@Override
+	protected void onNewIntent(Intent intent) {
+		super.onNewIntent(intent);
+		setIntent(intent);
+	}
 
+	@Override
+	protected void onResume() {
+		super.onResume();
+		XGPushManager.onActivityStarted(this);
+
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		XGPushManager.onActivityStoped(this);
+	}
 }

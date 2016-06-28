@@ -75,10 +75,10 @@ public class NewsActivity extends BaseActivity {
                                     int position, long id) {
                 if (position == 0 || view == mNewsFooter) return;
                 else {
-                    String url=mNewsData.get(position-1).getDetail_url();
-                    Intent intent=new Intent(NewsActivity.this,NewsBrowserActivity.class);
-                    intent.putExtra("url",url);
-                    intent.putExtra("title",mNewsData.get(position-1).getTitle());
+                    String url = mNewsData.get(position - 1).getDetail_url();
+                    Intent intent = new Intent(NewsActivity.this, NewsBrowserActivity.class);
+                    intent.putExtra("url", url);
+                    intent.putExtra("title", mNewsData.get(position - 1).getTitle());
                     startActivity(intent);
                 }
 
@@ -98,8 +98,9 @@ public class NewsActivity extends BaseActivity {
             public void onScrollStateChanged(AbsListView view, int scrollState) {
                 // TODO Auto-generated method stub
                 (mNewsView).onScrollStateChanged(view, scrollState);
-                if (mNewsData.isEmpty())
-                    return;
+                if (mNewsData != null)
+                    if (mNewsData.isEmpty())
+                        return;
 
                 // 判断是否滚动到底部
                 boolean scrollEnd = false;
@@ -135,11 +136,13 @@ public class NewsActivity extends BaseActivity {
             @Override
             public void onRefresh() {
 //			mNewsData.removeAll(mNewsData);
-//				loadCloudData(pageNo1+1);
+                mNewsData = null;
+                loadCloudData(1);
+                pageNo = 1;
                 mNewsProgress.setVisibility(ProgressBar.GONE);
                 mNewsView.onRefreshComplete(DateUtils.format(new Date(), getString(R.string.pull_to_refresh_update_pattern)));
                 mNewsView.setSelection(0);
-
+                UIHelper.ToastMessage(appContext,"刷新成功");
             }
         });
     }

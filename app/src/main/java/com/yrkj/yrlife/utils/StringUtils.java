@@ -210,4 +210,17 @@ public class StringUtils
 		}catch(Exception e){}
 		return false;
 	}
+	public static String translateToChinese(String sourceStr) {
+		String result = "";
+		if (sourceStr == null) {
+			return "";
+		}
+		try {
+			result = new String(sourceStr.getBytes("ISO8859-1"), "UTF-8");
+			return result;
+		} catch (Exception e) {
+			return "";
+		}
+	}
+
 }

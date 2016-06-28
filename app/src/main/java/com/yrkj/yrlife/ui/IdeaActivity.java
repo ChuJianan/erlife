@@ -104,8 +104,9 @@ public class IdeaActivity extends BaseActivity {
         String url = URLs.IDEAR_SET;
         RequestParams params = new RequestParams(url);
 //        params.setAsJsonContent(true);
-        params.addQueryStringParameter("secret_code", URLs.secret_code);
-        params.addQueryStringParameter("content", JsonUtils.toJson(idea));
+        params.setCharset(URLs.UTF_8);
+        params.addBodyParameter("secret_code", URLs.secret_code);
+        params.addBodyParameter("content",idea);
         x.http().post(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {

@@ -63,4 +63,5 @@ dependencies {
     compile files('E:/Android/yrlife/libs/wup-1.0.0.E-SNAPSHOT.jar')
     compile files('E:/Android/yrlife/libs/Xg_sdk_v2.45_20160510_1845.jar')
     compile files('E:/Android/yrlife/libs/BaiduNaviSDK_3.1.1.jar')
+    compile files('E:/Android/yrlife/libs/alipaySdk-20160516.jar')
 }

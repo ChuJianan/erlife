@@ -1,7 +1,9 @@
 package com.yrkj.yrlife.receiver;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -11,6 +13,7 @@ import com.tencent.android.tpush.XGPushRegisterResult;
 import com.tencent.android.tpush.XGPushShowedResult;
 import com.tencent.android.tpush.XGPushTextMessage;
 import com.yrkj.yrlife.ui.BaseActivity;
+import com.yrkj.yrlife.ui.BrowserActivity;
 import com.yrkj.yrlife.utils.UIHelper;
 
 import org.json.JSONException;
@@ -27,8 +30,10 @@ public class MessageReceiver extends XGPushBaseReceiver {
     private Intent intent = new Intent("com.yrkj.yrlife.activity.UPDATE_LISTVIEW");
     public static final String LogTag = "TPushReceiver";
 
+
     @Override
-    public void onNotifactionShowedResult(Context context, XGPushShowedResult xgPushShowedResult) {
+    public void onNotifactionShowedResult(Context context, XGPushShowedResult message) {
+
 
     }
 
@@ -56,8 +61,9 @@ public class MessageReceiver extends XGPushBaseReceiver {
             try {
                 JSONObject obj = new JSONObject(customContent);
                 // key1为前台配置的key
-                if (!obj.isNull("key")) {
-                    String value = obj.getString("key");
+                if (!obj.isNull("url")) {
+                    String value = obj.getString("url");
+                    UIHelper.showBrowser(context,value);
                     Log.d(LogTag, "get custom value:" + value);
                 }
                 // ...
