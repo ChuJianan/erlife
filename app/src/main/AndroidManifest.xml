@@ -96,7 +96,9 @@
         <!--android:value=" 6bf4566ff0158af2ae1b47a494860911" />-->
 
         <activity android:name=".ui.BaseActivity" />
-        <activity android:name=".ui.BrowserActivity" />
+        <activity
+            android:name=".ui.BrowserActivity"
+            android:exported="false" />
         <activity android:name=".ui.MainActivity" />
         <activity
             android:name=".ui.ShareActivity"
@@ -126,8 +128,8 @@
         <activity android:name=".ui.BindPhoneActivity" />
         <activity android:name=".ui.XiedingActivity" />
         <activity android:name=".ui.TestActivity" />
-        <activity android:name=".ui.NearsBrowserActivity"/>
-        <activity android:name=".ui.FeedbackActivity"/>
+        <activity android:name=".ui.NearsBrowserActivity" />
+        <activity android:name=".ui.FeedbackActivity" />
 
         <activity
             android:name=".ui.NaviActivity"
@@ -239,13 +241,11 @@
             android:name="com.alipay.sdk.app.H5PayActivity"
             android:configChanges="orientation|keyboardHidden|navigation"
             android:exported="false"
-            android:screenOrientation="behind" >
-        </activity>
+            android:screenOrientation="behind"></activity>
         <activity
             android:name="com.alipay.sdk.auth.AuthActivity"
             android:configChanges="orientation|keyboardHidden|navigation"
             android:exported="false"
-            android:screenOrientation="behind" >
-        </activity>
+            android:screenOrientation="behind"></activity>
     </application>
 </manifest>
