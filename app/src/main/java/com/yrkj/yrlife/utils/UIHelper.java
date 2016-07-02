@@ -187,7 +187,7 @@ public class UIHelper {
 
     public static void openGaoDeMap(double lon, double lat, String describle, Context activity) {
         try {
-            double[] gd_lat_lon = {lon, lat};
+            double[] gd_lat_lon = bdToGaoDe(lat,lon,activity);
             StringBuilder loc = new StringBuilder();
             loc.append("androidamap://viewMap?sourceApplication=XX");
             loc.append("&poiname=");
@@ -218,6 +218,7 @@ public class UIHelper {
         gd_lat_lon[1] = z * Math.sin(theta);
         return gd_lat_lon;
     }
+
 
     public static double[] gaoDeToBaidu(double gd_lon, double gd_lat) {
         double[] bd_lat_lon = new double[2];

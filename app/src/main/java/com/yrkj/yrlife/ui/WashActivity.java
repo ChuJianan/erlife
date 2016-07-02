@@ -120,8 +120,8 @@ public class WashActivity extends BaseActivity {
             wash_warn_l.setVisibility(View.GONE);
         } else {
             if (iswash) {
-                wash=JsonUtils.fromJson(wash_gson,Washing_no_card_record.class);
-                spend_money=getIntent().getFloatExtra("spend_money",0);
+                wash = JsonUtils.fromJson(wash_gson, Washing_no_card_record.class);
+                spend_money = getIntent().getFloatExtra("spend_money", 0);
                 wash_btn.setText("结算");
                 wash_adr.setText(wash.getAddress());
                 wash_machid.setText(wash.getMachine_number());
@@ -140,8 +140,26 @@ public class WashActivity extends BaseActivity {
                 wash_nub.setText(wash.getTotal_money() + "");
                 wash_pay.setText(spend_money + "");
                 iBtn = 2;
-                isWash=false;
-                load_Info();
+                isWash = false;
+                final Handler handler = new Handler() {
+                    @Override
+                    public void handleMessage(Message msg) {
+                        // TODO Auto-generated method stub
+                        // 要做的事情
+                        super.handleMessage(msg);
+                        load_Info();
+                    }
+                };
+                task = new TimerTask() {
+                    @Override
+                    public void run() {
+                        // TODO Auto-generated method stub
+                        Message message = new Message();
+                        message.what = 1;
+                        handler.sendMessage(message);
+                    }
+                };
+                timer.schedule(task, 5000, 5000);
             } else {
                 mLoadingDialog.show();
                 wash_top_l.setVisibility(View.GONE);
@@ -166,10 +184,10 @@ public class WashActivity extends BaseActivity {
         x.http().get(params, new org.xutils.common.Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String string) {
-                isWash = false;
                 Result result = JsonUtils.fromJson(string, Result.class);
                 UIHelper.ToastMessage(appContext, result.Message());
                 if (!result.OK()) {
+                    isWash = true;
                     wash_btn.setText("返回");
                     warn_text.setText(result.Message());
                     wash_top_l.setVisibility(View.INVISIBLE);
@@ -179,9 +197,10 @@ public class WashActivity extends BaseActivity {
                     wash_balance_l.setVisibility(View.GONE);
                     iBtn = -1;
                 } else {
-                    iBtn = 1;
+                    isWash = false;
+                    iBtn = 2;
                     wash = result.washing();
-                    wash_btn.setText("查看消费金额");
+                    wash_btn.setText("结算");
                     wash_adr.setText(wash.getAddress());
                     wash_machid.setText(wash.getMachine_number());
                     wash_isfree.setText("空闲");
@@ -206,6 +225,31 @@ public class WashActivity extends BaseActivity {
                     editor.putString("wash_gson", JsonUtils.toJson(wash));
                     //提交修改
                     editor.commit();
+                    wash_top_l.setVisibility(View.GONE);
+                    wash_center_l.setVisibility(View.VISIBLE);
+                    wash_warn_l.setVisibility(View.GONE);
+                    wash_btm_l.setVisibility(View.VISIBLE);
+                    wash_balance_l.setVisibility(View.GONE);
+                    wash_pay.setText("0");
+                    final Handler handler = new Handler() {
+                        @Override
+                        public void handleMessage(Message msg) {
+                            // TODO Auto-generated method stub
+                            // 要做的事情
+                            super.handleMessage(msg);
+                            load_Info();
+                        }
+                    };
+                    task = new TimerTask() {
+                        @Override
+                        public void run() {
+                            // TODO Auto-generated method stub
+                            Message message = new Message();
+                            message.what = 1;
+                            handler.sendMessage(message);
+                        }
+                    };
+                    timer.schedule(task, 5000, 5000);
                 }
             }
 
@@ -234,37 +278,6 @@ public class WashActivity extends BaseActivity {
             case 0://通过编号去查找洗车机
                 mach_id = wash_machid_edit.getText().toString();
                 getWash_record();
-                isWash = false;
-                break;
-            case 1://开始洗车，启动请求实时金额
-                isWash = false;
-                wash_top_l.setVisibility(View.GONE);
-                wash_center_l.setVisibility(View.VISIBLE);
-                wash_warn_l.setVisibility(View.GONE);
-                wash_btm_l.setVisibility(View.VISIBLE);
-                wash_balance_l.setVisibility(View.GONE);
-                wash_pay.setText("0");
-                wash_btn.setText("结算");
-                iBtn = 2;
-                final Handler handler = new Handler() {
-                    @Override
-                    public void handleMessage(Message msg) {
-                        // TODO Auto-generated method stub
-                        // 要做的事情
-                        super.handleMessage(msg);
-                        load_Info();
-                    }
-                };
-                task = new TimerTask() {
-                    @Override
-                    public void run() {
-                        // TODO Auto-generated method stub
-                        Message message = new Message();
-                        message.what = 1;
-                        handler.sendMessage(message);
-                    }
-                };
-                timer.schedule(task, 5000, 5000);
                 break;
             case 2://无卡洗车结算
                 wash_btn.setText("去评价");

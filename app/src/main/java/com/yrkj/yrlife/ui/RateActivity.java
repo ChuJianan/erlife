@@ -44,7 +44,7 @@ public class RateActivity extends BaseActivity {
     @ViewInject(R.id.rate_btn)
     Button rate_btn;
     private ProgressDialog mLoadingDialog;
-    float rating;
+    float rating=0;
     int max;
     Washing_no_card_record wash;
 
@@ -69,7 +69,7 @@ public class RateActivity extends BaseActivity {
     @Event(R.id.rate_btn)
     private void ratebtnEvent(View view) {
         String content=rate_edit.getText().toString();
-        if (rating==0&& StringUtils.isEmpty(content)){
+        if (rating==6&& StringUtils.isEmpty(content)){
             finish();
         }else {
             mLoadingDialog.show();

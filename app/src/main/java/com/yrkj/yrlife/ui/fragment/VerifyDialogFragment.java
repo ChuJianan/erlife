@@ -30,7 +30,7 @@ public class VerifyDialogFragment extends DialogFragment {
 		getDialog().requestWindowFeature(Window.FEATURE_NO_TITLE);
 		View view = inflater.inflate(R.layout.dialog_fragment_verify, null);
 		ScrollVerifyView verifyView = (ScrollVerifyView) view.findViewById(R.id.verify);
-		verifyView.setBitmap(BitmapFactory.decodeResource(getResources(), R.mipmap.ssss));
+		verifyView.setBitmap(BitmapFactory.decodeResource(getResources(), R.mipmap.bankazhinan));
 		verifyView.setOnVerifyListener(new ScrollVerifyView.OnVerifyListener() {
 
 			@Override

@@ -18,6 +18,7 @@ import com.yrkj.yrlife.been.URLs;
 import com.yrkj.yrlife.ui.AdrListActivity;
 import com.yrkj.yrlife.ui.BinCardActivity;
 import com.yrkj.yrlife.ui.ConsumerActivity;
+import com.yrkj.yrlife.ui.MycarActivity;
 import com.yrkj.yrlife.ui.NearActivity;
 import com.yrkj.yrlife.ui.PayActivity;
 import com.yrkj.yrlife.ui.WashsActivity;
@@ -100,7 +101,9 @@ public class FragmentIndex extends BaseFragment{
                         break;
                     case 2://我的爱车
 //                        UIHelper.ToastMessage(getActivity(), "正在开发中...");
-                        UIHelper.openTestActivity(getActivity());
+//                        UIHelper.openTestActivity(getActivity());
+                        intent=new Intent(getActivity(), MycarActivity.class);
+                        startActivity(intent);
                         break;
                     case 3://会员卡绑定
                         if (URLs.secret_code==""){
