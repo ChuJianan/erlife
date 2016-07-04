@@ -10,8 +10,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
-        android:paddingTop="@dimen/space_12"
-        android:paddingBottom="@dimen/space_12"
+        android:paddingTop="@dimen/space_13"
+        android:paddingBottom="@dimen/space_13"
         android:paddingLeft="@dimen/space_14"
         android:paddingRight="@dimen/space_14"
         >
@@ -19,7 +19,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="车       型"
-            android:textSize="@dimen/text_size_15"
+            android:textSize="@dimen/text_size_16"
             android:textColor="@color/black"
             android:id="@+id/textView27" />
         <TextView
@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:hint="请选择车型"
             android:layout_marginLeft="@dimen/space_10"
-            android:textSize="@dimen/text_size_15"
+            android:textSize="@dimen/text_size_16"
             android:textColor="@color/quan_text_color"
             android:id="@+id/textView33"
             android:layout_centerVertical="true"
@@ -49,14 +49,14 @@
         android:paddingBottom="@dimen/space_12"
         android:paddingLeft="@dimen/space_14"
         android:paddingRight="@dimen/space_14"
-        android:layout_marginTop="@dimen/space_8"
-        android:gravity="center_horizontal"
+        android:layout_marginTop="@dimen/space_11"
+        android:gravity="center"
         >
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="车牌号码"
-            android:textSize="@dimen/text_size_15"
+            android:textSize="@dimen/text_size_16"
             android:textColor="@color/black"
             />
 
@@ -66,7 +66,7 @@
             android:text="鲁"
             android:id="@+id/plate_text"
             android:textColor="@color/black"
-            android:textSize="@dimen/text_size_15"
+            android:textSize="@dimen/text_size_16"
             android:layout_marginLeft="@dimen/space_10"
             />
         <ImageView
@@ -85,7 +85,8 @@
             android:layout_marginLeft="@dimen/space_3"
             android:inputType=""
             android:textColor="@color/black"
-            android:textSize="@dimen/text_size_15"
+            android:textSize="@dimen/text_size_16"
+            android:gravity="center|left"
             />
     </LinearLayout>
 
@@ -96,7 +97,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
-        android:layout_marginTop="@dimen/space_8"
+        android:layout_marginTop="@dimen/space_11"
         android:paddingRight="@dimen/space_14"
         android:paddingTop="@dimen/space_12"
         android:paddingLeft="@dimen/space_14"
@@ -109,7 +110,7 @@
             android:layout_height="wrap_content"
             android:text="发动机号"
             android:textColor="@color/black"
-            android:textSize="@dimen/text_size_15"
+            android:textSize="@dimen/text_size_16"
             />
         <com.yrkj.yrlife.widget.ClearEditText
             android:id="@+id/motor_edit"
@@ -118,7 +119,7 @@
             android:background="@color/white"
             android:layout_marginLeft="@dimen/space_10"
             android:hint="请输入完整的发动机号"
-            android:textSize="@dimen/text_size_15"
+            android:textSize="@dimen/text_size_16"
             android:textColor="@color/black"
             />
     </LinearLayout>
@@ -126,18 +127,18 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
-        android:paddingBottom="@dimen/space_12"
-        android:paddingTop="@dimen/space_12"
+        android:paddingBottom="@dimen/space_13"
+        android:paddingTop="@dimen/space_13"
         android:paddingRight="@dimen/space_14"
         android:paddingLeft="@dimen/space_14"
-        android:layout_marginTop="@dimen/space_8"
+        android:layout_marginTop="@dimen/space_11"
         >
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="车架号码"
             android:textColor="@color/black"
-            android:textSize="@dimen/text_size_15"
+            android:textSize="@dimen/text_size_16"
             />
         <com.yrkj.yrlife.widget.ClearEditText
             android:id="@+id/carriage"
@@ -146,7 +147,7 @@
             android:background="@color/white"
             android:hint="请输入完整车架号"
             android:textColor="@color/black"
-            android:textSize="@dimen/text_size_15"
+            android:textSize="@dimen/text_size_16"
             android:layout_marginLeft="@dimen/space_10"
             />
     </LinearLayout>
@@ -178,7 +179,7 @@
     <Button
         android:id="@+id/sub_btn"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="50dp"
         android:layout_gravity="center"
         android:background="@drawable/bg_btn_code"
         android:layout_marginLeft="@dimen/space_12"
@@ -186,6 +187,7 @@
         android:layout_marginTop="@dimen/space_13"
         android:textColor="@color/white"
         android:text="提交"
+        android:textSize="@dimen/text_size_18"
         />
     <TextView
         android:layout_width="wrap_content"

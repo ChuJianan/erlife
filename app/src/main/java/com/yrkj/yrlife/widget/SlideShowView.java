@@ -18,6 +18,7 @@ import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
@@ -80,11 +81,13 @@ public class SlideShowView extends FrameLayout {
 
     public SlideShowView(Context context) {
         this(context,null);
+        this.context=context;
         // TODO Auto-generated constructor stub
     }
     public SlideShowView(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
         // TODO Auto-generated constructor stub
+        this.context=context;
     }
     public SlideShowView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
@@ -319,10 +322,10 @@ public class SlideShowView extends FrameLayout {
 
                 imageUrls = //UIHelper.img_urls;
                         new String[]{
-                        "http://qpic.cn/0t77Yl2BL",
-                        "http://qpic.cn/ajr0Ofpjw",
-                        "http://qpic.cn/JuPvjmav7",
-                        "http://qpic.cn/hzizrCYgs"
+                        "http://120.55.187.137/img/top_banner.png",
+                        "http://120.55.187.137/img/top_banner.png",
+                        "http://120.55.187.137/img/top_banner.png",
+                        "http://120.55.187.137/img/top_banner.png"
                 };
                 return true;
             } catch (Exception e) {

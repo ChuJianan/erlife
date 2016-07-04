@@ -24,10 +24,11 @@ public class GridViewMainAdapter extends BaseAdapter {
 
     private Context mContext;
     private List<Map<String, Object>> data_list=new ArrayList<Map<String,Object>>();
-    private int[] icon = {R.mipmap.ic_pay, R.mipmap.ic_near,
-            R.mipmap.ic_mycar, R.mipmap.ic_cards,R.mipmap.ic_discount, R.mipmap.ic_knowledge,
-            R.mipmap.ic_disco, R.mipmap.ic_tools,};
-    private String[] iconName = { "充 值", "附近网点", "我的爱车", "会员卡绑定","优惠券", "扫码洗车", "账 单", "违章查询"};
+    private int[] icon = {R.mipmap.ic_knowledge,
+            R.mipmap.ic_near,
+            R.mipmap.ic_pay,
+            R.mipmap.ic_cards};
+    private String[] iconName = { "扫码洗车", "附近网点", "充 值", "会员卡绑定"};
     private LayoutInflater mContainer;  //视图容器
     public  GridViewMainAdapter(Context context){
         mContext=context;
