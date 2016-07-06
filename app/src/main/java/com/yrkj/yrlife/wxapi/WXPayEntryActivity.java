@@ -1,6 +1,7 @@
 package com.yrkj.yrlife.wxapi;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
@@ -13,6 +14,7 @@ import com.yrkj.yrlife.been.Result;
 import com.yrkj.yrlife.been.URLs;
 import com.yrkj.yrlife.ui.BaseActivity;
 import com.yrkj.yrlife.ui.PayActivity;
+import com.yrkj.yrlife.ui.PaySuccessActivity;
 import com.yrkj.yrlife.utils.JsonUtils;
 import com.yrkj.yrlife.utils.UIHelper;
 
@@ -71,6 +73,8 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
                                 editor.putFloat("money", f1);
                                 //提交修改
                                 editor.commit();
+                                Intent intent=new Intent(WXPayEntryActivity.this, PaySuccessActivity.class);
+                                startActivity(intent);
                             }
                         }
 

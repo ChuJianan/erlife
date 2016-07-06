@@ -131,6 +131,7 @@
         <activity android:name=".ui.NearsBrowserActivity" />
         <activity android:name=".ui.FeedbackActivity" />
         <activity android:name=".ui.MycarActivity"/>
+        <activity android:name=".ui.PaySuccessActivity"/>
 
         <activity
             android:name=".ui.NaviActivity"

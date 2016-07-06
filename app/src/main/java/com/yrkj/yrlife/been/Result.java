@@ -26,6 +26,7 @@ public class Result {
     private BigDecimal spend_money;
     private PayConfirm payconfirm;
     private String[] imageAbsoluteUrl = {};
+    private AliPay aliPay;
 
     public boolean OK() {
         return code == 1;
@@ -69,6 +70,10 @@ public class Result {
 
     public int count() {
         return count;
+    }
+
+    public AliPay aliPay(){
+        return aliPay;
     }
 
     /**

@@ -68,10 +68,12 @@
     </RelativeLayout>
 
     <ImageView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="16dp"
         android:id="@+id/imageView31"
-        android:src="@mipmap/ic_line" />
+        android:src="@mipmap/ic_line"
+        android:scaleType="fitXY"
+        />
 
     <RadioGroup
         android:id="@+id/pay_radio"
@@ -80,7 +82,9 @@
         android:background="@color/white"
         android:orientation="horizontal"
         android:gravity="center"
-        android:padding="@dimen/space_8">
+        android:padding="@dimen/space_8"
+        android:visibility="gone"
+        >
 
         <RadioButton
             android:layout_width="140dp"
@@ -111,12 +115,6 @@
             android:visibility="gone"
             />
     </RadioGroup>
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="16dp"
-        android:id="@+id/imageView32"
-        android:src="@mipmap/ic_line"/>
 
     <com.yrkj.yrlife.widget.RadioGroup
         android:id="@+id/money_radio"
@@ -214,10 +212,12 @@
     </com.yrkj.yrlife.widget.RadioGroup>
 
     <ImageView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="40dp"
         android:src="@mipmap/ic_line"
-        android:id="@+id/imageView33" />
+        android:id="@+id/imageView33"
+        android:scaleType="fitXY"
+        />
 
     <Button
         android:layout_width="280dp"

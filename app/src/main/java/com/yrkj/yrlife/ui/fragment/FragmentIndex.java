@@ -151,7 +151,7 @@ public class FragmentIndex extends BaseFragment{
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 switch (position){
                     case 0://我的爱车
-
+                        UIHelper.openTestActivity(getActivity());
                         break;
                     case 1://违章查询
                         UIHelper.openTestActivity(getActivity());
