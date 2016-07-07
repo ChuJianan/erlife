@@ -83,7 +83,7 @@ public class FragmentNear extends BaseFragment implements Callback, DecodeHandle
     View view;
     LinearLayout ls;
     Camera camera = null;
-    boolean isCamera=false;
+    boolean isCamera = false;
 
     @ViewInject(R.id.title)
     private TextView title;
@@ -105,13 +105,13 @@ public class FragmentNear extends BaseFragment implements Callback, DecodeHandle
 
     @Event(R.id.kd_rl)
     private void kdrlEvent(View view) {
-      CameraManager.get().flashHandler();
+        CameraManager.get().flashHandler();
 
     }
 
     @Event(R.id.shuru_rl)
     private void shururlEvent(View view) {
-        Intent intent=new Intent(getActivity(), WashActivity.class);
+        Intent intent = new Intent(getActivity(), WashActivity.class);
         startActivity(intent);
     }
 
@@ -156,8 +156,10 @@ public class FragmentNear extends BaseFragment implements Callback, DecodeHandle
 
     @Override
     public void onDestroy() {
-        inactivityTimer.shutdown();
-        super.onDestroy();
+        if (inactivityTimer != null) {
+            inactivityTimer.shutdown();
+            super.onDestroy();
+        }
     }
 
     /**
@@ -175,7 +177,7 @@ public class FragmentNear extends BaseFragment implements Callback, DecodeHandle
             Toast.makeText(getContext(), "Scan failed!", Toast.LENGTH_SHORT).show();
         } else {
 //			System.out.println("Result:"+resultString);
-            Intent resultIntent = new Intent(getActivity(),WashActivity.class);
+            Intent resultIntent = new Intent(getActivity(), WashActivity.class);
             Bundle bundle = new Bundle();
             bundle.putString("result", resultString);
             resultIntent.putExtras(bundle);

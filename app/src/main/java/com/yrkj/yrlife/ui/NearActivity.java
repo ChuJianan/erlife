@@ -183,7 +183,7 @@ public class NearActivity extends BaseActivity {
                         mNearMore.setText(R.string.load_more);
                     }
                 } else {
-                    mEmptyView.setText("暂时没有充值记录");
+                    mEmptyView.setText("暂时没有附近网点");
                     mNearView.setTag(UIHelper.LISTVIEW_DATA_FULL);
                     mNearMore.setText(R.string.load_full);
                     mNearProgress.setVisibility(View.GONE);

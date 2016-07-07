@@ -161,6 +161,7 @@ public class NewsActivity extends BaseActivity {
                 totalPage = result.totalPage();
                 if (!result.OK()) {
                     UIHelper.ToastMessage(NewsActivity.this, result.Message());
+                    mEmptyView.setText("暂时没有消息");
                 } else if (result.news.size() > 0) {
                     if (mNewsData == null) {
                         mNewsData = result.news;

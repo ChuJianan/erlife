@@ -43,37 +43,37 @@ import org.xutils.x;
 @ContentView(R.layout.activity_sign)
 public class SignActivity extends BaseActivity {
 
-    @ViewInject(R.id.phonenub)
+    @ViewInject(value = R.id.phonenub)
     private EditText phoneEdit;
-    @ViewInject(R.id.yzm)
+    @ViewInject(value = R.id.yzm)
     private EditText yzmEdit;
-    @ViewInject(R.id.edit_pwd)
+    @ViewInject(value = R.id.edit_pwd)
     private EditText nameEdit;
-    @ViewInject(R.id.edit_pwds)
+    @ViewInject(value = R.id.edit_pwds)
     private EditText pwdEdit;
-    @ViewInject(R.id.title)
+    @ViewInject(value = R.id.title)
     private TextView title;
-    @ViewInject(R.id.hq_code)
+    @ViewInject(value = R.id.hq_code)
     private Button codeBtn;
-    @ViewInject(R.id.hq_codes)
+    @ViewInject(value = R.id.hq_codes)
     private Button codeBtns;
-    @ViewInject(R.id.sign_top)
+    @ViewInject(value = R.id.sign_top)
     private LinearLayout sign_top;
-    @ViewInject(R.id.sign_center)
+    @ViewInject(value = R.id.sign_center)
     private LinearLayout sign_center;
-    @ViewInject(R.id.sign_bottom)
+    @ViewInject(value = R.id.sign_bottom)
     private LinearLayout sign_bottom;
-    @ViewInject(R.id.input_code)
+    @ViewInject(value = R.id.input_code)
     private TextView input_code;
-    @ViewInject(R.id.input_phone)
+    @ViewInject(value = R.id.input_phone)
     private TextView input_phone;
-    @ViewInject(R.id.input_pwd)
+    @ViewInject(value = R.id.input_pwd)
     private TextView input_pwd;
-    @ViewInject(R.id.sub_code)
+    @ViewInject(value = R.id.sub_code)
     private Button sub_code;
-    @ViewInject(R.id.signbtn)
+    @ViewInject(value = R.id.signbtn)
     private Button sign_btn;
-    @ViewInject(R.id.xieding_check)
+    @ViewInject(value = R.id.xieding_check)
     private CheckBox checkBox;
     private String phone;
     private String yzm;
@@ -84,51 +84,69 @@ public class SignActivity extends BaseActivity {
     private ProgressDialog mLoadingDialog;
     private String result;
     private SharedPreferences preferences;
-    private boolean isCheck=true;
+    private boolean isCheck = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         x.view().inject(this);
         preferences = getSharedPreferences("yrlife", MODE_WORLD_READABLE);
-        title.setText("注册");
+        if (title != null) {
+            title.setText("注册");
+        }
         timer = new TimeCount(60000, 1000, codeBtns);
         init();
     }
 
     private void init() {
+        if (input_phone!=null){
         input_phone.setTextColor(getResources().getColor(R.color.paycolor));
+        }
         mLoadingDialog = new ProgressDialog(this);
         mLoadingDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         mLoadingDialog.setTitle("提示");
         mLoadingDialog.setMessage("正在加载，请稍候…");
         mLoadingDialog.setCancelable(false);
+        if (codeBtn!=null){
         codeBtn.setClickable(false);
         codeBtn.setBackgroundColor(getResources().getColor(R.color.dim_foreground_light_inverse_disabled));
+        }
+        if (sub_code!=null){
         sub_code.setClickable(false);
         sub_code.setBackgroundColor(getResources().getColor(R.color.dim_foreground_light_inverse_disabled));
+        }
+        if (sign_btn!=null){
         sign_btn.setClickable(false);
         sign_btn.setBackgroundColor(getResources().getColor(R.color.dim_foreground_light_inverse_disabled));
+        }
+        if (phoneEdit!=null){
         phoneEdit.addTextChangedListener(codeBtnWatcher);
+        }
+        if (yzmEdit!=null){
         yzmEdit.addTextChangedListener(sub_codeWatcher);
+        }
+        if (pwdEdit!=null){
         pwdEdit.addTextChangedListener(sign_btnWatcher);
+        }
+        if (checkBox!=null){
         checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked){
-                    isCheck=true;
-                    int phone=phoneEdit.getText().toString().length();
-                    if(phone==11){
+                if (isChecked) {
+                    isCheck = true;
+                    int phone = phoneEdit.getText().toString().length();
+                    if (phone == 11) {
                         codeBtn.setBackgroundResource(R.drawable.bg_btn_code);
-                    }else{
+                    } else {
                         codeBtn.setBackgroundColor(getResources().getColor(R.color.dim_foreground_light_inverse_disabled));
                     }
-                }else{
+                } else {
                     codeBtn.setBackgroundColor(getResources().getColor(R.color.dim_foreground_light_inverse_disabled));
-                    isCheck=false;
+                    isCheck = false;
                 }
             }
         });
+        }
     }
 
     TextWatcher sign_btnWatcher = new TextWatcher() {
@@ -236,7 +254,7 @@ public class SignActivity extends BaseActivity {
             } else if (temp.length() < 11) {
                 codeBtn.setBackgroundColor(getResources().getColor(R.color.dim_foreground_light_inverse_disabled));
                 codeBtn.setClickable(false);
-            } else if (temp.length() == 11&&isCheck) {
+            } else if (temp.length() == 11 && isCheck) {
                 codeBtn.setBackgroundResource(R.drawable.bg_btn_code);
                 codeBtn.setClickable(true);
             }
@@ -244,8 +262,8 @@ public class SignActivity extends BaseActivity {
     };
 
     @Event(R.id.xieding)
-    private void xiedingEvent(View view){
-        Intent intent=new Intent(this,XiedingActivity.class);
+    private void xiedingEvent(View view) {
+        Intent intent = new Intent(this, XiedingActivity.class);
         startActivity(intent);
     }
 
@@ -280,32 +298,32 @@ public class SignActivity extends BaseActivity {
         mLoadingDialog.show();
         if (!StringUtils.isEmpty(yzm)) {
             if (code.equals(yzm)) {
-                RequestParams params=new RequestParams(URLs.Code_Check);
-                params.addQueryStringParameter("phone",phone);
-                params.addQueryStringParameter("code",code);
+                RequestParams params = new RequestParams(URLs.Code_Check);
+                params.addQueryStringParameter("phone", phone);
+                params.addQueryStringParameter("code", code);
                 x.http().get(params, new Callback.CommonCallback<String>() {
                     @Override
                     public void onSuccess(String string) {
-                        Result result=JsonUtils.fromJson(string,Result.class);
-                        UIHelper.ToastMessage(appContext,result.Message());
-                        if (result.OK()){
-                        input_pwd.setTextColor(getResources().getColor(R.color.paycolor));
-                        input_phone.setTextColor(getResources().getColor(R.color.sign_top));
-                        input_code.setTextColor(getResources().getColor(R.color.sign_top));
-                        sign_bottom.setVisibility(View.VISIBLE);
-                        sign_center.setVisibility(View.GONE);
-                        sign_top.setVisibility(View.GONE);
+                        Result result = JsonUtils.fromJson(string, Result.class);
+                        UIHelper.ToastMessage(appContext, result.Message());
+                        if (result.OK()) {
+                            input_pwd.setTextColor(getResources().getColor(R.color.paycolor));
+                            input_phone.setTextColor(getResources().getColor(R.color.sign_top));
+                            input_code.setTextColor(getResources().getColor(R.color.sign_top));
+                            sign_bottom.setVisibility(View.VISIBLE);
+                            sign_center.setVisibility(View.GONE);
+                            sign_top.setVisibility(View.GONE);
                         }
                     }
 
                     @Override
                     public void onError(Throwable ex, boolean isOnCallback) {
-                        UIHelper.ToastMessage(appContext,ex.getMessage());
+                        UIHelper.ToastMessage(appContext, ex.getMessage());
                     }
 
                     @Override
                     public void onCancelled(CancelledException cex) {
-                        UIHelper.ToastMessage(appContext,"cancel");
+                        UIHelper.ToastMessage(appContext, "cancel");
                     }
 
                     @Override
