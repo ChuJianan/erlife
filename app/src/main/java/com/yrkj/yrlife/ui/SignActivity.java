@@ -40,7 +40,7 @@ import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
-@ContentView(R.layout.activity_sign)
+@ContentView(value = R.layout.activity_sign)
 public class SignActivity extends BaseActivity {
 
     @ViewInject(value = R.id.phonenub)
@@ -469,6 +469,11 @@ public class SignActivity extends BaseActivity {
                                 editor.putFloat("money", 0);
                             } else {
                                 editor.putFloat("money", user.getTotal_balance().floatValue());
+                            }
+                            if (!StringUtils.isEmpty(user.getIf_have_useful_coupon())){
+                                editor.putString("if_have_useful_coupon",user.getIf_have_useful_coupon());
+                            }else {
+                                editor.putString("if_have_useful_coupon","0");
                             }
                             editor.putInt("jifen", user.getCard_total_point());
                             //提交修改

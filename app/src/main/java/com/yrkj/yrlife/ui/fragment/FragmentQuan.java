@@ -30,26 +30,12 @@ public class FragmentQuan extends BaseFragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initView();
-        initData();
+
     }
     private void initView(){
-        listViewVoucherAdapter=new ListViewVoucherAdapter(getActivity().getApplicationContext(),ldata);
+        listViewVoucherAdapter=new ListViewVoucherAdapter(getActivity().getApplicationContext(),ldata,0);
         mVoucherView.setAdapter(listViewVoucherAdapter);
     }
 
-    private void initData(){
-        ldata.clear();
-        vouchers=new Vouchers();
-        vouchers.setDate("2016年3月23日——2016年3月30日");
-        vouchers.setMoney("10");
-        vouchers.setType("满50元可以使用");
-        ldata.add(vouchers);
-        vouchers=new Vouchers();
-        vouchers.setDate("2016年3月23日——2016年3月30日");
-        vouchers.setMoney("15");
-        vouchers.setType("满90元可以使用");
-        ldata.add(vouchers);
-        listViewVoucherAdapter.notifyDataSetChanged();
 
-    }
 }

@@ -6,28 +6,43 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="150dp"
-        android:background="@drawable/ic_quan_bg">
+        android:layout_height="90dp"
+        android:background="@drawable/yhq_bg"
+        android:paddingLeft="@dimen/space_8"
+        android:paddingTop="@dimen/space_8"
+        android:paddingBottom="@dimen/space_4"
+        >
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="15dp"
-            android:id="@+id/imageView29"
-            android:src="@mipmap/ic_money"
-            android:layout_centerVertical="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
-
-        <TextView
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="10"
-            android:textSize="@dimen/text_size_25"
-            android:textColor="#ed6d2b"
-            android:id="@+id/quan_text"
+            android:gravity="center"
+            android:layout_marginLeft="@dimen/space_12"
             android:layout_centerVertical="true"
-            android:layout_toRightOf="@+id/imageView29"
-            android:layout_toEndOf="@+id/imageView29" />
+            android:layout_toRightOf="@+id/qtype_text"
+            android:layout_toEndOf="@+id/qtype_text"
+            android:id="@+id/linearLayout7">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="17dp"
+                android:id="@+id/imageView29"
+                android:src="@mipmap/ic_money"
+                android:layout_centerVertical="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="10"
+                android:textSize="@dimen/text_size_25"
+                android:textColor="#ed6d2b"
+                android:id="@+id/quan_text"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/imageView29"
+                android:layout_toEndOf="@+id/imageView29" />
+        </LinearLayout>
+
 
         <TextView
             android:layout_width="wrap_content"
@@ -36,44 +51,83 @@
             android:textColor="@color/quan_text_color"
             android:id="@+id/qtype_text"
             android:textSize="@dimen/text_size_12"
-            android:layout_above="@+id/quan_text"
-            android:layout_toRightOf="@+id/quan_text"
-            android:layout_toEndOf="@+id/quan_text"
             android:layout_marginLeft="25dp"
             android:layout_marginStart="25dp"
-            android:layout_marginBottom="20dp" />
+            android:layout_marginBottom="20dp"
+            android:visibility="gone"
+            />
 
-        <TextView
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="有效期："
-            android:id="@+id/textView6"
-            android:textColor="@color/quan_text_color"
-            android:textSize="@dimen/text_size_12"
-            android:layout_above="@+id/quan_text"
-            android:layout_alignLeft="@+id/qtype_text"
-            android:layout_alignStart="@+id/qtype_text" />
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:id="@+id/linearLayout8"
+            android:layout_marginRight="@dimen/space_18"
+            android:orientation="vertical"
+            >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="新用户注册赠送"
+                android:textColor="@color/quan_text_color"
+                android:textSize="@dimen/text_size_15"
+                />
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_3"
+                >
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="有效期："
+                    android:id="@+id/textView6"
+                    android:textColor="@color/quan_text_color"
+                    android:textSize="@dimen/text_size_12"
+                    android:layout_alignLeft="@+id/qtype_text"
+                    android:layout_alignStart="@+id/qtype_text" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="2016年3月20日--2016年6月20日"
-            android:id="@+id/qsj_text"
-            android:textColor="@color/quan_text_color"
-            android:textSize="@dimen/text_size_12"
-            android:layout_alignTop="@+id/textView6"
-            android:layout_toRightOf="@+id/textView6"
-            android:layout_toEndOf="@+id/textView6" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="2016年3月20日--2016年6月20日"
+                    android:id="@+id/qsj_text"
+                    android:textColor="@color/quan_text_color"
+                    android:textSize="@dimen/text_size_12"
+                    android:layout_alignTop="@+id/textView6"
+                    android:layout_toRightOf="@+id/textView6"
+                    android:layout_toEndOf="@+id/textView6" />
+            </LinearLayout>
+        </LinearLayout>
+
+
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="亿人生活定制优惠券"
             android:id="@+id/textView8"
+            android:textSize="@dimen/text_size_18"
             android:textColor="@color/quan_text_color"
-            android:layout_below="@+id/quan_text"
-            android:layout_alignLeft="@+id/textView6"
-            android:layout_alignStart="@+id/textView6" />
+            android:layout_below="@+id/qtype_text"
+            android:layout_marginTop="@dimen/space_6"
+            android:layout_alignLeft="@+id/linearLayout8"
+            android:layout_alignStart="@+id/linearLayout8" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="已过期"
+            android:id="@+id/zt_text"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_size_16"
+            android:layout_above="@+id/linearLayout8"
+            android:layout_alignRight="@+id/linearLayout8"
+            android:layout_alignEnd="@+id/linearLayout8"
+            android:visibility="gone"
+            />
     </RelativeLayout>
 
 </LinearLayout>

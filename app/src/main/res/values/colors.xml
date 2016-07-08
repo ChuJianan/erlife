@@ -22,6 +22,7 @@
     <color name="textcolor3">#ff727272</color>
     <color name="textcolor">#ff3d3d3d</color>
     <color name="bgcolor">#fff1f1f1</color>
+    <color name="pay_dialog_top">#F7E9DC</color>
 
     <color name="colorPrimary">#ee481f</color>
     <color name="colorPrimaryDark">#eb6725</color>

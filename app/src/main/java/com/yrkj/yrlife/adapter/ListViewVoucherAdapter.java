@@ -20,43 +20,55 @@ public class ListViewVoucherAdapter extends BaseAdapter {
 
     private List<Vouchers> listItems;
     private LayoutInflater listContainer; // 视图容器
+    private int i;
+
     static class ViewHolder { //自定义控件集合
         public TextView money;
         public TextView date;
         public TextView type;
     }
+
     /**
      * 实例化Adapter
      *
      * @param context
      * @param data
      */
-    public  ListViewVoucherAdapter(Context context,List<Vouchers> data){
-        this.listContainer=LayoutInflater.from(context);
-        this.listItems=data;
+    public ListViewVoucherAdapter(Context context, List<Vouchers> data, int i) {
+        this.listContainer = LayoutInflater.from(context);
+        this.listItems = data;
+        this.i = i;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder holder=null;
-        if (convertView==null){
+        ViewHolder holder = null;
+        if (convertView == null) {
             //获取list_item布局文件的视图
-            convertView=listContainer.inflate(R.layout.q_list_item,null);
-            holder=new ViewHolder();
+            convertView = listContainer.inflate(R.layout.q_list_item, null);
+            holder = new ViewHolder();
             //获取控件对象
-            holder.money=(TextView)convertView.findViewById(R.id.quan_text);
-            holder.date=(TextView)convertView.findViewById(R.id.qsj_text);
-            holder.type=(TextView)convertView.findViewById(R.id.qtype_text);
+            holder.money = (TextView) convertView.findViewById(R.id.quan_text);
+            holder.date = (TextView) convertView.findViewById(R.id.qsj_text);
+            holder.type = (TextView) convertView.findViewById(R.id.zt_text);
             //设置控件集到convertView
             convertView.setTag(holder);
-        }else {
+        } else {
             holder = (ViewHolder) convertView.getTag();
         }
         //设置文字和图片
-        Vouchers vouchers=listItems.get(position);
-        holder.money.setText(vouchers.getMoney());
-        holder.date.setText(vouchers.getDate());
-        holder.type.setText(vouchers.getType());
+        Vouchers vouchers = listItems.get(position);
+        holder.money.setText(vouchers.getRepresent_price() + "");
+        holder.date.setText(vouchers.getStart_time_Str() + "——" + vouchers.getEnd_time_Str());
+        if (i == 3) {
+            holder.type.setVisibility(View.VISIBLE);
+        } else if (i==2){
+            holder.type.setVisibility(View.VISIBLE);
+            holder.type.setText("已使用");
+        }else if (i==0){
+            holder.type.setVisibility(View.GONE);
+        }
+
         return convertView;
     }
 

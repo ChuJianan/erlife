@@ -234,6 +234,11 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
                         } else {
                             editor.putFloat("money", user.getTotal_balance().floatValue());
                         }
+                        if (!StringUtils.isEmpty(user.getIf_have_useful_coupon())){
+                            editor.putString("if_have_useful_coupon",user.getIf_have_useful_coupon());
+                        }else {
+                            editor.putString("if_have_useful_coupon","0");
+                        }
                         editor.putInt("jifen", user.getCard_total_point());
                         //提交修改
                         editor.commit();

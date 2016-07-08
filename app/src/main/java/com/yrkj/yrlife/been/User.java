@@ -43,6 +43,15 @@ public class User extends Entity {
     private String unique_phone_code;//手机唯一码
     private String wx_head_pic;//微信头像
     private String isBind;//是否绑定会员卡
+    private String if_have_useful_coupon;//是否有优惠券
+
+    public String getIf_have_useful_coupon() {
+        return if_have_useful_coupon;
+    }
+
+    public void setIf_have_useful_coupon(String if_have_useful_coupon) {
+        this.if_have_useful_coupon = if_have_useful_coupon;
+    }
 
     public String getIsBind() {
         return isBind;

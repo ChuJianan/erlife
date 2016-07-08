@@ -186,6 +186,11 @@ public class LoginActivity extends BaseActivity {
                         }else {
                             editor.putFloat("money", user.getTotal_balance().floatValue());
                         }
+                        if (!StringUtils.isEmpty(user.getIf_have_useful_coupon())){
+                            editor.putString("if_have_useful_coupon",user.getIf_have_useful_coupon());
+                        }else {
+                            editor.putString("if_have_useful_coupon","0");
+                        }
                         editor.putString("openid", "");
                         editor.putString("access_token", "");
                         editor.putString("refresh_token", "");
