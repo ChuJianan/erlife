@@ -227,6 +227,13 @@ public class BindPhoneActivity extends Activity {
                         editor.putInt("jifen", user.getCard_total_point());
                         //提交修改
                         editor.commit();
+                        mLoadingDialog.dismiss();
+                        finish();
+                    }else {
+                        mLoadingDialog.dismiss();
+                        timer.onFinish();
+                        timer.cancel();
+                        codeBtn.setText("获取验证码");
                     }
                 } catch (JSONException e) {
 
@@ -248,8 +255,7 @@ public class BindPhoneActivity extends Activity {
 
             @Override
             public void onFinished() {
-                mLoadingDialog.dismiss();
-                finish();
+
             }
         });
     }

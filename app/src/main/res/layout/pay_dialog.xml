@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:background="@color/graywhite"
         android:orientation="vertical"
-        android:layout_gravity="center"
+        android:layout_gravity="top"
         >
         <LinearLayout
             android:layout_width="match_parent"

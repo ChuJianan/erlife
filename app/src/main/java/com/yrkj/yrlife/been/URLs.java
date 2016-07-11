@@ -16,6 +16,7 @@ public class URLs extends Entity {
 	public static final String HOST = "http://192.168.3.10:8080/";
 //	public static final String HOST = "http://40057179.nat123.net/";
 //	public static final String HOST = "http://119.10.48.101/";
+//	public static final String HOST = "http://139.129.53.70/";
 
 	public static final String APP_INIT = HOST+"wmmanager/app/pro1/app1/addMember";		//应用初始化地址
 	public static final String HOME_ADS = HOST+"wmmanager/app/pro1/app1/loadBannerImage" ;		//首页广告地址
@@ -51,6 +52,7 @@ public class URLs extends Entity {
 	public static final String RATE=HOST+"wmmanager/app/pro1/app1/remarkStar?";//评星
 	public static final String Code_Check=HOST+"wmmanager/app/pro1/app3/regCheckCode?";//注册验证码验证
 	public static final String IsWashing=HOST+"wmmanager/app/pro1/app1/queryWhichStep?";//是否正在洗车
+	public static final String Vouchers=HOST+"wmmanager/app/pro1/app2/couponList?";
 
 
 

@@ -22,11 +22,13 @@ import com.yrkj.yrlife.been.URLs;
 import com.yrkj.yrlife.ui.AdrListActivity;
 import com.yrkj.yrlife.ui.BinCardActivity;
 import com.yrkj.yrlife.ui.ConsumerActivity;
+import com.yrkj.yrlife.ui.DiscountActivity;
 import com.yrkj.yrlife.ui.MycarActivity;
 import com.yrkj.yrlife.ui.NearActivity;
 import com.yrkj.yrlife.ui.PayActivity;
 import com.yrkj.yrlife.ui.WashsActivity;
 import com.yrkj.yrlife.utils.BitmapManager;
+import com.yrkj.yrlife.utils.StringUtils;
 import com.yrkj.yrlife.utils.UIHelper;
 import com.yrkj.yrlife.widget.MyGridView;
 import com.yrkj.yrlife.widget.SlideShowView;
@@ -157,7 +159,13 @@ public class FragmentIndex extends BaseFragment{
                         UIHelper.openTestActivity(getActivity());
                         break;
                     case 2://优惠券
-                        UIHelper.openTestActivity(getActivity());
+//                        UIHelper.openTestActivity(getActivity());
+                        if (StringUtils.isEmpty(URLs.secret_code)){
+                            UIHelper.openLogin(getActivity());
+                        }else {
+                            intent=new Intent(getActivity(), DiscountActivity.class);
+                            startActivity(intent);
+                        }
                         break;
                     case 3://账单
                         if (URLs.secret_code==""){

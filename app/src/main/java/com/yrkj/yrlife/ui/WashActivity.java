@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.CheckedTextView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -103,9 +104,9 @@ public class WashActivity extends BaseActivity {
     private boolean isWash = true;
     float spend_money;
     Dialog dialog;
-    boolean isd=false;
-    boolean isb=true;
-    String pay_kind="";
+    boolean isd = false;
+    boolean isb = true;
+    String pay_kind = "1";
     String if_have_useful_coupon;
 
 
@@ -290,7 +291,7 @@ public class WashActivity extends BaseActivity {
                 break;
             case 2://无卡洗车结算
                 wash_btn.setText("去评价");
-                mLoadingDialog.show();
+//                mLoadingDialog.show();
                 if (timer != null) {
                     timer.cancel();
                 }
@@ -328,7 +329,7 @@ public class WashActivity extends BaseActivity {
                 } else {
                     if (result.isOK()) {
                         wash_btn.setText("去评价");
-                        mLoadingDialog.show();
+//                        mLoadingDialog.show();
                         if (timer != null) {
                             timer.cancel();
                         }
@@ -381,7 +382,7 @@ public class WashActivity extends BaseActivity {
         params.addQueryStringParameter("machineNo", wash.getMachine_number());
         params.addQueryStringParameter("belongCode", wash.getBelong());
         params.addQueryStringParameter("secret_code", URLs.secret_code);
-        params.addQueryStringParameter("pay_kind",pay_kind);
+        params.addQueryStringParameter("pay_kind", pay_kind);
         x.http().get(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String string) {
@@ -479,6 +480,7 @@ public class WashActivity extends BaseActivity {
                     finish();
                 }
                 if (i == 2) {
+
                     showDialog();
                 }
 
@@ -494,7 +496,7 @@ public class WashActivity extends BaseActivity {
     }
 
     private void showDialog() {
-        View view = getLayoutInflater().inflate(R.layout.pay_dialog, null);
+        final View view = getLayoutInflater().inflate(R.layout.pay_dialog, null);
         dialog = new Dialog(this, R.style.transparentFrameWindowStyle);
         dialog.setContentView(view, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT));
@@ -503,56 +505,67 @@ public class WashActivity extends BaseActivity {
         window.setWindowAnimations(R.style.main_menu_animstyle);
         WindowManager.LayoutParams wl = window.getAttributes();
         wl.x = 0;
-        wl.y = getWindowManager().getDefaultDisplay().getHeight();
+        wl.y = (getWindowManager().getDefaultDisplay().getHeight() / 2) - view.getHeight();
         // 以下这两句是为了保证按钮可以水平满屏
         wl.width = ViewGroup.LayoutParams.MATCH_PARENT;
         wl.height = ViewGroup.LayoutParams.WRAP_CONTENT;
-        if_have_useful_coupon=preferences.getString("if_have_useful_coupon","");
-        if (StringUtils.isEmpty(if_have_useful_coupon)){
-           view.findViewById(R.id.rl_discount).setVisibility(View.GONE);
-        }else {
-            if (if_have_useful_coupon.equals("1")){
+        if_have_useful_coupon = preferences.getString("if_have_useful_coupon", "");
+        if (StringUtils.isEmpty(if_have_useful_coupon)) {
+            view.findViewById(R.id.rl_discount).setVisibility(View.GONE);
+        } else {
+            if (if_have_useful_coupon.equals("1")) {
                 view.findViewById(R.id.rl_discount).setVisibility(View.VISIBLE);
                 view.findViewById(R.id.pay_discount).setClickable(true);
-            }else if (if_have_useful_coupon.equals("0")){
+            } else if (if_have_useful_coupon.equals("0")) {
                 view.findViewById(R.id.rl_discount).setVisibility(View.GONE);
             }
         }
         // 设置显示位置
-        dialog.onWindowAttributesChanged(wl);
+//        dialog.onWindowAttributesChanged(wl);
         // 设置点击外围解散
         dialog.setCanceledOnTouchOutside(true);
         dialog.show();
+        final CheckedTextView balance = (CheckedTextView) view.findViewById(R.id.pay_balance);
         view.findViewById(R.id.pay_balance).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isb){
-                    pay_kind="0";
-                    isb=false;
-                }else {
-                    pay_kind="";
-                    isb=true;
+                if (isb) {
+                    balance.setChecked(true);
+                    pay_kind = "0";
+                    isb = false;
+                } else {
+                    balance.setChecked(false);
+                    pay_kind = "";
+                    isb = true;
                 }
             }
         });
+        final CheckedTextView checkedTextView = (CheckedTextView) view.findViewById(R.id.pay_discount);
         view.findViewById(R.id.pay_discount).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isd){
-                    pay_kind="1";
-                    isd=false;
-                }else {
-                    pay_kind="";
-                    isd=true;
+                if (isd) {
+                    checkedTextView.setChecked(true);
+                    pay_kind = "1";
+                    isd = false;
+                } else {
+                    checkedTextView.setChecked(false);
+                    pay_kind = "";
+                    isd = true;
                 }
             }
         });
+
         view.findViewById(R.id.pay_confirm).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dialog.dismiss();
-                payconfirm();
-                mLoadingDialog.show();
+                if (StringUtils.isEmpty(pay_kind)) {
+                    UIHelper.ToastMessage(appContext, "请选择付款方式");
+                } else {
+                    dialog.dismiss();
+                    payconfirm();
+                    mLoadingDialog.show();
+                }
             }
         });
     }

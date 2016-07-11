@@ -13,10 +13,10 @@ public class Vouchers extends Entity {
     private String name;//优惠卷名称
     private String memo;//优惠卷描述
     private String img_path;//优惠卷图片
-    private Date start_time;//优惠卷开始时间
-    private String start_time_Str;
-    private Date end_time;//优惠卷结束时间
-    private String end_time_Str;
+//    private Date start_time;//优惠卷开始时间
+    private String start_timeStr;
+//    private Date end_time;//优惠卷结束时间
+    private String end_timeStr;
     private int represent_point;//代表积分
     private BigDecimal represent_price;//代表金额
     private int total_count;//发行总数量
@@ -24,25 +24,34 @@ public class Vouchers extends Entity {
     private int used_count;//发出数量
     private String isdel;//是否删除
     private String isenable;//是否使用停用
-    private Date create_time;//创建时间
+//    private Date create_time;//创建时间
     private int delay_days;//推迟时间天数
-    private Date due_time;//优惠券失效时间
+//    private Date due_time;//优惠券失效时间
     private String ifdue_time_reset;//是否失效日期自用户领取后再计算
+    private String deadline;
+
+    public String getDeadline() {
+        return deadline;
+    }
+
+    public void setDeadline(String deadline) {
+        this.deadline = deadline;
+    }
 
     public String getStart_time_Str() {
-        return start_time_Str;
+        return start_timeStr;
     }
 
     public void setStart_time_Str(String start_time_Str) {
-        this.start_time_Str = start_time_Str;
+        this.start_timeStr = start_time_Str;
     }
 
     public String getEnd_time_Str() {
-        return end_time_Str;
+        return end_timeStr;
     }
 
     public void setEnd_time_Str(String end_time_Str) {
-        this.end_time_Str = end_time_Str;
+        this.end_timeStr = end_time_Str;
     }
 
     public String getBatch() {
@@ -85,21 +94,21 @@ public class Vouchers extends Entity {
         this.img_path = img_path;
     }
 
-    public Date getStart_time() {
-        return start_time;
-    }
-
-    public void setStart_time(Date start_time) {
-        this.start_time = start_time;
-    }
-
-    public Date getEnd_time() {
-        return end_time;
-    }
-
-    public void setEnd_time(Date end_time) {
-        this.end_time = end_time;
-    }
+//    public Date getStart_time() {
+//        return start_time;
+//    }
+//
+//    public void setStart_time(Date start_time) {
+//        this.start_time = start_time;
+//    }
+//
+//    public Date getEnd_time() {
+//        return end_time;
+//    }
+//
+//    public void setEnd_time(Date end_time) {
+//        this.end_time = end_time;
+//    }
 
     public int getRepresent_point() {
         return represent_point;
@@ -157,13 +166,13 @@ public class Vouchers extends Entity {
         this.isenable = isenable;
     }
 
-    public Date getCreate_time() {
-        return create_time;
-    }
-
-    public void setCreate_time(Date create_time) {
-        this.create_time = create_time;
-    }
+//    public Date getCreate_time() {
+//        return create_time;
+//    }
+//
+//    public void setCreate_time(Date create_time) {
+//        this.create_time = create_time;
+//    }
 
     public int getDelay_days() {
         return delay_days;
@@ -173,13 +182,13 @@ public class Vouchers extends Entity {
         this.delay_days = delay_days;
     }
 
-    public Date getDue_time() {
-        return due_time;
-    }
-
-    public void setDue_time(Date due_time) {
-        this.due_time = due_time;
-    }
+//    public Date getDue_time() {
+//        return due_time;
+//    }
+//
+//    public void setDue_time(Date due_time) {
+//        this.due_time = due_time;
+//    }
 
     public String getIfdue_time_reset() {
         return ifdue_time_reset;

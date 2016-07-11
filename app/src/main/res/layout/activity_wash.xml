@@ -33,6 +33,7 @@
                 android:background="@color/white"
                 android:layout_marginLeft="@dimen/space_15"
                 android:id="@+id/wash_machid_edit"
+                android:maxLength="6"
                 />
         </LinearLayout>
 

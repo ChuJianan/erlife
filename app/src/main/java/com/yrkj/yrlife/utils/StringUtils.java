@@ -28,7 +28,7 @@ public class StringUtils
 	 */
 	public static Date toDate(String sdate) {
 		try {
-			return dateFormater.parse(sdate);
+			return dateFormater2.parse(sdate);
 		} catch (ParseException e) {
 			return null;
 		}

@@ -19,6 +19,7 @@ import com.yrkj.yrlife.been.URLs;
 import com.yrkj.yrlife.ui.BinCardActivity;
 import com.yrkj.yrlife.ui.ConsumerActivity;
 import com.yrkj.yrlife.ui.CzlistActivity;
+import com.yrkj.yrlife.ui.DiscountActivity;
 import com.yrkj.yrlife.ui.LoginActivity;
 import com.yrkj.yrlife.ui.MeActivity;
 import com.yrkj.yrlife.ui.MoreActivity;
@@ -222,7 +223,13 @@ public class FragmentMe extends BaseFragment {
     @Event(R.id.quan_rl)
     private void quanrlEvent(View view){
 //        UIHelper.ToastMessage(getActivity(), "正在开发中...");
-        UIHelper.openTestActivity(getActivity());
+//        UIHelper.openTestActivity(getActivity());
+        if (StringUtils.isEmpty(URLs.secret_code)) {
+            UIHelper.openLogin(getActivity());
+        } else {
+            Intent intent = new Intent(getActivity(), DiscountActivity.class);
+            startActivity(intent);
+        }
     }
 
     /**

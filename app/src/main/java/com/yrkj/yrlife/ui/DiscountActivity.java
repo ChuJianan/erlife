@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -16,6 +17,7 @@ import com.yrkj.yrlife.ui.fragment.FragmentQuan;
 import com.yrkj.yrlife.ui.fragment.FragmentUnusedQuan;
 
 import org.xutils.view.annotation.ContentView;
+import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
@@ -32,6 +34,15 @@ public class DiscountActivity extends BaseActivity  {
     private FragmentDiscountAdapter mFragmentAdapter;
     @ViewInject(R.id.id_discount_vp)
     private ViewPager mPageVp;
+    @ViewInject(R.id.title)
+    private TextView title;
+
+    @ViewInject(R.id.id_tab_use_ll)
+    private LinearLayout tab_use_ll;
+    @ViewInject(R.id.id_tab_unuse_ll)
+    private LinearLayout tab_unuse_ll;
+    @ViewInject(R.id.id_tab_expired_ll)
+    private LinearLayout tab_expired_ll;
     /**
      * Tab显示内容TextView
      */
@@ -65,6 +76,7 @@ public class DiscountActivity extends BaseActivity  {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         x.view().inject(this);
+        title.setText("我的优惠券");
         init();
         initTabLineWidth();
     }
@@ -142,16 +154,29 @@ public class DiscountActivity extends BaseActivity  {
                         mTabChatTv.setTextColor(getResources().getColor(R.color.paycolor));
                         break;
                     case 1:
-                        mTabFriendTv.setTextColor(getResources().getColor(R.color.paycolor));
+                        mTabContactsTv.setTextColor(getResources().getColor(R.color.paycolor));
                         break;
                     case 2:
-                        mTabContactsTv.setTextColor(getResources().getColor(R.color.paycolor));
+                        mTabFriendTv.setTextColor(getResources().getColor(R.color.paycolor));
                         break;
                 }
                 currentIndex = position;
             }
         });
 
+    }
+
+    @Event(R.id.id_tab_use_ll)
+    private void idtabusellEvent(View view){
+        mPageVp.setCurrentItem(0);
+    }
+    @Event(R.id.id_tab_unuse_ll)
+    private void idtabunusellEvent(View view){
+        mPageVp.setCurrentItem(1);
+    }
+    @Event(R.id.id_tab_expired_ll)
+    private void idtabexpiredllEvent(View view){
+        mPageVp.setCurrentItem(2);
     }
 
     /**

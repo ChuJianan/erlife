@@ -116,8 +116,8 @@ public class MainActivity extends FragmentActivity {
         boolean isWash = preferences.getBoolean("isWash", false);
 
         if (isWash) {
-            String washstring=preferences.getString("wash_gson","");
-            wash=JsonUtils.fromJson(washstring,Washing_no_card_record.class);
+            String washstring = preferences.getString("wash_gson", "");
+            wash = JsonUtils.fromJson(washstring, Washing_no_card_record.class);
             isWash();
         }
 
@@ -137,11 +137,15 @@ public class MainActivity extends FragmentActivity {
             public void onSuccess(String string) {
                 Result result = JsonUtils.fromJson(string, Result.class);
                 if (result.OK()) {
-                    spend_money=result.spend_money();
+                    spend_money = result.spend_money();
                     dialog("您的洗车还未结束，是否继续洗车？");
 
                 } else {
-
+                    //实例化Editor对象
+                    SharedPreferences.Editor editor = preferences.edit();
+                    editor.putBoolean("isWash", false);
+                    //提交修改
+                    editor.commit();
                 }
             }
 
@@ -247,7 +251,7 @@ public class MainActivity extends FragmentActivity {
      * 初始化组件
      */
     private void initView() {
-        mLoadingDialog=UIHelper.progressDialog(this,"正在努力加载...");
+        mLoadingDialog = UIHelper.progressDialog(this, "正在努力加载...");
         LocationResult.setMovementMethod(ScrollingMovementMethod.getInstance());
 
         //设置字体
@@ -489,6 +493,7 @@ public class MainActivity extends FragmentActivity {
         //结束Activity&从堆栈中移除
 //        AppManager.getAppManager().finishActivity(this);
     }
+
     private void dialog(String context) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setMessage(context);
@@ -497,25 +502,26 @@ public class MainActivity extends FragmentActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
-                Intent intent=new Intent(MainActivity.this,WashActivity.class);
-                intent.putExtra("result",wash.getMachine_number());
-                intent.putExtra("spend_money",spend_money.floatValue());
+                Intent intent = new Intent(MainActivity.this, WashActivity.class);
+                intent.putExtra("result", wash.getMachine_number());
+                intent.putExtra("spend_money", spend_money.floatValue());
                 startActivity(intent);
             }
         });
-        builder.setNegativeButton("取消", new DialogInterface.OnClickListener(){
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
                 mLoadingDialog.show();
-               payconfirm();
+                payconfirm();
             }
         });
         builder.create().show();
     }
+
     private void payconfirm() {
         RequestParams params = new RequestParams(URLs.PAYCONFIRM);
-        params.setConnectTimeout(1000*30);
+        params.setConnectTimeout(1000 * 30);
         params.addQueryStringParameter("machineNo", wash.getMachine_number());
         params.addQueryStringParameter("belongCode", wash.getBelong());
         params.addQueryStringParameter("secret_code", URLs.secret_code);
@@ -523,15 +529,15 @@ public class MainActivity extends FragmentActivity {
             @Override
             public void onSuccess(String string) {
                 Result result = JsonUtils.fromJson(string, Result.class);
-                UIHelper.ToastMessage(MainActivity.this,result.Message());
+                UIHelper.ToastMessage(MainActivity.this, result.Message());
                 if (result.OK()) {
                     PayConfirm payconfirm = result.payconfirm();
-                    float mon=wash.getTotal_money().floatValue()-payconfirm.getTotalmoney().floatValue();
+                    float mon = wash.getTotal_money().floatValue() - payconfirm.getTotalmoney().floatValue();
                     //实例化Editor对象
                     SharedPreferences.Editor editor = preferences.edit();
                     //存入数据
                     editor.putFloat("money", mon);
-                    editor.putBoolean("isWash",false);
+                    editor.putBoolean("isWash", false);
                     //提交修改
                     editor.commit();
                 } else {

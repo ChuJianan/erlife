@@ -40,6 +40,13 @@ public class ListViewVoucherAdapter extends BaseAdapter {
         this.i = i;
     }
 
+    public void setVoucher(List<Vouchers> data) {
+        this.listItems = data;
+    }
+    public void addVoucher(List<Vouchers> data){
+        listItems.addAll(data);
+    }
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         ViewHolder holder = null;
@@ -59,7 +66,7 @@ public class ListViewVoucherAdapter extends BaseAdapter {
         //设置文字和图片
         Vouchers vouchers = listItems.get(position);
         holder.money.setText(vouchers.getRepresent_price() + "");
-        holder.date.setText(vouchers.getStart_time_Str() + "——" + vouchers.getEnd_time_Str());
+        holder.date.setText(vouchers.getStart_time_Str() + "——" + vouchers.getDeadline());
         if (i == 3) {
             holder.type.setVisibility(View.VISIBLE);
         } else if (i==2){

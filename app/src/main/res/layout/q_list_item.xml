@@ -5,9 +5,10 @@
     android:padding="@dimen/space_5">
 
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="90dp"
-        android:background="@drawable/yhq_bg"
+        android:layout_gravity="center"
+        android:layout_width="320dp"
+        android:layout_height="100dp"
+        android:background="@mipmap/yhq_bg"
         android:paddingLeft="@dimen/space_8"
         android:paddingTop="@dimen/space_8"
         android:paddingBottom="@dimen/space_4"
@@ -60,13 +61,12 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
             android:id="@+id/linearLayout8"
-            android:layout_marginRight="@dimen/space_18"
             android:orientation="vertical"
-            >
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="@dimen/space_20"
+            android:layout_toRightOf="@+id/linearLayout7"
+            android:layout_toEndOf="@+id/linearLayout7">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

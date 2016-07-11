@@ -14,22 +14,23 @@ public class BaseFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		injected = true;
+		appContext = (YrApplication) getActivity().getApplication();
 		return x.view().inject(this, inflater, container);
 	}
 
 	@Override
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
+		appContext = (YrApplication) getActivity().getApplication();
 		if (!injected) {
 			x.view().inject(this, this.getView());
 		}
 	}
-//	protected YrApplication appContext;	//全局Context
+	protected YrApplication appContext;	//全局Context
 //	@Override
 //	public void onCreate(Bundle savedInstanceState) {
 //		super.onCreate(savedInstanceState);
 //
-//		appContext = (YrApplication) getActivity().getApplication();
 //	}
 //
 //	protected View findViewById(int id) {
