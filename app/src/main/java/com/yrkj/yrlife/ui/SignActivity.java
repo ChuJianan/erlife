@@ -40,7 +40,7 @@ import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
-@ContentView(value = R.layout.activity_sign)
+//@ContentView(value = R.layout.activity_sign)
 public class SignActivity extends BaseActivity {
 
     @ViewInject(value = R.id.phonenub)
@@ -89,6 +89,7 @@ public class SignActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_sign);
         x.view().inject(this);
         preferences = getSharedPreferences("yrlife", MODE_WORLD_READABLE);
         if (title != null) {

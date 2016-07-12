@@ -210,7 +210,7 @@ public class LoginActivity extends BaseActivity {
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                UIHelper.ToastMessage(appContext, ex.getMessage());
+                UIHelper.ToastMessage(appContext, ex.getMessage()+ex.hashCode());
             }
 
             @Override

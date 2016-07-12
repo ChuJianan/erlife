@@ -1,5 +1,6 @@
 package com.yrkj.yrlife.ui.fragment;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
@@ -33,6 +34,7 @@ public class FragmentQuan extends BaseFragment {
     private Vouchers vouchers;
     private long mLastTime; //上次加载时间
     private boolean isViewInited = false;
+    SharedPreferences preferences;
 
     @ViewInject(R.id.voucher_list)
     private ListView mVoucherView;
@@ -42,6 +44,7 @@ public class FragmentQuan extends BaseFragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        preferences = getActivity().getSharedPreferences("yrlife", getActivity().MODE_WORLD_READABLE);
         init();
 //        loadData();
     }
@@ -52,6 +55,7 @@ public class FragmentQuan extends BaseFragment {
         long now = System.currentTimeMillis();
         //10分钟内不重复加载信息
         if (mLastTime > 0 && now - mLastTime < 1000 * 60 * 10) {
+            mEmptyView.setText("这里什么都没有");
             return;
         }else{
             if (getUserVisibleHint()) {
@@ -69,6 +73,7 @@ public class FragmentQuan extends BaseFragment {
         long now = System.currentTimeMillis();
         //10分钟内不重复加载信息
         if (mLastTime > 0 && now - mLastTime < 1000 * 60 * 10) {
+            mEmptyView.setText("这里什么都没有");
             return;
         }else{
             if (getUserVisibleHint() && isViewInited) {
@@ -81,7 +86,7 @@ public class FragmentQuan extends BaseFragment {
     }
 
     private void init() {
-        mVoucherAdapter = new ListViewVoucherAdapter(getContext(), ldata, 0);
+        mVoucherAdapter = new ListViewVoucherAdapter(appContext, ldata, 0);
         mVoucherView.setAdapter(mVoucherAdapter);
         mVoucherView.setEmptyView(mEmptyView);
         isViewInited=true;
@@ -99,6 +104,9 @@ public class FragmentQuan extends BaseFragment {
                     mEmptyView.setText("这里什么都没有");
                     mEmptyView.setVisibility(View.VISIBLE);
                 }else if (result.couponList.size()>0){
+                    //实例化Editor对象
+                    SharedPreferences.Editor editor = preferences.edit();
+                    editor.putString("if_have_useful_coupon",result.couponList.size()+"");
                     if (ldata==null){
                         ldata=result.couponList;
                         mVoucherAdapter.setVoucher(ldata);

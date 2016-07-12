@@ -52,6 +52,7 @@ public class FragmentExpiredQuan extends BaseFragment {
         long now = System.currentTimeMillis();
         //10分钟内不重复加载信息
         if (mLastTime > 0 && now - mLastTime < 1000 * 60 * 10) {
+            mEmptyView.setText("这里什么都没有");
             return;
         }else{
             if (getUserVisibleHint()) {
@@ -69,6 +70,7 @@ public class FragmentExpiredQuan extends BaseFragment {
         long now = System.currentTimeMillis();
         //10分钟内不重复加载信息
         if (mLastTime > 0 && now - mLastTime < 1000 * 60 * 10) {
+            mEmptyView.setText("这里什么都没有");
             return;
         }else{
             if (getUserVisibleHint() && isViewInited) {

@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -91,6 +92,8 @@ public class WashActivity extends BaseActivity {
     private Button wash_btn;
     @ViewInject(R.id.title)
     private TextView title;
+    @ViewInject(R.id.textView28)
+    private TextView textView28;
 
     String mach_id;
     private ProgressDialog mLoadingDialog;
@@ -108,6 +111,7 @@ public class WashActivity extends BaseActivity {
     boolean isb = true;
     String pay_kind = "1";
     String if_have_useful_coupon;
+    float money ;
 
 
     @Override
@@ -182,7 +186,14 @@ public class WashActivity extends BaseActivity {
         preferences = getSharedPreferences("yrlife", MODE_WORLD_READABLE);
         name = preferences.getString("name", "");
         nick_name = preferences.getString("nick_name", "");
+        money = preferences.getFloat("money", 0);
+        if_have_useful_coupon = preferences.getString("if_have_useful_coupon", "");
         mLoadingDialog = UIHelper.progressDialog(this, "正在努力加载......");
+        if (money==0&&!if_have_useful_coupon.equals("0")&&!StringUtils.isEmpty(if_have_useful_coupon)){
+            textView28.setText("优惠券金额");
+        }else if (money!=0){
+            textView28.setText("卡内余额");
+        }
     }
 
     private void getWash_record() {
@@ -399,15 +410,17 @@ public class WashActivity extends BaseActivity {
                     wash_balance_l.setVisibility(View.VISIBLE);
                     wash_order_no.setText(payconfirm.getBelong());
                     wash_adr_dis.setText(payconfirm.getAddress());
-                    wash_pay_dis.setText(payconfirm.getTotalmoney() + "");
+                    wash_pay_dis.setText(payconfirm.getTotalmoney().doubleValue() + "");
                     wash_date.setText(payconfirm.getTime());
                     wash_machid_dis.setText(payconfirm.getMachinenumber());
                     wash_cardnub_dis.setText(payconfirm.getCardnumber());
-                    float mon = wash.getTotal_money().floatValue() - payconfirm.getTotalmoney().floatValue();
                     //实例化Editor对象
                     SharedPreferences.Editor editor = preferences.edit();
-                    //存入数据
-                    editor.putFloat("money", mon);
+                    if (pay_kind.equals("0")) {
+                        float mon = wash.getTotal_money().floatValue() - payconfirm.getTotalmoney().floatValue();
+                        //存入数据
+                        editor.putFloat("money", mon);
+                    }
                     editor.putBoolean("isWash", false);
                     //提交修改
                     editor.commit();
@@ -497,35 +510,28 @@ public class WashActivity extends BaseActivity {
 
     private void showDialog() {
         final View view = getLayoutInflater().inflate(R.layout.pay_dialog, null);
+        final CheckedTextView balance = (CheckedTextView) view.findViewById(R.id.pay_balance);
+        final CheckedTextView checkedTextView = (CheckedTextView) view.findViewById(R.id.pay_discount);
         dialog = new Dialog(this, R.style.transparentFrameWindowStyle);
         dialog.setContentView(view, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT,
                 ViewGroup.LayoutParams.WRAP_CONTENT));
         Window window = dialog.getWindow();
+        window.setGravity(Gravity.CENTER);
         // 设置显示动画
         window.setWindowAnimations(R.style.main_menu_animstyle);
         WindowManager.LayoutParams wl = window.getAttributes();
         wl.x = 0;
-        wl.y = (getWindowManager().getDefaultDisplay().getHeight() / 2) - view.getHeight();
-        // 以下这两句是为了保证按钮可以水平满屏
+        wl.y = 0;
+        // 以下这两句是为了保证按钮可以水平满屏 (getWindowManager().getDefaultDisplay().getHeight() / 2) - view.getHeight()
         wl.width = ViewGroup.LayoutParams.MATCH_PARENT;
         wl.height = ViewGroup.LayoutParams.WRAP_CONTENT;
-        if_have_useful_coupon = preferences.getString("if_have_useful_coupon", "");
-        if (StringUtils.isEmpty(if_have_useful_coupon)) {
-            view.findViewById(R.id.rl_discount).setVisibility(View.GONE);
-        } else {
-            if (if_have_useful_coupon.equals("1")) {
-                view.findViewById(R.id.rl_discount).setVisibility(View.VISIBLE);
-                view.findViewById(R.id.pay_discount).setClickable(true);
-            } else if (if_have_useful_coupon.equals("0")) {
-                view.findViewById(R.id.rl_discount).setVisibility(View.GONE);
-            }
-        }
         // 设置显示位置
 //        dialog.onWindowAttributesChanged(wl);
+        window.setAttributes(wl);
         // 设置点击外围解散
-        dialog.setCanceledOnTouchOutside(true);
+//        dialog.setCanceledOnTouchOutside(true);
         dialog.show();
-        final CheckedTextView balance = (CheckedTextView) view.findViewById(R.id.pay_balance);
+
         view.findViewById(R.id.pay_balance).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -540,7 +546,7 @@ public class WashActivity extends BaseActivity {
                 }
             }
         });
-        final CheckedTextView checkedTextView = (CheckedTextView) view.findViewById(R.id.pay_discount);
+
         view.findViewById(R.id.pay_discount).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -568,5 +574,23 @@ public class WashActivity extends BaseActivity {
                 }
             }
         });
+        if (StringUtils.isEmpty(if_have_useful_coupon)) {
+            view.findViewById(R.id.rl_discount).setVisibility(View.GONE);
+        } else {
+            if (if_have_useful_coupon.equals("1")) {
+                view.findViewById(R.id.rl_discount).setVisibility(View.VISIBLE);
+                view.findViewById(R.id.pay_discount).setClickable(true);
+            } else if (if_have_useful_coupon.equals("0")) {
+                view.findViewById(R.id.rl_discount).setVisibility(View.GONE);
+            }
+        }
+        if (money == 0) {
+            view.findViewById(R.id.yue_ll).setVisibility(View.GONE);
+            view.findViewById(R.id.pay_balance).setVisibility(View.GONE);
+            view.findViewById(R.id.pay_balance).setClickable(false);
+            view.findViewById(R.id.pay_discount).setClickable(false);
+            checkedTextView.setChecked(true);
+            pay_kind = "1";
+        }
     }
 }
