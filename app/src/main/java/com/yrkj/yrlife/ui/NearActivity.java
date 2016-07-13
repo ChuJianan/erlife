@@ -82,11 +82,12 @@ public class NearActivity extends BaseActivity {
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
                 if (position == 0 || view == mNearFooter) return;
-                String url=mNearData.get(position-1).getDetailUrl();
+                Near near=(Near)mNearAdapter.getItem(position);
+                String url=near.getDetailUrl();
                 Intent intent=new Intent(NearActivity.this,NearsBrowserActivity.class);
                 intent.putExtra("url",url);
-                intent.putExtra("title",mNearData.get(position-1).getMachine_name());
-                intent.putExtra("number",mNearData.get(position-1).getMachine_number());
+                intent.putExtra("title",near.getMachine_name());
+                intent.putExtra("number",near.getMachine_number());
                 startActivity(intent);
 
             }

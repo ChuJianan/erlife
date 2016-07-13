@@ -35,6 +35,8 @@ import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
+import java.math.BigDecimal;
+
 /**
  * Created by Administrator on 2016/3/17.
  */
@@ -57,14 +59,13 @@ public class FragmentMe extends BaseFragment {
     @ViewInject(R.id.login_textView)
     private TextView login_textView;
     @ViewInject(R.id.money_text)
-    private  TextView money_textView;
+    private TextView money_textView;
     @ViewInject(R.id.jifen_text)
     private TextView jifen_textView;
     @ViewInject(R.id.textView13)
     private TextView textView13;
     @ViewInject(R.id.textView3)
     private TextView textView3;
-
 
 
     @Override
@@ -74,7 +75,7 @@ public class FragmentMe extends BaseFragment {
         yrApplication = (YrApplication) getActivity().getApplication();
         ls = (LinearLayout) getActivity().findViewById(R.id.ssss);
         ls.setVisibility(View.GONE);
-        if (StringUtils.isEmpty(URLs.secret_code)){
+        if (StringUtils.isEmpty(URLs.secret_code)) {
             UIHelper.openLogin(getActivity());
         }
     }
@@ -98,34 +99,39 @@ public class FragmentMe extends BaseFragment {
             String name = preferences.getString("name", "");
             String phone = preferences.getString("phone", "");
             String faceimg = preferences.getString("faceimg", "");
-            String head_image=preferences.getString("head_image","");
-            String wx_head_image=preferences.getString("wx_head_image","");
-            String nick_name=preferences.getString("nick_name","");
-            float money=preferences.getFloat("money",0);
-            int  jifen=preferences.getInt("jifen",0);
+            String head_image = preferences.getString("head_image", "");
+            String wx_head_image = preferences.getString("wx_head_image", "");
+            String nick_name = preferences.getString("nick_name", "");
+            float money = preferences.getFloat("money", 0);
+            int jifen = preferences.getInt("jifen", 0);
             if (name != "" && !name.equals("")) {
                 nameText.setText(name);
-            }else if(nick_name!=""&&nick_name!=null){
+            } else if (nick_name != "" && nick_name != null) {
                 nameText.setText(nick_name);
             }
             if (phone != "" && !phone.equals("")) {
                 phoneText.setText(phone);
-            }else{
+            } else {
                 phoneText.setText("");
             }
-            if (StringUtils.isEmpty(head_image)){
-                if (StringUtils.isEmpty(wx_head_image)){
+            if (StringUtils.isEmpty(head_image)) {
+                if (StringUtils.isEmpty(wx_head_image)) {
                     if (faceimg != "" && !faceimg.equals("")) {
                         meImg.setImageBitmap(ImageUtils.getBitmap(getActivity(), faceimg));
                     }
-                }else {
-                    x.image().bind(meImg,wx_head_image);
+                } else {
+                    x.image().bind(meImg, wx_head_image);
                 }
-            }else {
-                UIHelper.showLoadImage(meImg,URLs.IMGURL+head_image,"");
+            } else {
+                UIHelper.showLoadImage(meImg, URLs.IMGURL + head_image, "");
             }
-            money_textView.setText(money+"");
-            jifen_textView.setText(jifen+"");
+            int scale = 2;//设置位数
+            int roundingMode = 4;//表示四舍五入
+            BigDecimal bd = new BigDecimal((double) money);
+            bd = bd.setScale(scale, roundingMode);
+            money = bd.floatValue();
+            money_textView.setText(money + "");
+            jifen_textView.setText(jifen + "");
         } else {
             meImg.setImageResource(R.mipmap.ic_launcher);
             nameText.setVisibility(View.GONE);
@@ -141,26 +147,28 @@ public class FragmentMe extends BaseFragment {
     }
 
     @Event(R.id.me_rl)
-    private void merlEvent(View view){
-        if (URLs.secret_code==""){
+    private void merlEvent(View view) {
+        if (URLs.secret_code == "") {
             UIHelper.openLogin(getActivity());
-        }else {
-            Intent intent=new Intent(getActivity(),MeActivity.class);
+        } else {
+            Intent intent = new Intent(getActivity(), MeActivity.class);
             startActivity(intent);
         }
     }
 
     @Event(R.id.me_img)
-    private void meimgEvent(View view){
-        if (URLs.secret_code==""){
+    private void meimgEvent(View view) {
+        if (URLs.secret_code == "") {
             UIHelper.openLogin(getActivity());
-        }else {
-            Intent intent=new Intent(getActivity(),MeActivity.class);
+        } else {
+            Intent intent = new Intent(getActivity(), MeActivity.class);
             startActivity(intent);
         }
     }
+
     /**
      * 充值
+     *
      * @param view
      */
     @Event(R.id.rl_cz)
@@ -176,6 +184,7 @@ public class FragmentMe extends BaseFragment {
 
     /**
      * 卡绑定
+     *
      * @param view
      */
     @Event(R.id.rl_bin)
@@ -190,6 +199,7 @@ public class FragmentMe extends BaseFragment {
 
     /**
      * 充值记录
+     *
      * @param view
      */
     @Event(R.id.pay_rl)
@@ -204,6 +214,7 @@ public class FragmentMe extends BaseFragment {
 
     /**
      * 消费记录
+     *
      * @param view
      */
     @Event(R.id.cost_rl)
@@ -218,10 +229,11 @@ public class FragmentMe extends BaseFragment {
 
     /**
      * 优惠券
+     *
      * @param view
      */
     @Event(R.id.quan_rl)
-    private void quanrlEvent(View view){
+    private void quanrlEvent(View view) {
 //        UIHelper.ToastMessage(getActivity(), "正在开发中...");
 //        UIHelper.openTestActivity(getActivity());
         if (StringUtils.isEmpty(URLs.secret_code)) {
@@ -234,16 +246,18 @@ public class FragmentMe extends BaseFragment {
 
     /**
      * 设置
+     *
      * @param view
      */
     @Event(R.id.set_rl)
-    private void setrlEvent(View view){
+    private void setrlEvent(View view) {
         Intent intent = new Intent(getActivity(), MoreActivity.class);
         startActivity(intent);
     }
 
     /**
      * 设置
+     *
      * @param view
      */
     @Event(R.id.more_rl)

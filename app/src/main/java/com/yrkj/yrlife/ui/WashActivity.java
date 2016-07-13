@@ -484,16 +484,9 @@ public class WashActivity extends BaseActivity {
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
                 if (i == 1) {
-                    payconfirm();
-                    Intent intent = new Intent(WashActivity.this, RateActivity.class);
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable("wash", wash);
-                    intent.putExtras(bundle);
-                    startActivity(intent);
-                    finish();
+                    showDialog();
                 }
                 if (i == 2) {
-
                     showDialog();
                 }
 

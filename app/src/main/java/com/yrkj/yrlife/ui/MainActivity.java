@@ -1,6 +1,7 @@
 package com.yrkj.yrlife.ui;
 
 import android.Manifest;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -22,9 +23,14 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.CheckedTextView;
 import android.widget.ImageView;
 import android.widget.TabHost;
 import android.widget.TextView;
@@ -98,6 +104,12 @@ public class MainActivity extends FragmentActivity {
     private ProgressDialog mLoadingDialog;
     Washing_no_card_record wash;
     BigDecimal spend_money;
+    Dialog dialog;
+    boolean isd = false;
+    boolean isb = true;
+    String pay_kind = "1";
+    String if_have_useful_coupon;
+    float money ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,7 +126,8 @@ public class MainActivity extends FragmentActivity {
 
         application = (YrApplication) getApplication();
         boolean isWash = preferences.getBoolean("isWash", false);
-
+        money = preferences.getFloat("money", 0);
+        if_have_useful_coupon = preferences.getString("if_have_useful_coupon", "");
         if (isWash) {
             String washstring = preferences.getString("wash_gson", "");
             wash = JsonUtils.fromJson(washstring, Washing_no_card_record.class);
@@ -512,8 +525,7 @@ public class MainActivity extends FragmentActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
-                mLoadingDialog.show();
-                payconfirm();
+                showDialog();
             }
         });
         builder.create().show();
@@ -561,5 +573,90 @@ public class MainActivity extends FragmentActivity {
             }
         });
 
+    }
+    private void showDialog() {
+        final View view = getLayoutInflater().inflate(R.layout.pay_dialog, null);
+        final CheckedTextView balance = (CheckedTextView) view.findViewById(R.id.pay_balance);
+        final CheckedTextView checkedTextView = (CheckedTextView) view.findViewById(R.id.pay_discount);
+        dialog = new Dialog(this, R.style.transparentFrameWindowStyle);
+        dialog.setContentView(view, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT));
+        Window window = dialog.getWindow();
+        window.setGravity(Gravity.CENTER);
+        // 设置显示动画
+        window.setWindowAnimations(R.style.main_menu_animstyle);
+        WindowManager.LayoutParams wl = window.getAttributes();
+        wl.x = 0;
+        wl.y = 0;
+        // 以下这两句是为了保证按钮可以水平满屏 (getWindowManager().getDefaultDisplay().getHeight() / 2) - view.getHeight()
+        wl.width = ViewGroup.LayoutParams.MATCH_PARENT;
+        wl.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+        // 设置显示位置
+//        dialog.onWindowAttributesChanged(wl);
+        window.setAttributes(wl);
+        // 设置点击外围解散
+//        dialog.setCanceledOnTouchOutside(true);
+        dialog.show();
+
+        view.findViewById(R.id.pay_balance).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isb) {
+                    balance.setChecked(true);
+                    pay_kind = "0";
+                    isb = false;
+                } else {
+                    balance.setChecked(false);
+                    pay_kind = "";
+                    isb = true;
+                }
+            }
+        });
+
+        view.findViewById(R.id.pay_discount).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isd) {
+                    checkedTextView.setChecked(true);
+                    pay_kind = "1";
+                    isd = false;
+                } else {
+                    checkedTextView.setChecked(false);
+                    pay_kind = "";
+                    isd = true;
+                }
+            }
+        });
+
+        view.findViewById(R.id.pay_confirm).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (StringUtils.isEmpty(pay_kind)) {
+                    UIHelper.ToastMessage(MainActivity.this, "请选择付款方式");
+                } else {
+                    dialog.dismiss();
+                    payconfirm();
+                    mLoadingDialog.show();
+                }
+            }
+        });
+        if (StringUtils.isEmpty(if_have_useful_coupon)) {
+            view.findViewById(R.id.rl_discount).setVisibility(View.GONE);
+        } else {
+            if (if_have_useful_coupon.equals("1")) {
+                view.findViewById(R.id.rl_discount).setVisibility(View.VISIBLE);
+                view.findViewById(R.id.pay_discount).setClickable(true);
+            } else if (if_have_useful_coupon.equals("0")) {
+                view.findViewById(R.id.rl_discount).setVisibility(View.GONE);
+            }
+        }
+        if (money == 0) {
+            view.findViewById(R.id.yue_ll).setVisibility(View.GONE);
+            view.findViewById(R.id.pay_balance).setVisibility(View.GONE);
+            view.findViewById(R.id.pay_balance).setClickable(false);
+            view.findViewById(R.id.pay_discount).setClickable(false);
+            checkedTextView.setChecked(true);
+            pay_kind = "1";
+        }
     }
 }
