@@ -28,6 +28,11 @@ public class Result {
     private PayConfirm payconfirm;
     private String[] imageAbsoluteUrl = {};
     private AliPay aliPay;
+    private Upmp ipsPay;
+
+    public Upmp ipsPay(){
+        return ipsPay;
+    }
 
     public boolean OK() {
         return code == 1;

@@ -41,6 +41,7 @@ public class URLs extends Entity {
 	public static final String CONSUME=HOST+"wmmanager/app/pro1/app3/dealRecord?";//消费记录
 	public static final String PAY=HOST+"wmmanager/app/pro1/app2/wxCharge?";//充值
 	public static final String ALI_PAY=HOST+"wmmanager/app/pro1/app2/aliPayCharge?";//充值
+	public static final String IPSPAY=HOST+"wmmanager/app/pro1/app2/ipsPayCharge?";//充值
 	public static final String QUERY_PAY=HOST+"wmmanager/app/pro1/app2/queryPayment?";//查询充值
 	public static final String FindPWD=HOST+"wmmanager/app/pro1/app3/updatePassword?";//修改，找回密码
 	public static final String Thread_Login=HOST+"wmmanager/app/pro1/app2/third_Party_Logins?";//第三方登陆

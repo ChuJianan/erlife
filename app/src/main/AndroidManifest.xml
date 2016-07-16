@@ -105,7 +105,11 @@
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
         <activity android:name=".ui.LoginActivity" />
         <activity android:name=".ui.SignActivity" />
-        <activity android:name=".ui.PayActivity" />
+        <activity android:name=".ui.PayActivity"
+            android:exported="true"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            />
         <activity android:name=".ui.BinCardActivity" />
         <activity android:name=".ui.CzlistActivity" />
         <activity android:name=".ui.ConsumerActivity" />

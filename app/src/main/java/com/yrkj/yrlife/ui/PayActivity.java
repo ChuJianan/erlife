@@ -32,9 +32,11 @@ import com.yrkj.yrlife.app.YrApplication;
 import com.yrkj.yrlife.been.AliPay;
 import com.yrkj.yrlife.been.Result;
 import com.yrkj.yrlife.been.URLs;
+import com.yrkj.yrlife.been.Upmp;
 import com.yrkj.yrlife.been.WeixinPay;
 import com.yrkj.yrlife.utils.JsonUtils;
 import com.yrkj.yrlife.utils.Md5;
+import com.yrkj.yrlife.utils.StartPluginAssist;
 import com.yrkj.yrlife.utils.StringUtils;
 import com.yrkj.yrlife.utils.UIHelper;
 import com.yrkj.yrlife.widget.RadioGroup;
@@ -63,6 +65,7 @@ public class PayActivity extends BaseActivity {
     String money;
     float mon, mon1;
     boolean isFirst = true;
+    Upmp ipsPay;
     //    @ViewInject(R.id.pay_radio)
 //    private android.widget.RadioGroup payType;
     @ViewInject(R.id.money_radio)
@@ -86,6 +89,7 @@ public class PayActivity extends BaseActivity {
     String orderInfo;
     String sign;
     String orderNumber;
+    String orderEncodeType = "5";// 签名方式:5#采用MD5签名认证方式 ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -448,6 +452,56 @@ public class PayActivity extends BaseActivity {
         // 必须异步调用
         Thread payThread = new Thread(payRunnable);
         payThread.start();
+    }
+
+
+    private void ipsPay(){
+        BigDecimal bigDecimal = new BigDecimal(money);
+        UIHelper.bigDecimal = bigDecimal;
+        RequestParams params = new RequestParams(URLs.IPSPAY);
+        params.addParameter("secret_code", URLs.secret_code);
+        params.addParameter("amount", bigDecimal);
+        x.http().get(params, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String string) {
+                Result result = JsonUtils.fromJson(string, Result.class);
+                if (result.OK()){
+                    ipsPay = result.ipsPay();
+                    ipsPay.setTranAmt(money);
+                    Bundle mobilePayInfo = new Bundle();
+                    mobilePayInfo.putString("merCode", ipsPay.getMerCode());
+                    mobilePayInfo.putString("merRequestInfo", ipsPay.getMerRequestInfo());
+                    mobilePayInfo.putString("sign", ipsPay.getSign());
+                    mobilePayInfo.putString("orderEncodeType", orderEncodeType);
+                    mobilePayInfo.putString("bankCard", ipsPay.getBankCard());
+
+                    StartPluginAssist.start_ips_plugin(PayActivity.this, mobilePayInfo);
+                }else {
+                    UIHelper.ToastMessage(appContext,result.Message());
+                }
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+                UIHelper.ToastMessage(appContext,ex.getMessage());
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+                UIHelper.ToastMessage(appContext,"cancel");
+            }
+
+            @Override
+            public void onFinished() {
+                mLoadingDialog.dismiss();
+            }
+        });
+    }
+    // 重用该实例
+    protected void onNewIntent(Intent intent) {
+        Bundle bundle=intent.getExtras();
+        mLoadingDialog.show();
+        isAliPay();
     }
 
     /**

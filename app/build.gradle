@@ -45,9 +45,11 @@ dependencies {
     compile 'com.google.android.gms:play-services-appindexing:8.1.0'
     compile 'org.xutils:xutils:3.3.34'
     //    compile 'com.tencent.bugly:crashreport:2.1.5' //其中latest.release指代最新版本号，也可以指定明确的版本号，例如2.1.5
+
     //    compile 'com.tencent.bugly:nativecrashreport:2.2.0' //其中latest.release指代最新版本号，也可以指定明确的版本号，例如2.2.0
-    compile 'com.tencent.bugly:crashreport_upgrade:1.0.2'
+    compile 'com.tencent.bugly:crashreport_upgrade:1.1.2'
     //其中latest.release指代最新版本号，也可以指定明确的版本号，例如1.2.8
+
     //    compile 'com.pgyersdk:sdk:2.2.2'
     compile 'com.google.code.gson:gson:2.2.4'
     compile files('E:/Android/yrlife/libs/commons-httpclient-3.1.jar')
@@ -64,4 +66,7 @@ dependencies {
     compile files('E:/Android/yrlife/libs/Xg_sdk_v2.45_20160510_1845.jar')
     compile files('E:/Android/yrlife/libs/BaiduNaviSDK_3.1.1.jar')
     compile files('E:/Android/yrlife/libs/alipaySdk-20160516.jar')
+    compile files('E:/Android/yrlife/libs/bcprov-jdk16-140.jar')
+    compile files('E:/Android/yrlife/libs/ips-security-1.0.6.jar')
+    compile files('E:/Android/yrlife/libs/ips-commons-codec-1.10.jar')
 }
