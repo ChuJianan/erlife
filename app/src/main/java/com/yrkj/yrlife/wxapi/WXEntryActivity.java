@@ -239,6 +239,11 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
                         }else {
                             editor.putString("if_have_useful_coupon","0");
                         }
+                        if (!StringUtils.isEmpty(user.getIsWashing())){
+                            editor.putString("isWashing",user.getIsWashing());
+                        }else {
+                            editor.putString("isWashing","0");
+                        }
                         editor.putInt("jifen", user.getCard_total_point());
                         //提交修改
                         editor.commit();

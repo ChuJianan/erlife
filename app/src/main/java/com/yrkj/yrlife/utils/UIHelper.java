@@ -30,6 +30,7 @@ import com.yrkj.yrlife.api.ApiClient;
 import com.yrkj.yrlife.app.AppException;
 import com.yrkj.yrlife.app.AppManager;
 import com.yrkj.yrlife.app.YrApplication;
+import com.yrkj.yrlife.been.Washing_no_card_record;
 import com.yrkj.yrlife.ui.BrowserActivity;
 import com.yrkj.yrlife.ui.LoginActivity;
 import com.yrkj.yrlife.ui.NaviActivity;
@@ -84,6 +85,8 @@ public class UIHelper {
     public static BDLocation location;
     public static String token;
     public static String[] img_urls = {};
+    public static int IMAGE_COUNT = 0;
+    public static Washing_no_card_record washing_no_card_record;
     /**
      * 全局web样式
      */

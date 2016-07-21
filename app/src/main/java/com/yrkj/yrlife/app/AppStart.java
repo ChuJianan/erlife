@@ -118,6 +118,11 @@ public class AppStart extends AppCompatActivity {
                             }else {
                                 editor.putString("if_have_useful_coupon","0");
                             }
+                            if (!StringUtils.isEmpty(user.getIsWashing())){
+                                editor.putString("isWashing",user.getIsWashing());
+                            }else {
+                                editor.putString("isWashing","0");
+                            }
                             editor.putInt("jifen", user.getCard_total_point());
                             //提交修改
                             editor.putString("user", jsonObject.getString("result"));

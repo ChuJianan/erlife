@@ -44,6 +44,15 @@ public class User extends Entity {
     private String wx_head_pic;//微信头像
     private String isBind;//是否绑定会员卡
     private String if_have_useful_coupon;//是否有优惠券
+    private String isWashing;
+
+    public String getIsWashing() {
+        return isWashing;
+    }
+
+    public void setIsWashing(String isWashing) {
+        this.isWashing = isWashing;
+    }
 
     public String getIf_have_useful_coupon() {
         return if_have_useful_coupon;

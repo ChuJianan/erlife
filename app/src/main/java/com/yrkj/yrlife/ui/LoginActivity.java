@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.os.Message;
+import android.text.method.DigitsKeyListener;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
@@ -82,6 +83,8 @@ public class LoginActivity extends BaseActivity {
         mLoadingDialog.setTitle("提示");
         mLoadingDialog.setMessage("正在登录……");
         mLoadingDialog.setCancelable(false);
+        String digits = "0123456789abcdefghigklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        pwdText.setKeyListener(DigitsKeyListener.getInstance(digits));
     }
 
     @Event(R.id.login)
@@ -190,6 +193,11 @@ public class LoginActivity extends BaseActivity {
                             editor.putString("if_have_useful_coupon",user.getIf_have_useful_coupon());
                         }else {
                             editor.putString("if_have_useful_coupon","0");
+                        }
+                        if (!StringUtils.isEmpty(user.getIsWashing())){
+                            editor.putString("isWashing",user.getIsWashing());
+                        }else {
+                            editor.putString("isWashing","0");
                         }
                         editor.putString("openid", "");
                         editor.putString("access_token", "");

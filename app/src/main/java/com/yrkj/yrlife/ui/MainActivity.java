@@ -109,7 +109,8 @@ public class MainActivity extends FragmentActivity {
     boolean isb = true;
     String pay_kind = "1";
     String if_have_useful_coupon;
-    float money ;
+    float money;
+    boolean isWash;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,6 +118,12 @@ public class MainActivity extends FragmentActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         AppManager.getAppManager().addActivity(this);
         x.view().inject(this);
+        UIHelper.img_urls=new String[]{
+                "http://dwz.cn/3OLhVo",
+                "http://dwz.cn/3OLhVo",
+                "http://dwz.cn/3OLhVo",
+                "http://dwz.cn/3OLhVo"
+        };
         preferences = getSharedPreferences("yrlife", MODE_WORLD_READABLE);
         initView();
 //        locationService = new LocationService(getApplicationContext());
@@ -125,7 +132,14 @@ public class MainActivity extends FragmentActivity {
 //        }
 
         application = (YrApplication) getApplication();
-        boolean isWash = preferences.getBoolean("isWash", false);
+        String isWashing = preferences.getString("isWashing", "");
+        if (!StringUtils.isEmpty(isWashing)) {
+            if (isWashing.equals("1")) {
+                isWash = true;
+            } else if (isWashing.equals("0")) {
+                isWash = false;
+            }
+        }
         money = preferences.getFloat("money", 0);
         if_have_useful_coupon = preferences.getString("if_have_useful_coupon", "");
         if (isWash) {
@@ -139,24 +153,24 @@ public class MainActivity extends FragmentActivity {
     }
 
     private void isWash() {
-        String belongCode = preferences.getString("belongCode", "");
-        String Machine_number = preferences.getString("Machine_number", "");
+//        String belongCode = preferences.getString("belongCode", "");
+//        String Machine_number = preferences.getString("Machine_number", "");
         RequestParams params = new RequestParams(URLs.IsWashing);
-        params.addQueryStringParameter("belongCode", belongCode);
+//        params.addQueryStringParameter("belongCode", belongCode);
         params.addQueryStringParameter("secret_code", URLs.secret_code);
-        params.addQueryStringParameter("machineNo", Machine_number);
+//        params.addQueryStringParameter("machineNo", Machine_number);
         x.http().get(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String string) {
                 Result result = JsonUtils.fromJson(string, Result.class);
                 if (result.OK()) {
-                    spend_money = result.spend_money();
+                    UIHelper.washing_no_card_record=result.washing();
                     dialog("您的洗车还未结束，是否继续洗车？");
-
                 } else {
                     //实例化Editor对象
                     SharedPreferences.Editor editor = preferences.edit();
                     editor.putBoolean("isWash", false);
+                    editor.putString("isWashing", "0");
                     //提交修改
                     editor.commit();
                 }
@@ -516,8 +530,6 @@ public class MainActivity extends FragmentActivity {
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
                 Intent intent = new Intent(MainActivity.this, WashActivity.class);
-                intent.putExtra("result", wash.getMachine_number());
-                intent.putExtra("spend_money", spend_money.floatValue());
                 startActivity(intent);
             }
         });
@@ -574,6 +586,7 @@ public class MainActivity extends FragmentActivity {
         });
 
     }
+
     private void showDialog() {
         final View view = getLayoutInflater().inflate(R.layout.pay_dialog, null);
         final CheckedTextView balance = (CheckedTextView) view.findViewById(R.id.pay_balance);

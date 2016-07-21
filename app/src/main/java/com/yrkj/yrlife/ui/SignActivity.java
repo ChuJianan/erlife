@@ -9,6 +9,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.text.method.DigitsKeyListener;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -100,6 +101,9 @@ public class SignActivity extends BaseActivity {
     }
 
     private void init() {
+        String digits = "0123456789abcdefghigklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        nameEdit.setKeyListener(DigitsKeyListener.getInstance(digits));
+        pwdEdit.setKeyListener(DigitsKeyListener.getInstance(digits));
         if (input_phone!=null){
         input_phone.setTextColor(getResources().getColor(R.color.paycolor));
         }
@@ -475,6 +479,11 @@ public class SignActivity extends BaseActivity {
                                 editor.putString("if_have_useful_coupon",user.getIf_have_useful_coupon());
                             }else {
                                 editor.putString("if_have_useful_coupon","0");
+                            }
+                            if (!StringUtils.isEmpty(user.getIsWashing())){
+                                editor.putString("isWashing",user.getIsWashing());
+                            }else {
+                                editor.putString("isWashing","0");
                             }
                             editor.putInt("jifen", user.getCard_total_point());
                             //提交修改

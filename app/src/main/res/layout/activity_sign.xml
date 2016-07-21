@@ -2,226 +2,225 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/graywhite"
-    android:orientation="vertical"
-    >
+    android:orientation="vertical">
 
-    <include layout="@layout/include_common_header"
-        android:id="@+id/include" />
-    <include layout="@layout/sign_guide_top"
-        />
+    <include
+        android:id="@+id/include"
+        layout="@layout/include_common_header" />
+
+    <include layout="@layout/sign_guide_top" />
+
     <LinearLayout
         android:id="@+id/sign_top"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
-        android:paddingTop="@dimen/space_20"
         android:orientation="vertical"
-        android:visibility="visible"
-        >
+        android:paddingTop="@dimen/space_20"
+        android:visibility="visible">
 
         <RelativeLayout
+            android:id="@+id/relativeLayout4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/relativeLayout4"
-            android:paddingLeft="@dimen/space_5"
-            android:background="@color/white"
-            android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            >
+            android:layout_alignParentTop="true"
+            android:background="@color/white"
+            android:paddingLeft="@dimen/space_5">
 
             <EditText
+                android:id="@+id/phonenub"
                 android:layout_width="match_parent"
                 android:layout_height="43dp"
-                android:id="@+id/phonenub"
-                android:hint="请输入手机号"
-                android:textSize="@dimen/text_size_15"
-                android:background="@color/white"
+                android:layout_alignParentTop="true"
                 android:layout_marginLeft="@dimen/space_5"
                 android:layout_marginRight="@dimen/space_8"
-                android:maxLength="11"
+                android:background="@color/white"
+                android:hint="请输入手机号"
                 android:inputType="phone"
+                android:maxLength="11"
                 android:paddingLeft="@dimen/space_3"
-                android:layout_alignParentTop="true"
-                 />
+                android:textSize="@dimen/text_size_15" />
 
         </RelativeLayout>
 
 
         <Button
+            android:id="@+id/hq_code"
             android:layout_width="match_parent"
             android:layout_height="43dp"
-            android:text="发送验证码"
-            android:id="@+id/hq_code"
-            android:textColor="@color/white"
-            android:background="@drawable/bg_btn_code"
-            android:textSize="@dimen/text_size_18"
-            android:layout_marginTop="20dp"
-            android:clickable="false"
             android:layout_marginLeft="@dimen/space_13"
             android:layout_marginRight="@dimen/space_13"
-         />
+            android:layout_marginTop="20dp"
+            android:background="@drawable/bg_btn_code"
+            android:clickable="false"
+            android:text="发送验证码"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_18" />
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:layout_gravity="left"
             android:layout_marginLeft="@dimen/space_13"
             android:layout_marginTop="@dimen/space_12"
-            >
+            android:orientation="horizontal">
+
             <CheckBox
+                android:id="@+id/xieding_check"
+                style="@style/CustomCheckboxTheme"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="我已阅读并同意"
-                android:textSize="@dimen/text_size_13"
-                android:id="@+id/xieding_check"
                 android:checked="true"
-                style="@style/CustomCheckboxTheme"
-                />
+                android:text="我已阅读并同意"
+                android:textSize="@dimen/text_size_13" />
+
             <TextView
+                android:id="@+id/xieding"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="《亿人生活用户协议》"
                 android:textColor="@color/paycolor"
-                android:textSize="@dimen/text_size_13"
-                android:id="@+id/xieding"
-                />
+                android:textSize="@dimen/text_size_13" />
         </LinearLayout>
 
     </LinearLayout>
+
     <LinearLayout
         android:id="@+id/sign_center"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
-        android:paddingTop="@dimen/space_20"
         android:orientation="vertical"
-        android:visibility="gone"
-        >
+        android:paddingTop="@dimen/space_20"
+        android:visibility="gone">
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingLeft="@dimen/space_5"
-            android:background="@color/white"
-            android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            >
+            android:layout_alignParentTop="true"
+            android:background="@color/white"
+            android:paddingLeft="@dimen/space_5">
 
             <Button
+                android:id="@+id/hq_codes"
                 android:layout_width="120dp"
                 android:layout_height="50dp"
-                android:text="发送验证码"
-                android:id="@+id/hq_codes"
-                android:textColor="@color/white"
-                android:background="@drawable/bg_btn_code"
-                android:textSize="@dimen/text_size_18"
-                android:layout_marginRight="@dimen/space_13"
-                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true" />
+                android:layout_alignParentTop="true"
+                android:layout_marginRight="@dimen/space_13"
+                android:background="@drawable/bg_btn_code"
+                android:text="发送验证码"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_18" />
 
             <EditText
+                android:id="@+id/yzm"
                 android:layout_width="wrap_content"
                 android:layout_height="43dp"
-                android:id="@+id/yzm"
-                android:hint="请输入短信验证码"
-                android:textSize="@dimen/text_size_15"
-                android:background="@color/white"
-                android:layout_marginLeft="@dimen/space_5"
-                android:layout_marginRight="@dimen/space_3"
-                android:maxLength="6"
-                android:inputType="number"
-                android:paddingLeft="@dimen/space_3"
-                android:layout_centerVertical="true"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="@dimen/space_5"
+                android:layout_marginRight="@dimen/space_3"
                 android:layout_toLeftOf="@+id/hq_codes"
-                android:layout_toStartOf="@+id/hq_codes" />
+                android:layout_toStartOf="@+id/hq_codes"
+                android:background="@color/white"
+                android:hint="请输入短信验证码"
+                android:inputType="number"
+                android:maxLength="6"
+                android:paddingLeft="@dimen/space_3"
+                android:textSize="@dimen/text_size_15" />
         </RelativeLayout>
-         <Button
+
+        <Button
+            android:id="@+id/sub_code"
             android:layout_width="match_parent"
             android:layout_height="43dp"
-            android:text="提交验证码"
-            android:id="@+id/sub_code"
-            android:textColor="@color/white"
-            android:background="@drawable/bg_btn_code"
-            android:textSize="@dimen/text_size_18"
-            android:layout_marginTop="20dp"
             android:layout_marginLeft="@dimen/space_13"
             android:layout_marginRight="@dimen/space_13"
-            />
+            android:layout_marginTop="20dp"
+            android:background="@drawable/bg_btn_code"
+            android:text="提交验证码"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_18" />
     </LinearLayout>
+
     <LinearLayout
         android:id="@+id/sign_bottom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
-        android:paddingTop="@dimen/space_20"
         android:orientation="vertical"
-        android:visibility="gone"
-        >
+        android:paddingTop="@dimen/space_20"
+        android:visibility="gone">
+
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingLeft="@dimen/space_5"
-            android:paddingRight="@dimen/space_5"
-            android:background="@color/white"
-            android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            >
+            android:layout_alignParentTop="true"
+            android:background="@color/white"
+            android:paddingLeft="@dimen/space_5"
+            android:paddingRight="@dimen/space_5">
+
             <EditText
+                android:id="@+id/edit_pwd"
                 android:layout_width="match_parent"
                 android:layout_height="43dp"
-                android:id="@+id/edit_pwd"
-                android:hint="设置密码"
-                android:inputType="textPassword"
-                android:textSize="@dimen/text_size_15"
-                android:background="@color/white"
-                android:layout_marginLeft="@dimen/space_5"
-                android:layout_marginRight="@dimen/space_8"
-                android:paddingLeft="@dimen/space_3"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
-                />
+                android:layout_marginLeft="@dimen/space_5"
+                android:layout_marginRight="@dimen/space_8"
+                android:background="@color/white"
+                android:digits="0123456789abcdefghigklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                android:hint="设置密码"
+                android:inputType="textPassword"
+                android:paddingLeft="@dimen/space_3"
+                android:textSize="@dimen/text_size_15" />
+
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:src="@mipmap/ic_line"
                 android:layout_above="@+id/edit_pwds"
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:scaleType="fitXY"
-                />
+                android:src="@mipmap/ic_line" />
+
             <EditText
+                android:id="@+id/edit_pwds"
                 android:layout_width="match_parent"
                 android:layout_height="43dp"
-                android:id="@+id/edit_pwds"
-                android:hint="确认密码"
-                android:inputType="textPassword"
-                android:textSize="@dimen/text_size_15"
-                android:background="@color/white"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/edit_pwd"
                 android:layout_marginLeft="@dimen/space_5"
                 android:layout_marginRight="@dimen/space_8"
+                android:background="@color/white"
+                android:digits="0123456789abcdefghigklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                android:hint="确认密码"
+                android:inputType="textPassword"
                 android:paddingLeft="@dimen/space_3"
-                android:layout_below="@+id/edit_pwd"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true" />
+                android:textSize="@dimen/text_size_15" />
         </RelativeLayout>
+
         <Button
+            android:id="@+id/signbtn"
             android:layout_width="match_parent"
             android:layout_height="43dp"
-            android:text="注册"
-            android:id="@+id/signbtn"
-            android:textColor="@color/white"
-            android:background="@drawable/bg_btn_code"
-            android:textSize="@dimen/text_size_18"
-            android:layout_marginTop="20dp"
             android:layout_marginLeft="@dimen/space_13"
             android:layout_marginRight="@dimen/space_13"
-            />
+            android:layout_marginTop="20dp"
+            android:background="@drawable/bg_btn_code"
+            android:text="注册"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_18" />
     </LinearLayout>
 
 </LinearLayout>

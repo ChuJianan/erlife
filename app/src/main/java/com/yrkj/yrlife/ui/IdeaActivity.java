@@ -50,7 +50,7 @@ public class IdeaActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         x.view().inject(this);
-        title.setText("充值记录");
+        title.setText("意见反馈");
         idea_edit.addTextChangedListener(mTextWatcher);
         mLoadingDialog = new ProgressDialog(this);
         mLoadingDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);

@@ -112,6 +112,7 @@ public class WashActivity extends BaseActivity {
     String pay_kind = "1";
     String if_have_useful_coupon;
     float money ;
+    boolean iswash;
 
 
     @Override
@@ -123,7 +124,14 @@ public class WashActivity extends BaseActivity {
         Intent intent = getIntent();
         mach_id = intent.getStringExtra("result");
         String wash_gson = preferences.getString("wash_gson", "");
-        boolean iswash = preferences.getBoolean("isWash", false);
+        String isWashing = preferences.getString("isWashing", "");
+        if (!StringUtils.isEmpty(isWashing)) {
+            if (isWashing.equals("1")) {
+                isWash = true;
+            } else if (isWashing.equals("0")) {
+                isWash = false;
+            }
+        }
         if (StringUtils.isEmpty(mach_id)) {
             wash_btn.setText("确定");
             iBtn = 0;
@@ -134,8 +142,7 @@ public class WashActivity extends BaseActivity {
             wash_warn_l.setVisibility(View.GONE);
         } else {
             if (iswash) {
-                wash = JsonUtils.fromJson(wash_gson, Washing_no_card_record.class);
-                spend_money = getIntent().getFloatExtra("spend_money", 0);
+                wash = UIHelper.washing_no_card_record;
                 wash_btn.setText("结算");
                 wash_adr.setText(wash.getAddress());
                 wash_machid.setText(wash.getMachine_number());
@@ -301,7 +308,7 @@ public class WashActivity extends BaseActivity {
                 getWash_record();
                 break;
             case 2://无卡洗车结算
-                wash_btn.setText("去评价");
+
 //                mLoadingDialog.show();
                 if (timer != null) {
                     timer.cancel();
@@ -401,6 +408,7 @@ public class WashActivity extends BaseActivity {
                 Result result = JsonUtils.fromJson(string, Result.class);
                 UIHelper.ToastMessage(appContext, result.Message());
                 if (result.OK()) {
+                    wash_btn.setText("去评价");
                     iBtn = 3;
                     PayConfirm payconfirm = result.payconfirm();
                     wash_top_l.setVisibility(View.GONE);

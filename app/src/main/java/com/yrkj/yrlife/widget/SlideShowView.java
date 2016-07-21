@@ -36,8 +36,6 @@ import com.yrkj.yrlife.utils.UIHelper;
 /**
  * ViewPager实现的轮播图广告自定义视图，如京东首页的广告轮播图效果；
  * 既支持自动轮播页面也支持手势滑动切换页面
- *
- *
  */
 
 public class SlideShowView extends FrameLayout {
@@ -46,7 +44,7 @@ public class SlideShowView extends FrameLayout {
     private ImageLoader imageLoader = ImageLoader.getInstance();
 
     //轮播图图片数量
-    public   static int IMAGE_COUNT = 4;
+    private int IMAGE_COUNT = 4;
     //自动轮播的时间间隔
     private final static int TIME_INTERVAL = 5;
     //自动轮播启用开关
@@ -61,14 +59,14 @@ public class SlideShowView extends FrameLayout {
 
     private ViewPager viewPager;
     //当前轮播页
-    private int currentItem  = 0;
+    private int currentItem = 0;
     //定时任务
     private ScheduledExecutorService scheduledExecutorService;
 
     private Context context;
-    BitmapManager bitmapManager=new BitmapManager();
+    BitmapManager bitmapManager = new BitmapManager();
     //Handler
-    private Handler handler = new Handler(){
+    private Handler handler = new Handler() {
 
         @Override
         public void handleMessage(Message msg) {
@@ -80,15 +78,19 @@ public class SlideShowView extends FrameLayout {
     };
 
     public SlideShowView(Context context) {
-        this(context,null);
-        this.context=context;
+        this(context, null);
+        this.context = context;
+        this.imageUrls=UIHelper.img_urls;
+        this.IMAGE_COUNT=imageUrls.length;
         // TODO Auto-generated constructor stub
     }
+
     public SlideShowView(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
         // TODO Auto-generated constructor stub
-        this.context=context;
+        this.context = context;
     }
+
     public SlideShowView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         this.context = context;
@@ -96,59 +98,63 @@ public class SlideShowView extends FrameLayout {
         initImageLoader(context);
 
         initData();
-        if(isAutoPlay){
+        if (isAutoPlay) {
             startPlay();
         }
 
     }
+
     /**
      * 开始轮播图切换
      */
-    private void startPlay(){
+    private void startPlay() {
         scheduledExecutorService = Executors.newSingleThreadScheduledExecutor();
         scheduledExecutorService.scheduleAtFixedRate(new SlideShowTask(), 1, 4, TimeUnit.SECONDS);
     }
+
     /**
      * 停止轮播图切换
      */
-    private void stopPlay(){
+    private void stopPlay() {
         scheduledExecutorService.shutdown();
     }
+
     /**
      * 初始化相关Data
      */
-    private void initData(){
+    private void initData() {
         imageViewsList = new ArrayList<ImageView>();
         dotViewsList = new ArrayList<View>();
 
         // 一步任务获取图片
         new GetListTask().execute("");
     }
+
     /**
      * 初始化Views等UI
      */
-    private void initUI(Context context){
-        if(imageUrls == null || imageUrls.length == 0)
+    private void initUI(Context context) {
+        if (imageUrls == null || imageUrls.length == 0)
             return;
 
         LayoutInflater.from(context).inflate(R.layout.layout_slideshow, this, true);
 
-        LinearLayout dotLayout = (LinearLayout)findViewById(R.id.dotLayout);
+        LinearLayout dotLayout = (LinearLayout) findViewById(R.id.dotLayout);
         dotLayout.removeAllViews();
 
         // 热点个数与图片特殊相等
         for (int i = 0; i < imageUrls.length; i++) {
-            ImageView view =  new ImageView(context);
+            ImageView view = new ImageView(context);
 //            UIHelper.showLoadImage(view, imageUrls[i], "地址错误");
 //            bitmapManager.loadBitmap(imageUrls[i], view);
             view.setTag(imageUrls[i]);
-            if(i==0)//给一个默认图
-                view.setBackgroundResource(R.mipmap.banner1);
+            if (i == 0)//给一个默认图
+                view.setBackgroundResource(R.mipmap.top_banner);
             view.setScaleType(ScaleType.FIT_XY);
             imageViewsList.add(view);
 
-            ImageView dotView =  new ImageView(context);
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT);
+            ImageView dotView = new ImageView(context);
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
             params.leftMargin = 4;
             params.rightMargin = 4;
             dotLayout.addView(dotView, params);
@@ -164,15 +170,14 @@ public class SlideShowView extends FrameLayout {
 
     /**
      * 填充ViewPager的页面适配器
-     *
      */
-    private class MyPagerAdapter  extends PagerAdapter{
+    private class MyPagerAdapter extends PagerAdapter {
 
         @Override
         public void destroyItem(View container, int position, Object object) {
             // TODO Auto-generated method stub
             //((ViewPag.er)container).removeView((View)object);
-            ((ViewPager)container).removeView(imageViewsList.get(position));
+            ((ViewPager) container).removeView(imageViewsList.get(position));
         }
 
         @Override
@@ -181,7 +186,7 @@ public class SlideShowView extends FrameLayout {
 
             imageLoader.displayImage(imageView.getTag() + "", imageView);
 
-            ((ViewPager)container).addView(imageViewsList.get(position));
+            ((ViewPager) container).addView(imageViewsList.get(position));
             return imageViewsList.get(position);
         }
 
@@ -196,6 +201,7 @@ public class SlideShowView extends FrameLayout {
             // TODO Auto-generated method stub
             return arg0 == arg1;
         }
+
         @Override
         public void restoreState(Parcelable arg0, ClassLoader arg1) {
             // TODO Auto-generated method stub
@@ -221,12 +227,12 @@ public class SlideShowView extends FrameLayout {
         }
 
     }
+
     /**
      * ViewPager的监听器
      * 当ViewPager中页面的状态发生改变时调用
-     *
      */
-    private class MyPageChangeListener implements OnPageChangeListener{
+    private class MyPageChangeListener implements OnPageChangeListener {
 
         boolean isAutoPlay = false;
 
@@ -264,11 +270,11 @@ public class SlideShowView extends FrameLayout {
             // TODO Auto-generated method stub
 
             currentItem = pos;
-            for(int i=0;i < dotViewsList.size();i++){
-                if(i == pos){
-                    ((View)dotViewsList.get(pos)).setBackgroundResource(R.mipmap.point_select);
-                }else {
-                    ((View)dotViewsList.get(i)).setBackgroundResource(R.mipmap.point_normal);
+            for (int i = 0; i < dotViewsList.size(); i++) {
+                if (i == pos) {
+                    ((View) dotViewsList.get(pos)).setBackgroundResource(R.mipmap.point_select);
+                } else {
+                    ((View) dotViewsList.get(i)).setBackgroundResource(R.mipmap.point_normal);
                 }
             }
         }
@@ -276,16 +282,15 @@ public class SlideShowView extends FrameLayout {
     }
 
     /**
-     *执行轮播图切换任务
-     *
+     * 执行轮播图切换任务
      */
-    private class SlideShowTask implements Runnable{
+    private class SlideShowTask implements Runnable {
 
         @Override
         public void run() {
             // TODO Auto-generated method stub
             synchronized (viewPager) {
-                currentItem = (currentItem+1)%imageViewsList.size();
+                currentItem = (currentItem + 1) % imageViewsList.size();
                 handler.obtainMessage().sendToTarget();
             }
         }
@@ -294,7 +299,6 @@ public class SlideShowView extends FrameLayout {
 
     /**
      * 销毁ImageView资源，回收内存
-     *
      */
     private void destoryBitmaps() {
 
@@ -311,7 +315,6 @@ public class SlideShowView extends FrameLayout {
 
     /**
      * 异步任务,获取数据
-     *
      */
     class GetListTask extends AsyncTask<String, Integer, Boolean> {
 
@@ -320,13 +323,8 @@ public class SlideShowView extends FrameLayout {
             try {
                 // 这里一般调用服务端接口获取一组轮播图片，下面是从百度找的几个图片
 
-                imageUrls = //UIHelper.img_urls;
-                        new String[]{
-                        "http://120.55.187.137/img/top_banner.png",
-                        "http://120.55.187.137/img/top_banner.png",
-                        "http://120.55.187.137/img/top_banner.png",
-                        "http://120.55.187.137/img/top_banner.png"
-                };
+                imageUrls = UIHelper.img_urls;
+
                 return true;
             } catch (Exception e) {
                 e.printStackTrace();

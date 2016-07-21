@@ -36,8 +36,9 @@ public class ListViewNearAdapter extends BaseAdapter {
     static class ViewHolder { //自定义控件集合
         public TextView nid;
         public TextView adr;
-        public TextView tel;
+        public TextView order;
         public TextView dis;
+        public TextView state;
         public ImageView img;
         public LinearLayout daohang;
     }
@@ -64,10 +65,11 @@ public class ListViewNearAdapter extends BaseAdapter {
 
             holder.nid = (TextView) convertView.findViewById(R.id.id_text);
             holder.adr = (TextView) convertView.findViewById(R.id.adr_text);
-            holder.tel = (TextView) convertView.findViewById(R.id.tel_text);
+            holder.order = (TextView) convertView.findViewById(R.id.text_order);
             holder.dis = (TextView) convertView.findViewById(R.id.dis_text);
             holder.img = (ImageView) convertView.findViewById(R.id.adr_img);
             holder.daohang=(LinearLayout)convertView.findViewById(R.id.daohang);
+            holder.state=(TextView)convertView.findViewById(R.id.text_state);
 
             convertView.setTag(holder);
         } else {
@@ -76,6 +78,19 @@ public class ListViewNearAdapter extends BaseAdapter {
         final Near near = listItems.get(position);
         holder.nid.setText(near.getMachine_name());
         holder.adr.setText(near.getAddress());
+        if (!StringUtils.isEmpty(near.getIsWashing())){
+            if (near.getIsWashing().equals("1")){
+                holder.state.setText("忙碌");
+                holder.state.setBackgroundColor(context.getResources().getColor(R.color.near_listitem_ml));
+            }else if (near.getIsWashing().equals("0")){
+                holder.state.setText("可用");
+                holder.state.setBackgroundColor(context.getResources().getColor(R.color.near_listitem_ky));
+            }
+        }else {
+            holder.state.setText("忙碌");
+            holder.state.setBackgroundColor(context.getResources().getColor(R.color.near_listitem_ml));
+        }
+        holder.order.setText(near.getOrders()+"");
 //        holder.tel.setText(near.getTel());
         LatLng p1=new LatLng(UIHelper.location.getLatitude(),UIHelper.location.getLongitude());
 //        p1=UIHelper.converter(p1);
@@ -84,6 +99,7 @@ public class ListViewNearAdapter extends BaseAdapter {
         BigDecimal bigDecimal=new BigDecimal(p3);
         holder.dis.setText(bigDecimal.setScale(2,BigDecimal.ROUND_HALF_UP).toString());
 //        holder.img.setImageBitmap();
+
         UIHelper.showLoadImage(holder.img, URLs.IMGURL+near.getMachine_pic(),"");
         holder.daohang.setOnClickListener(new View.OnClickListener() {
             @Override

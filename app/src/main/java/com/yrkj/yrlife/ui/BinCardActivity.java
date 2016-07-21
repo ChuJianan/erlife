@@ -166,6 +166,7 @@ public class BinCardActivity extends BaseActivity {
     private void getCode(final String phone) {
         RequestParams params = new RequestParams(URLs.CODE_GET+phone);
 //        params.addQueryStringParameter("phone", phone);
+        params.addQueryStringParameter("card_Number",cardNub);
         x.http().get(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String s) {
@@ -174,7 +175,6 @@ public class BinCardActivity extends BaseActivity {
                 mLoadingDialog.dismiss();
                 if (result.OK()) {
                     code = result.Result();
-                    finish();
                 } else {
                     code="";
                     timer.onFinish();
