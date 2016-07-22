@@ -38,3 +38,9 @@
 -keep class com.alipay.android.app.IRemoteServiceCallback$Stub{*;}
 -keep class com.alipay.sdk.app.PayTask{ public *;}
 -keep class com.alipay.sdk.app.AuthTask{ public *;}
+
+-keep class com.amap.api.mapcore.**{*;}
+-keep class com.amap.api.maps.**{*;}
+-keep class com.autonavi.amap.mapcore.*{*;}
+-keep class com.amap.api.navi.**{*;}
+-keep class com.autonavi.**{*;}

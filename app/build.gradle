@@ -69,4 +69,6 @@ dependencies {
     compile files('E:/Android/yrlife/libs/bcprov-jdk16-140.jar')
     compile files('E:/Android/yrlife/libs/ips-security-1.0.6.jar')
     compile files('E:/Android/yrlife/libs/ips-commons-codec-1.10.jar')
+    compile files('E:/Android/yrlife/libs/AMap3DMap_3.3.2_AMapNavi_1.9.0_20160713.jar')
+    compile files('E:/Android/yrlife/libs/Msc.jar')
 }

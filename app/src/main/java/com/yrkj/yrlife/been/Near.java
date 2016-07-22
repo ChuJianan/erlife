@@ -68,6 +68,24 @@ public class Near extends Entity {
     private String detailUrl;//详情地址
     private String isWashing;//状态
     private int orders;//订单数
+    private String qrCodeUrl;
+    private String[] machineImages;
+
+    public String[] getMachineImages() {
+        return machineImages;
+    }
+
+    public void setMachineImages(String[] machineImages) {
+        this.machineImages = machineImages;
+    }
+
+    public String getQrCodeUrl() {
+        return qrCodeUrl;
+    }
+
+    public void setQrCodeUrl(String qrCodeUrl) {
+        this.qrCodeUrl = qrCodeUrl;
+    }
 
     public String getIsWashing() {
         return isWashing;

@@ -7,9 +7,21 @@
     >
 
     <include layout="@layout/include_common_header" />
-    <com.yrkj.yrlife.widget.SlideShowView
+    <ScrollView
+        android:id="@+id/scrollView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:scrollbars="none">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/graywhite"
+            android:orientation="vertical">
+    <com.yrkj.yrlife.widget.SlideShowView
+        android:id="@+id/slideshowView"
+        android:layout_width="match_parent"
+        android:layout_height="190dp"
         android:background="@color/white"
         android:adjustViewBounds="true"
         />
@@ -156,12 +168,15 @@
                     android:textColor="@color/near_listitem_adr"
                     android:textSize="@dimen/text_size_15"
                     android:id="@+id/detail_adr"
+                    android:singleLine="true"
+                    android:ellipsize="end"
                     />
             </LinearLayout>
         </LinearLayout>
         <ImageView
+            android:id="@+id/detail_ewm"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="75dp"
             android:src="@mipmap/ic_eweima"
             android:layout_gravity="center"
             android:layout_marginLeft="@dimen/space_1"
@@ -192,6 +207,7 @@
             />
     </LinearLayout>
     <RelativeLayout
+        android:id="@+id/detail_daohang"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/space_1"
@@ -242,6 +258,7 @@
             />
     </LinearLayout>
     <RelativeLayout
+        android:id="@+id/detail_phone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/space_1"
@@ -267,4 +284,6 @@
             android:layout_centerVertical="true"
             />
     </RelativeLayout>
+        </LinearLayout>
+    </ScrollView>
 </LinearLayout>

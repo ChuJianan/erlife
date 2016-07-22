@@ -83,11 +83,8 @@ public class NearActivity extends BaseActivity {
                                     int position, long id) {
                 if (position == 0 || view == mNearFooter) return;
                 Near near=(Near)mNearAdapter.getItem(position);
-                String url=near.getDetailUrl();
-                Intent intent=new Intent(NearActivity.this,NearsBrowserActivity.class);
-                intent.putExtra("url",url);
-                intent.putExtra("title",near.getMachine_name());
-                intent.putExtra("number",near.getMachine_number());
+                Intent intent=new Intent(NearActivity.this,DetailNearActivity.class);
+                intent.putExtra("near",near);
                 startActivity(intent);
 
             }
@@ -163,6 +160,7 @@ public class NearActivity extends BaseActivity {
                 Result result = JsonUtils.fromJson(results, Result.class);
                 if (!result.OK()) {
                     UIHelper.ToastMessage(NearActivity.this, result.Message());
+                    mEmptyView.setText("暂时没有信息");
                 } else if (result.nears.size() > 0) {
                     if (mNearData == null) {
                         mNearData = result.nears;
@@ -184,7 +182,7 @@ public class NearActivity extends BaseActivity {
                         mNearMore.setText(R.string.load_more);
                     }
                 } else {
-                    mEmptyView.setText("暂时没有附近网点");
+                    mEmptyView.setText("暂时没有信息");
                     mNearView.setTag(UIHelper.LISTVIEW_DATA_FULL);
                     mNearMore.setText(R.string.load_full);
                     mNearProgress.setVisibility(View.GONE);

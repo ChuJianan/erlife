@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.amap.api.navi.AMapNavi;
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.utils.DistanceUtil;
 import com.yrkj.yrlife.R;
@@ -81,14 +82,17 @@ public class ListViewNearAdapter extends BaseAdapter {
         if (!StringUtils.isEmpty(near.getIsWashing())){
             if (near.getIsWashing().equals("1")){
                 holder.state.setText("忙碌");
-                holder.state.setBackgroundColor(context.getResources().getColor(R.color.near_listitem_ml));
+                holder.state.setBackgroundResource(R.drawable.textview_border_m);
+//                holder.state.setBackgroundColor(context.getResources().getColor(R.color.near_listitem_ml));
             }else if (near.getIsWashing().equals("0")){
                 holder.state.setText("可用");
-                holder.state.setBackgroundColor(context.getResources().getColor(R.color.near_listitem_ky));
+//                holder.state.setBackgroundColor(context.getResources().getColor(R.color.near_listitem_ky));
+                holder.state.setBackgroundResource(R.drawable.textview_border);
             }
         }else {
             holder.state.setText("忙碌");
-            holder.state.setBackgroundColor(context.getResources().getColor(R.color.near_listitem_ml));
+            holder.state.setBackgroundResource(R.drawable.textview_border_m);
+//            holder.state.setBackgroundColor(context.getResources().getColor(R.color.near_listitem_ml));
         }
         holder.order.setText(near.getOrders()+"");
 //        holder.tel.setText(near.getTel());
@@ -110,7 +114,8 @@ public class ListViewNearAdapter extends BaseAdapter {
                     UIHelper.openGaoDeMap(Double.parseDouble(near.getLat()),Double.parseDouble(near.getLng()),near.getAddress(),context);
                 }else {
 //                    UIHelper.openNavigation(context,p2,near.getMachine_name());
-                    UIHelper.ToastMessage(context,"非常抱歉，您的手机上暂没我们支持的地图导航，请下载百度地图或高德地图");
+//                    UIHelper.ToastMessage(context,"非常抱歉，您的手机上暂没我们支持的地图导航，请下载百度地图或高德地图");
+                    UIHelper.Navi_Local(context,p2);
                 }
             }
         });

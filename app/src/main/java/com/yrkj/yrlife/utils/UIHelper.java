@@ -22,6 +22,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.amap.api.navi.AMapNavi;
 import com.baidu.location.BDLocation;
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.utils.CoordinateConverter;
@@ -32,6 +33,7 @@ import com.yrkj.yrlife.app.AppManager;
 import com.yrkj.yrlife.app.YrApplication;
 import com.yrkj.yrlife.been.Washing_no_card_record;
 import com.yrkj.yrlife.ui.BrowserActivity;
+import com.yrkj.yrlife.ui.GDNaviActivity;
 import com.yrkj.yrlife.ui.LoginActivity;
 import com.yrkj.yrlife.ui.NaviActivity;
 import com.yrkj.yrlife.ui.TestActivity;
@@ -205,6 +207,16 @@ public class UIHelper {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public static void Navi_Local(Context context,LatLng latLng){
+        ProgressDialog mLoadingDialog=progressDialog((Activity) context,"正在规划路径");
+        mLoadingDialog.show();
+        Intent intent=new Intent(context, GDNaviActivity.class);
+        intent.putExtra("latlng",latLng);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        context.startActivity(intent);
+        mLoadingDialog.dismiss();
     }
 
     public static boolean isInstallPackage(String packageName) {
