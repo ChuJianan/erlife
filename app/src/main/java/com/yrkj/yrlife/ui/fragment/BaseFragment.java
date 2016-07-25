@@ -1,6 +1,7 @@
 package com.yrkj.yrlife.ui.fragment;
 
 import com.yrkj.yrlife.app.YrApplication;
+import com.yrkj.yrlife.utils.UIHelper;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -13,6 +14,12 @@ public class BaseFragment extends Fragment {
 	private boolean injected = false;
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		UIHelper.img_urls=new String[]{
+				"http://dwz.cn/3OLhVo",
+				"http://dwz.cn/3OLhVo",
+				"http://dwz.cn/3OLhVo",
+				"http://dwz.cn/3OLhVo"
+		};
 		injected = true;
 		appContext = (YrApplication) getActivity().getApplication();
 		return x.view().inject(this, inflater, container);

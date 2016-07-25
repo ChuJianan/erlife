@@ -109,8 +109,8 @@ public class DetailNearActivity extends BaseActivity {
             UIHelper.openGaoDeMap(Double.parseDouble(near.getLat()), Double.parseDouble(near.getLng()), near.getAddress(), this);
         } else {
 //                    UIHelper.openNavigation(context,p2,near.getMachine_name());
-//            UIHelper.ToastMessage(this, "非常抱歉，您的手机上暂没我们支持的地图导航，请下载百度地图或高德地图");
-            UIHelper.Navi_Local(appContext, p2);
+            UIHelper.ToastMessage(this, "非常抱歉，您的手机上暂没我们支持的地图导航，请下载百度地图或高德地图");
+//            UIHelper.Navi_Local(appContext, p2);
         }
     }
 

@@ -13,9 +13,9 @@ public class URLs extends Entity {
 	public static  String secret_code="";
 //	public static String ImageByte="";
 	public static String IMAGE_FILE_NAME="";
-	public static final String HOST = "http://192.168.1.16:8080/";
+//	public static final String HOST = "http://192.168.1.33:8080/";
 //	public static final String HOST = "http://40057179.nat123.net/";
-//	public static final String HOST = "http://139.129.53.70:88/";
+	public static final String HOST = "http://121.199.45.100/";
 //	public static final String HOST = "http://139.129.53.70/";
 
 	public static final String APP_INIT = HOST+"wmmanager/app/pro1/app1/addMember";		//应用初始化地址

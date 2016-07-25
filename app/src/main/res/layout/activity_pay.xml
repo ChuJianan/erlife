@@ -75,47 +75,6 @@
         android:scaleType="fitXY"
         />
 
-    <RadioGroup
-        android:id="@+id/pay_radio"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:orientation="horizontal"
-        android:gravity="center"
-        android:padding="@dimen/space_8"
-        android:visibility="gone"
-        >
-
-        <RadioButton
-            android:layout_width="140dp"
-            android:layout_height="40dp"
-            android:id="@+id/weixin_radio"
-            android:button="@null"
-            android:background="@drawable/radiobutton_weixin"
-            android:text="微信支付"
-            android:textColor="@color/pay_itemcolor"
-            android:textSize="@dimen/text_size_16"
-            android:checked="true"
-            android:gravity="center"
-            android:paddingLeft="@dimen/space_12"
-            android:layout_marginRight="@dimen/space_10"/>
-
-        <RadioButton
-            android:background="@drawable/radiobutton"
-            android:layout_width="140dp"
-            android:layout_height="40dp"
-            android:button="@null"
-            android:id="@+id/zhifubao_radio"
-            android:text="支付宝支付"
-            android:textColor="@color/pay_itemcolor"
-            android:textSize="@dimen/text_size_16"
-            android:gravity="center"
-            android:paddingLeft="@dimen/space_12"
-            android:layout_marginLeft="@dimen/space_10"
-            android:visibility="gone"
-            />
-    </RadioGroup>
-
     <com.yrkj.yrlife.widget.RadioGroup
         android:id="@+id/money_radio"
         android:layout_width="match_parent"
