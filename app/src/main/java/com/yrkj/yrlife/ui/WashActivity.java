@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.method.DigitsKeyListener;
 import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.View;
@@ -190,6 +191,8 @@ public class WashActivity extends BaseActivity {
     }
 
     private void init() {
+        String digits = "0123456789";
+        wash_machid_edit.setKeyListener(DigitsKeyListener.getInstance(digits));
         preferences = getSharedPreferences("yrlife", MODE_WORLD_READABLE);
         name = preferences.getString("name", "");
         nick_name = preferences.getString("nick_name", "");
@@ -305,7 +308,11 @@ public class WashActivity extends BaseActivity {
         switch (iBtn) {
             case 0://通过编号去查找洗车机
                 mach_id = wash_machid_edit.getText().toString();
-                getWash_record();
+                if (!StringUtils.isEmpty(mach_id)){
+                    getWash_record();
+                }else {
+                    UIHelper.ToastMessage(appContext,"请输入洗车机编号");
+                }
                 break;
             case 2://无卡洗车结算
 

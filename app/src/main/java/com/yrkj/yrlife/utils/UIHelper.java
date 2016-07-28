@@ -154,7 +154,6 @@ public class UIHelper {
 
     public static void openNavigation(Context activity, LatLng p2,String name){
         Intent intent=new Intent(activity, NaviActivity.class);
-
         intent.putExtra("lng",p2);
         intent.putExtra("name",name);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

@@ -25,6 +25,7 @@ import android.widget.Toast;
 
 import com.google.zxing.BarcodeFormat;
 import com.yrkj.yrlife.R;
+import com.yrkj.yrlife.utils.StringUtils;
 import com.yrkj.yrlife.utils.UIHelper;
 import com.zxing.activity.CaptureActivity;
 import com.zxing.camera.CameraManager;
@@ -61,6 +62,7 @@ public class WashsActivity extends BaseActivity implements SurfaceHolder.Callbac
     private static final float BEEP_VOLUME = 0.10f;
     public static final int MY_PERMISSIONS_CAMERA = 1;
     private boolean vibrate;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,7 +73,7 @@ public class WashsActivity extends BaseActivity implements SurfaceHolder.Callbac
         hasSurface = false;
     }
 
-    public void insertDummyContactWrapper(){
+    public void insertDummyContactWrapper() {
         int perssion = ContextCompat.checkSelfPermission(WashsActivity.this,
                 Manifest.permission.CAMERA);
         if (perssion == PackageManager.PERMISSION_GRANTED) {
@@ -127,7 +129,7 @@ public class WashsActivity extends BaseActivity implements SurfaceHolder.Callbac
 
     @Event(R.id.shuru_rl)
     private void shururlEvent(View view) {
-        Intent intent=new Intent(this, WashActivity.class);
+        Intent intent = new Intent(this, WashActivity.class);
         startActivity(intent);
     }
 
@@ -136,10 +138,11 @@ public class WashsActivity extends BaseActivity implements SurfaceHolder.Callbac
         Intent intent = new Intent(this, NearActivity.class);
         startActivity(intent);
     }
+
     @Override
     public void onResume() {
         super.onResume();
-        SurfaceView surfaceView = (SurfaceView)findViewById(R.id.preview_view);
+        SurfaceView surfaceView = (SurfaceView) findViewById(R.id.preview_view);
         SurfaceHolder surfaceHolder = surfaceView.getHolder();
         if (hasSurface) {
             initCamera(surfaceHolder);
@@ -151,7 +154,7 @@ public class WashsActivity extends BaseActivity implements SurfaceHolder.Callbac
         characterSet = null;
 
         playBeep = true;
-        AudioManager audioService = (AudioManager)this.getSystemService(Context.AUDIO_SERVICE);
+        AudioManager audioService = (AudioManager) this.getSystemService(Context.AUDIO_SERVICE);
         if (audioService.getRingerMode() != AudioManager.RINGER_MODE_NORMAL) {
             playBeep = false;
         }
@@ -187,15 +190,22 @@ public class WashsActivity extends BaseActivity implements SurfaceHolder.Callbac
         String resultString = result.getText();
         //FIXME
         if (resultString.equals("")) {
-            Toast.makeText(appContext, "Scan failed!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(appContext, "二维码中没有正确信息", Toast.LENGTH_SHORT).show();
         } else {
-//			System.out.println("Result:"+resultString);
-            Intent resultIntent = new Intent(this,WashActivity.class);
-            Bundle bundle = new Bundle();
-            bundle.putString("result", resultString);
-            resultIntent.putExtras(bundle);
+            if (resultString.length() == 6) {
+                if (StringUtils.isNumber(resultString)) {
+                    Intent resultIntent = new Intent(WashsActivity.this, WashActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("result", resultString);
+                    resultIntent.putExtras(bundle);
 //            getActivity().setResult(getActivity().RESULT_OK, resultIntent);
-            startActivity(resultIntent);
+                    startActivity(resultIntent);
+                } else {
+                    UIHelper.ToastMessage(appContext, "机器编号不正确！");
+                }
+            } else {
+                UIHelper.ToastMessage(appContext, "机器编号不正确！");
+            }
         }
     }
 
@@ -291,7 +301,7 @@ public class WashsActivity extends BaseActivity implements SurfaceHolder.Callbac
 
     /**
      * you should get result like this.
-     * <p/>
+     * <p>
      * String scanResult = data.getExtras().getString("result");
      */
     @Override

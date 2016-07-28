@@ -125,6 +125,18 @@ public class StringUtils
 		}
 		return true;
 	}
+	/**
+	 * 判断字符串是否数值
+	 * @param str
+	 * @return true:是数值 ；false：不是数值
+	 * @author:CJN
+	 */
+	public static boolean isNumber(String str)
+	{
+		Pattern pattern = Pattern.compile("^[0-9]+(.[0-9]*)?$");
+		Matcher match=pattern.matcher(str);
+		return match.matches();
+	}
 	
 	/**
      * URL检查<br>

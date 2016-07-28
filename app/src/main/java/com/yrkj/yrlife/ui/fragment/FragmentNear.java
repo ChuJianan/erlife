@@ -40,6 +40,7 @@ import com.yrkj.yrlife.been.Washing_no_card_record;
 import com.yrkj.yrlife.ui.NearActivity;
 import com.yrkj.yrlife.ui.WashActivity;
 import com.yrkj.yrlife.utils.JsonUtils;
+import com.yrkj.yrlife.utils.StringUtils;
 import com.yrkj.yrlife.utils.UIHelper;
 import com.zxing.activity.CaptureActivity;
 import com.zxing.camera.CameraManager;
@@ -174,15 +175,23 @@ public class FragmentNear extends BaseFragment implements Callback, DecodeHandle
         String resultString = result.getText();
         //FIXME
         if (resultString.equals("")) {
-            Toast.makeText(getContext(), "Scan failed!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "二维码中没有正确信息", Toast.LENGTH_SHORT).show();
         } else {
-//			System.out.println("Result:"+resultString);
-            Intent resultIntent = new Intent(getActivity(), WashActivity.class);
-            Bundle bundle = new Bundle();
-            bundle.putString("result", resultString);
-            resultIntent.putExtras(bundle);
+            if (resultString.length() == 6) {
+                if (StringUtils.isNumber(resultString)) {
+                    Intent resultIntent = new Intent(getActivity(), WashActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("result", resultString);
+                    resultIntent.putExtras(bundle);
 //            getActivity().setResult(getActivity().RESULT_OK, resultIntent);
-            startActivity(resultIntent);
+                    startActivity(resultIntent);
+                } else {
+                    UIHelper.ToastMessage(appContext, "机器编号不正确！");
+                }
+            } else {
+                UIHelper.ToastMessage(appContext, "机器编号不正确！");
+            }
+
         }
     }
 
