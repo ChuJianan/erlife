@@ -35,6 +35,7 @@ import com.yrkj.yrlife.api.ApiClient;
 import com.yrkj.yrlife.app.AppException;
 import com.yrkj.yrlife.app.YrApplication;
 import com.yrkj.yrlife.been.Update;
+import com.yrkj.yrlife.widget.UpdateDialog;
 
 /**
  * 应用程序更新工具包
@@ -104,7 +105,7 @@ public class UpdateManager {
 				break;
 			case DOWN_NOSDCARD:
 				downloadDialog.dismiss();
-				Toast.makeText(mContext, "无法下载安装文件，请检查SD卡是否挂载", 3000).show();
+				Toast.makeText(mContext, "无法下载安装文件，请检查SD卡是否挂载", Toast.LENGTH_SHORT).show();
 				break;
 			}
     	};
@@ -147,9 +148,9 @@ public class UpdateManager {
 				if(msg.what == 1){
 					mUpdate = (Update)msg.obj;
 					if(mUpdate != null){
-						if(curVersionCode < mUpdate.getVersionCode()){
-							apkUrl = mUpdate.getDownloadUrl();
-							updateMsg = mUpdate.getUpdateLog();
+						if(curVersionCode < mUpdate.getVersion_code()){
+							apkUrl = mUpdate.getDownloadurl();
+							updateMsg = mUpdate.getUpdate_log();
 							showNoticeDialog();
 						}else if(isShowMsg){
 							showLatestOrFailDialog(DIALOG_TYPE_LATEST);
@@ -213,40 +214,64 @@ public class UpdateManager {
 	 * 显示版本更新通知对话框
 	 */
 	private void showNoticeDialog(){
-		Builder builder = new Builder(mContext);
-//		builder.setTitle("软件版本更新");
-		final LayoutInflater inflater = LayoutInflater.from(mContext);
-		View v = inflater.inflate(R.layout.update_dialog, null);
-		TextView message= (TextView)v.findViewById(R.id.message);
-		TextView title= (TextView)v.findViewById(R.id.title);
-		TextView date= (TextView)v.findViewById(R.id.date);
-		TextView size= (TextView)v.findViewById(R.id.package_size);
-		TextView code= (TextView)v.findViewById(R.id.code);
+//		Builder builder = new Builder(mContext);
+////		builder.setTitle("软件版本更新");
+//		final LayoutInflater inflater = LayoutInflater.from(mContext);
+//		View v = inflater.inflate(R.layout.update_dialog, null);
+//		TextView message= (TextView)v.findViewById(R.id.message);
+//		TextView title= (TextView)v.findViewById(R.id.titles);
+//		TextView date= (TextView)v.findViewById(R.id.date);
+//		TextView size= (TextView)v.findViewById(R.id.package_size);
+//		TextView code= (TextView)v.findViewById(R.id.code);
+//
+//		title.setText(mUpdate.getTitle());
+//		message.setText(updateMsg);
+//		date.setText(mUpdate.getDate());
+//		size.setText(mUpdate.getPackage_size());
+//		code.setText(mUpdate.getVersionName());
+//
+////		builder.setMessage(updateMsg);
+//		builder.setView(v);
+//		builder.setPositiveButton("下次再说", new OnClickListener() {
+//			@Override
+//			public void onClick(DialogInterface dialog, int which) {
+//				dialog.dismiss();
+//
+//			}
+//		});
+//		builder.setNegativeButton("立即更新", new OnClickListener() {
+//			@Override
+//			public void onClick(DialogInterface dialog, int which) {
+//				dialog.dismiss();
+//				showDownloadDialog();
+//			}
+//		});
+//		noticeDialog = builder.create();
+//		noticeDialog.show();
 
-		title.setText(mUpdate.getTitle());
-		message.setText(updateMsg);
-		date.setText(mUpdate.getDate());
-		size.setText(mUpdate.getPackage_size());
-		code.setText(mUpdate.getVersionCode());
-
-//		builder.setMessage(updateMsg);
-		builder.setView(v);
-		builder.setPositiveButton("下次再说", new OnClickListener() {
-			@Override
+		UpdateDialog.Builder builder = new UpdateDialog.Builder(mContext);
+		builder.setMessage(updateMsg);
+		builder.setTitle(mUpdate.getTitle());
+		builder.setCode(mUpdate.getVersion_name());
+		builder.setDate(mUpdate.getDate());
+		builder.setSize(mUpdate.getPackage_size());
+		builder.setPositiveButton("下次再说", new DialogInterface.OnClickListener() {
 			public void onClick(DialogInterface dialog, int which) {
-				dialog.dismiss();
 
+				dialog.dismiss();
+				//设置你的操作事项
 			}
 		});
-		builder.setNegativeButton("立即更新", new OnClickListener() {
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				dialog.dismiss();
-				showDownloadDialog();
-			}
-		});
-		noticeDialog = builder.create();
-		noticeDialog.show();
+
+		builder.setNegativeButton("立即更新",
+				new android.content.DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog, int which) {
+						dialog.dismiss();
+						showDownloadDialog();
+					}
+				});
+
+		builder.create().show();
 	}
 	
 	/**
@@ -287,12 +312,12 @@ public class UpdateManager {
 		@Override
 		public void run() {
 			try {
-				String apkName = "MeetReader_"+mUpdate.getVersionName()+".apk";
-				String tmpApk = "MeetReader_"+mUpdate.getVersionName()+".tmp";
+				String apkName = "Yrlife_"+mUpdate.getVersion_name()+".apk";
+				String tmpApk = "Yrlife_"+mUpdate.getVersion_name()+".tmp";
 				//判断是否挂载了SD卡
 				String storageState = Environment.getExternalStorageState();		
 				if(storageState.equals(Environment.MEDIA_MOUNTED)){
-					savePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/MeetReader/Update/";
+					savePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/Yrlife/Update/";
 					File file = new File(savePath);
 					if(!file.exists()){
 						file.mkdirs();
@@ -367,7 +392,7 @@ public class UpdateManager {
 	
 	/**
 	* 下载apk
-	* @param url
+	*
 	*/	
 	private void downloadApk(){
 		downLoadThread = new Thread(mdownApkRunnable);
@@ -376,7 +401,6 @@ public class UpdateManager {
 	
 	/**
     * 安装apk
-    * @param url
     */
 	private void installApk(){
 		File apkfile = new File(apkFilePath);

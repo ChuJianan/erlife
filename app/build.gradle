@@ -4,7 +4,7 @@ beta {
     appId = '900021362'
     appKey = 'Qh0b4nJNrrdUVfTu'
     title = "亿人生活测试版1.1.2"
-    desc = '测试gradle'
+    desc = '更改无卡洗车bug'
     secret = 1;
     enable = true;
     autoUpload = false;
@@ -29,8 +29,8 @@ android {
         applicationId "com.yrkj.yrlife"
         minSdkVersion 15
         targetSdkVersion 23
-        versionCode 10
-        versionName "1.1.1"
+        versionCode 11
+        versionName "1.1.2"
         ndk {
             //设置支持的SO库架构
             abiFilters 'armeabi' //, 'x86', 'armeabi-v7a', 'x86_64', 'arm64-v8a'

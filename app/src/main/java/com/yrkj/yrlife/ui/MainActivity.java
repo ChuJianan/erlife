@@ -149,7 +149,7 @@ public class MainActivity extends FragmentActivity {
         }
 
         //检测新版本
-        //  UpdateManager.getUpdateManager().checkAppUpdate(this,false);
+          UpdateManager.getUpdateManager().checkAppUpdate(this,false);
     }
 
     private void isWash() {

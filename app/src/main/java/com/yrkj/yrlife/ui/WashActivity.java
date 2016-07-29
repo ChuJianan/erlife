@@ -112,7 +112,7 @@ public class WashActivity extends BaseActivity {
     boolean isb = true;
     String pay_kind = "1";
     String if_have_useful_coupon;
-    float money ;
+    float money;
     boolean iswash;
 
 
@@ -135,6 +135,7 @@ public class WashActivity extends BaseActivity {
         }
         if (StringUtils.isEmpty(mach_id)) {
             wash_btn.setText("确定");
+            isWash = true;
             iBtn = 0;
             wash_top_l.setVisibility(View.VISIBLE);
             wash_center_l.setVisibility(View.GONE);
@@ -143,6 +144,7 @@ public class WashActivity extends BaseActivity {
             wash_warn_l.setVisibility(View.GONE);
         } else {
             if (iswash) {
+                isWash = false;
                 wash = UIHelper.washing_no_card_record;
                 wash_btn.setText("结算");
                 wash_adr.setText(wash.getAddress());
@@ -183,6 +185,7 @@ public class WashActivity extends BaseActivity {
                 };
                 timer.schedule(task, 5000, 5000);
             } else {
+                isWash = false;
                 mLoadingDialog.show();
                 wash_top_l.setVisibility(View.GONE);
                 getWash_record();
@@ -199,9 +202,9 @@ public class WashActivity extends BaseActivity {
         money = preferences.getFloat("money", 0);
         if_have_useful_coupon = preferences.getString("if_have_useful_coupon", "");
         mLoadingDialog = UIHelper.progressDialog(this, "正在努力加载......");
-        if (money==0&&!if_have_useful_coupon.equals("0")&&!StringUtils.isEmpty(if_have_useful_coupon)){
+        if (money == 0 && !if_have_useful_coupon.equals("0") && !StringUtils.isEmpty(if_have_useful_coupon)) {
             textView28.setText("优惠券金额");
-        }else if (money!=0){
+        } else if (money != 0) {
             textView28.setText("卡内余额");
         }
     }
@@ -307,15 +310,16 @@ public class WashActivity extends BaseActivity {
     private void washbtnEvent(View view) {
         switch (iBtn) {
             case 0://通过编号去查找洗车机
+                isWash = false;
                 mach_id = wash_machid_edit.getText().toString();
-                if (!StringUtils.isEmpty(mach_id)){
+                if (!StringUtils.isEmpty(mach_id)) {
                     getWash_record();
-                }else {
-                    UIHelper.ToastMessage(appContext,"请输入洗车机编号");
+                } else {
+                    UIHelper.ToastMessage(appContext, "请输入洗车机编号");
                 }
                 break;
             case 2://无卡洗车结算
-
+                isWash = false;
 //                mLoadingDialog.show();
                 if (timer != null) {
                     timer.cancel();

@@ -222,6 +222,8 @@
             android:textColor="@color/near_listitem_adr"
             android:textSize="@dimen/text_size_15"
             android:layout_marginLeft="@dimen/space_10"
+            android:layout_marginRight="@dimen/space_15"
+
             android:layout_centerVertical="true"
             android:id="@+id/detail_adrs"
             />

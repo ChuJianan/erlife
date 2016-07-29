@@ -138,8 +138,8 @@ public class MoreActivity extends BaseActivity {
 
     @Event(R.id.update_rl)
     private void updaterl(View view) {
-       // UpdateManager.getUpdateManager().checkAppUpdate(this,false);
-        UIHelper.ToastMessage(appContext,"已是最新版本");
+        UpdateManager.getUpdateManager().checkAppUpdate(this,false);
+//        UIHelper.ToastMessage(appContext,"已是最新版本");
     }
 
     /**

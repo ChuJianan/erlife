@@ -1,6 +1,7 @@
 package com.yrkj.yrlife.been;
 
 import java.io.Serializable;
+import java.util.Date;
 
 
 import com.google.gson.JsonSyntaxException;
@@ -16,14 +17,48 @@ import com.yrkj.yrlife.utils.JsonUtils;
 public class Update implements Serializable{
 	
 	public final static String UTF8 = "UTF-8";
-	
-	private int versionCode;
-	private String versionName;
-	private String downloadUrl;
-	private String updateLog;
+
+	private int version_code;
+	private String version_name;
+	private String downloadurl;
+	private String update_log;
 	private String title;
 	private String date;
+	private String dateStr;
 	private String package_size;
+
+
+	public int getVersion_code() {
+		return version_code;
+	}
+
+	public void setVersion_code(int version_code) {
+		this.version_code = version_code;
+	}
+
+	public String getVersion_name() {
+		return version_name;
+	}
+
+	public void setVersion_name(String version_name) {
+		this.version_name = version_name;
+	}
+
+	public String getDownloadurl() {
+		return downloadurl;
+	}
+
+	public void setDownloadurl(String downloadurl) {
+		this.downloadurl = downloadurl;
+	}
+
+	public String getUpdate_log() {
+		return update_log;
+	}
+
+	public void setUpdate_log(String update_log) {
+		this.update_log = update_log;
+	}
 
 	public String getTitle() {
 		return title;
@@ -41,6 +76,14 @@ public class Update implements Serializable{
 		this.date = date;
 	}
 
+	public String getDateStr() {
+		return dateStr;
+	}
+
+	public void setDateStr(String dateStr) {
+		this.dateStr = dateStr;
+	}
+
 	public String getPackage_size() {
 		return package_size;
 	}
@@ -49,32 +92,6 @@ public class Update implements Serializable{
 		this.package_size = package_size;
 	}
 
-	
-	public int getVersionCode() {
-		return versionCode;
-	}
-	public void setVersionCode(int versionCode) {
-		this.versionCode = versionCode;
-	}
-	public String getVersionName() {
-		return versionName;
-	}
-	public void setVersionName(String versionName) {
-		this.versionName = versionName;
-	}
-	public String getDownloadUrl() {
-		return downloadUrl;
-	}
-	public void setDownloadUrl(String downloadUrl) {
-		this.downloadUrl = downloadUrl;
-	}
-	public String getUpdateLog() {
-		return updateLog;
-	}
-	public void setUpdateLog(String updateLog) {
-		this.updateLog = updateLog;
-	}
-	
 	public static Update parse(String jsonString) throws AppException {
 		Update update = null;
         try {        	

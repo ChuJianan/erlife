@@ -63,5 +63,5 @@ public class URLs extends Entity {
 	public static final String WX_REFRESH_TOKEN="https://api.weixin.qq.com/sns/oauth2/refresh_token?";//获取userinfo appid应用唯一标识 grant_type填refresh_token refresh_token填写通过access_token获取到的refresh_token参数
 
 
-	public static final String UPDATE = "http://192.168.0.102:8080/jfinal_demo/";			//更新地址
+	public static final String UPDATE = "http://192.168.1.33:8080/wmmanager/app/pro1/app3/findLatestVersion";			//更新地址
 }
