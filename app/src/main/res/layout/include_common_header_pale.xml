@@ -3,7 +3,7 @@
     android:id="@+id/title_banner"
     android:layout_width="fill_parent"
     android:layout_height="@dimen/section_title_banner_size"
-    android:background="@mipmap/bg_common_header" >
+    android:background="@color/pale" >
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -15,8 +15,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
-        android:layout_marginTop="@dimen/space_11"
-        android:background="@mipmap/ic_back_cur"
+        android:layout_gravity="center"
+        android:background="@mipmap/ic_back_cur_black"
          />
         <TextView
             android:layout_width="wrap_content"
@@ -61,7 +61,7 @@
             android:gravity="center_vertical"
             android:singleLine="true"
             android:text="亿人生活"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             android:textSize="@dimen/text_size_18" />
     </LinearLayout>
 

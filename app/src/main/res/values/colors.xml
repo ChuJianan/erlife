@@ -95,4 +95,6 @@
     <color name="listitem_green">#ffe3ffc6</color>
     <color name="listitem_greenyellow">#ff87b869</color>
     <color name="listitem_yellow">#fffaffbf</color>
+
+    <color name="pale">#f9f9f9</color>
 </resources>

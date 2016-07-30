@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <include layout="@layout/include_common_header_pale" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@drawable/ic_wash_nub_bg"
+        android:orientation="horizontal"
+        android:layout_marginRight="@dimen/space_30"
+        android:layout_marginLeft="@dimen/space_30"
+        android:layout_marginTop="100dp"
+        >
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/ic_wash_nub"
+            android:layout_gravity="center"
+            android:layout_marginLeft="@dimen/space_15"
+            />
+        <EditText
+            android:id="@+id/wash_nub"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginRight="@dimen/space_15"
+            android:hint="请输入机器编码..."
+            android:background="@color/white"
+            android:layout_gravity="center"
+            android:textSize="@dimen/text_size_16"
+            android:gravity="center|left"
+            android:padding="@dimen/space_5"
+            />
+
+    </LinearLayout>
+    <Button
+        android:id="@+id/wash_btn"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:background="@drawable/ic_bg_btn"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/space_30"
+        android:text="确定"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_size_18"
+        />
+
+</LinearLayout>
