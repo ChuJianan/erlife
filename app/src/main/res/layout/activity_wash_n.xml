@@ -34,6 +34,7 @@
             android:textSize="@dimen/text_size_16"
             android:gravity="center|left"
             android:padding="@dimen/space_5"
+            android:maxLength="6"
             />
 
     </LinearLayout>

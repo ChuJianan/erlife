@@ -13,9 +13,9 @@ public class URLs extends Entity {
 	public static  String secret_code="";
 //	public static String ImageByte="";
 	public static String IMAGE_FILE_NAME="";
-//	public static final String HOST = "http://192.168.1.33:8080/";
+	public static final String HOST = "http://192.168.1.33:8080/";
 //	public static final String HOST = "http://40057179.nat123.net/";
-	public static final String HOST = "http://121.199.45.100/";
+//	public static final String HOST = "http://121.199.45.100/";
 //	public static final String HOST = "http://139.129.53.70/";
 
 	public static final String APP_INIT = HOST+"wmmanager/app/pro1/app1/addMember";		//应用初始化地址
@@ -54,6 +54,7 @@ public class URLs extends Entity {
 	public static final String Code_Check=HOST+"wmmanager/app/pro1/app3/regCheckCode?";//注册验证码验证
 	public static final String IsWashing=HOST+"wmmanager/app/pro1/app1/queryWhichStep?";//是否正在洗车
 	public static final String Vouchers=HOST+"wmmanager/app/pro1/app2/couponList?";
+	public static final String Seach_Machid=HOST+"wmmanager/app/pro1/app1/seachMachine";//验证洗车机编号是否存在
 
 
 

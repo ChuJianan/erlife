@@ -2,17 +2,17 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:state_checked="true" android:state_focused="true"
 
-        android:drawable="@mipmap/ic_pay_check" />
+        android:drawable="@mipmap/ic_pay_check_new" />
 
     <item android:state_checked="false" android:state_focused="true"
 
-        android:drawable="@mipmap/ic_pay_uncheck" />
+        android:drawable="@mipmap/ic_pay_check_new_s" />
 
     <item android:state_checked="false"
 
-        android:drawable="@mipmap/ic_pay_uncheck" />
+        android:drawable="@mipmap/ic_pay_check_new_s" />
 
     <item android:state_checked="true"
 
-        android:drawable="@mipmap/ic_pay_check" />
+        android:drawable="@mipmap/ic_pay_check_new" />
 </selector>

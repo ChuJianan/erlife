@@ -41,12 +41,16 @@
             </LinearLayout>
 
 
-            <ImageView
-                android:layout_width="130dp"
-                android:layout_height="130dp"
-                android:src="@mipmap/ic_wash_top_s"
-                android:layout_marginTop="@dimen/space_25"
-                />
+           <ViewFlipper
+               android:id="@+id/flipper"
+               android:layout_width="130dp"
+               android:layout_height="130dp"
+               android:adjustViewBounds="true"
+               android:layout_marginTop="@dimen/space_25"
+               android:autoStart="true"
+               android:flipInterval="2000"
+               />
+
         </LinearLayout>
 
 

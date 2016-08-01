@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/graywhite"
+    android:orientation="vertical">
+
+    <include layout="@layout/include_common_header_pale" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="109dp"
+                android:layout_marginTop="@dimen/space_8"
+                android:background="@color/white"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentTop="true"
+                    android:layout_gravity="center"
+                    android:layout_toLeftOf="@+id/imageView10"
+                    android:layout_toRightOf="@+id/linearLayout9"
+                    android:layout_toStartOf="@+id/imageView10"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/confirm_wash"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="9.88"
+                        android:textColor="@color/black"
+                        android:textSize="30.88sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/space_8"
+                        android:text="应付金额（元）"
+                        android:textColor="@color/text_confirm"
+                        android:textSize="14.94sp" />
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/imageView10"
+                    android:layout_width="1dp"
+                    android:layout_height="72dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_centerVertical="true"
+                    android:scaleType="fitXY"
+                    android:src="@mipmap/ic_line" />
+
+                <LinearLayout
+                    android:id="@+id/linearLayout9"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentTop="true"
+                    android:layout_toEndOf="@+id/imageView10"
+                    android:layout_toRightOf="@+id/imageView10"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/balance_wash"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="19.88"
+                        android:textColor="@color/black"
+                        android:textSize="30.88sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/space_8"
+                        android:text="账户余额（元）"
+                        android:textColor="@color/text_confirm"
+                        android:textSize="14.94sp" />
+
+                </LinearLayout>
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_22"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/space_15"
+                    android:text="选择支付方式"
+                    android:textColor="@color/text_confirm"
+                    android:textSize="15sp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/space_5"
+                    android:orientation="vertical">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="56dp"
+                        android:background="@color/white">
+
+                        <ImageView
+                            android:id="@+id/imageView11"
+                            android:layout_width="31dp"
+                            android:layout_height="31dp"
+                            android:layout_alignParentLeft="true"
+                            android:layout_alignParentStart="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="29dp"
+                            android:src="@mipmap/ic_wash_balance" />
+
+                        <CheckedTextView
+                            android:id="@+id/pay_balance"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_centerVertical="true"
+                            android:layout_gravity="center"
+                            android:layout_marginLeft="@dimen/space_22"
+                            android:layout_marginRight="@dimen/space_25"
+                            android:layout_toEndOf="@+id/imageView11"
+                            android:layout_toRightOf="@+id/imageView11"
+                            android:drawableRight="@drawable/pay_check"
+                            android:gravity="center"
+                            android:text="余额支付"
+                            android:textSize="16sp" />
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/rl_discount"
+                        android:layout_width="match_parent"
+                        android:layout_height="56dp"
+                        android:layout_marginTop="@dimen/space_1"
+                        android:background="@color/white">
+
+                        <ImageView
+                            android:id="@+id/imageView12"
+                            android:layout_width="31dp"
+                            android:layout_height="31dp"
+                            android:layout_alignParentLeft="true"
+                            android:layout_alignParentStart="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="29dp"
+                            android:src="@mipmap/ic_wash_coupon" />
+
+                        <CheckedTextView
+                            android:id="@+id/pay_coupon"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:layout_centerVertical="true"
+                            android:layout_gravity="center"
+                            android:layout_marginLeft="@dimen/space_22"
+                            android:layout_marginRight="@dimen/space_25"
+                            android:layout_toEndOf="@+id/imageView12"
+                            android:layout_toRightOf="@+id/imageView12"
+                            android:drawableRight="@drawable/pay_check"
+                            android:gravity="center"
+                            android:text="优惠券支付"
+                            android:textSize="16sp" />
+                    </RelativeLayout>
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/wash_pay"
+                android:layout_width="245dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="65dp"
+                android:background="@drawable/ic_bg_btn"
+                android:gravity="center"
+                android:text="确认支付"
+                android:textColor="@color/white"
+                android:textSize="21sp" />
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

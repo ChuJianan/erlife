@@ -41,7 +41,9 @@ public class Result {
     public boolean isOK() {
         return code == 3;
     }
-
+    public boolean isLoadOK() {
+        return code == 4;
+    }
     public String Message() {
         return message;
     }

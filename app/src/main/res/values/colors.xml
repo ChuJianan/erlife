@@ -97,4 +97,5 @@
     <color name="listitem_yellow">#fffaffbf</color>
 
     <color name="pale">#f9f9f9</color>
+    <color name="text_confirm">#999999</color>
 </resources>

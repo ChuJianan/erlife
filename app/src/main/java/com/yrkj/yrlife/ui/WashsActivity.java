@@ -1,6 +1,7 @@
 package com.yrkj.yrlife.ui;
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -25,6 +26,9 @@ import android.widget.Toast;
 
 import com.google.zxing.BarcodeFormat;
 import com.yrkj.yrlife.R;
+import com.yrkj.yrlife.been.Result;
+import com.yrkj.yrlife.been.URLs;
+import com.yrkj.yrlife.utils.JsonUtils;
 import com.yrkj.yrlife.utils.StringUtils;
 import com.yrkj.yrlife.utils.UIHelper;
 import com.zxing.activity.CaptureActivity;
@@ -34,6 +38,8 @@ import com.zxing.decoding.DecodeHandlerInterface;
 import com.zxing.decoding.InactivityTimer;
 import com.zxing.view.ViewfinderView;
 
+import org.xutils.common.Callback;
+import org.xutils.http.RequestParams;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
@@ -62,6 +68,7 @@ public class WashsActivity extends BaseActivity implements SurfaceHolder.Callbac
     private static final float BEEP_VOLUME = 0.10f;
     public static final int MY_PERMISSIONS_CAMERA = 1;
     private boolean vibrate;
+    ProgressDialog mLoadingDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,7 +76,7 @@ public class WashsActivity extends BaseActivity implements SurfaceHolder.Callbac
         x.view().inject(this);
         title.setText("无卡洗车");
         insertDummyContactWrapper();
-
+        mLoadingDialog = UIHelper.progressDialog(this, "正在验证洗车机编号...");
         hasSurface = false;
     }
 
@@ -194,12 +201,8 @@ public class WashsActivity extends BaseActivity implements SurfaceHolder.Callbac
         } else {
             if (resultString.length() == 6) {
                 if (StringUtils.isNumber(resultString)) {
-                    Intent resultIntent = new Intent(WashsActivity.this, WashActivity.class);
-                    Bundle bundle = new Bundle();
-                    bundle.putString("result", resultString);
-                    resultIntent.putExtras(bundle);
-//            getActivity().setResult(getActivity().RESULT_OK, resultIntent);
-                    startActivity(resultIntent);
+                    mLoadingDialog.show();
+                    seach_machid(resultString);
                 } else {
                     UIHelper.ToastMessage(appContext, "机器编号不正确！");
                 }
@@ -207,6 +210,50 @@ public class WashsActivity extends BaseActivity implements SurfaceHolder.Callbac
                 UIHelper.ToastMessage(appContext, "机器编号不正确！");
             }
         }
+    }
+
+    private void seach_machid(final String mach_id) {
+        RequestParams params = new RequestParams(URLs.Seach_Machid);
+        params.addQueryStringParameter("secret_code", URLs.secret_code);
+        params.addQueryStringParameter("machineNum", mach_id);
+        x.http().get(params, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String string) {
+                Result result = JsonUtils.fromJson(string, Result.class);
+                mLoadingDialog.dismiss();
+                if (result.OK()) {
+                    Intent resultIntent = new Intent(WashsActivity.this, WashNnActivity.class);
+                    Bundle bundle = new Bundle();
+//                    bundle.putString("result", resultString);
+                    bundle.putString("wash_nub", mach_id);
+                    resultIntent.putExtras(bundle);
+//            getActivity().setResult(getActivity().RESULT_OK, resultIntent);
+                    startActivity(resultIntent);
+                } else if (result.isOK()){
+                    UIHelper.CenterToastMessage(appContext, result.Message());
+                    Intent intent = new Intent(WashsActivity.this, LoginActivity.class);
+                    startActivity(intent);
+                    finish();
+                }else {
+                    UIHelper.CenterToastMessage(appContext, result.Message());
+                }
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+                UIHelper.ToastMessage(appContext,"取消");
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+                UIHelper.ToastMessage(appContext,ex.getMessage());
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+        });
     }
 
     private void initCamera(SurfaceHolder surfaceHolder) {

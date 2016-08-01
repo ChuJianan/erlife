@@ -356,7 +356,7 @@ public class WashActivity extends BaseActivity {
                     iBtn = 2;
                     wash_pay.setText(result.spend_money() + "");
                 } else {
-                    if (result.isOK()) {
+                    if (result.isLoadOK()) {
                         wash_btn.setText("去评价");
 //                        mLoadingDialog.show();
                         if (timer != null) {
@@ -384,6 +384,11 @@ public class WashActivity extends BaseActivity {
                         editor.putBoolean("isWash", false);
                         //提交修改
                         editor.commit();
+                    }
+                    if (result.isOK()){
+                        Intent intent=new Intent(WashActivity.this,LoginActivity.class);
+                        startActivity(intent);
+                        finish();
                     }
                 }
             }
