@@ -529,7 +529,7 @@ public class MainActivity extends FragmentActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
-                Intent intent = new Intent(MainActivity.this, WashActivity.class);
+                Intent intent = new Intent(MainActivity.this, WashAActivity.class);
                 startActivity(intent);
             }
         });

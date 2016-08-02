@@ -136,7 +136,7 @@ public class WashsActivity extends BaseActivity implements SurfaceHolder.Callbac
 
     @Event(R.id.shuru_rl)
     private void shururlEvent(View view) {
-        Intent intent = new Intent(this, WashActivity.class);
+        Intent intent = new Intent(this, WashNActivity.class);
         startActivity(intent);
     }
 

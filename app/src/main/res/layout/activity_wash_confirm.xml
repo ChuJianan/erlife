@@ -46,7 +46,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/space_8"
-                        android:text="应付金额（元）"
+                        android:text="大约应付金额（元）"
                         android:textColor="@color/text_confirm"
                         android:textSize="14.94sp" />
                 </LinearLayout>

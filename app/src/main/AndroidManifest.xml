@@ -142,7 +142,13 @@
         <activity android:name=".ui.PaySuccessActivity"/>
         <activity android:name=".ui.DiscountActivity"/>
         <activity android:name=".ui.DetailNearActivity"/>
-        <activity android:name=".ui.GDNaviActivity"/>
+        <activity android:name=".ui.WashBillActivity"/>
+        <activity android:name=".ui.WashRateActivity"/>
+        <activity android:name=".ui.WashAActivity"/>
+        <activity android:name=".ui.WashNActivity"/>
+        <activity android:name=".ui.WashNnActivity"/>
+        <activity android:name=".ui.WashConfirmActivity"/>
+        <!--<activity android:name=".ui.GDNaviActivity"/>-->
 
         <activity
             android:name=".ui.NaviActivity"

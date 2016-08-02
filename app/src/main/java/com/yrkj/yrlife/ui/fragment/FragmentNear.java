@@ -1,6 +1,7 @@
 package com.yrkj.yrlife.ui.fragment;
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -37,8 +38,11 @@ import com.yrkj.yrlife.app.AppManager;
 import com.yrkj.yrlife.been.Result;
 import com.yrkj.yrlife.been.URLs;
 import com.yrkj.yrlife.been.Washing_no_card_record;
+import com.yrkj.yrlife.ui.LoginActivity;
 import com.yrkj.yrlife.ui.NearActivity;
 import com.yrkj.yrlife.ui.WashActivity;
+import com.yrkj.yrlife.ui.WashNActivity;
+import com.yrkj.yrlife.ui.WashNnActivity;
 import com.yrkj.yrlife.utils.JsonUtils;
 import com.yrkj.yrlife.utils.StringUtils;
 import com.yrkj.yrlife.utils.UIHelper;
@@ -88,7 +92,7 @@ public class FragmentNear extends BaseFragment implements Callback, DecodeHandle
 
     @ViewInject(R.id.title)
     private TextView title;
-
+    ProgressDialog mLoadingDialog;
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
@@ -102,6 +106,7 @@ public class FragmentNear extends BaseFragment implements Callback, DecodeHandle
         ls.setVisibility(View.GONE);
         hasSurface = false;
         inactivityTimer = new InactivityTimer(getActivity());
+        mLoadingDialog = UIHelper.progressDialog(getActivity(), "正在验证洗车机编号...");
     }
 
     @Event(R.id.kd_rl)
@@ -112,7 +117,7 @@ public class FragmentNear extends BaseFragment implements Callback, DecodeHandle
 
     @Event(R.id.shuru_rl)
     private void shururlEvent(View view) {
-        Intent intent = new Intent(getActivity(), WashActivity.class);
+        Intent intent = new Intent(getActivity(), WashNActivity.class);
         startActivity(intent);
     }
 
@@ -179,12 +184,8 @@ public class FragmentNear extends BaseFragment implements Callback, DecodeHandle
         } else {
             if (resultString.length() == 6) {
                 if (StringUtils.isNumber(resultString)) {
-                    Intent resultIntent = new Intent(getActivity(), WashActivity.class);
-                    Bundle bundle = new Bundle();
-                    bundle.putString("result", resultString);
-                    resultIntent.putExtras(bundle);
-//            getActivity().setResult(getActivity().RESULT_OK, resultIntent);
-                    startActivity(resultIntent);
+                    mLoadingDialog.show();
+                    seach_machid(resultString);
                 } else {
                     UIHelper.ToastMessage(appContext, "机器编号不正确！");
                 }
@@ -193,6 +194,49 @@ public class FragmentNear extends BaseFragment implements Callback, DecodeHandle
             }
 
         }
+    }
+
+    private void seach_machid(final String mach_id) {
+        RequestParams params = new RequestParams(URLs.Seach_Machid);
+        params.addQueryStringParameter("secret_code", URLs.secret_code);
+        params.addQueryStringParameter("machineNum", mach_id);
+        x.http().get(params, new org.xutils.common.Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String string) {
+                Result result = JsonUtils.fromJson(string, Result.class);
+                mLoadingDialog.dismiss();
+                if (result.OK()) {
+                    Intent resultIntent = new Intent(getActivity(), WashNnActivity.class);
+                    Bundle bundle = new Bundle();
+//                    bundle.putString("result", resultString);
+                    bundle.putString("wash_nub", mach_id);
+                    resultIntent.putExtras(bundle);
+//            getActivity().setResult(getActivity().RESULT_OK, resultIntent);
+                    startActivity(resultIntent);
+                } else if (result.isOK()){
+                    UIHelper.CenterToastMessage(appContext, result.Message());
+                    Intent intent = new Intent(getActivity(), LoginActivity.class);
+                    startActivity(intent);
+                }else {
+                    UIHelper.CenterToastMessage(appContext, result.Message());
+                }
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+                UIHelper.ToastMessage(appContext,"取消");
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+                UIHelper.ToastMessage(appContext,ex.getMessage());
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+        });
     }
 
     private void initCamera(SurfaceHolder surfaceHolder) {

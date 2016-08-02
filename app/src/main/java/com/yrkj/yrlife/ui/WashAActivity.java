@@ -22,6 +22,7 @@ import com.yrkj.yrlife.been.Result;
 import com.yrkj.yrlife.been.URLs;
 import com.yrkj.yrlife.been.Washing_no_card_record;
 import com.yrkj.yrlife.utils.JsonUtils;
+import com.yrkj.yrlife.utils.StringUtils;
 import com.yrkj.yrlife.utils.UIHelper;
 
 import org.xutils.common.Callback;
@@ -31,6 +32,7 @@ import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
+import java.math.BigDecimal;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -45,7 +47,8 @@ public class WashAActivity extends BaseActivity {
     TextView title;
     @ViewInject(R.id.flipper)
     ViewFlipper flipper;
-
+    @ViewInject(R.id.wash_machid)
+    TextView wash_machid;
 
     private int[] ids = {R.mipmap.ic_wash_top_g, R.mipmap.ic_wash_top_p, R.mipmap.ic_wash_top_x, R.mipmap.ic_wash_top_xs};
     private int start = 0;
@@ -55,6 +58,7 @@ public class WashAActivity extends BaseActivity {
     private TimerTask task;
     private final Timer timer = new Timer();
     PayConfirm payconfirm;
+    private BigDecimal spend_money;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,7 +72,17 @@ public class WashAActivity extends BaseActivity {
 
     private void init() {
         preferences = getSharedPreferences("yrlife", MODE_WORLD_READABLE);
+        String isWashing = preferences.getString("isWashing", "");
+        if (!StringUtils.isEmpty(isWashing)) {
+            if (isWashing.equals("1")) {
+                wash = UIHelper.washing_no_card_record;
+            } else if (isWashing.equals("0")) {
+
+            }
+        }
+
         mLoadingDialog = UIHelper.progressDialog(WashAActivity.this, "正在请求，请稍后...");
+        wash_machid.setText(wash.getMachine_number());
         //动态倒入 ：设置资源
         for (int i : ids) {
             ImageView imageView = new ImageView(this);
@@ -105,16 +119,22 @@ public class WashAActivity extends BaseActivity {
                 handler.sendMessage(message);
             }
         };
-        timer.schedule(task, 5000, 5000);
+        timer.schedule(task, 0, 5000);
     }
 
     @Event(R.id.wash_finish)
     private void washfinishEvent(View view) {
+        if (timer != null) {
+            timer.cancel();
+        }
         dialog();
     }
 
     @Event(R.id.back)
     private void backEvent(View view) {
+        if (timer != null) {
+            timer.cancel();
+        }
         dialog();
     }
 
@@ -140,22 +160,26 @@ public class WashAActivity extends BaseActivity {
             public void onSuccess(String string) {
                 Result result = JsonUtils.fromJson(string, Result.class);
                 if (result.OK()) {
-                } else {
-                    if (result.isLoadOK()) {
+                    spend_money = result.spend_money();
+                } else if (result.isLoadOK()) {
 //                        mLoadingDialog.show();
-                        if (timer != null) {
-                            timer.cancel();
-                        }
-                        payconfirm = result.payconfirm();
-                        mLoadingDialog.dismiss();
-                        float mon = wash.getTotal_money().floatValue() - payconfirm.getTotalmoney().floatValue();
+                    if (timer != null) {
+                        timer.cancel();
                     }
-                    if (result.isOK()) {
-                        Intent intent = new Intent(WashAActivity.this, LoginActivity.class);
-                        startActivity(intent);
-                        finish();
-                    }
+                    payconfirm = result.payconfirm();
+                    Intent intent = new Intent(WashAActivity.this, WashBillActivity.class);
+                    intent.putExtra("payconfirm", payconfirm);
+                    intent.putExtra("wash", wash);
+                    startActivity(intent);
+                    finish();
+                } else if (result.isOK()) {
+                    Intent intent = new Intent(WashAActivity.this, LoginActivity.class);
+                    startActivity(intent);
+                    finish();
+                } else {
+
                 }
+
             }
 
             @Override
@@ -183,9 +207,9 @@ public class WashAActivity extends BaseActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
-                Intent intent=new Intent(WashAActivity.this,WashConfirmActivity.class);
-                intent.putExtra("payconfirm",payconfirm);
-                intent.putExtra("wash",wash);
+                Intent intent = new Intent(WashAActivity.this, WashConfirmActivity.class);
+                intent.putExtra("spend_money", spend_money);
+                intent.putExtra("wash", wash);
                 startActivity(intent);
                 finish();
             }

@@ -2,6 +2,7 @@ package com.yrkj.yrlife.ui;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -31,21 +32,27 @@ public class WashNnActivity extends BaseActivity {
     TextView title;
     @ViewInject(R.id.wash_machid)
     TextView wash_machid;
+    @ViewInject(R.id.wash_message)
+    TextView wash_message;
 
     String mach_id;
     Washing_no_card_record wash;
     ProgressDialog mLoadingDialog;
+    SharedPreferences preferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         x.view().inject(this);
+        init();
         title.setText("启动机器");
         mach_id = getIntent().getStringExtra("wash_nub");
         wash_machid.setText(mach_id);
     }
-    private void init(){
-        mLoadingDialog= UIHelper.progressDialog(this,"正在启动洗车机，请稍后...");
+
+    private void init() {
+        preferences = getSharedPreferences("yrlife", MODE_WORLD_READABLE);
+        mLoadingDialog = UIHelper.progressDialog(this, "正在启动洗车机，请稍后...");
     }
 
     @Event(R.id.wash_start)
@@ -68,15 +75,24 @@ public class WashNnActivity extends BaseActivity {
                 mLoadingDialog.dismiss();
                 UIHelper.ToastMessage(appContext, result.Message());
                 if (!result.OK()) {
-
-                } else if (result.isOK()){
-                    Intent intent=new Intent(WashNnActivity.this,LoginActivity.class);
+                    wash_message.setText(result.Message());
+                } else if (result.isOK()) {
+                    Intent intent = new Intent(WashNnActivity.this, LoginActivity.class);
                     startActivity(intent);
                     finish();
-                }else {
+                } else {
                     wash = result.washing();
-                    Intent intent=new Intent(WashNnActivity.this,WashAActivity.class);
-                    intent.putExtra("wash",wash);
+                    //实例化Editor对象
+                    SharedPreferences.Editor editor = preferences.edit();
+                    //存入数据
+                    editor.putString("Machine_number", wash.getMachine_number());
+                    editor.putString("belongCode", wash.getBelong());
+                    editor.putBoolean("isWash", true);
+                    editor.putString("wash_gson", JsonUtils.toJson(wash));
+                    //提交修改
+                    editor.commit();
+                    Intent intent = new Intent(WashNnActivity.this, WashAActivity.class);
+                    intent.putExtra("wash", wash);
                     startActivity(intent);
                     finish();
                 }
@@ -84,12 +100,12 @@ public class WashNnActivity extends BaseActivity {
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                UIHelper.ToastMessage(appContext,ex.getMessage());
+                UIHelper.ToastMessage(appContext, ex.getMessage());
             }
 
             @Override
             public void onCancelled(CancelledException cex) {
-                UIHelper.ToastMessage(appContext,"取消");
+                UIHelper.ToastMessage(appContext, "取消");
             }
 
             @Override

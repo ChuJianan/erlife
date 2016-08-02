@@ -44,8 +44,8 @@
     <style name="MyRatingBar" parent="@android:style/Widget.RatingBar">
         <item name="android:progressDrawable">@drawable/food_rating_bar_full</item>
         <item name="android:numStars">5</item>
-        <item name="android:minHeight">20dip</item>
-        <item name="android:maxHeight">20dip</item>
+        <item name="android:minHeight">18dip</item>
+        <item name="android:maxHeight">18dip</item>
     </style>
     <style name="AppSplash" parent="android:Theme">
         <item name="android:windowBackground">@mipmap/index_bg</item>

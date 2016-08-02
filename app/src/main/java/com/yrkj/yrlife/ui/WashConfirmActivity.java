@@ -25,6 +25,8 @@ import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
+import java.math.BigDecimal;
+
 /**
  * 洗车支付
  * Created by cjn on 2016/8/1.
@@ -47,28 +49,64 @@ public class WashConfirmActivity extends BaseActivity {
 
 
     Washing_no_card_record wash;
-    PayConfirm payConfirm;
+    //    PayConfirm payConfirm;
     String if_have_useful_coupon;
     SharedPreferences preferences;
-    String pay_kind = "1";
+    String pay_kind = "";
     ProgressDialog mLoadingDialog;
+    private BigDecimal spend_money;
+    boolean isd = false;
+    boolean isb = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         x.view().inject(this);
         title.setText("订单支付");
-        payConfirm = (PayConfirm) getIntent().getSerializableExtra("payconfirm");
+        spend_money = (BigDecimal) getIntent().getExtras().get("spend_money");
         wash = (Washing_no_card_record) getIntent().getSerializableExtra("wash");
-
+        init();
     }
 
     private void init() {
         mLoadingDialog = UIHelper.progressDialog(WashConfirmActivity.this, "结算中，请稍后...");
-        confirm_wash.setText(payConfirm.getTotalmoney().toString());
+        if (spend_money == null) {
+            confirm_wash.setText("0.00");
+        } else {
+            confirm_wash.setText(spend_money.toString());
+        }
         balance_wash.setText(wash.getTotal_money().toString());
         preferences = getSharedPreferences("yrlife", MODE_WORLD_READABLE);
         if_have_useful_coupon = preferences.getString("if_have_useful_coupon", "");
+
+        pay_balance.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isb) {
+                    pay_balance.setChecked(true);
+                    pay_kind = "0";
+                    isb = false;
+                } else {
+                    pay_balance.setChecked(false);
+                    pay_kind = "";
+                    isb = true;
+                }
+            }
+        });
+        pay_coupon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isd) {
+                    pay_coupon.setChecked(true);
+                    pay_kind = "1";
+                    isd = false;
+                } else {
+                    pay_coupon.setChecked(false);
+                    pay_kind = "";
+                    isd = true;
+                }
+            }
+        });
         if (StringUtils.isEmpty(if_have_useful_coupon)) {
             rl_discount.setVisibility(View.GONE);
         } else {
@@ -79,36 +117,18 @@ public class WashConfirmActivity extends BaseActivity {
                 rl_discount.setVisibility(View.GONE);
             }
         }
-        pay_balance.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (pay_balance.isChecked()) {
-                    pay_kind = "0";
-                } else {
-                    pay_kind = "";
-                }
-            }
-        });
-        pay_coupon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (pay_coupon.isChecked()) {
-                    pay_kind = "1";
-                } else {
-                    pay_kind = "";
-                }
-            }
-        });
     }
+
     @Event(R.id.wash_pay)
-    private void washpayEvent(View view){
+    private void washpayEvent(View view) {
         if (StringUtils.isEmpty(pay_kind)) {
             UIHelper.ToastMessage(appContext, "请选择付款方式");
-        }else {
+        } else {
             mLoadingDialog.show();
             payconfirm();
         }
     }
+
     private void payconfirm() {
         RequestParams params = new RequestParams(URLs.PAYCONFIRM);
         params.setConnectTimeout(1000 * 30);
@@ -133,16 +153,16 @@ public class WashConfirmActivity extends BaseActivity {
                     editor.putBoolean("isWash", false);
                     //提交修改
                     editor.commit();
-                    Intent intent=new Intent(WashConfirmActivity.this,WashBillActivity.class);
-                    intent.putExtra("payconfirm",payconfirm);
-                    intent.putExtra("wash",wash);
+                    Intent intent = new Intent(WashConfirmActivity.this, WashBillActivity.class);
+                    intent.putExtra("payconfirm", payconfirm);
+                    intent.putExtra("wash", wash);
                     startActivity(intent);
                     finish();
-                } else if (result.isOK()){
-                    Intent intent=new Intent(WashConfirmActivity.this,LoginActivity.class);
+                } else if (result.isOK()) {
+                    Intent intent = new Intent(WashConfirmActivity.this, LoginActivity.class);
                     startActivity(intent);
                     finish();
-                }else {
+                } else {
 
                 }
             }

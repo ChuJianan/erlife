@@ -73,7 +73,7 @@
                 android:id="@+id/wash_message"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="请点击开始洗车"
+                android:text="请点击结束洗车"
                 android:layout_marginBottom="@dimen/space_25"
                 android:textSize="12sp"
                 android:textColor="@color/near_listitem_adr"
