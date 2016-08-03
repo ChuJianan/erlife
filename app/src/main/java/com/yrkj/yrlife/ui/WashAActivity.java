@@ -65,7 +65,6 @@ public class WashAActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         x.view().inject(this);
         title.setText("正在洗车");
-        wash = (Washing_no_card_record) getIntent().getSerializableExtra("wash");
         init();
         load204Info();
     }
@@ -77,7 +76,7 @@ public class WashAActivity extends BaseActivity {
             if (isWashing.equals("1")) {
                 wash = UIHelper.washing_no_card_record;
             } else if (isWashing.equals("0")) {
-
+                wash = (Washing_no_card_record) getIntent().getSerializableExtra("wash");
             }
         }
 

@@ -73,6 +73,7 @@
                 android:layout_height="39dp"
                 android:layout_gravity="center"
                 android:layout_marginTop="@dimen/space_8"
+                android:rating="1"
                 android:stepSize="1" />
 
             <com.yrkj.yrlife.widget.MyGridView
@@ -80,15 +81,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:cacheColorHint="@color/white"
-                android:columnWidth="90dp"
+                android:columnWidth="80dp"
                 android:gravity="center"
                 android:layout_gravity="center"
-                android:horizontalSpacing="@dimen/space_16"
+                android:horizontalSpacing="@dimen/space_4"
                 android:numColumns="3"
                 android:padding="@dimen/space_5"
                 android:scrollbars="none"
-                android:stretchMode="columnWidth"
-                android:verticalSpacing="@dimen/space_14"
+                android:stretchMode="spacingWidthUniform"
+                android:verticalSpacing="@dimen/space_8"
                 android:layout_marginTop="@dimen/space_8"
                 />
 
@@ -117,19 +118,20 @@
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
+                    android:layout_height="100dp">
 
                     <EditText
                         android:id="@+id/rate_edit"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/space_18"
-                        android:background="@color/white"
+                        android:background="@drawable/edit_frame_color"
                         android:gravity="left|top"
                         android:hint="请填写您的评价"
                         android:inputType="textMultiLine"
                         android:minLines="5"
                         android:textColor="@color/black"
+                        android:padding="@dimen/space_3"
                         android:textSize="@dimen/text_size_14" />
 
                     <TextView
@@ -141,6 +143,7 @@
                         android:layout_alignRight="@+id/rate_edit"
                         android:padding="@dimen/space_3"
                         android:text="100/100"
+                        android:visibility="gone"
                         android:textSize="@dimen/text_size_10" />
 
                 </RelativeLayout>
@@ -157,14 +160,14 @@
             <Button
                 android:id="@+id/rate_btn"
                 android:layout_width="200dp"
-                android:layout_height="50dp"
+                android:layout_height="46dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="30dp"
                 android:background="@drawable/ic_bg_btn"
                 android:gravity="center"
                 android:text="提交评价"
                 android:textColor="@color/white"
-                android:textSize="@dimen/text_size_21" />
+                android:textSize="@dimen/text_size_19" />
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

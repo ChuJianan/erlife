@@ -2,11 +2,14 @@ package com.yrkj.yrlife.ui;
 
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -59,7 +62,7 @@ public class WashRateActivity extends BaseActivity {
     private List<Integer> positions = new ArrayList<>();
     private String[] iconName = {"操作简单", "价格便宜", "洗车干净", "节省时间",
             "有点时尚", "地点好找", "很有乐趣", "科技智能", "功能强大"};
-    float rating = 0;
+    float rating = 1;
     int max;
 
     @Override
@@ -93,6 +96,7 @@ public class WashRateActivity extends BaseActivity {
                     isBtn = true;
                 }
                 if (isBtn) {
+                    content = rate_edit.getText().toString()+",";
                     positions.add(position);
                     ((TextView) (myGridView.getAdapter().getView(position, view, parent)).findViewById(R.id.rate_item_btn)).
                             setTextColor(getResources().getColor(R.color.paycolor));
@@ -101,32 +105,47 @@ public class WashRateActivity extends BaseActivity {
                             .setBackgroundDrawable(getResources().getDrawable(R.drawable.ic_wash_rate_label));
                     content = content + iconName[position];
                     rate_edit.setText(content);
-                    content = content + ",";
                 }
 
             }
         });
         rate.setOnRatingBarChangeListener(new RatingBarChangeListenerImpl());
         rate_edit.addTextChangedListener(mTextWatcher);
+        rate.setRating(1);
         max = rate.getMax();
         rating = rate.getRating();
         rate_btn.setText("提交评价");
         rate_btn.setTextColor(getResources().getColor(R.color.white));
     }
+
+    @Override
+    public boolean dispatchKeyEvent(KeyEvent event) {
+        int i=0;
+        if (event.getKeyCode() == KeyEvent.KEYCODE_DEL) {
+            i++;
+            if (i==4){
+                positions.remove(positions.size()-1);
+                return true;
+            }
+        }
+        return super.dispatchKeyEvent(event);
+    }
+
     @Event(R.id.rate_btn)
-    private void ratebtnEvent(View view){
+    private void ratebtnEvent(View view) {
         mLoadingDialog.show();
-        content=rate_edit.getText().toString();
+        content = rate_edit.getText().toString();
         setRate(content);
     }
+
     private void setRate(String content) {
         RequestParams params = new RequestParams(URLs.RATE);
-        params.setCharset(URLs.UTF_8);
-        params.addQueryStringParameter("starNum", (int) rating + "");
-        params.addQueryStringParameter("content", content);
-        params.addQueryStringParameter("memberId", wash.getMember_id() + "");
-        params.addQueryStringParameter("machineNo", wash.getMachine_number());
-        params.addQueryStringParameter("secret_code", URLs.secret_code);
+//        params.setCharset(URLs.UTF_8);
+        params.addBodyParameter("starNum", (int) rating + "");
+        params.addBodyParameter("content", content);
+        params.addBodyParameter("memberId", wash.getMember_id() + "");
+        params.addBodyParameter("machineNo", wash.getMachine_number());
+        params.addBodyParameter("secret_code", URLs.secret_code);
         x.http().post(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String string) {

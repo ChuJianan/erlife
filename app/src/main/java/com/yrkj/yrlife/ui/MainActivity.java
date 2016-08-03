@@ -561,6 +561,7 @@ public class MainActivity extends FragmentActivity {
                     SharedPreferences.Editor editor = preferences.edit();
                     //存入数据
                     editor.putFloat("money", mon);
+                    editor.putString("isWashing","0");
                     editor.putBoolean("isWash", false);
                     //提交修改
                     editor.commit();
@@ -609,7 +610,7 @@ public class MainActivity extends FragmentActivity {
         window.setAttributes(wl);
         // 设置点击外围解散
 //        dialog.setCanceledOnTouchOutside(true);
-        dialog.show();
+
 
         view.findViewById(R.id.pay_balance).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -671,5 +672,7 @@ public class MainActivity extends FragmentActivity {
             checkedTextView.setChecked(true);
             pay_kind = "1";
         }
+        dialog.setCancelable(false);
+        dialog.show();
     }
 }

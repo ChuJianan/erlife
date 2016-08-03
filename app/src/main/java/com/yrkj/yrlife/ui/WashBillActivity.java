@@ -3,6 +3,7 @@ package com.yrkj.yrlife.ui;
 import android.content.Intent;
 import android.media.TimedText;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -15,6 +16,9 @@ import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
+
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
 
 /**
  * Created by cjn on 2016/8/1.
@@ -32,6 +36,8 @@ public class WashBillActivity extends BaseActivity {
     private TextView wash_machid_dis;
     @ViewInject(R.id.wash_date)
     private TextView wash_date;
+    @ViewInject(R.id.wash_adr_dis)
+    private TextView wash_adr_dis;
     @ViewInject(R.id.wash_rate)
     Button wash_rate;
 
@@ -51,6 +57,7 @@ public class WashBillActivity extends BaseActivity {
 
     private void init() {
         wash_pay_dis.setText(payConfirm.getTotalmoney().toString());
+        wash_adr_dis.setText(payConfirm.getAddress());
         wash_order_no.setText(payConfirm.getBelong());
         wash_machid_dis.setText(payConfirm.getMachinenumber());
         wash_date.setText(payConfirm.getTime());

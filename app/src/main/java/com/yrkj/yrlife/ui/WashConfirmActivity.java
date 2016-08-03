@@ -150,6 +150,7 @@ public class WashConfirmActivity extends BaseActivity {
                         //存入数据
                         editor.putFloat("money", mon);
                     }
+                    editor.putString("isWashing","0");
                     editor.putBoolean("isWash", false);
                     //提交修改
                     editor.commit();
