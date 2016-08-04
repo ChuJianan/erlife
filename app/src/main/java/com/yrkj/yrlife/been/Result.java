@@ -13,6 +13,7 @@ import java.util.List;
 public class Result {
     public List<Near> nears = Collections.emptyList();
     public List<Consumer> consumers = Collections.emptyList();
+    public List<Bill> bill = Collections.emptyList();
     public List<Pay> pays = Collections.emptyList();
     public List<News> news = Collections.emptyList();
     public List<MyIdear> myFeedBackList = Collections.emptyList();

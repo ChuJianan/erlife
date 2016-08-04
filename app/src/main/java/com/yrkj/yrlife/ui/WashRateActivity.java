@@ -96,14 +96,14 @@ public class WashRateActivity extends BaseActivity {
                     isBtn = true;
                 }
                 if (isBtn) {
-                    content = rate_edit.getText().toString()+",";
+                    content = rate_edit.getText().toString();
                     positions.add(position);
                     ((TextView) (myGridView.getAdapter().getView(position, view, parent)).findViewById(R.id.rate_item_btn)).
                             setTextColor(getResources().getColor(R.color.paycolor));
                     ((TextView) (myGridView.getAdapter().getView(position, view, parent)).findViewById(R.id.rate_item_btn)).setClickable(false);
                     ((TextView) (myGridView.getAdapter().getView(position, view, parent)).findViewById(R.id.rate_item_btn))
                             .setBackgroundDrawable(getResources().getDrawable(R.drawable.ic_wash_rate_label));
-                    content = content + iconName[position];
+                    content = content + iconName[position] + ",";
                     rate_edit.setText(content);
                 }
 
@@ -120,11 +120,11 @@ public class WashRateActivity extends BaseActivity {
 
     @Override
     public boolean dispatchKeyEvent(KeyEvent event) {
-        int i=0;
+        int i = 0;
         if (event.getKeyCode() == KeyEvent.KEYCODE_DEL) {
             i++;
-            if (i==4){
-                positions.remove(positions.size()-1);
+            if (i == 4) {
+                positions.remove(positions.size() - 1);
                 return true;
             }
         }

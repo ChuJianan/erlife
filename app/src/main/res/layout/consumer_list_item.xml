@@ -23,7 +23,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="中石化第28加油站 洗车机"
-                android:textColor="#aaabab"
+                android:textColor="@color/near_listitem_name"
                 android:textSize="@dimen/text_size_16" />
 
             <TextView

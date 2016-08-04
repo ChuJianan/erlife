@@ -10,6 +10,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.yrkj.yrlife.R;
+import com.yrkj.yrlife.app.AppManager;
 import com.yrkj.yrlife.been.PayConfirm;
 import com.yrkj.yrlife.been.Result;
 import com.yrkj.yrlife.been.URLs;
@@ -114,6 +115,8 @@ public class WashConfirmActivity extends BaseActivity {
                 rl_discount.setVisibility(View.VISIBLE);
                 pay_coupon.setChecked(true);
             } else if (if_have_useful_coupon.equals("0")) {
+                pay_balance.setChecked(true);
+                pay_kind="0";
                 rl_discount.setVisibility(View.GONE);
             }
         }
@@ -131,7 +134,7 @@ public class WashConfirmActivity extends BaseActivity {
 
     private void payconfirm() {
         RequestParams params = new RequestParams(URLs.PAYCONFIRM);
-        params.setConnectTimeout(1000 * 30);
+        params.setConnectTimeout(1000 * 35);
         params.addQueryStringParameter("machineNo", wash.getMachine_number());
         params.addQueryStringParameter("belongCode", wash.getBelong());
         params.addQueryStringParameter("secret_code", URLs.secret_code);
@@ -158,10 +161,12 @@ public class WashConfirmActivity extends BaseActivity {
                     intent.putExtra("payconfirm", payconfirm);
                     intent.putExtra("wash", wash);
                     startActivity(intent);
+                    AppManager.getAppManager().finishActivity(WashAActivity.class);
                     finish();
                 } else if (result.isOK()) {
                     Intent intent = new Intent(WashConfirmActivity.this, LoginActivity.class);
                     startActivity(intent);
+                    AppManager.getAppManager().finishActivity(WashAActivity.class);
                     finish();
                 } else {
 

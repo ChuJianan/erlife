@@ -127,7 +127,7 @@ public class AppStart extends AppCompatActivity {
                             //提交修改
                             editor.putString("user", jsonObject.getString("result"));
                             editor.commit();
-                        } else if (msg.arg1 == 2) {
+                        } else if (msg.arg1 == 3) {
                             URLs.secret_code = "";
                             //实例化Editor对象
                             SharedPreferences.Editor editor = preferences.edit();

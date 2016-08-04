@@ -39,6 +39,7 @@ public class URLs extends Entity {
 	public static final String MyIDEAR_SET=HOST+"wmmanager/app/pro1/app3/myFeedback?";//我的意见反馈
 	public static final String RECORD=HOST+"wmmanager/app/pro1/app3/chargeRecord?";//充值记录
 	public static final String CONSUME=HOST+"wmmanager/app/pro1/app3/dealRecord?";//消费记录
+	public static final String FindBill=HOST+"wmmanager/app/pro1/app3/findBill";//消费记录
 	public static final String PAY=HOST+"wmmanager/app/pro1/app2/wxCharge?";//充值
 	public static final String ALI_PAY=HOST+"wmmanager/app/pro1/app2/aliPayCharge?";//充值
 	public static final String IPSPAY=HOST+"wmmanager/app/pro1/app2/ipsPayCharge?";//充值

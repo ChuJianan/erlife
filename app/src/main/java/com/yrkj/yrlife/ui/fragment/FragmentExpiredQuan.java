@@ -1,5 +1,6 @@
 package com.yrkj.yrlife.ui.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
@@ -11,6 +12,7 @@ import com.yrkj.yrlife.adapter.ListViewVoucherAdapter;
 import com.yrkj.yrlife.been.Result;
 import com.yrkj.yrlife.been.URLs;
 import com.yrkj.yrlife.been.Vouchers;
+import com.yrkj.yrlife.ui.LoginActivity;
 import com.yrkj.yrlife.utils.JsonUtils;
 import com.yrkj.yrlife.utils.UIHelper;
 
@@ -100,7 +102,11 @@ public class FragmentExpiredQuan extends BaseFragment {
                     UIHelper.ToastMessage(getActivity(),result.Message());
                     mEmptyView.setText("这里什么都没有");
                     mEmptyView.setVisibility(View.VISIBLE);
-                }else if (result.couponList.size()>0){
+                }else if (result.isOK()){
+                    Intent intent = new Intent(getActivity(), LoginActivity.class);
+                    startActivity(intent);
+                    getActivity().finish();
+                } else if (result.couponList.size()>0){
                     if (ldata==null){
                         ldata=result.couponList;
                         mVoucherAdapter.setVoucher(ldata);

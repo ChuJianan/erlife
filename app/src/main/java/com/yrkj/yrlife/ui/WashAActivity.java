@@ -7,11 +7,13 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Message;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
@@ -23,6 +25,8 @@ import com.yrkj.yrlife.been.URLs;
 import com.yrkj.yrlife.been.Washing_no_card_record;
 import com.yrkj.yrlife.utils.JsonUtils;
 import com.yrkj.yrlife.utils.StringUtils;
+import com.yrkj.yrlife.utils.TimeCount;
+import com.yrkj.yrlife.utils.TimeCountImageView;
 import com.yrkj.yrlife.utils.UIHelper;
 
 import org.xutils.common.Callback;
@@ -49,6 +53,8 @@ public class WashAActivity extends BaseActivity {
     ViewFlipper flipper;
     @ViewInject(R.id.wash_machid)
     TextView wash_machid;
+    @ViewInject(R.id.wash_finish)
+    ImageView wash_finish;
 
     private int[] ids = {R.mipmap.ic_wash_top_g, R.mipmap.ic_wash_top_p, R.mipmap.ic_wash_top_x, R.mipmap.ic_wash_top_xs};
     private int start = 0;
@@ -59,6 +65,7 @@ public class WashAActivity extends BaseActivity {
     private final Timer timer = new Timer();
     PayConfirm payconfirm;
     private BigDecimal spend_money;
+    private CountDownTimer timers;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +73,8 @@ public class WashAActivity extends BaseActivity {
         x.view().inject(this);
         title.setText("正在洗车");
         init();
+        timers = new TimeCountImageView(10000, 1000, wash_finish);
+        timers.start();
         load204Info();
     }
 
@@ -210,7 +219,6 @@ public class WashAActivity extends BaseActivity {
                 intent.putExtra("spend_money", spend_money);
                 intent.putExtra("wash", wash);
                 startActivity(intent);
-                finish();
             }
         });
         builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {

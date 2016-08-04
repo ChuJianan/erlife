@@ -20,6 +20,7 @@ import com.yrkj.yrlife.ui.BinCardActivity;
 import com.yrkj.yrlife.ui.ConsumerActivity;
 import com.yrkj.yrlife.ui.CzlistActivity;
 import com.yrkj.yrlife.ui.DiscountActivity;
+import com.yrkj.yrlife.ui.FindBillActivity;
 import com.yrkj.yrlife.ui.LoginActivity;
 import com.yrkj.yrlife.ui.MeActivity;
 import com.yrkj.yrlife.ui.MoreActivity;
@@ -50,22 +51,19 @@ public class FragmentMe extends BaseFragment {
     RelativeLayout relativeLayout;
     @ViewInject(R.id.me_img)
     private ImageView meImg;
-    @ViewInject(R.id.name_textView)
+    @ViewInject(R.id.name_text)
     private TextView nameText;
-    @ViewInject(R.id.phone_textView)
-    private TextView phoneText;
-    @ViewInject(R.id.textView2)
-    private TextView textView2;
-    @ViewInject(R.id.login_textView)
-    private TextView login_textView;
     @ViewInject(R.id.money_text)
     private TextView money_textView;
     @ViewInject(R.id.jifen_text)
     private TextView jifen_textView;
-    @ViewInject(R.id.textView13)
-    private TextView textView13;
-    @ViewInject(R.id.textView3)
-    private TextView textView3;
+    @ViewInject(R.id.title)
+    TextView title;
+    @ViewInject(R.id.balance_ll)
+    LinearLayout balance_ll;
+    @ViewInject(R.id.count_ll)
+    LinearLayout count_ll;
+
 
 
     @Override
@@ -75,6 +73,7 @@ public class FragmentMe extends BaseFragment {
         yrApplication = (YrApplication) getActivity().getApplication();
         ls = (LinearLayout) getActivity().findViewById(R.id.ssss);
         ls.setVisibility(View.GONE);
+        title.setText("我的");
         if (StringUtils.isEmpty(URLs.secret_code)) {
             UIHelper.openLogin(getActivity());
         }
@@ -87,12 +86,7 @@ public class FragmentMe extends BaseFragment {
 //            UIHelper.openLogin(getActivity(),false);
 //        }
         if (!StringUtils.isEmpty(URLs.secret_code)) {
-            login_textView.setVisibility(View.GONE);
             nameText.setVisibility(View.VISIBLE);
-            phoneText.setVisibility(View.VISIBLE);
-            textView2.setVisibility(View.VISIBLE);
-            textView3.setVisibility(View.VISIBLE);
-            textView13.setVisibility(View.VISIBLE);
             money_textView.setVisibility(View.VISIBLE);
             jifen_textView.setVisibility(View.VISIBLE);
             SharedPreferences preferences = yrApplication.getSharedPreferences("yrlife", yrApplication.MODE_WORLD_READABLE);
@@ -109,11 +103,7 @@ public class FragmentMe extends BaseFragment {
             } else if (nick_name != "" && nick_name != null) {
                 nameText.setText(nick_name);
             }
-            if (phone != "" && !phone.equals("")) {
-                phoneText.setText(phone);
-            } else {
-                phoneText.setText("");
-            }
+
             if (StringUtils.isEmpty(head_image)) {
                 if (StringUtils.isEmpty(wx_head_image)) {
                     if (faceimg != "" && !faceimg.equals("")) {
@@ -133,20 +123,17 @@ public class FragmentMe extends BaseFragment {
             money_textView.setText(money + "");
             jifen_textView.setText(jifen + "");
         } else {
-            meImg.setImageResource(R.mipmap.ic_launcher);
-            nameText.setVisibility(View.GONE);
-            textView2.setVisibility(View.GONE);
-            phoneText.setVisibility(View.GONE);
-            textView3.setVisibility(View.GONE);
-            textView13.setVisibility(View.GONE);
+            meImg.setImageResource(R.mipmap.ic_me_pic);
+            nameText.setText("登录/注册");
             money_textView.setVisibility(View.GONE);
             jifen_textView.setVisibility(View.GONE);
-            login_textView.setVisibility(View.VISIBLE);
+            balance_ll.setVisibility(View.GONE);
+            count_ll.setVisibility(View.GONE);
         }
 
     }
 
-    @Event(R.id.me_rl)
+    @Event(R.id.name_text)
     private void merlEvent(View view) {
         if (URLs.secret_code == "") {
             UIHelper.openLogin(getActivity());
@@ -202,18 +189,18 @@ public class FragmentMe extends BaseFragment {
      *
      * @param view
      */
-    @Event(R.id.pay_rl)
-    private void onPayrlClick(View view) {
-        if (StringUtils.isEmpty(URLs.secret_code)) {
-            UIHelper.openLogin(getActivity());
-        } else {
-            Intent intent = new Intent(getActivity(), CzlistActivity.class);
-            startActivity(intent);
-        }
-    }
+//    @Event(R.id.pay_rl)
+//    private void onPayrlClick(View view) {
+//        if (StringUtils.isEmpty(URLs.secret_code)) {
+//            UIHelper.openLogin(getActivity());
+//        } else {
+//            Intent intent = new Intent(getActivity(), CzlistActivity.class);
+//            startActivity(intent);
+//        }
+//    }
 
     /**
-     * 消费记录
+     * 账单记录
      *
      * @param view
      */
@@ -222,7 +209,7 @@ public class FragmentMe extends BaseFragment {
         if (StringUtils.isEmpty(URLs.secret_code)) {
             UIHelper.openLogin(getActivity());
         } else {
-            Intent intent = new Intent(getActivity(), ConsumerActivity.class);
+            Intent intent = new Intent(getActivity(), FindBillActivity.class);
             startActivity(intent);
         }
     }
@@ -249,7 +236,7 @@ public class FragmentMe extends BaseFragment {
      *
      * @param view
      */
-    @Event(R.id.set_rl)
+    @Event(R.id.refresh)
     private void setrlEvent(View view) {
         Intent intent = new Intent(getActivity(), MoreActivity.class);
         startActivity(intent);
@@ -260,11 +247,11 @@ public class FragmentMe extends BaseFragment {
      *
      * @param view
      */
-    @Event(R.id.more_rl)
-    private void onMorerlClick(View view) {
-        Intent intent = new Intent(getActivity(), MoreActivity.class);
-        startActivity(intent);
-    }
+//    @Event(R.id.more_rl)
+//    private void onMorerlClick(View view) {
+//        Intent intent = new Intent(getActivity(), MoreActivity.class);
+//        startActivity(intent);
+//    }
 
 
 }

@@ -23,6 +23,7 @@ import com.yrkj.yrlife.ui.AdrListActivity;
 import com.yrkj.yrlife.ui.BinCardActivity;
 import com.yrkj.yrlife.ui.ConsumerActivity;
 import com.yrkj.yrlife.ui.DiscountActivity;
+import com.yrkj.yrlife.ui.FindBillActivity;
 import com.yrkj.yrlife.ui.MycarActivity;
 import com.yrkj.yrlife.ui.NearActivity;
 import com.yrkj.yrlife.ui.PayActivity;
@@ -175,7 +176,7 @@ public class FragmentIndex extends BaseFragment {
                         if (URLs.secret_code == "") {
                             UIHelper.openLogin(getActivity());
                         } else {
-                            intent = new Intent(getActivity(), ConsumerActivity.class);
+                            intent = new Intent(getActivity(), FindBillActivity.class);
                             startActivity(intent);
                         }
                         break;
