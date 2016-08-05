@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     android:gravity="center"
-    android:padding="@dimen/space_10"
+    android:padding="@dimen/space_5"
     >
 
     <ImageView
@@ -12,14 +12,14 @@
         android:layout_height="50dp"
         android:id="@+id/icon"
         android:gravity="center"
-        android:src="@mipmap/ic_cards"/>
+        android:src="@mipmap/icon_chongzhi"/>
 
     <TextView
         android:paddingTop="@dimen/space_6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="卡包"
-        android:textSize="@dimen/text_size_14"
+        android:textSize="@dimen/text_size_12"
         android:gravity="center"
         android:textColor="@color/black"
         android:id="@+id/name" />

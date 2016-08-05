@@ -24,8 +24,10 @@ public class GridViewShopAdapter extends BaseAdapter {
     private Context mContext;
     private List<Map<String, Object>> data_list=new ArrayList<Map<String,Object>>();
     private int[] icon = {R.mipmap.xhtz, R.mipmap.jhq,
+            R.mipmap.xcjl, R.mipmap.czbx,R.mipmap.xcq, R.mipmap.aqzy,R.mipmap.xhtz, R.mipmap.jhq,
             R.mipmap.xcjl, R.mipmap.czbx,R.mipmap.xcq, R.mipmap.aqzy};
     private String[] iconName = { "汽车内饰洗护套装", "负离子空气净化器", "高清行车记录仪", "15L大容量车载冰箱",
+            "车用12V吸尘器", "儿童安全座椅","汽车内饰洗护套装", "负离子空气净化器", "高清行车记录仪", "15L大容量车载冰箱",
             "车用12V吸尘器", "儿童安全座椅"};
     private LayoutInflater mContainer;  //视图容器
     static class GridItemView { //自定义视图

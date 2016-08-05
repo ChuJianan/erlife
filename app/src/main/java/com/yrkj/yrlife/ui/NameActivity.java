@@ -116,6 +116,10 @@ public class NameActivity extends BaseActivity {
                         finish();
                     } else if (msg.what == 2) {
                         UIHelper.ToastMessage(NameActivity.this, msg.obj.toString());
+                    } else if (msg.what == 3) {
+                        UIHelper.ToastMessage(NameActivity.this, msg.obj.toString());
+                        UIHelper.openLogin(NameActivity.this);
+                        finish();
                     }
                 } else {
                     UIHelper.ToastMessage(NameActivity.this, "网络出错，请稍候...");

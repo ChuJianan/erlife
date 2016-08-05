@@ -74,13 +74,7 @@ public class WashNnActivity extends BaseActivity {
                 Result result = JsonUtils.fromJson(string, Result.class);
                 mLoadingDialog.dismiss();
                 UIHelper.ToastMessage(appContext, result.Message());
-                if (!result.OK()) {
-                    wash_message.setText(result.Message());
-                } else if (result.isOK()) {
-                    Intent intent = new Intent(WashNnActivity.this, LoginActivity.class);
-                    startActivity(intent);
-                    finish();
-                } else {
+                if (result.OK()) {
                     wash = result.washing();
                     //实例化Editor对象
                     SharedPreferences.Editor editor = preferences.edit();
@@ -95,6 +89,12 @@ public class WashNnActivity extends BaseActivity {
                     intent.putExtra("wash", wash);
                     startActivity(intent);
                     finish();
+                } else if (result.isOK()) {
+                    Intent intent = new Intent(WashNnActivity.this, LoginActivity.class);
+                    startActivity(intent);
+                    finish();
+                } else {
+                    wash_message.setText(result.Message());
                 }
             }
 

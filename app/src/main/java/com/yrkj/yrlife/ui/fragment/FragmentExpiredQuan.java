@@ -79,7 +79,6 @@ public class FragmentExpiredQuan extends BaseFragment {
                 //如果直接点击跳转到本Fragment，setUserVisibleHint方法会先于
                 //onCreateView调用，所以加载数据前需要先判断视图是否已初始化
                 loadData();
-
             }
         }
     }
@@ -98,25 +97,27 @@ public class FragmentExpiredQuan extends BaseFragment {
             @Override
             public void onSuccess(String string) {
                 Result result= JsonUtils.fromJson(string,Result.class);
-                if (!result.OK()){
-                    UIHelper.ToastMessage(getActivity(),result.Message());
-                    mEmptyView.setText("这里什么都没有");
-                    mEmptyView.setVisibility(View.VISIBLE);
+                if (result.OK()){
+                    if (result.couponList.size()>0){
+                        if (ldata==null){
+                            ldata=result.couponList;
+                            mVoucherAdapter.setVoucher(ldata);
+                            mVoucherAdapter.notifyDataSetChanged();
+                        }else {
+                            ldata=result.couponList;
+                            mVoucherAdapter.addVoucher(ldata);
+                            mVoucherAdapter.notifyDataSetChanged();
+                        }
+                    }else {
+                        mEmptyView.setText("这里什么都没有");
+                        mEmptyView.setVisibility(View.VISIBLE);
+                    }
                 }else if (result.isOK()){
                     Intent intent = new Intent(getActivity(), LoginActivity.class);
                     startActivity(intent);
                     getActivity().finish();
-                } else if (result.couponList.size()>0){
-                    if (ldata==null){
-                        ldata=result.couponList;
-                        mVoucherAdapter.setVoucher(ldata);
-                        mVoucherAdapter.notifyDataSetChanged();
-                    }else {
-                        ldata=result.couponList;
-                        mVoucherAdapter.addVoucher(ldata);
-                        mVoucherAdapter.notifyDataSetChanged();
-                    }
-                }else {
+                } else{
+                    UIHelper.ToastMessage(getActivity(),result.Message());
                     mEmptyView.setText("这里什么都没有");
                     mEmptyView.setVisibility(View.VISIBLE);
                 }

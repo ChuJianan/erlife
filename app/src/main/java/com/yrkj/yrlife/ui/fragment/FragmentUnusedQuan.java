@@ -1,5 +1,6 @@
 package com.yrkj.yrlife.ui.fragment;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
@@ -11,6 +12,7 @@ import com.yrkj.yrlife.adapter.ListViewVoucherAdapter;
 import com.yrkj.yrlife.been.Result;
 import com.yrkj.yrlife.been.URLs;
 import com.yrkj.yrlife.been.Vouchers;
+import com.yrkj.yrlife.ui.LoginActivity;
 import com.yrkj.yrlife.utils.JsonUtils;
 import com.yrkj.yrlife.utils.UIHelper;
 
@@ -20,6 +22,7 @@ import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
+import java.lang.annotation.ElementType;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,6 +49,7 @@ public class FragmentUnusedQuan extends BaseFragment {
         init();
 //        loadData();
     }
+
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -54,7 +58,7 @@ public class FragmentUnusedQuan extends BaseFragment {
         if (mLastTime > 0 && now - mLastTime < 1000 * 60 * 10) {
             mEmptyView.setText("这里什么都没有");
             return;
-        }else{
+        } else {
             if (getUserVisibleHint()) {
                 //如果直接点击跳转到本Fragment，setUserVisibleHint方法会先于
                 //onCreateView调用，所以加载数据前需要先判断视图是否已初始化
@@ -62,6 +66,7 @@ public class FragmentUnusedQuan extends BaseFragment {
             }
         }
     }
+
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         //由于ViewPager的预加载，没法正确判断当前Fragment是否可见
@@ -72,7 +77,7 @@ public class FragmentUnusedQuan extends BaseFragment {
         if (mLastTime > 0 && now - mLastTime < 1000 * 60 * 10) {
             mEmptyView.setText("这里什么都没有");
             return;
-        }else{
+        } else {
             if (getUserVisibleHint() && isViewInited) {
                 //如果直接点击跳转到本Fragment，setUserVisibleHint方法会先于
                 //onCreateView调用，所以加载数据前需要先判断视图是否已初始化
@@ -86,31 +91,39 @@ public class FragmentUnusedQuan extends BaseFragment {
         mVoucherAdapter = new ListViewVoucherAdapter(appContext, ldata, 1);
         mVoucherView.setAdapter(mVoucherAdapter);
         mVoucherView.setEmptyView(mEmptyView);
-        isViewInited=true;
+        isViewInited = true;
     }
-    private void loadData(){
-        RequestParams params=new RequestParams(URLs.Vouchers);
-        params.addQueryStringParameter("secret_code",URLs.secret_code);
-        params.addQueryStringParameter("state",1+"");
+
+    private void loadData() {
+        RequestParams params = new RequestParams(URLs.Vouchers);
+        params.addQueryStringParameter("secret_code", URLs.secret_code);
+        params.addQueryStringParameter("state", 1 + "");
         x.http().get(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String string) {
-                Result result= JsonUtils.fromJson(string,Result.class);
-                if (!result.OK()){
-                    UIHelper.ToastMessage(getActivity(),result.Message());
-                    mEmptyView.setText("这里什么都没有");
-                    mEmptyView.setVisibility(View.VISIBLE);
-                }else if (result.couponList.size()>0){
-                    if (ldata==null){
-                        ldata=result.couponList;
-                        mVoucherAdapter.setVoucher(ldata);
-                        mVoucherAdapter.notifyDataSetChanged();
-                    }else {
-                        ldata=result.couponList;
-                        mVoucherAdapter.addVoucher(ldata);
-                        mVoucherAdapter.notifyDataSetChanged();
+                Result result = JsonUtils.fromJson(string, Result.class);
+                if (result.OK()) {
+                    if (result.couponList.size() > 0) {
+                        if (ldata == null) {
+                            ldata = result.couponList;
+                            mVoucherAdapter.setVoucher(ldata);
+                            mVoucherAdapter.notifyDataSetChanged();
+                        } else {
+                            ldata = result.couponList;
+                            mVoucherAdapter.addVoucher(ldata);
+                            mVoucherAdapter.notifyDataSetChanged();
+                        }
+                    } else {
+                        mEmptyView.setText("这里什么都没有");
+                        mEmptyView.setVisibility(View.VISIBLE);
                     }
-                }else {
+
+                } else if (result.isOK()) {
+                    Intent intent = new Intent(getActivity(), LoginActivity.class);
+                    startActivity(intent);
+                    getActivity().finish();
+                } else {
+                    UIHelper.ToastMessage(getActivity(), result.Message());
                     mEmptyView.setText("这里什么都没有");
                     mEmptyView.setVisibility(View.VISIBLE);
                 }
@@ -119,12 +132,12 @@ public class FragmentUnusedQuan extends BaseFragment {
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                UIHelper.ToastMessage(appContext,ex.getMessage());
+                UIHelper.ToastMessage(appContext, ex.getMessage());
             }
 
             @Override
             public void onCancelled(CancelledException cex) {
-                UIHelper.ToastMessage(appContext,"Cancel");
+                UIHelper.ToastMessage(appContext, "Cancel");
             }
 
             @Override

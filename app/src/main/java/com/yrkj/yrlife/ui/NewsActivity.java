@@ -142,7 +142,7 @@ public class NewsActivity extends BaseActivity {
                 mNewsProgress.setVisibility(ProgressBar.GONE);
                 mNewsView.onRefreshComplete(DateUtils.format(new Date(), getString(R.string.pull_to_refresh_update_pattern)));
                 mNewsView.setSelection(0);
-                UIHelper.ToastMessage(appContext,"刷新成功");
+                UIHelper.ToastMessage(appContext, "刷新成功");
             }
         });
     }
@@ -159,33 +159,38 @@ public class NewsActivity extends BaseActivity {
 //                Toast.makeText(x.app(), results, Toast.LENGTH_LONG).show();
                 Result result = JsonUtils.fromJson(results, Result.class);
                 totalPage = result.totalPage();
-                if (!result.OK()) {
+                if (result.OK()) {
+                    if (result.news.size() > 0) {
+                        if (mNewsData == null) {
+                            mNewsData = result.news;
+                            mNewsView.setTag(UIHelper.LISTVIEW_DATA_MORE);
+                            mNewsAdapter.setNews(mNewsData);
+                            mNewsAdapter.notifyDataSetChanged();
+                        } else if (result.news.size() < pageSize) {
+                            mNewsData = result.news;
+                            mNewsView.setTag(UIHelper.LISTVIEW_DATA_FULL);
+                            mNewsAdapter.addNews(mNewsData);
+                            mNewsAdapter.notifyDataSetChanged();
+                            mNewsProgress.setVisibility(View.GONE);
+                            mNewsMore.setText(R.string.load_full);
+                        } else {
+                            mNewsData = result.news;
+                            mNewsView.setTag(UIHelper.LISTVIEW_DATA_MORE);
+                            mNewsAdapter.addNews(mNewsData);
+                            mNewsAdapter.notifyDataSetChanged();
+                            mNewsMore.setText(R.string.load_more);
+                        }
+                    } else {
+                        mNewsView.setTag(UIHelper.LISTVIEW_DATA_FULL);
+                        mNewsMore.setText(R.string.load_full);
+                        mNewsProgress.setVisibility(View.GONE);
+                    }
+                } else if (result.isOK()) {
+                    UIHelper.openLogin(NewsActivity.this);
+                    finish();
+                } else {
                     UIHelper.ToastMessage(NewsActivity.this, result.Message());
                     mEmptyView.setText("暂时没有消息");
-                } else if (result.news.size() > 0) {
-                    if (mNewsData == null) {
-                        mNewsData = result.news;
-                        mNewsView.setTag(UIHelper.LISTVIEW_DATA_MORE);
-                        mNewsAdapter.setNews(mNewsData);
-                        mNewsAdapter.notifyDataSetChanged();
-                    } else if (result.news.size() < pageSize) {
-                        mNewsData = result.news;
-                        mNewsView.setTag(UIHelper.LISTVIEW_DATA_FULL);
-                        mNewsAdapter.addNews(mNewsData);
-                        mNewsAdapter.notifyDataSetChanged();
-                        mNewsProgress.setVisibility(View.GONE);
-                        mNewsMore.setText(R.string.load_full);
-                    } else {
-                        mNewsData = result.news;
-                        mNewsView.setTag(UIHelper.LISTVIEW_DATA_MORE);
-                        mNewsAdapter.addNews(mNewsData);
-                        mNewsAdapter.notifyDataSetChanged();
-                        mNewsMore.setText(R.string.load_more);
-                    }
-                } else {
-                    mNewsView.setTag(UIHelper.LISTVIEW_DATA_FULL);
-                    mNewsMore.setText(R.string.load_full);
-                    mNewsProgress.setVisibility(View.GONE);
                 }
             }
 

@@ -118,11 +118,10 @@ public class MainActivity extends FragmentActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         AppManager.getAppManager().addActivity(this);
         x.view().inject(this);
-        UIHelper.img_urls=new String[]{
-                "http://dwz.cn/3OLhVo",
-                "http://dwz.cn/3OLhVo",
-                "http://dwz.cn/3OLhVo",
-                "http://dwz.cn/3OLhVo"
+        UIHelper.img_urls = new String[]{
+                "http://dwz.cn/3U1FMd",
+                "http://dwz.cn/3U1GId",
+                "http://dwz.cn/3U1H0J",
         };
         preferences = getSharedPreferences("yrlife", MODE_WORLD_READABLE);
         initView();
@@ -139,6 +138,7 @@ public class MainActivity extends FragmentActivity {
             } else if (isWashing.equals("0")) {
                 isWash = false;
             }
+            UIHelper.isWash = isWash;
         }
         money = preferences.getFloat("money", 0);
         if_have_useful_coupon = preferences.getString("if_have_useful_coupon", "");
@@ -149,7 +149,7 @@ public class MainActivity extends FragmentActivity {
         }
 
         //检测新版本
-          UpdateManager.getUpdateManager().checkAppUpdate(this,false);
+        UpdateManager.getUpdateManager().checkAppUpdate(this, false);
     }
 
     private void isWash() {
@@ -164,13 +164,17 @@ public class MainActivity extends FragmentActivity {
             public void onSuccess(String string) {
                 Result result = JsonUtils.fromJson(string, Result.class);
                 if (result.OK()) {
-                    UIHelper.washing_no_card_record=result.washing();
+                    UIHelper.washing_no_card_record = result.washing();
                     dialog("您的洗车还未结束，是否继续洗车？");
+                } else if (result.isOK()) {
+                    UIHelper.openLogin(MainActivity.this);
                 } else {
                     //实例化Editor对象
                     SharedPreferences.Editor editor = preferences.edit();
                     editor.putBoolean("isWash", false);
                     editor.putString("isWashing", "0");
+                    UIHelper.isWash = false;
+                    isWash = false;
                     //提交修改
                     editor.commit();
                 }
@@ -321,20 +325,7 @@ public class MainActivity extends FragmentActivity {
                 if (StringUtils.isEmpty(URLs.secret_code)) {
                     UIHelper.openLogin(MainActivity.this);
                 } else {
-                    if (UIHelper.location == null) {
-                        UIHelper.ToastMessage(MainActivity.this, "无法获取定位，无法使用此功能");
-                        finish();
-                    } else {
-                        int perssion = ContextCompat.checkSelfPermission(MainActivity.this,
-                                Manifest.permission.CAMERA);
-                        if (perssion == PackageManager.PERMISSION_GRANTED) {
-                            mTabHost.setCurrentTab(2);
-                        } else if (perssion == PackageManager.PERMISSION_DENIED) {
-                            ActivityCompat.requestPermissions(MainActivity.this,
-                                    new String[]{Manifest.permission.CAMERA},
-                                    MY_PERMISSIONS_CAMERA);
-                        }
-                    }
+                    mTabHost.setCurrentTab(2);
                 }
             }
         });
@@ -344,7 +335,24 @@ public class MainActivity extends FragmentActivity {
                 if (StringUtils.isEmpty(URLs.secret_code)) {
                     UIHelper.openLogin(MainActivity.this);
                 } else {
-                    mTabHost.setCurrentTab(1);
+                    if (UIHelper.location == null) {
+                        UIHelper.ToastMessage(MainActivity.this, "无法获取定位，无法使用此功能");
+                        finish();
+                    } else if (isWash) {
+                        String washstring = preferences.getString("wash_gson", "");
+                        wash = JsonUtils.fromJson(washstring, Washing_no_card_record.class);
+                        isWash();
+                    } else {
+                        int perssion = ContextCompat.checkSelfPermission(MainActivity.this,
+                                Manifest.permission.CAMERA);
+                        if (perssion == PackageManager.PERMISSION_GRANTED) {
+                            mTabHost.setCurrentTab(1);
+                        } else if (perssion == PackageManager.PERMISSION_DENIED) {
+                            ActivityCompat.requestPermissions(MainActivity.this,
+                                    new String[]{Manifest.permission.CAMERA},
+                                    MY_PERMISSIONS_CAMERA);
+                        }
+                    }
                 }
             }
         });
@@ -561,10 +569,14 @@ public class MainActivity extends FragmentActivity {
                     SharedPreferences.Editor editor = preferences.edit();
                     //存入数据
                     editor.putFloat("money", mon);
-                    editor.putString("isWashing","0");
+                    editor.putString("isWashing", "0");
                     editor.putBoolean("isWash", false);
+                    UIHelper.isWash = false;
+                    isWash = false;
                     //提交修改
                     editor.commit();
+                } else if (result.isOK()) {
+                    UIHelper.openLogin(MainActivity.this);
                 } else {
 
                 }
@@ -662,6 +674,8 @@ public class MainActivity extends FragmentActivity {
                 view.findViewById(R.id.pay_discount).setClickable(true);
             } else if (if_have_useful_coupon.equals("0")) {
                 view.findViewById(R.id.rl_discount).setVisibility(View.GONE);
+                balance.setChecked(true);
+                pay_kind = "0";
             }
         }
         if (money == 0) {

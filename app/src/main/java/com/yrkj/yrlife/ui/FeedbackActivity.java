@@ -1,5 +1,6 @@
 package com.yrkj.yrlife.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AbsListView;
@@ -38,7 +39,7 @@ public class FeedbackActivity extends BaseActivity {
 
     private ListViewFeedBackAdapter mFeedAdapter;
     private MyIdear myIdear;
-    private List<MyIdear> mFeedData=new ArrayList<MyIdear>();
+    private List<MyIdear> mFeedData = new ArrayList<MyIdear>();
     private View mFeedFooter;
     private TextView mFeedMore;
     private ProgressBar mFeedProgress;
@@ -61,19 +62,20 @@ public class FeedbackActivity extends BaseActivity {
         init();
         loadCloudData(pageNo);
     }
+
     private void init() {
         mFeedView.setEmptyView(mEmptyView);
         mFeedFooter = this.getLayoutInflater().inflate(R.layout.listview_footer, null);
-        mFeedMore = (TextView)mFeedFooter.findViewById(R.id.listview_foot_more);
-        mFeedProgress = (ProgressBar)mFeedFooter.findViewById(R.id.listview_foot_progress);
-        mFeedAdapter = new ListViewFeedBackAdapter(this,mFeedData);
+        mFeedMore = (TextView) mFeedFooter.findViewById(R.id.listview_foot_more);
+        mFeedProgress = (ProgressBar) mFeedFooter.findViewById(R.id.listview_foot_progress);
+        mFeedAdapter = new ListViewFeedBackAdapter(this, mFeedData);
         mFeedView.addFooterView(mFeedFooter);
         mFeedView.setAdapter(mFeedAdapter);
         mFeedView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
-                if(position == 0 || view == mFeedFooter) return;
+                if (position == 0 || view == mFeedFooter) return;
 
 
             }
@@ -92,7 +94,7 @@ public class FeedbackActivity extends BaseActivity {
             public void onScrollStateChanged(AbsListView view, int scrollState) {
                 // TODO Auto-generated method stub
                 (mFeedView).onScrollStateChanged(view, scrollState);
-                if (mFeedData!=null)
+                if (mFeedData != null)
                     if (mFeedData.isEmpty())
                         return;
 
@@ -118,24 +120,26 @@ public class FeedbackActivity extends BaseActivity {
                     loadCloudData(pageNo);
                 }
 
-            }});
+            }
+        });
         mFeedView.setOnRefreshListener(new PullToRefreshListView.OnRefreshListener() {
             //下拉列表刷新
             @Override
             public void onRefresh() {
-                mFeedData=null;
+                mFeedData = null;
                 loadCloudData(1);
-                pageNo=1;
+                pageNo = 1;
                 mFeedProgress.setVisibility(ProgressBar.GONE);
                 mFeedView.onRefreshComplete(DateUtils.format(new Date(), getString(R.string.pull_to_refresh_update_pattern)));
                 mFeedView.setSelection(0);
-                UIHelper.ToastMessage(appContext,"刷新成功");
+                UIHelper.ToastMessage(appContext, "刷新成功");
             }
         });
 //        isViewInited=true;
     }
+
     private void loadCloudData(int pageNo) {
-        String url= URLs.MyIDEAR_SET;
+        String url = URLs.MyIDEAR_SET;
         RequestParams params = new RequestParams(url);
         params.addQueryStringParameter("secret_code", URLs.secret_code);
         x.http().get(params, new Callback.CommonCallback<String>() {
@@ -143,45 +147,51 @@ public class FeedbackActivity extends BaseActivity {
             @Override
             public void onSuccess(String results) {
 //                Toast.makeText(x.app(), results, Toast.LENGTH_LONG).show();
-                Result result= JsonUtils.fromJson(results,Result.class);
-                if (!result.OK()) {
-//                    throw AppException.custom(result.Message());
-                    UIHelper.ToastMessage(appContext,result.Message());
-                    mEmptyView.setText("暂时没有反馈");
-                }else if (result.myFeedBackList.size()>0){
-                    if (mFeedData==null){
-                        if (result.myFeedBackList.size()<pageSize){
-                        mFeedData=result.myFeedBackList;
-                        mFeedView.setTag(UIHelper.LISTVIEW_DATA_FULL);
-                        mFeedAdapter.setFeed(mFeedData);
-                        mFeedAdapter.notifyDataSetChanged();
-                        mFeedProgress.setVisibility(View.GONE);
-                        mFeedMore.setText(R.string.load_full);
-                        }else {
-                            mFeedData=result.myFeedBackList;
+                Result result = JsonUtils.fromJson(results, Result.class);
+                if (result.OK()) {
+                    if (result.myFeedBackList.size() > 0) {
+                        if (mFeedData == null) {
+                            if (result.myFeedBackList.size() < pageSize) {
+                                mFeedData = result.myFeedBackList;
+                                mFeedView.setTag(UIHelper.LISTVIEW_DATA_FULL);
+                                mFeedAdapter.setFeed(mFeedData);
+                                mFeedAdapter.notifyDataSetChanged();
+                                mFeedProgress.setVisibility(View.GONE);
+                                mFeedMore.setText(R.string.load_full);
+                            } else {
+                                mFeedData = result.myFeedBackList;
+                                mFeedView.setTag(UIHelper.LISTVIEW_DATA_MORE);
+                                mFeedAdapter.setFeed(mFeedData);
+                                mFeedAdapter.notifyDataSetChanged();
+                                mFeedMore.setText(R.string.load_more);
+                            }
+                        } else if (result.myFeedBackList.size() < pageSize) {
+                            mFeedData = result.myFeedBackList;
+                            mFeedView.setTag(UIHelper.LISTVIEW_DATA_FULL);
+                            mFeedAdapter.addFeed(mFeedData);
+                            mFeedAdapter.notifyDataSetChanged();
+                            mFeedProgress.setVisibility(View.GONE);
+                            mFeedMore.setText(R.string.load_full);
+                        } else {
+                            mFeedData = result.myFeedBackList;
                             mFeedView.setTag(UIHelper.LISTVIEW_DATA_MORE);
-                            mFeedAdapter.setFeed(mFeedData);
+                            mFeedAdapter.addFeed(mFeedData);
                             mFeedAdapter.notifyDataSetChanged();
                             mFeedMore.setText(R.string.load_more);
                         }
-                    }else if (result.myFeedBackList.size()<pageSize){
-                        mFeedData=result.myFeedBackList;
+                    } else {
                         mFeedView.setTag(UIHelper.LISTVIEW_DATA_FULL);
-                        mFeedAdapter.addFeed(mFeedData);
-                        mFeedAdapter.notifyDataSetChanged();
-                        mFeedProgress.setVisibility(View.GONE);
                         mFeedMore.setText(R.string.load_full);
-                    }else {
-                        mFeedData = result.myFeedBackList;
-                        mFeedView.setTag(UIHelper.LISTVIEW_DATA_MORE);
-                        mFeedAdapter.addFeed(mFeedData);
-                        mFeedAdapter.notifyDataSetChanged();
-                        mFeedMore.setText(R.string.load_more);
+                        mFeedProgress.setVisibility(View.GONE);
+                        mEmptyView.setText("暂时没有反馈");
                     }
-                }else {
-                    mFeedView.setTag(UIHelper.LISTVIEW_DATA_FULL);
-                    mFeedMore.setText(R.string.load_full);
-                    mFeedProgress.setVisibility(View.GONE);
+
+                } else if (result.isOK()) {
+                    Intent intent = new Intent(FeedbackActivity.this, LoginActivity.class);
+                    startActivity(intent);
+                    finish();
+                } else {
+                    UIHelper.ToastMessage(appContext, result.Message());
                     mEmptyView.setText("暂时没有反馈");
                 }
                 mLastTime = System.currentTimeMillis();

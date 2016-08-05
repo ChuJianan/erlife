@@ -427,6 +427,9 @@ public class MeActivity extends BaseActivity {
                         sexText.setText(sex);
                     } else if (msg.what == 2) {
                         UIHelper.ToastMessage(MeActivity.this, msg.obj.toString());
+                    } else if (msg.what==3){
+                        UIHelper.ToastMessage(MeActivity.this,msg.obj.toString());
+                        UIHelper.openLogin(MeActivity.this);
                     }
                 } else {
                     UIHelper.ToastMessage(MeActivity.this, "网络出错，请稍候...");
@@ -467,6 +470,9 @@ public class MeActivity extends BaseActivity {
                     JSONObject json = new JSONObject(result);
                     String string=json.getString("result");
                     SharedPreferences.Editor editor = preferences.edit();
+                    int code=json.getInt("code");
+                    String message=json.getString("message");
+                    if (code==1){
                     User user = JsonUtils.fromJson(string, User.class);
                     if (!StringUtils.isEmpty(user.getHead_image())) {
                         editor.putString("head_image", user.getHead_image());
@@ -480,6 +486,13 @@ public class MeActivity extends BaseActivity {
                     }
                     editor.commit();
                     UIHelper.showLoadImage(avatarImg, URLs.IMGURL + user.getHead_image(), "");
+                    }else if (code==2){
+                        UIHelper.ToastMessage(appContext,message);
+                    }else if (code==3){
+                        UIHelper.ToastMessage(appContext,message);
+                        UIHelper.openLogin(MeActivity.this);
+                        finish();
+                    }
                 }catch (JSONException e){
                     e.printStackTrace();
                 }

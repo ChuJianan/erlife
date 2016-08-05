@@ -79,7 +79,6 @@ public class WashNActivity extends BaseActivity {
                 } else if (result.isOK()){
                     UIHelper.CenterToastMessage(appContext, result.Message());
                     Intent intent = new Intent(WashNActivity.this, LoginActivity.class);
-                    intent.putExtra("wash_nub", mach_id);
                     startActivity(intent);
                     finish();
                 }else {

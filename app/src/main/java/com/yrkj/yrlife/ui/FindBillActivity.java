@@ -1,5 +1,6 @@
 package com.yrkj.yrlife.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AbsListView;
@@ -154,37 +155,44 @@ public class FindBillActivity extends BaseActivity {
             public void onSuccess(String results) {
 //                Toast.makeText(x.app(), results, Toast.LENGTH_LONG).show();
                 Result result = JsonUtils.fromJson(results, Result.class);
-                if (!result.OK()) {
+                if (result.OK()) {
+                    if (result.bill.size() > 0) {
+                        if (mConsumerData == null) {
+                            mConsumerData = result.bill;
+                            mConsumerView.setTag(UIHelper.LISTVIEW_DATA_MORE);
+                            mConsumerAdapter.setConsumer(mConsumerData);
+                            mConsumerAdapter.notifyDataSetChanged();
+                            mConsumerProgress.setVisibility(View.GONE);
+                            mConsumerMore.setText(R.string.load_full);
+                        } else if (result.bill.size() < pageSize) {
+                            mConsumerData = result.bill;
+                            mConsumerView.setTag(UIHelper.LISTVIEW_DATA_FULL);
+                            mConsumerAdapter.addConsumer(mConsumerData);
+                            mConsumerAdapter.notifyDataSetChanged();
+                            mConsumerProgress.setVisibility(View.GONE);
+                            mConsumerMore.setText(R.string.load_full);
+                        } else {
+                            mConsumerData = result.bill;
+                            mConsumerView.setTag(UIHelper.LISTVIEW_DATA_MORE);
+                            mConsumerAdapter.addConsumer(mConsumerData);
+                            mConsumerAdapter.notifyDataSetChanged();
+                            mConsumerMore.setText(R.string.load_more);
+                        }
+                    } else {
+                        mEmptyView.setText("暂时没有账单记录");
+                        mConsumerView.setTag(UIHelper.LISTVIEW_DATA_FULL);
+                        mConsumerMore.setText(R.string.load_full);
+                        mConsumerProgress.setVisibility(View.GONE);
+                    }
 //                    throw AppException.custom(result.Message());
+
+                } else if (result.isOK()){
+                    Intent intent=new Intent(FindBillActivity.this,LoginActivity.class);
+                    startActivity(intent);
+                    finish();
+                }else {
                     UIHelper.ToastMessage(appContext, result.Message());
                     mEmptyView.setText("暂时没有账单记录");
-                } else if (result.bill.size() > 0) {
-                    if (mConsumerData == null) {
-                        mConsumerData = result.bill;
-                        mConsumerView.setTag(UIHelper.LISTVIEW_DATA_MORE);
-                        mConsumerAdapter.setConsumer(mConsumerData);
-                        mConsumerAdapter.notifyDataSetChanged();
-                        mConsumerProgress.setVisibility(View.GONE);
-                        mConsumerMore.setText(R.string.load_full);
-                    } else if (result.bill.size() < pageSize) {
-                        mConsumerData = result.bill;
-                        mConsumerView.setTag(UIHelper.LISTVIEW_DATA_FULL);
-                        mConsumerAdapter.addConsumer(mConsumerData);
-                        mConsumerAdapter.notifyDataSetChanged();
-                        mConsumerProgress.setVisibility(View.GONE);
-                        mConsumerMore.setText(R.string.load_full);
-                    } else {
-                        mConsumerData = result.bill;
-                        mConsumerView.setTag(UIHelper.LISTVIEW_DATA_MORE);
-                        mConsumerAdapter.addConsumer(mConsumerData);
-                        mConsumerAdapter.notifyDataSetChanged();
-                        mConsumerMore.setText(R.string.load_more);
-                    }
-                } else {
-                    mEmptyView.setText("暂时没有账单记录");
-                    mConsumerView.setTag(UIHelper.LISTVIEW_DATA_FULL);
-                    mConsumerMore.setText(R.string.load_full);
-                    mConsumerProgress.setVisibility(View.GONE);
                 }
                 mLastTime = System.currentTimeMillis();
             }

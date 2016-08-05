@@ -15,8 +15,8 @@
         android:gravity="center"
         >
     <ImageView
-        android:layout_width="25dp"
-        android:layout_height="25dp"
+        android:layout_width="23dp"
+        android:layout_height="23dp"
         android:layout_marginLeft="@dimen/space_15"
         android:background="@mipmap/ic_me_toast"
          />
@@ -40,8 +40,8 @@
 
         <ImageView
             android:id="@+id/refresh"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
+            android:layout_width="23dp"
+            android:layout_height="23dp"
             android:layout_marginRight="15dp"
             android:layout_gravity="center|right"
             android:background="@mipmap/ic_me_setting"

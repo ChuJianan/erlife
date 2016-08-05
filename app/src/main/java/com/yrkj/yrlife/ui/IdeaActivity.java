@@ -1,6 +1,7 @@
 package com.yrkj.yrlife.ui;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -120,6 +121,10 @@ public class IdeaActivity extends BaseActivity {
                         finish();
                     } else if (code == 2) {
 
+                    }else if (code==3){
+                        Intent intent=new Intent(IdeaActivity.this,LoginActivity.class);
+                        startActivity(intent);
+                        finish();
                     }
                 } catch (JSONException e) {
 

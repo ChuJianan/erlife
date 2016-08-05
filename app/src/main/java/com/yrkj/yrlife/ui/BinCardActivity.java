@@ -1,6 +1,7 @@
 package com.yrkj.yrlife.ui;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -132,10 +133,14 @@ public class BinCardActivity extends BaseActivity {
                     int code = json.getInt("code");
                     String message = json.getString("message");
                     UIHelper.ToastMessage(appContext, message);
-                    if (code==2){
+                    if (code == 2) {
                         timer.onFinish();
                         timer.cancel();
                         codeBtn.setText("发送验证码");
+                    } else if (code == 3) {
+                        Intent intent = new Intent(BinCardActivity.this, LoginActivity.class);
+                        startActivity(intent);
+                        finish();
                     }
                 } catch (JSONException e) {
 
@@ -150,7 +155,7 @@ public class BinCardActivity extends BaseActivity {
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
                 UIHelper.ToastMessage(appContext, ex.getMessage());
-                code="";
+                code = "";
                 timer.onFinish();
                 timer.cancel();
                 codeBtn.setText("获取验证码");
@@ -164,9 +169,9 @@ public class BinCardActivity extends BaseActivity {
     }
 
     private void getCode(final String phone) {
-        RequestParams params = new RequestParams(URLs.CODE_GET+phone);
+        RequestParams params = new RequestParams(URLs.CODE_GET + phone);
 //        params.addQueryStringParameter("phone", phone);
-        params.addQueryStringParameter("card_Number",cardNub);
+        params.addQueryStringParameter("card_Number", cardNub);
         x.http().get(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String s) {
@@ -175,8 +180,16 @@ public class BinCardActivity extends BaseActivity {
                 mLoadingDialog.dismiss();
                 if (result.OK()) {
                     code = result.Result();
+                } else if (result.isOK()) {
+                    code = "";
+                    timer.onFinish();
+                    timer.cancel();
+                    codeBtn.setText("获取验证码");
+                    Intent intent = new Intent(BinCardActivity.this, LoginActivity.class);
+                    startActivity(intent);
+                    finish();
                 } else {
-                    code="";
+                    code = "";
                     timer.onFinish();
                     timer.cancel();
                     codeBtn.setText("获取验证码");
@@ -186,7 +199,7 @@ public class BinCardActivity extends BaseActivity {
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
                 mLoadingDialog.dismiss();
-                code="";
+                code = "";
                 timer.onFinish();
                 timer.cancel();
                 codeBtn.setText("获取验证码");

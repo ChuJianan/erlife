@@ -42,9 +42,9 @@
 
 
             <ImageView
-                android:layout_width="130dp"
-                android:layout_height="130dp"
-                android:src="@mipmap/ic_wash_top_s"
+                android:layout_width="180dp"
+                android:layout_height="180dp"
+                android:src="@mipmap/ic_wash_top_g1"
                 android:layout_marginTop="@dimen/space_25"
                 />
         </LinearLayout>

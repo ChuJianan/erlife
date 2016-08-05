@@ -153,6 +153,10 @@ public class WashRateActivity extends BaseActivity {
                 if (result.OK()) {
                     UIHelper.ToastMessage(appContext, result.Message());
                     finish();
+                } else if (result.isOK()) {
+                    UIHelper.ToastMessage(appContext, result.Message());
+                    UIHelper.openLogin(WashRateActivity.this);
+                    finish();
                 } else {
                     UIHelper.ToastMessage(appContext, "出现错误非常抱歉，请您重试一次");
                 }

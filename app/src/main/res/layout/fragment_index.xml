@@ -30,8 +30,8 @@
                 android:layout_height="match_parent"
                 android:id="@+id/grid"
                 android:columnWidth="90dp"
-                android:verticalSpacing="@dimen/space_5"
-                android:numColumns="4"
+                android:numColumns="5"
+                android:stretchMode="columnWidth"
                 android:cacheColorHint="@color/white"
                 android:scrollbars="none"
                 android:gravity="center"
@@ -41,6 +41,7 @@
                 android:layout_height="1dp"
                 android:src="@mipmap/ic_line"
                 android:scaleType="fitXY"
+
                 />
             <com.yrkj.yrlife.widget.MyGridView
                 android:paddingTop="@dimen/space_5"
@@ -54,56 +55,24 @@
                 android:cacheColorHint="@color/white"
                 android:scrollbars="none"
                 android:gravity="center"
+                android:visibility="gone"
                 />
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="2dp"
-                android:src="@mipmap/ic_line"
-                android:scaleType="fitXY"
-                />
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:background="@color/graywhite"
-                android:gravity="center"
-                android:layout_gravity="center"
-                >
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@mipmap/b_xicheka"
-                    android:layout_marginRight="@dimen/space_1"
-                    />
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@mipmap/b_xinshou"
-                    />
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@mipmap/b_jfien"
-                    android:layout_marginLeft="@dimen/space_1"
-                    />
-            </LinearLayout>
+
+
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
                 android:src="@mipmap/ic_line"
                 android:scaleType="fitXY"
+                android:layout_marginLeft="@dimen/space_4"
+                android:layout_marginRight="@dimen/space_4"
                 />
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="38dp"
                 android:orientation="horizontal"
                 >
-                <ImageView
-                    android:layout_width="3dp"
-                    android:layout_height="match_parent"
-                    android:src="@mipmap/xinshou_line"
-                    android:scaleType="fitXY"
-                    />
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -115,7 +84,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="特惠"
-                        android:textColor="@color/paycolor"
+                        android:textColor="@color/black"
                         android:textSize="@dimen/text_size_18"
                         />
                     <RelativeLayout
@@ -144,12 +113,12 @@
                             />
                     </RelativeLayout>
 
-                    <ImageView
-                        android:layout_width="2dp"
+                    <TextView
+                        android:layout_width="wrap_content"
                         android:layout_height="21dp"
-                        android:src="@mipmap/ic_line"
-                        android:scaleType="fitXY"
-                        android:layout_marginLeft="@dimen/space_8"
+                        android:text="："
+                        android:textSize="@dimen/text_size_18"
+                        android:textColor="@color/black"
                         />
                     <RelativeLayout
                         android:layout_width="match_parent"
@@ -163,50 +132,101 @@
                             android:id="@+id/textView36"
                             android:textSize="@dimen/text_size_15"
                             android:layout_centerVertical="true"
+                            android:layout_marginLeft="@dimen/space_8"
+                            android:singleLine="true"
+                            android:layout_toRightOf="@+id/textView2"
+                            android:layout_toEndOf="@+id/textView2" />
+
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="热读"
+                            android:id="@+id/textView2"
+                            android:textColor="#ff6666"
+                            android:background="@drawable/text_frame_color"
+                            android:padding="@dimen/space_3"
+                            android:layout_centerVertical="true"
                             android:layout_alignParentLeft="true"
-                            android:layout_alignParentStart="true"
-                            android:layout_marginLeft="35dp"
-                            android:layout_marginStart="35dp" />
-
-
-                        <ImageView
-                            android:layout_width="12dp"
-                            android:layout_height="18dp"
-                            android:src="@mipmap/right_d_curr"
-                            android:layout_alignTop="@+id/textView36"
-                            android:layout_alignParentRight="true"
-                            android:layout_alignParentEnd="true"
-                            android:layout_marginRight="@dimen/space_15"
-                            />
+                            android:layout_alignParentStart="true" />
 
                     </RelativeLayout>
 
                 </LinearLayout>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:background="@color/graywhite"
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    >
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@mipmap/b_xicheka"
+                        android:layout_marginRight="@dimen/space_1"
+                        />
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@mipmap/b_xinshou"
+                        />
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@mipmap/b_jfien"
+                        android:layout_marginLeft="@dimen/space_1"
+                        />
+                </LinearLayout>
             </LinearLayout>
             <ImageView
                 android:layout_width="match_parent"
-                android:layout_height="3dp"
+                android:layout_height="10dp"
                 android:src="@mipmap/ic_line"
                 android:scaleType="fitXY"
                 />
             <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="@color/white"
+                android:gravity="center"
+                android:layout_gravity="center"
+                >
+                <ImageView
+                    android:layout_width="124.2dp"
+                    android:layout_height="91.8dp"
+                    android:src="@mipmap/ic_index_b1"
+                    android:layout_marginRight="5dp"
+                    />
+                <ImageView
+                    android:layout_width="280.8dp"
+                    android:layout_height="91.8dp"
+                    android:src="@mipmap/ic_index_c1"
+                    />
+            </LinearLayout>
+
+            <LinearLayout
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/graywhite"
+                android:background="@color/white"
                 android:weightSum="1">
-
                 <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:scaleType="fitXY"
-                    android:src="@mipmap/banner_c"
-                    android:id="@+id/imageView6"
-                     />
+                    android:layout_width="280.8dp"
+                    android:layout_height="91.8dp"
+                    android:src="@mipmap/ic_index_c2"
+                    />
+                <ImageView
+                    android:layout_width="124.2dp"
+                    android:layout_height="91.8dp"
+                    android:src="@mipmap/ic_index_b2"
+                    />
             </LinearLayout>
             <ImageView
                 android:layout_width="match_parent"
-                android:layout_height="2dp"
+                android:layout_height="8dp"
                 android:src="@mipmap/ic_line"
                 android:scaleType="fitXY"
                 />
@@ -222,23 +242,51 @@
 
                 <ImageView
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:layout_height="22dp"
                     android:id="@+id/imageView38"
                     android:src="@mipmap/xinshou_line"
                     android:scaleType="fitXY"
+                    android:layout_gravity="center"
                     />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="福利商城"
+                    android:text="热卖商品"
                     android:id="@+id/textView14"
                     android:layout_marginLeft="@dimen/space_6"
-                    android:textColor="@color/xinshou"
-                    android:textSize="@dimen/text_size_16"
+                    android:textColor="@color/near_listitem_name"
+                    android:textSize="@dimen/text_size_15"
                     android:layout_gravity="center"
                     android:padding="@dimen/space_3"
                     />
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <TextView
+                        android:id="@+id/textView4"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="更多"
+                        android:textSize="@dimen/text_size_12"
+                        android:textColor="@color/near_listitem_name"
+                        android:layout_marginRight="@dimen/space_3"
+                        android:layout_marginEnd="@dimen/space_3"
+                        android:layout_centerVertical="true"
+                        android:layout_toLeftOf="@+id/imageView6"
+                        android:layout_toStartOf="@+id/imageView6" />
+                    <ImageView
+                        android:layout_width="@dimen/space_5"
+                        android:layout_height="@dimen/space_9"
+                        android:src="@mipmap/ic_index_curr_right"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginRight="@dimen/space_10"
+                        android:layout_marginEnd="@dimen/space_10"
+                        android:id="@+id/imageView6" />
+                </RelativeLayout>
+
             </LinearLayout>
 
             <com.yrkj.yrlife.widget.MyGridView
@@ -256,7 +304,74 @@
                 android:stretchMode="columnWidth"
                 android:verticalSpacing="0.0dip"
                 />
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="8dp"
+                android:src="@mipmap/ic_line"
+                android:scaleType="fitXY"
+                />
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:paddingLeft="@dimen/space_5"
+                android:background="@color/xinshou_bg"
+                android:layout_marginRight="@dimen/space_3"
+                >
 
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="22dp"
+                    android:id="@+id/imageView381"
+                    android:src="@mipmap/xinshou_line"
+                    android:scaleType="fitXY"
+                    android:layout_gravity="center"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="积分商品"
+                    android:id="@+id/textView141"
+                    android:layout_marginLeft="@dimen/space_6"
+                    android:textColor="@color/near_listitem_name"
+                    android:textSize="@dimen/text_size_15"
+                    android:layout_gravity="center"
+                    android:padding="@dimen/space_3"
+                    />
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <TextView
+                        android:id="@+id/textView41"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="更多"
+                        android:textSize="@dimen/text_size_12"
+                        android:textColor="@color/near_listitem_name"
+                        android:layout_marginRight="@dimen/space_3"
+                        android:layout_marginEnd="@dimen/space_3"
+                        android:layout_centerVertical="true"
+                        android:layout_toLeftOf="@+id/imageView61"
+                        android:layout_toStartOf="@+id/imageView61" />
+                    <ImageView
+                        android:layout_width="@dimen/space_5"
+                        android:layout_height="@dimen/space_9"
+                        android:src="@mipmap/ic_index_curr_right"
+                        android:layout_centerVertical="true"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginRight="@dimen/space_10"
+                        android:layout_marginEnd="@dimen/space_10"
+                        android:id="@+id/imageView61" />
+                </RelativeLayout>
+            </LinearLayout>
+            <ListView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:divider="@null"
+                android:id="@+id/shop_list"
+                android:visibility="visible"/>
         </LinearLayout>
     </ScrollView>
 

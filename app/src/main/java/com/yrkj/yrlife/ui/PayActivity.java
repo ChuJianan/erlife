@@ -258,6 +258,9 @@ public class PayActivity extends BaseActivity {
                         finish();
                     }
 
+                } else if (res.isOK()) {
+                    UIHelper.ToastMessage(PayActivity.this, res.Message());
+                    UIHelper.openLogin(PayActivity.this);
                 } else {
                     UIHelper.ToastMessage(PayActivity.this, res.Message());
                 }
@@ -299,8 +302,13 @@ public class PayActivity extends BaseActivity {
                     AliPay aliPay = result.aliPay();
                     orderInfo = aliPay.getCreateLinkString();
                     sign = aliPay.getSign();
-                    orderNumber=aliPay.getOut_trade_no();
+                    orderNumber = aliPay.getOut_trade_no();
                     pay();
+                } else if (result.isOK()) {
+                    UIHelper.ToastMessage(PayActivity.this, result.Message());
+                    UIHelper.openLogin(PayActivity.this);
+                } else {
+                    UIHelper.ToastMessage(PayActivity.this, result.Message());
                 }
             }
 
@@ -371,9 +379,9 @@ public class PayActivity extends BaseActivity {
         x.http().get(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String res) {
-                Result result= JsonUtils.fromJson(res,Result.class);
-                UIHelper.ToastMessage(appContext,result.Message());
-                if (result.OK()){
+                Result result = JsonUtils.fromJson(res, Result.class);
+                UIHelper.ToastMessage(appContext, result.Message());
+                if (result.OK()) {
                     mon1 = UIHelper.bigDecimal.floatValue();
                     mon = mon1 + mon;
                     BigDecimal b = new BigDecimal(mon);
@@ -384,20 +392,24 @@ public class PayActivity extends BaseActivity {
                     editor.putFloat("money", f1);
                     //提交修改
                     editor.commit();
-                    Intent intent=new Intent(PayActivity.this, PaySuccessActivity.class);
+                    Intent intent = new Intent(PayActivity.this, PaySuccessActivity.class);
                     startActivity(intent);
-            }
+                } else if (result.isOK()) {
+                    UIHelper.openLogin(PayActivity.this);
+                } else {
+
+                }
             }
 
             @Override
             public void onCancelled(CancelledException cex) {
-                UIHelper.ToastMessage(appContext,"cancel");
+                UIHelper.ToastMessage(appContext, "cancel");
                 finish();
             }
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                UIHelper.ToastMessage(appContext,ex.getMessage());
+                UIHelper.ToastMessage(appContext, ex.getMessage());
                 finish();
             }
 
@@ -455,7 +467,7 @@ public class PayActivity extends BaseActivity {
     }
 
 
-    private void ipsPay(){
+    private void ipsPay() {
         BigDecimal bigDecimal = new BigDecimal(money);
         UIHelper.bigDecimal = bigDecimal;
         RequestParams params = new RequestParams(URLs.IPSPAY);
@@ -465,7 +477,7 @@ public class PayActivity extends BaseActivity {
             @Override
             public void onSuccess(String string) {
                 Result result = JsonUtils.fromJson(string, Result.class);
-                if (result.OK()){
+                if (result.OK()) {
                     ipsPay = result.ipsPay();
                     ipsPay.setTranAmt(money);
                     Bundle mobilePayInfo = new Bundle();
@@ -476,19 +488,23 @@ public class PayActivity extends BaseActivity {
                     mobilePayInfo.putString("bankCard", ipsPay.getBankCard());
 
                     StartPluginAssist.start_ips_plugin(PayActivity.this, mobilePayInfo);
-                }else {
-                    UIHelper.ToastMessage(appContext,result.Message());
+                } else if (result.isOK()) {
+                    UIHelper.ToastMessage(appContext, result.Message());
+                    UIHelper.openLogin(PayActivity.this);
+                    finish();
+                } else {
+                    UIHelper.ToastMessage(appContext, result.Message());
                 }
             }
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                UIHelper.ToastMessage(appContext,ex.getMessage());
+                UIHelper.ToastMessage(appContext, ex.getMessage());
             }
 
             @Override
             public void onCancelled(CancelledException cex) {
-                UIHelper.ToastMessage(appContext,"cancel");
+                UIHelper.ToastMessage(appContext, "cancel");
             }
 
             @Override
@@ -497,9 +513,10 @@ public class PayActivity extends BaseActivity {
             }
         });
     }
+
     // 重用该实例
     protected void onNewIntent(Intent intent) {
-        Bundle bundle=intent.getExtras();
+        Bundle bundle = intent.getExtras();
         mLoadingDialog.show();
         isAliPay();
     }

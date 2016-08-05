@@ -15,10 +15,9 @@ public class BaseFragment extends Fragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		UIHelper.img_urls=new String[]{
-				"http://dwz.cn/3OLhVo",
-				"http://dwz.cn/3OLhVo",
-				"http://dwz.cn/3OLhVo",
-				"http://dwz.cn/3OLhVo"
+				"http://dwz.cn/3U1FMd",
+				"http://dwz.cn/3U1GId",
+				"http://dwz.cn/3U1H0J",
 		};
 		injected = true;
 		appContext = (YrApplication) getActivity().getApplication();
