@@ -33,8 +33,8 @@ public class GridViewMainAdapter extends BaseAdapter {
             R.mipmap.icon_daijia,
             R.mipmap.icon_youhuiquan,
             R.mipmap.icon_zhuangdan,
-            R.mipmap.icon_jiayouxiche};
-    private String[] iconName = { "扫码洗车", "附近网点", "充值", "会员卡绑定", "我的爱车", "违章查询", "代驾", "优惠券", "账单", "加油洗车"};
+            R.mipmap.icon_kefu};
+    private String[] iconName = { "扫码洗车", "附近网点", "充值", "会员卡绑定", "我的爱车", "违章查询", "代驾", "优惠券", "账单", "客服"};
     private LayoutInflater mContainer;  //视图容器
     public  GridViewMainAdapter(Context context){
         mContext=context;

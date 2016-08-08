@@ -85,7 +85,7 @@
                         android:layout_height="wrap_content"
                         android:text="特惠"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/text_size_18"
+                        android:textSize="@dimen/text_size_16"
                         />
                     <RelativeLayout
                         android:layout_width="wrap_content"
@@ -107,7 +107,7 @@
                             android:textColor="@color/white"
                             android:text="头条"
                             android:layout_marginLeft="@dimen/space_1"
-                            android:textSize="@dimen/space_18"
+                            android:textSize="@dimen/space_16"
                             android:layout_centerVertical="true"
                             android:layout_centerHorizontal="true"
                             />
@@ -145,7 +145,7 @@
                             android:id="@+id/textView2"
                             android:textColor="#ff6666"
                             android:background="@drawable/text_frame_color"
-                            android:padding="@dimen/space_3"
+                            android:padding="@dimen/space_2"
                             android:layout_centerVertical="true"
                             android:layout_alignParentLeft="true"
                             android:layout_alignParentStart="true" />
@@ -186,44 +186,11 @@
                 android:src="@mipmap/ic_line"
                 android:scaleType="fitXY"
                 />
-            <LinearLayout
+            <WebView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:background="@color/white"
-                android:gravity="center"
-                android:layout_gravity="center"
-                >
-                <ImageView
-                    android:layout_width="124.2dp"
-                    android:layout_height="91.8dp"
-                    android:src="@mipmap/ic_index_b1"
-                    android:layout_marginRight="5dp"
-                    />
-                <ImageView
-                    android:layout_width="280.8dp"
-                    android:layout_height="91.8dp"
-                    android:src="@mipmap/ic_index_c1"
-                    />
-            </LinearLayout>
-
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/white"
-                android:weightSum="1">
-                <ImageView
-                    android:layout_width="280.8dp"
-                    android:layout_height="91.8dp"
-                    android:src="@mipmap/ic_index_c2"
-                    />
-                <ImageView
-                    android:layout_width="124.2dp"
-                    android:layout_height="91.8dp"
-                    android:src="@mipmap/ic_index_b2"
-                    />
-            </LinearLayout>
+                android:id="@+id/index_webView"
+                />
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="8dp"

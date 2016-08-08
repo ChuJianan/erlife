@@ -12,21 +12,25 @@
         android:layout_height="match_parent"
         android:id="@+id/ll_location"
         android:gravity="center">
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:scaleType="centerInside"
-            android:src="@mipmap/ic_location"
-            android:id="@+id/imageView7"
-            android:layout_centerVertical="true"
-             />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="山东"
+            android:text="山东高密"
             android:id="@+id/location_text"
             android:textColor="@color/white"
-            android:textSize="@dimen/text_size_17"
+            android:textSize="@dimen/text_size_16"
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:maxEms="3"
+            />
+        <ImageView
+            android:layout_width="15dp"
+            android:layout_height="wrap_content"
+            android:scaleType="centerInside"
+            android:src="@mipmap/ic_index_dingwei"
+            android:id="@+id/imageView7"
+            android:layout_centerVertical="true"
             />
     </LinearLayout>
 

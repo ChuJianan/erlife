@@ -18,15 +18,15 @@
 
         <View
             android:id="@+id/v_dot1"
-            android:layout_width="8dp"
-            android:layout_height="8dp"
+            android:layout_width="11dp"
+            android:layout_height="11dp"
             android:background="@mipmap/point_select" />
 
         <View
             android:id="@+id/v_dot2"
-            android:layout_width="8dp"
-            android:layout_height="8dp"
-            android:layout_marginLeft="5dp"
+            android:layout_width="11dp"
+            android:layout_height="11dp"
+            android:layout_marginLeft="7dp"
             android:background="@mipmap/point_normal" />
 
     </LinearLayout>

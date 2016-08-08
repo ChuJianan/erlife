@@ -550,7 +550,7 @@
                 <ImageView
                     android:id="@+id/imageView320"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/space_6"
+                    android:layout_height="@dimen/space_12"
                     android:src="@mipmap/ic_line" />
             </LinearLayout>
         </LinearLayout>

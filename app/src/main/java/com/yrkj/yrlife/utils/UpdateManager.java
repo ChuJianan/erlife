@@ -124,7 +124,7 @@ public class UpdateManager {
 	 * @param context
 	 * @param isShowMsg 是否显示提示消息
 	 */
-	public void checkAppUpdate(Context context, final boolean isShowMsg){
+	public void checkAppUpdate(final Context context, final boolean isShowMsg){
 		this.mContext = context;
 		getCurrentVersion();
 		if(isShowMsg){

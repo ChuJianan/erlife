@@ -39,10 +39,12 @@ import com.yrkj.yrlife.ui.BinCardActivity;
 import com.yrkj.yrlife.ui.ConsumerActivity;
 import com.yrkj.yrlife.ui.DiscountActivity;
 import com.yrkj.yrlife.ui.FindBillActivity;
+import com.yrkj.yrlife.ui.MainActivity;
 import com.yrkj.yrlife.ui.MycarActivity;
 import com.yrkj.yrlife.ui.NearActivity;
 import com.yrkj.yrlife.ui.PayActivity;
 import com.yrkj.yrlife.ui.WashAActivity;
+import com.yrkj.yrlife.ui.WashRateActivity;
 import com.yrkj.yrlife.ui.WashsActivity;
 import com.yrkj.yrlife.utils.BitmapManager;
 import com.yrkj.yrlife.utils.JsonUtils;
@@ -64,7 +66,8 @@ import org.xutils.x;
  */
 @ContentView(R.layout.fragment_index)
 public class FragmentIndex extends BaseFragment {
-
+    private static final String TAG = MainActivity.class.getSimpleName();
+    private static final String APP_CACAHE_DIRNAME = "/webcache";
     private MyGridView gview, shop_grid, gview_b;
     private GridViewMainAdapter sim_adapter;
     private GridViewShopAdapter shopAdapter;
@@ -74,6 +77,8 @@ public class FragmentIndex extends BaseFragment {
     SlideShowView slideShowView;
     @ViewInject(R.id.shop_list)
     ListView shop_list;
+    @ViewInject(R.id.index_webView)
+    WebView index_webView;
     View view;
     SharedPreferences preferences;
     //    ImageView center_img,center_img2,center_img3;
@@ -95,39 +100,28 @@ public class FragmentIndex extends BaseFragment {
         super.onViewCreated(view, savedInstanceState);
         LinearLayout ls = (LinearLayout) getActivity().findViewById(R.id.ssss);
         ls.setVisibility(View.VISIBLE);
-        LinearLayout ll_location = (LinearLayout) getActivity().findViewById(R.id.ll_location);
-        LocationResult = (TextView) getActivity().findViewById(R.id.location_text);
-        gview = (MyGridView) view.findViewById(R.id.grid);
-        gview_b = (MyGridView) view.findViewById(R.id.grid_b);
-        shop_grid = (MyGridView) view.findViewById(R.id.shop_gridView);
-//            center_img=(ImageView)view.findViewById(R.id.center_img);
-//            center_img2=(ImageView)view.findViewById(R.id.center_img2);
-//            center_img3=(ImageView)view.findViewById(R.id.center_img3);
-        application = (YrApplication) getActivity().getApplication();
-        preferences = getActivity().getSharedPreferences("yrlife", getActivity().MODE_WORLD_READABLE);
-        mLoadingDialog = UIHelper.progressDialog(getActivity(), "正在努力加载...");
-        init();
-        ll_location.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), AdrListActivity.class);
-                startActivity(intent);
-            }
-        });
-        LocationResult.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), AdrListActivity.class);
-                startActivity(intent);
-            }
-        });
-        WindowManager wm = getActivity().getWindowManager();
-        int width = wm.getDefaultDisplay().getWidth();
-        int height = wm.getDefaultDisplay().getHeight();
-        Log.e("height", width + "w:" + height + "");
-        money = preferences.getFloat("money", 0);
-        if_have_useful_coupon = preferences.getString("if_have_useful_coupon", "");
-        isWash = UIHelper.isWash;
+        initWebView();
+        index_webView.loadUrl("file:///android_asset/i_center.html");
+        init(view);
+
+    }
+    private void initWebView() {
+        index_webView.getSettings().setJavaScriptEnabled(true);
+        index_webView.getSettings().setRenderPriority(WebSettings.RenderPriority.HIGH);
+        index_webView.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT);  //设置 缓存模式
+        // 开启 DOM storage API 功能
+        index_webView.getSettings().setDomStorageEnabled(true);
+        //开启 database storage API 功能
+        index_webView.getSettings().setDatabaseEnabled(true);
+        String cacheDirPath =getActivity().getFilesDir().getAbsolutePath()+APP_CACAHE_DIRNAME;
+        //      String cacheDirPath = getCacheDir().getAbsolutePath()+Constant.APP_DB_DIRNAME;
+        Log.i(TAG, "cacheDirPath="+cacheDirPath);
+        //设置数据库缓存路径
+        index_webView.getSettings().setDatabasePath(cacheDirPath);
+        //设置  Application Caches 缓存目录
+        index_webView.getSettings().setAppCachePath(cacheDirPath);
+        //开启 Application Caches 功能
+        index_webView.getSettings().setAppCacheEnabled(true);
     }
 
     private void isWash() {
@@ -175,7 +169,41 @@ public class FragmentIndex extends BaseFragment {
     Intent intent;
     String string = "";
 
-    private void init() {
+    private void init(View view) {
+        LinearLayout ll_location = (LinearLayout) getActivity().findViewById(R.id.ll_location);
+        LocationResult = (TextView) getActivity().findViewById(R.id.location_text);
+        gview = (MyGridView) view.findViewById(R.id.grid);
+        gview_b = (MyGridView) view.findViewById(R.id.grid_b);
+        shop_grid = (MyGridView) view.findViewById(R.id.shop_gridView);
+//            center_img=(ImageView)view.findViewById(R.id.center_img);
+//            center_img2=(ImageView)view.findViewById(R.id.center_img2);
+//            center_img3=(ImageView)view.findViewById(R.id.center_img3);
+        application = (YrApplication) getActivity().getApplication();
+        preferences = getActivity().getSharedPreferences("yrlife", getActivity().MODE_WORLD_READABLE);
+        mLoadingDialog = UIHelper.progressDialog(getActivity(), "正在努力加载...");
+        ll_location.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), AdrListActivity.class);
+                startActivity(intent);
+            }
+        });
+        LocationResult.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), AdrListActivity.class);
+                startActivity(intent);
+            }
+        });
+        WindowManager wm = getActivity().getWindowManager();
+        int width = wm.getDefaultDisplay().getWidth();
+        int height = wm.getDefaultDisplay().getHeight();
+        Log.e("height", width + "w:" + height + "");
+        money = preferences.getFloat("money", 0);
+        if_have_useful_coupon = preferences.getString("if_have_useful_coupon", "");
+        isWash = UIHelper.isWash;
+
+
         sim_adapter = new GridViewMainAdapter(getActivity());
         shopAdapter = new GridViewShopAdapter(getContext());
         bottomAdapter = new GridViewMainBottomAdapter(getContext());
@@ -352,6 +380,9 @@ public class FragmentIndex extends BaseFragment {
                     isWash = false;
                     //提交修改
                     editor.commit();
+                    intent = new Intent(getActivity(), WashRateActivity.class);
+                    intent.putExtra("wash", wash);
+                    startActivity(intent);
                 } else {
 
                 }
@@ -449,6 +480,9 @@ public class FragmentIndex extends BaseFragment {
                 view.findViewById(R.id.pay_discount).setClickable(true);
             } else if (if_have_useful_coupon.equals("0")) {
                 view.findViewById(R.id.rl_discount).setVisibility(View.GONE);
+                balance.setChecked(true);
+                pay_kind = "0";
+                isb = false;
             }
         }
         if (money == 0) {
@@ -462,6 +496,7 @@ public class FragmentIndex extends BaseFragment {
         dialog.setCancelable(false);
         dialog.show();
     }
+
     /*
     * 动态设置ListView组建的高度
     *
