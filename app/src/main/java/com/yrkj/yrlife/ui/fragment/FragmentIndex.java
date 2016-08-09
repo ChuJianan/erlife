@@ -100,10 +100,9 @@ public class FragmentIndex extends BaseFragment {
         super.onViewCreated(view, savedInstanceState);
         LinearLayout ls = (LinearLayout) getActivity().findViewById(R.id.ssss);
         ls.setVisibility(View.VISIBLE);
+        init(view);
         initWebView();
         index_webView.loadUrl("file:///android_asset/i_center.html");
-        init(view);
-
     }
     private void initWebView() {
         index_webView.getSettings().setJavaScriptEnabled(true);

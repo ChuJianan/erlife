@@ -86,6 +86,8 @@ public class FragmentMe extends BaseFragment {
 //            UIHelper.openLogin(getActivity(),false);
 //        }
         if (!StringUtils.isEmpty(URLs.secret_code)) {
+            balance_ll.setVisibility(View.VISIBLE);
+            count_ll.setVisibility(View.VISIBLE);
             nameText.setVisibility(View.VISIBLE);
             money_textView.setVisibility(View.VISIBLE);
             jifen_textView.setVisibility(View.VISIBLE);

@@ -87,6 +87,7 @@ public class UIHelper {
     public static BDLocation location;
     public static String token;
     public static String[] img_urls = {};
+    public static String[] wash_img_urls = {};
     public static int IMAGE_COUNT = 0;
     public static Washing_no_card_record washing_no_card_record;
     public static boolean isWash;

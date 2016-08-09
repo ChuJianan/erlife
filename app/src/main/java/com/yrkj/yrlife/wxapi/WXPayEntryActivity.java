@@ -13,6 +13,7 @@ import com.yrkj.yrlife.app.AppManager;
 import com.yrkj.yrlife.been.Result;
 import com.yrkj.yrlife.been.URLs;
 import com.yrkj.yrlife.ui.BaseActivity;
+import com.yrkj.yrlife.ui.LoginActivity;
 import com.yrkj.yrlife.ui.PayActivity;
 import com.yrkj.yrlife.ui.PaySuccessActivity;
 import com.yrkj.yrlife.utils.JsonUtils;
@@ -75,6 +76,11 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
                                 editor.commit();
                                 Intent intent=new Intent(WXPayEntryActivity.this, PaySuccessActivity.class);
                                 startActivity(intent);
+                            }else if (result.isOK()){
+                                Intent intent=new Intent(WXPayEntryActivity.this, LoginActivity.class);
+                                startActivity(intent);
+                                finish();
+                                AppManager.getAppManager().finishActivity(PayActivity.class);
                             }
                         }
 

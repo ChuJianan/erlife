@@ -17,7 +17,7 @@ public class BaseFragment extends Fragment {
 		UIHelper.img_urls=new String[]{
 				"http://dwz.cn/3U1FMd",
 				"http://dwz.cn/3U1GId",
-				"http://dwz.cn/3U1H0J",
+				"http://dwz.cn/3V9xTR",
 		};
 		injected = true;
 		appContext = (YrApplication) getActivity().getApplication();

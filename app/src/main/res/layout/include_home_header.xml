@@ -16,7 +16,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="山东高密"
+            android:text="山东"
             android:id="@+id/location_text"
             android:textColor="@color/white"
             android:textSize="@dimen/text_size_16"

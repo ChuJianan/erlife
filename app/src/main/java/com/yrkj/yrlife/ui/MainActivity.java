@@ -121,7 +121,7 @@ public class MainActivity extends FragmentActivity {
         UIHelper.img_urls = new String[]{
                 "http://dwz.cn/3U1FMd",
                 "http://dwz.cn/3U1GId",
-                "http://dwz.cn/3U1H0J",
+                "http://dwz.cn/3V9xTR",
         };
         preferences = getSharedPreferences("yrlife", MODE_WORLD_READABLE);
         initView();
@@ -307,7 +307,7 @@ public class MainActivity extends FragmentActivity {
             mTabHost.addTab(tabSpec, fragmentArray[i], null);
             // 设置Tab按钮的背景
             mTabHost.getTabWidget().getChildAt(i)
-                    .setBackgroundResource(R.mipmap.ic_bg_btm);
+                    .setBackgroundResource(R.color.white);
         }
         mTabHost.getTabWidget().getChildTabViewAt(3).setOnClickListener(new View.OnClickListener() {
             @Override
