@@ -41,14 +41,11 @@
             </LinearLayout>
 
 
-           <com.yrkj.yrlife.widget.SlideWashShowView
+           <com.yrkj.yrlife.widget.AutoScrollViewPager
                android:id="@+id/flipper"
                android:layout_width="match_parent"
                android:layout_height="180dp"
-               android:adjustViewBounds="true"
                android:layout_marginTop="@dimen/space_15"
-               android:autoStart="true"
-               android:flipInterval="2000"
                />
 
         </LinearLayout>

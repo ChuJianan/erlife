@@ -2,6 +2,7 @@ package com.yrkj.yrlife.ui;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -9,20 +10,24 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.view.ViewPager;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.yrkj.yrlife.R;
+import com.yrkj.yrlife.adapter.ImagePagerAdapter;
 import com.yrkj.yrlife.been.PayConfirm;
 import com.yrkj.yrlife.been.Result;
 import com.yrkj.yrlife.been.URLs;
 import com.yrkj.yrlife.been.Washing_no_card_record;
 import com.yrkj.yrlife.utils.JsonUtils;
+import com.yrkj.yrlife.utils.ListUtils;
 import com.yrkj.yrlife.utils.StringUtils;
 import com.yrkj.yrlife.utils.TimeCountImageView;
 import com.yrkj.yrlife.utils.UIHelper;
+import com.yrkj.yrlife.widget.AutoScrollViewPager;
 import com.yrkj.yrlife.widget.SlideWashShowView;
 
 import org.xutils.common.Callback;
@@ -33,6 +38,8 @@ import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -46,7 +53,7 @@ public class WashAActivity extends BaseActivity {
     @ViewInject(R.id.title)
     TextView title;
     @ViewInject(R.id.flipper)
-    SlideWashShowView flipper;
+    AutoScrollViewPager flipper;
     @ViewInject(R.id.wash_machid)
     TextView wash_machid;
     @ViewInject(R.id.wash_finish)
@@ -62,6 +69,7 @@ public class WashAActivity extends BaseActivity {
     PayConfirm payconfirm;
     private BigDecimal spend_money;
     private CountDownTimer timers;
+    private List<Integer> imageIdList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,8 +86,26 @@ public class WashAActivity extends BaseActivity {
         timers.start();
         load204Info();
     }
-
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // start auto scroll when onResume
+        flipper.startAutoScroll();
+    }
     private void init() {
+        imageIdList = new ArrayList<Integer>();
+        imageIdList.add(R.mipmap.ic_wash_top_g);
+        imageIdList.add(R.mipmap.ic_wash_top_p);
+        imageIdList.add(R.mipmap.ic_wash_top_x);
+        imageIdList.add(R.mipmap.ic_wash_top_xs);
+        ImagePagerAdapter imagePagerAdapter = new ImagePagerAdapter(appContext, imageIdList);
+        flipper.setAdapter(imagePagerAdapter.setInfiniteLoop(true));
+        flipper.setOnPageChangeListener(new MyOnPageChangeListener());
+        flipper.setInterval(2000);
+        flipper.startAutoScroll();
+        flipper.setCurrentItem(Integer.MAX_VALUE / 2 - Integer.MAX_VALUE / 2
+                % ListUtils.getSize(imageIdList));
+
         preferences = getSharedPreferences("yrlife", MODE_WORLD_READABLE);
         String isWashing = preferences.getString("isWashing", "");
         if (!StringUtils.isEmpty(isWashing)) {
@@ -273,4 +299,19 @@ public class WashAActivity extends BaseActivity {
 //        }
 //
 //    }
+public class MyOnPageChangeListener implements ViewPager.OnPageChangeListener {
+
+    @Override
+    public void onPageSelected(int position) {
+
+    }
+
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int arg0) {
+    }
+}
 }
