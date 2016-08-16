@@ -11,7 +11,6 @@ public class URLs extends Entity {
 
 	public static final String UTF_8 = "UTF-8";
 	public static  String secret_code="";
-//	public static String ImageByte="";
 	public static String IMAGE_FILE_NAME="";
 //	public static final String HOST = "http://192.168.1.33:8080/";
 //	public static final String HOST = "http://40057179.nat123.net/";
