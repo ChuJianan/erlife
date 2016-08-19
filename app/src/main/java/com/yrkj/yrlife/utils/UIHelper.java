@@ -36,7 +36,6 @@ import com.yrkj.yrlife.been.Washing_no_card_record;
 import com.yrkj.yrlife.ui.BrowserActivity;
 //import com.yrkj.yrlife.ui.GDNaviActivity;
 import com.yrkj.yrlife.ui.LoginActivity;
-import com.yrkj.yrlife.ui.NaviActivity;
 import com.yrkj.yrlife.ui.TestActivity;
 
 import org.xutils.view.annotation.ContentView;
@@ -158,11 +157,11 @@ public class UIHelper {
     }
 
     public static void openNavigation(Context activity, LatLng p2, String name) {
-        Intent intent = new Intent(activity, NaviActivity.class);
-        intent.putExtra("lng", p2);
-        intent.putExtra("name", name);
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        activity.startActivity(intent);
+//        Intent intent = new Intent(activity, NaviActivity.class);
+//        intent.putExtra("lng", p2);
+//        intent.putExtra("name", name);
+//        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//        activity.startActivity(intent);
     }
 
     public static void openBaiduMap(double lat, double lon, String describle, Context activity) {
