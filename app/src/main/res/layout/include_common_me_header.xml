@@ -14,16 +14,34 @@
         android:orientation="horizontal"
         android:gravity="center"
         >
-    <ImageView
-        android:layout_width="23dp"
-        android:layout_height="23dp"
-        android:layout_marginLeft="@dimen/space_15"
-        android:background="@mipmap/ic_me_toast"
-         />
+        <RelativeLayout
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:layout_marginLeft="@dimen/space_15"
+            >
+            <ImageView
+                android:layout_width="23dp"
+                android:layout_height="23dp"
+                android:background="@mipmap/ic_me_toast"
+                android:layout_alignParentBottom="true"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/message_nub"
+                android:background="@mipmap/ic_yuandian"
+                android:gravity="center"
+                android:text="2"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_9"
+                android:layout_alignParentRight="true"
+                android:visibility="gone"
+                />
+        </RelativeLayout>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="返"
+            android:text=""
             android:layout_marginTop="@dimen/space_11"
             android:layout_marginLeft="@dimen/space_3"
             android:textColor="@color/white"

@@ -23,6 +23,7 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.hyphenate.easeui.widget.EaseContactList;
 import com.yrkj.yrlife.R;
 import com.yrkj.yrlife.adapter.GridViewMainAdapter;
 import com.yrkj.yrlife.adapter.GridViewMainBottomAdapter;
@@ -34,11 +35,13 @@ import com.yrkj.yrlife.been.PayConfirm;
 import com.yrkj.yrlife.been.Result;
 import com.yrkj.yrlife.been.URLs;
 import com.yrkj.yrlife.been.Washing_no_card_record;
+import com.yrkj.yrlife.hx.ui.EaseContactListActivity;
 import com.yrkj.yrlife.ui.AdrListActivity;
 import com.yrkj.yrlife.ui.BinCardActivity;
 import com.yrkj.yrlife.ui.ConsumerActivity;
 import com.yrkj.yrlife.ui.DiscountActivity;
 import com.yrkj.yrlife.ui.FindBillActivity;
+import com.yrkj.yrlife.ui.KefuActivity;
 import com.yrkj.yrlife.ui.MainActivity;
 import com.yrkj.yrlife.ui.MycarActivity;
 import com.yrkj.yrlife.ui.NearActivity;
@@ -104,6 +107,7 @@ public class FragmentIndex extends BaseFragment {
         initWebView();
         index_webView.loadUrl("file:///android_asset/i_center.html");
     }
+
     private void initWebView() {
         index_webView.getSettings().setJavaScriptEnabled(true);
         index_webView.getSettings().setRenderPriority(WebSettings.RenderPriority.HIGH);
@@ -112,9 +116,9 @@ public class FragmentIndex extends BaseFragment {
         index_webView.getSettings().setDomStorageEnabled(true);
         //开启 database storage API 功能
         index_webView.getSettings().setDatabaseEnabled(true);
-        String cacheDirPath =getActivity().getFilesDir().getAbsolutePath()+APP_CACAHE_DIRNAME;
+        String cacheDirPath = getActivity().getFilesDir().getAbsolutePath() + APP_CACAHE_DIRNAME;
         //      String cacheDirPath = getCacheDir().getAbsolutePath()+Constant.APP_DB_DIRNAME;
-        Log.i(TAG, "cacheDirPath="+cacheDirPath);
+        Log.i(TAG, "cacheDirPath=" + cacheDirPath);
         //设置数据库缓存路径
         index_webView.getSettings().setDatabasePath(cacheDirPath);
         //设置  Application Caches 缓存目录
@@ -290,8 +294,13 @@ public class FragmentIndex extends BaseFragment {
                             startActivity(intent);
                         }
                         break;
-                    case 9://加油洗车
-                        UIHelper.openTestActivity(getActivity());
+                    case 9://客服
+                        if (URLs.secret_code == "") {
+                            UIHelper.openLogin(getActivity());
+                        } else {
+                            intent = new Intent(getActivity(), KefuActivity.class);
+                            startActivity(intent);
+                        }
                         break;
                 }
             }

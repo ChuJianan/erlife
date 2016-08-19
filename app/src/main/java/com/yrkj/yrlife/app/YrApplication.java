@@ -17,6 +17,10 @@ import android.os.Vibrator;
 import android.util.Log;
 
 import com.baidu.mapapi.SDKInitializer;
+import com.hyphenate.chat.EMClient;
+import com.hyphenate.chat.EMOptions;
+import com.hyphenate.easeui.controller.EaseUI;
+import com.hyphenate.easeui.domain.EaseUser;
 import com.tencent.android.tpush.XGIOperateCallback;
 import com.tencent.android.tpush.XGNotifaction;
 import com.tencent.android.tpush.XGPushConfig;
@@ -30,13 +34,18 @@ import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
 import com.yrkj.yrlife.been.URLs;
 import com.yrkj.yrlife.service.LocationService;
+import com.yrkj.yrlife.ui.LoginActivity;
 import com.yrkj.yrlife.utils.MethodsCompat;
 import com.yrkj.yrlife.utils.QRCodeUtil;
 import com.yrkj.yrlife.utils.StringUtils;
 import com.yrkj.yrlife.utils.UIHelper;
 
 import org.apache.http.conn.util.InetAddressUtils;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.xutils.DbManager;
+import org.xutils.common.Callback;
+import org.xutils.http.RequestParams;
 import org.xutils.x;
 
 import java.io.File;
@@ -52,6 +61,7 @@ import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.util.Enumeration;
 import java.util.Hashtable;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
 import java.util.UUID;
@@ -73,7 +83,8 @@ public class YrApplication extends Application {
     private Hashtable<String, Object> memCacheRegion = new Hashtable<String, Object>();
 
     public static IWXAPI api;//IWXAPI是第三方app和微信通信的opeanapi接口
-
+    EaseUser easeUser;
+    SharedPreferences preferences;
 
     @Override
     public void onCreate() {
@@ -92,12 +103,11 @@ public class YrApplication extends Application {
 //        locationService = new LocationService(getApplicationContext());
         mVibrator = (Vibrator) getApplicationContext().getSystemService(Service.VIBRATOR_SERVICE);
         SDKInitializer.initialize(this);
-
-        SharedPreferences preferences = this.getSharedPreferences("yrlife", this.MODE_WORLD_READABLE);
+        preferences = getSharedPreferences("yrlife", MODE_WORLD_READABLE);
         String secret_code = preferences.getString("secret_code", "");
         String openid = preferences.getString("openid", "");
         URLs.secret_code = secret_code;
-        UIHelper.OpenId=openid;
+        UIHelper.OpenId = openid;
         //注册微信
         //通过WXAPIFactory工厂，获取IWXAPI的实列
         api = WXAPIFactory.createWXAPI(this, null);
@@ -112,7 +122,7 @@ public class YrApplication extends Application {
             @Override
             public void onSuccess(Object data, int flag) {
                 Log.d("TPush", "注册成功，设备token为：" + data);
-                UIHelper.token=data.toString();
+                UIHelper.token = data.toString();
             }
 
             @Override
@@ -121,8 +131,145 @@ public class YrApplication extends Application {
             }
         });
 //        Log.d("uuid", XGPushConfig.getToken(this));
+        EMOptions options = new EMOptions();
+        // 默认添加好友时，是不需要验证的，改成需要验证
+        options.setAcceptInvitationAlways(true);
+        int pid = android.os.Process.myPid();
+        String processAppName = getAppName(pid);
+        // 如果APP启用了远程的service，此application:onCreate会被调用2次
+        // 为了防止环信SDK被初始化2次，加此判断会保证SDK被初始化1次
+        // 默认的APP会在以包名为默认的process name下运行，如果查到的process name不是APP的process name就立即返回
+
+        if (processAppName == null || !processAppName.equalsIgnoreCase(this.getPackageName())) {
+
+            // 则此application::onCreate 是被service 调用的，直接返回
+            return;
+        } else {
+            //初始化
+            EMClient.getInstance().init(getApplicationContext(), options);
+            //在做打包混淆时，关闭debug模式，避免消耗不必要的资源
+            EMClient.getInstance().setDebugMode(false);
+            EaseUI.getInstance().init(getApplicationContext(), options);
+        }
+
+        EaseUI.getInstance().setUserProfileProvider(new EaseUI.EaseUserProfileProvider() {
+            @Override
+
+            public EaseUser getUser(final String username) {
+                easeUser = new EaseUser(username);
+                int id = preferences.getInt("id", 0);
+                if (username.equals(String.valueOf(id))) {
+                    String name = preferences.getString("name", "");
+                    String nick_name = preferences.getString("nick_name", "");
+                    String head_image = preferences.getString("head_image", "");
+                    String wx_head_image = preferences.getString("wx_head_image", "");
+                    if (!StringUtils.isEmpty(name)) {
+                        easeUser = new EaseUser(name);
+                    } else if (!StringUtils.isEmpty(nick_name)) {
+                        easeUser = new EaseUser(nick_name);
+                    }
+                    if (!StringUtils.isEmpty(head_image)) {
+                        easeUser.setAvatar(URLs.IMGURL + head_image);
+                    } else if (!StringUtils.isEmpty(wx_head_image)) {
+                        easeUser.setAvatar(wx_head_image);
+                    }
+                    return easeUser;
+                } else {
+                    final SharedPreferences.Editor editor = preferences.edit();
+                    String customerService=preferences.getString(username,"");
+                    if (!StringUtils.isEmpty(customerService)){
+                        try{
+                            JSONObject jsonObject=new JSONObject(customerService);
+                            String nick_name = jsonObject.getString("nickName");
+                            String headImage = jsonObject.getString("headImage");
+                            easeUser = new EaseUser(nick_name);
+                            if (!StringUtils.isUrl(headImage)){
+                                easeUser.setAvatar(URLs.IMGURL+headImage);
+                            }else {
+                                easeUser.setAvatar(headImage);
+                            }
+
+                        }catch (JSONException e){
+                            e.printStackTrace();
+                        }
+                    }else {
+                    RequestParams params = new RequestParams(URLs.Message_ID);
+                    params.addQueryStringParameter("secret_code", URLs.secret_code);
+                    params.addQueryStringParameter("id", username);
+                    x.http().get(params, new Callback.CommonCallback<String>() {
+                        @Override
+                        public void onSuccess(String result) {
+                            try {
+                                JSONObject json = new JSONObject(result);
+                                JSONObject json1 = json.getJSONObject("customerService");
+                                String customerService = json.getString("customerService");
+                                int code = json.getInt("code");
+                                String message = json.getString("message");
+                                if (code == 1) {
+                                    if (!StringUtils.isEmpty(customerService)) {
+                                        editor.putString(username,customerService);
+                                        editor.commit();
+                                        String nick_name = json1.getString("nickName");
+                                        String headImage = json1.getString("headImage");
+                                        easeUser = new EaseUser(nick_name);
+                                        if (!StringUtils.isUrl(headImage)){
+                                            easeUser.setAvatar(URLs.IMGURL+headImage);
+                                        }else {
+                                            easeUser.setAvatar(headImage);
+                                        }
+                                    }
+                                } else if (code == 3) {
+
+                                } else if (code == 2) {
+
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+
+                        }
+
+                        @Override
+                        public void onCancelled(CancelledException cex) {
+
+                        }
+
+                        @Override
+                        public void onError(Throwable ex, boolean isOnCallback) {
+
+                        }
+
+                        @Override
+                        public void onFinished() {
+
+                        }
+                    });
+                    }
+                    return easeUser;
+                }
+            }
+        });
     }
 
+    private String getAppName(int pID) {
+        String processName = null;
+        ActivityManager am = (ActivityManager) this.getSystemService(ACTIVITY_SERVICE);
+        List l = am.getRunningAppProcesses();
+        Iterator i = l.iterator();
+        PackageManager pm = this.getPackageManager();
+        while (i.hasNext()) {
+            ActivityManager.RunningAppProcessInfo info = (ActivityManager.RunningAppProcessInfo) (i.next());
+            try {
+                if (info.pid == pID) {
+                    processName = info.processName;
+                    return processName;
+                }
+            } catch (Exception e) {
+                // Log.d("Process", "Error>> :"+ e.toString());
+            }
+        }
+        return processName;
+    }
 
     /**
      * 检测当前系统声音是否为正常模式

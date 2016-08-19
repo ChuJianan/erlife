@@ -8,11 +8,16 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.hyphenate.EMCallBack;
+import com.hyphenate.chat.EMClient;
+import com.hyphenate.easeui.controller.EaseUI;
+import com.hyphenate.easeui.domain.EaseUser;
 import com.yrkj.yrlife.R;
 import com.yrkj.yrlife.api.ApiClient;
 import com.yrkj.yrlife.app.AppException;
@@ -70,12 +75,14 @@ public class BindPhoneActivity extends Activity {
         title.setText("绑定手机号");
         init();
     }
+
     private void init() {
-        params=getIntent().getStringExtra("params");
+        params = getIntent().getStringExtra("params");
         timer = new TimeCount(60000, 1000, codeBtn);
         preferences = getSharedPreferences("yrlife", MODE_WORLD_READABLE);
-        mLoadingDialog= UIHelper.progressDialog(this,"正在获取验证码，请稍后...");
+        mLoadingDialog = UIHelper.progressDialog(this, "正在获取验证码，请稍后...");
     }
+
     @Event(R.id.hq_code)
     private void hqyzmEvent(View view) {
         phone = phoneEdit.getText().toString();
@@ -108,7 +115,7 @@ public class BindPhoneActivity extends Activity {
                         timer.onFinish();
                         timer.cancel();
                         codeBtn.setText("获取验证码");
-                        mLoadingDialog= UIHelper.progressDialog(this,"正在加载，请稍后...");
+                        mLoadingDialog = UIHelper.progressDialog(this, "正在加载，请稍后...");
                         mLoadingDialog.show();
                         setUser();
                     } else {
@@ -163,11 +170,13 @@ public class BindPhoneActivity extends Activity {
         }.start();
     }
 
+    User user;
+
     private void setUser() {
-        final RequestParams params = new RequestParams(URLs.Thread_Login_JUDGE+this.params);
+        final RequestParams params = new RequestParams(URLs.Thread_Login_JUDGE + this.params);
         params.addQueryStringParameter("phone", phone);
         params.addQueryStringParameter("code", code);
-        params.addQueryStringParameter("tokenAndFlag",UIHelper.token+"And");
+        params.addQueryStringParameter("tokenAndFlag", UIHelper.token + "And");
         x.http().post(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
@@ -176,10 +185,11 @@ public class BindPhoneActivity extends Activity {
                     int code = json.getInt("code");
                     String message = json.getString("message");
                     if (code == 1) {
-                        User user = JsonUtils.fromJson(json.getString("result"), User.class);
+                        user = JsonUtils.fromJson(json.getString("result"), User.class);
                         //实例化Editor对象
                         SharedPreferences.Editor editor = preferences.edit();
                         //存入数据
+                        editor.putInt("id", user.getId());
                         if (StringUtils.isEmpty(user.getReal_name())) {
                             editor.putString("name", user.getAccount());
                         } else {
@@ -219,17 +229,37 @@ public class BindPhoneActivity extends Activity {
                         } else {
                             editor.putFloat("money", user.getTotal_balance().floatValue());
                         }
-                        if (!StringUtils.isEmpty(user.getIf_have_useful_coupon())){
-                            editor.putString("if_have_useful_coupon",user.getIf_have_useful_coupon());
-                        }else {
-                            editor.putString("if_have_useful_coupon","0");
+                        if (!StringUtils.isEmpty(user.getIf_have_useful_coupon())) {
+                            editor.putString("if_have_useful_coupon", user.getIf_have_useful_coupon());
+                        } else {
+                            editor.putString("if_have_useful_coupon", "0");
                         }
                         editor.putInt("jifen", user.getCard_total_point());
                         //提交修改
                         editor.commit();
                         mLoadingDialog.dismiss();
+                        //                            user.getId()+"", user.getId()+"0"
+                        EMClient.getInstance().login(user.getId()+"", user.getId()+"0", new EMCallBack() {//回调
+                            @Override
+                            public void onSuccess() {
+                                EMClient.getInstance().groupManager().loadAllGroups();
+                                EMClient.getInstance().chatManager().loadAllConversations();
+                                Log.d("main", "登录聊天服务器成功！");
+                            }
+
+                            @Override
+                            public void onProgress(int progress, String status) {
+
+                            }
+
+                            @Override
+                            public void onError(int code, String message) {
+                                Log.d("main", "登录聊天服务器失败！");
+                            }
+                        });
+
                         finish();
-                    }else {
+                    } else {
                         mLoadingDialog.dismiss();
                         timer.onFinish();
                         timer.cancel();

@@ -7,12 +7,17 @@ import android.graphics.Paint;
 import android.os.Bundle;
 import android.os.Message;
 import android.text.method.DigitsKeyListener;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.hyphenate.EMCallBack;
+import com.hyphenate.chat.EMClient;
+import com.hyphenate.easeui.controller.EaseUI;
+import com.hyphenate.easeui.domain.EaseUser;
 import com.tencent.mm.sdk.modelmsg.SendAuth;
 import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
@@ -106,7 +111,7 @@ public class LoginActivity extends BaseActivity {
     @Event(R.id.wx_btn)
     private void wxbtnEvent(View view) {
         // send oauth request
-        SendAuth.Req req=new SendAuth.Req();
+        SendAuth.Req req = new SendAuth.Req();
         req.scope = "snsapi_userinfo";
         req.state = ApiClient.getUserAgent(appContext);
         api.sendReq(req);
@@ -124,12 +129,14 @@ public class LoginActivity extends BaseActivity {
         startActivity(intent);
     }
 
+    User user;
+
     private void login() {
         RequestParams params = new RequestParams(URLs.LOGIN);
         params.addQueryStringParameter("conditions", name);
         params.addQueryStringParameter("pwd", password);
         params.addQueryStringParameter("unique_phone_code", appContext.getAppId());
-        params.addQueryStringParameter("tokenAndFlag",UIHelper.token+"And");
+        params.addQueryStringParameter("tokenAndFlag", UIHelper.token + "And");
         x.http().post(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String res) {
@@ -138,21 +145,22 @@ public class LoginActivity extends BaseActivity {
                     JSONObject json = new JSONObject(res);
                     msg.what = json.getInt("code");
                     msg.obj = json.getString("message");
-                    UIHelper.ToastMessage(appContext,msg.obj.toString());
+                    UIHelper.ToastMessage(appContext, msg.obj.toString());
                     if (msg.what == 1) {
                         result = json.getString("result");
-                        User user = JsonUtils.fromJson(result, User.class);
+                        user = JsonUtils.fromJson(result, User.class);
                         //实例化Editor对象
                         SharedPreferences.Editor editor = preferences.edit();
                         //存入数据
+                        editor.putInt("id", user.getId());
                         if (StringUtils.isEmpty(user.getReal_name())) {
                             editor.putString("name", user.getAccount());
                         } else {
                             editor.putString("name", user.getReal_name());
                         }
-                        if (StringUtils.isEmpty(user.getNick_name())){
+                        if (StringUtils.isEmpty(user.getNick_name())) {
                             editor.putString("nick_name", user.getNick_name());
-                        }else {
+                        } else {
                             editor.putString("nick_name", "");
                         }
                         editor.putString("phone", user.getPhone());
@@ -179,25 +187,25 @@ public class LoginActivity extends BaseActivity {
                             editor.putString("secret_code", user.getSecret_code());
                             URLs.secret_code = user.getSecret_code();
                         }
-                        if (StringUtils.isEmpty(user.getIsBind())){
-                            editor.putString("isBind",user.getIsBind());
-                        }else {
-                            editor.putString("isBind","");
+                        if (StringUtils.isEmpty(user.getIsBind())) {
+                            editor.putString("isBind", user.getIsBind());
+                        } else {
+                            editor.putString("isBind", "");
                         }
-                        if (user.getTotal_balance()==null){
+                        if (user.getTotal_balance() == null) {
                             editor.putFloat("money", 0);
-                        }else {
+                        } else {
                             editor.putFloat("money", user.getTotal_balance().floatValue());
                         }
-                        if (!StringUtils.isEmpty(user.getIf_have_useful_coupon())){
-                            editor.putString("if_have_useful_coupon",user.getIf_have_useful_coupon());
-                        }else {
-                            editor.putString("if_have_useful_coupon","0");
+                        if (!StringUtils.isEmpty(user.getIf_have_useful_coupon())) {
+                            editor.putString("if_have_useful_coupon", user.getIf_have_useful_coupon());
+                        } else {
+                            editor.putString("if_have_useful_coupon", "0");
                         }
-                        if (!StringUtils.isEmpty(user.getIsWashing())){
-                            editor.putString("isWashing",user.getIsWashing());
-                        }else {
-                            editor.putString("isWashing","0");
+                        if (!StringUtils.isEmpty(user.getIsWashing())) {
+                            editor.putString("isWashing", user.getIsWashing());
+                        } else {
+                            editor.putString("isWashing", "0");
                         }
                         editor.putString("openid", "");
                         editor.putString("access_token", "");
@@ -205,6 +213,26 @@ public class LoginActivity extends BaseActivity {
                         editor.putInt("jifen", user.getCard_total_point());
                         //提交修改
                         editor.commit();
+                        //                            user.getId()+"", user.getId()+"0"
+                        EMClient.getInstance().login(user.getId()+"", user.getId()+"0", new EMCallBack() {//回调
+                            @Override
+                            public void onSuccess() {
+                                EMClient.getInstance().groupManager().loadAllGroups();
+                                EMClient.getInstance().chatManager().loadAllConversations();
+                                Log.d("main", "登录聊天服务器成功！");
+                            }
+
+                            @Override
+                            public void onProgress(int progress, String status) {
+
+                            }
+
+                            @Override
+                            public void onError(int code, String message) {
+                                Log.d("main", "登录聊天服务器失败！");
+                            }
+                        });
+
                         finish();
                     } else if (msg.what == 2) {
                         mLoadingDialog.dismiss();
@@ -218,7 +246,7 @@ public class LoginActivity extends BaseActivity {
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                UIHelper.ToastMessage(appContext, ex.getMessage()+ex.hashCode());
+                UIHelper.ToastMessage(appContext, ex.getMessage() + ex.hashCode());
             }
 
             @Override

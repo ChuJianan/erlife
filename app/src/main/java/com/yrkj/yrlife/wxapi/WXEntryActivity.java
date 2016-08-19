@@ -4,7 +4,12 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 
+import com.hyphenate.EMCallBack;
+import com.hyphenate.chat.EMClient;
+import com.hyphenate.easeui.controller.EaseUI;
+import com.hyphenate.easeui.domain.EaseUser;
 import com.tencent.mm.sdk.modelbase.BaseReq;
 import com.tencent.mm.sdk.modelbase.BaseResp;
 import com.tencent.mm.sdk.modelmsg.SendAuth;
@@ -111,7 +116,7 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
 
                     @Override
                     public void onFinished() {
-                            setUser();
+                        setUser();
                     }
                 });
                 break;
@@ -173,6 +178,8 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
         });
     }
 
+    User user;
+
     private void setUser(final WeixinUsers weixinuser) {
         final RequestParams params = new RequestParams(URLs.Thread_Login);
         final RequestParams params1 = new RequestParams();
@@ -182,7 +189,7 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
         params.addQueryStringParameter("head_image", weixinuser.getHeadimgurl());
         params.addQueryStringParameter("nick_name", weixinuser.getNickname());
         params.addQueryStringParameter("unique_phone_code", appContext.getAppId());
-        params.addQueryStringParameter("tokenAndFlag",UIHelper.token+"And");
+        params.addQueryStringParameter("tokenAndFlag", UIHelper.token + "And");
         x.http().post(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String result) {
@@ -191,10 +198,11 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
                     int code = json.getInt("code");
                     String message = json.getString("message");
                     if (code == 1) {
-                        User user = JsonUtils.fromJson(json.getString("result"), User.class);
+                        user = JsonUtils.fromJson(json.getString("result"), User.class);
                         //实例化Editor对象
                         SharedPreferences.Editor editor = preferences.edit();
                         //存入数据
+                        editor.putInt("id", user.getId());
                         if (StringUtils.isEmpty(user.getReal_name())) {
                             editor.putString("name", user.getAccount());
                         } else {
@@ -234,29 +242,49 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
                         } else {
                             editor.putFloat("money", user.getTotal_balance().floatValue());
                         }
-                        if (!StringUtils.isEmpty(user.getIf_have_useful_coupon())){
-                            editor.putString("if_have_useful_coupon",user.getIf_have_useful_coupon());
-                        }else {
-                            editor.putString("if_have_useful_coupon","0");
+                        if (!StringUtils.isEmpty(user.getIf_have_useful_coupon())) {
+                            editor.putString("if_have_useful_coupon", user.getIf_have_useful_coupon());
+                        } else {
+                            editor.putString("if_have_useful_coupon", "0");
                         }
-                        if (!StringUtils.isEmpty(user.getIsWashing())){
-                            editor.putString("isWashing",user.getIsWashing());
-                        }else {
-                            editor.putString("isWashing","0");
+                        if (!StringUtils.isEmpty(user.getIsWashing())) {
+                            editor.putString("isWashing", user.getIsWashing());
+                        } else {
+                            editor.putString("isWashing", "0");
                         }
                         editor.putInt("jifen", user.getCard_total_point());
                         //提交修改
                         editor.commit();
+                        //                            user.getId()+"", user.getId()+"0"
+                        EMClient.getInstance().login(user.getId()+"", user.getId()+"0", new EMCallBack() {//回调
+                            @Override
+                            public void onSuccess() {
+                                EMClient.getInstance().groupManager().loadAllGroups();
+                                EMClient.getInstance().chatManager().loadAllConversations();
+                                Log.d("main", "登录聊天服务器成功！");
+                            }
+
+                            @Override
+                            public void onProgress(int progress, String status) {
+
+                            }
+
+                            @Override
+                            public void onError(int code, String message) {
+                                Log.d("main", "登录聊天服务器失败！");
+                            }
+                        });
+
                         AppManager.getAppManager().finishActivity(LoginActivity.class);
-                    }else if (code==3){
+                    } else if (code == 3) {
                         params1.addQueryStringParameter("openId", weixinuser.getOpenid());
                         params1.addQueryStringParameter("union_id", weixinuser.getUnionid());
                         params1.addQueryStringParameter("sex", weixinuser.getSex() + "");
                         params1.addQueryStringParameter("head_image", weixinuser.getHeadimgurl());
                         params1.addQueryStringParameter("nick_name", weixinuser.getNickname());
                         params1.addQueryStringParameter("unique_phone_code", appContext.getAppId());
-                        Intent intent=new Intent(WXEntryActivity.this, BindPhoneActivity.class);
-                        intent.putExtra("params",params1.toString());
+                        Intent intent = new Intent(WXEntryActivity.this, BindPhoneActivity.class);
+                        intent.putExtra("params", params1.toString());
                         startActivity(intent);
                         finish();
                     }

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <include layout="@layout/include_common_header"/>
+
+    <Button
+        android:layout_width="240dp"
+        android:layout_height="46dp"
+        android:text="客服一"
+        android:textSize="@dimen/text_size_18"
+        android:id="@+id/kefu1"
+        android:background="@drawable/ic_bg_btn"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/space_30"
+        />
+
+    <Button
+        android:layout_width="240dp"
+        android:layout_height="46dp"
+        android:background="@drawable/ic_bg_btn"
+        android:layout_marginTop="@dimen/space_30"
+        android:text="客服二"
+        android:textSize="@dimen/text_size_18"
+        android:id="@+id/kefu2"
+        android:layout_gravity="center_horizontal" />
+</LinearLayout>

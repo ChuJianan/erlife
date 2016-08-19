@@ -25,6 +25,7 @@ import android.widget.Toast;
 //import com.amap.api.navi.AMapNavi;
 import com.baidu.location.BDLocation;
 import com.baidu.mapapi.model.LatLng;
+import com.baidu.mapapi.model.LatLngBounds;
 import com.baidu.mapapi.utils.CoordinateConverter;
 import com.yrkj.yrlife.R;
 import com.yrkj.yrlife.api.ApiClient;
@@ -91,6 +92,7 @@ public class UIHelper {
     public static int IMAGE_COUNT = 0;
     public static Washing_no_card_record washing_no_card_record;
     public static boolean isWash;
+    public static int COUNT=0;
     /**
      * 全局web样式
      */
@@ -133,6 +135,7 @@ public class UIHelper {
 
     /**
      * 坐标转换
+     *
      * @param sourceLatLng
      * @return
      */
@@ -154,10 +157,10 @@ public class UIHelper {
         return mLoadingDialog;
     }
 
-    public static void openNavigation(Context activity, LatLng p2,String name){
-        Intent intent=new Intent(activity, NaviActivity.class);
-        intent.putExtra("lng",p2);
-        intent.putExtra("name",name);
+    public static void openNavigation(Context activity, LatLng p2, String name) {
+        Intent intent = new Intent(activity, NaviActivity.class);
+        intent.putExtra("lng", p2);
+        intent.putExtra("name", name);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         activity.startActivity(intent);
     }
@@ -193,7 +196,7 @@ public class UIHelper {
 
     public static void openGaoDeMap(double lon, double lat, String describle, Context activity) {
         try {
-            double[] gd_lat_lon = bdToGaoDe(lat,lon,activity);
+            double[] gd_lat_lon = bdToGaoDe(lat, lon, activity);
             StringBuilder loc = new StringBuilder();
             loc.append("androidamap://viewMap?sourceApplication=XX");
             loc.append("&poiname=");
@@ -210,7 +213,7 @@ public class UIHelper {
         }
     }
 
-    public static void Navi_Local(Context context,LatLng latLng){
+    public static void Navi_Local(Context context, LatLng latLng) {
 //        Intent intent=new Intent(context, GDNaviActivity.class);
 //        intent.putExtra("latlng",latLng);
 //        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -300,6 +303,44 @@ public class UIHelper {
             }
         }.start();
     }
+    static Bitmap bitmap;
+    public static Bitmap loadBitmap(final String url,final Context context) {
+
+        final String filename = FileUtils.getFileName(url);
+        String filepath = context.getFilesDir() + File.separator + filename;
+        File file = new File(filepath);
+        if (file.exists()) {
+            Bitmap bmp = ImageUtils.getBitmap(context, filename);
+            return bmp;
+        }
+        //从网络获取&写入图片缓存
+        final Handler handler = new Handler() {
+            public void handleMessage(Message msg) {
+                if (msg.what == 1 && msg.obj != null) {
+                    try {
+                        bitmap=(Bitmap)msg.obj;
+                        //写图片缓存
+                        ImageUtils.saveImage(context, filename, (Bitmap) msg.obj);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        };
+        new Thread() {
+            public void run() {
+                Message msg = new Message();
+                try {
+                    Bitmap bmp = ApiClient.getNetBitmap(url);
+                    msg.what = 1;
+                    msg.obj = bmp;
+                } catch (AppException e) {
+
+                }
+            }
+        }.start();
+        return bitmap;
+    }
 
     public static void openTestActivity(Activity activity) {
         Intent intent = new Intent(activity, TestActivity.class);
@@ -327,6 +368,7 @@ public class UIHelper {
             ToastMessage(activity, "无法浏览此网页", 500);
         }
     }
+
     public static void showBrowser(Context activity, String url) {
         try {
             Uri uri = Uri.parse(url);

@@ -13,9 +13,12 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.hyphenate.chat.EMClient;
 import com.yrkj.yrlife.R;
 import com.yrkj.yrlife.app.YrApplication;
 import com.yrkj.yrlife.been.URLs;
+import com.yrkj.yrlife.hx.ui.EaseConversationActivity;
+import com.yrkj.yrlife.hx.utils.MyEMMessageListener;
 import com.yrkj.yrlife.ui.BinCardActivity;
 import com.yrkj.yrlife.ui.ConsumerActivity;
 import com.yrkj.yrlife.ui.CzlistActivity;
@@ -63,7 +66,8 @@ public class FragmentMe extends BaseFragment {
     LinearLayout balance_ll;
     @ViewInject(R.id.count_ll)
     LinearLayout count_ll;
-
+    @ViewInject(R.id.message_nub)
+    TextView message_nub;
 
 
     @Override
@@ -85,6 +89,7 @@ public class FragmentMe extends BaseFragment {
 //        if (StringUtils.isEmpty(URLs.secret_code)){
 //            UIHelper.openLogin(getActivity(),false);
 //        }
+        EMClient.getInstance().chatManager().addMessageListener(new MyEMMessageListener(getActivity(), conversationListFragment,message_nub,true));
         if (!StringUtils.isEmpty(URLs.secret_code)) {
             balance_ll.setVisibility(View.VISIBLE);
             count_ll.setVisibility(View.VISIBLE);
@@ -132,7 +137,6 @@ public class FragmentMe extends BaseFragment {
             balance_ll.setVisibility(View.GONE);
             count_ll.setVisibility(View.GONE);
         }
-
     }
 
     @Event(R.id.name_text)
@@ -245,9 +249,19 @@ public class FragmentMe extends BaseFragment {
     }
 
     /**
+     * 客服会话
+     * @param view
+     */
+    @Event(R.id.back)
+    private void setbackEvent(View view){
+        Intent intent=new Intent(getActivity(), EaseConversationActivity.class);
+        startActivity(intent);
+    }
+
+    /**
      * 设置
      *
-     * @param view
+     *
      */
 //    @Event(R.id.more_rl)
 //    private void onMorerlClick(View view) {
@@ -256,4 +270,9 @@ public class FragmentMe extends BaseFragment {
 //    }
 
 
+    @Override
+    public void onStop() {
+        super.onStop();
+        EMClient.getInstance().chatManager().removeMessageListener(new MyEMMessageListener(getActivity(), conversationListFragment,message_nub,true));
+    }
 }

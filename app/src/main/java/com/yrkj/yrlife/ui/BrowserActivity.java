@@ -27,6 +27,10 @@ public class BrowserActivity extends BaseActivity {
 			UIHelper.ToastMessage(this, "无效地址");
 			finish();
 			return;
+		}else if (!StringUtils.isUrl(mUrl)){
+			UIHelper.ToastMessage(this, "无效地址");
+			finish();
+			return;
 		}
 		
 		initView();

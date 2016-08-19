@@ -10,6 +10,7 @@ import android.os.Message;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.text.method.DigitsKeyListener;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -18,6 +19,10 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.hyphenate.EMCallBack;
+import com.hyphenate.chat.EMClient;
+import com.hyphenate.easeui.controller.EaseUI;
+import com.hyphenate.easeui.domain.EaseUser;
 import com.yrkj.yrlife.R;
 import com.yrkj.yrlife.api.ApiClient;
 import com.yrkj.yrlife.app.AppException;
@@ -104,53 +109,53 @@ public class SignActivity extends BaseActivity {
         String digits = "0123456789abcdefghigklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
         nameEdit.setKeyListener(DigitsKeyListener.getInstance(digits));
         pwdEdit.setKeyListener(DigitsKeyListener.getInstance(digits));
-        if (input_phone!=null){
-        input_phone.setTextColor(getResources().getColor(R.color.paycolor));
+        if (input_phone != null) {
+            input_phone.setTextColor(getResources().getColor(R.color.paycolor));
         }
         mLoadingDialog = new ProgressDialog(this);
         mLoadingDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         mLoadingDialog.setTitle("提示");
         mLoadingDialog.setMessage("正在加载，请稍候…");
         mLoadingDialog.setCancelable(false);
-        if (codeBtn!=null){
-        codeBtn.setClickable(false);
-        codeBtn.setBackgroundColor(getResources().getColor(R.color.dim_foreground_light_inverse_disabled));
+        if (codeBtn != null) {
+            codeBtn.setClickable(false);
+            codeBtn.setBackgroundColor(getResources().getColor(R.color.dim_foreground_light_inverse_disabled));
         }
-        if (sub_code!=null){
-        sub_code.setClickable(false);
-        sub_code.setBackgroundColor(getResources().getColor(R.color.dim_foreground_light_inverse_disabled));
+        if (sub_code != null) {
+            sub_code.setClickable(false);
+            sub_code.setBackgroundColor(getResources().getColor(R.color.dim_foreground_light_inverse_disabled));
         }
-        if (sign_btn!=null){
-        sign_btn.setClickable(false);
-        sign_btn.setBackgroundColor(getResources().getColor(R.color.dim_foreground_light_inverse_disabled));
+        if (sign_btn != null) {
+            sign_btn.setClickable(false);
+            sign_btn.setBackgroundColor(getResources().getColor(R.color.dim_foreground_light_inverse_disabled));
         }
-        if (phoneEdit!=null){
-        phoneEdit.addTextChangedListener(codeBtnWatcher);
+        if (phoneEdit != null) {
+            phoneEdit.addTextChangedListener(codeBtnWatcher);
         }
-        if (yzmEdit!=null){
-        yzmEdit.addTextChangedListener(sub_codeWatcher);
+        if (yzmEdit != null) {
+            yzmEdit.addTextChangedListener(sub_codeWatcher);
         }
-        if (pwdEdit!=null){
-        pwdEdit.addTextChangedListener(sign_btnWatcher);
+        if (pwdEdit != null) {
+            pwdEdit.addTextChangedListener(sign_btnWatcher);
         }
-        if (checkBox!=null){
-        checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    isCheck = true;
-                    int phone = phoneEdit.getText().toString().length();
-                    if (phone == 11) {
-                        codeBtn.setBackgroundResource(R.drawable.bg_btn_code);
+        if (checkBox != null) {
+            checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if (isChecked) {
+                        isCheck = true;
+                        int phone = phoneEdit.getText().toString().length();
+                        if (phone == 11) {
+                            codeBtn.setBackgroundResource(R.drawable.bg_btn_code);
+                        } else {
+                            codeBtn.setBackgroundColor(getResources().getColor(R.color.dim_foreground_light_inverse_disabled));
+                        }
                     } else {
                         codeBtn.setBackgroundColor(getResources().getColor(R.color.dim_foreground_light_inverse_disabled));
+                        isCheck = false;
                     }
-                } else {
-                    codeBtn.setBackgroundColor(getResources().getColor(R.color.dim_foreground_light_inverse_disabled));
-                    isCheck = false;
                 }
-            }
-        });
+            });
         }
     }
 
@@ -412,6 +417,8 @@ public class SignActivity extends BaseActivity {
         }.start();
     }
 
+    User user;
+
     private void getSign() {
         RequestParams params = new RequestParams(URLs.SIGIN);
         params.addQueryStringParameter("phone", phone);
@@ -432,10 +439,11 @@ public class SignActivity extends BaseActivity {
                     if (!StringUtils.isEmpty(msg.toString())) {
                         if (msg.what == 1) {
                             UIHelper.ToastMessage(appContext, msg.obj.toString());
-                            User user = JsonUtils.fromJson(result, User.class);
+                            user = JsonUtils.fromJson(result, User.class);
                             //实例化Editor对象
                             SharedPreferences.Editor editor = preferences.edit();
                             //存入数据
+                            editor.putInt("id", user.getId());
                             if (StringUtils.isEmpty(user.getReal_name())) {
                                 editor.putString("name", user.getAccount());
                             } else {
@@ -475,19 +483,39 @@ public class SignActivity extends BaseActivity {
                             } else {
                                 editor.putFloat("money", user.getTotal_balance().floatValue());
                             }
-                            if (!StringUtils.isEmpty(user.getIf_have_useful_coupon())){
-                                editor.putString("if_have_useful_coupon",user.getIf_have_useful_coupon());
-                            }else {
-                                editor.putString("if_have_useful_coupon","0");
+                            if (!StringUtils.isEmpty(user.getIf_have_useful_coupon())) {
+                                editor.putString("if_have_useful_coupon", user.getIf_have_useful_coupon());
+                            } else {
+                                editor.putString("if_have_useful_coupon", "0");
                             }
-                            if (!StringUtils.isEmpty(user.getIsWashing())){
-                                editor.putString("isWashing",user.getIsWashing());
-                            }else {
-                                editor.putString("isWashing","0");
+                            if (!StringUtils.isEmpty(user.getIsWashing())) {
+                                editor.putString("isWashing", user.getIsWashing());
+                            } else {
+                                editor.putString("isWashing", "0");
                             }
                             editor.putInt("jifen", user.getCard_total_point());
                             //提交修改
                             editor.commit();
+                            //                            user.getId()+"", user.getId()+"0"
+                            EMClient.getInstance().login(user.getId()+"", user.getId()+"0", new EMCallBack() {//回调
+                                @Override
+                                public void onSuccess() {
+                                    EMClient.getInstance().groupManager().loadAllGroups();
+                                    EMClient.getInstance().chatManager().loadAllConversations();
+                                    Log.d("main", "登录聊天服务器成功！");
+                                }
+
+                                @Override
+                                public void onProgress(int progress, String status) {
+
+                                }
+
+                                @Override
+                                public void onError(int code, String message) {
+                                    Log.d("main", "登录聊天服务器失败！");
+                                }
+                            });
+
                             AppManager.getAppManager().finishActivity(LoginActivity.class);
                             finish();
                         } else if (msg.what == 2) {

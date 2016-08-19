@@ -6,11 +6,18 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 
+import com.hyphenate.EMCallBack;
+import com.hyphenate.chat.EMClient;
+import com.hyphenate.easeui.controller.EaseUI;
+import com.hyphenate.easeui.domain.EaseUser;
+import com.hyphenate.exceptions.HyphenateException;
 import com.yrkj.yrlife.R;
 import com.yrkj.yrlife.been.Result;
 import com.yrkj.yrlife.been.URLs;
 import com.yrkj.yrlife.been.User;
+import com.yrkj.yrlife.db.DbUtils;
 import com.yrkj.yrlife.ui.MainActivity;
 import com.yrkj.yrlife.ui.ShareActivity;
 import com.yrkj.yrlife.utils.JsonUtils;
@@ -20,9 +27,14 @@ import com.yrkj.yrlife.widget.SlideShowView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.xutils.DbManager;
 import org.xutils.common.Callback;
+import org.xutils.common.util.LogUtil;
+import org.xutils.ex.DbException;
 import org.xutils.http.RequestParams;
 import org.xutils.x;
+
+import java.io.File;
 
 public class AppStart extends AppCompatActivity {
 
@@ -35,6 +47,7 @@ public class AppStart extends AppCompatActivity {
     private boolean isFirstUse;
     SharedPreferences preferences;
     YrApplication application;
+    DbManager manager = x.getDb(DbUtils.getDaoConfig());
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,13 +75,15 @@ public class AppStart extends AppCompatActivity {
                 public void onSuccess(String res) {
                     try {
                         JSONObject jsonObject = new JSONObject(res);
+
                         msg.arg1 = jsonObject.getInt("code");
                         String message = jsonObject.getString("message");
                         if (msg.arg1 == 1) {
                             String result = jsonObject.getString("result");
-                            User user = JsonUtils.fromJson(result, User.class);
+                            final User user = JsonUtils.fromJson(result, User.class);
                             SharedPreferences.Editor editor = preferences.edit();
                             //存入数据
+                            editor.putInt("id", user.getId());
                             if (StringUtils.isEmpty(user.getReal_name())) {
                                 editor.putString("name", user.getAccount());
                             } else {
@@ -113,20 +128,45 @@ public class AppStart extends AppCompatActivity {
                             } else {
                                 editor.putFloat("money", user.getTotal_balance().floatValue());
                             }
-                            if (!StringUtils.isEmpty(user.getIf_have_useful_coupon())){
-                                editor.putString("if_have_useful_coupon",user.getIf_have_useful_coupon());
-                            }else {
-                                editor.putString("if_have_useful_coupon","0");
+                            if (!StringUtils.isEmpty(user.getIf_have_useful_coupon())) {
+                                editor.putString("if_have_useful_coupon", user.getIf_have_useful_coupon());
+                            } else {
+                                editor.putString("if_have_useful_coupon", "0");
                             }
-                            if (!StringUtils.isEmpty(user.getIsWashing())){
-                                editor.putString("isWashing",user.getIsWashing());
-                            }else {
-                                editor.putString("isWashing","0");
+                            if (!StringUtils.isEmpty(user.getIsWashing())) {
+                                editor.putString("isWashing", user.getIsWashing());
+                            } else {
+                                editor.putString("isWashing", "0");
                             }
                             editor.putInt("jifen", user.getCard_total_point());
                             //提交修改
                             editor.putString("user", jsonObject.getString("result"));
                             editor.commit();
+                            try {
+                                manager.save(user);
+                            } catch (DbException e) {
+                                e.printStackTrace();
+                            }
+//                            user.getId()+"", user.getId()+"0"
+                            EMClient.getInstance().login(user.getId() + "", user.getId() + "0", new EMCallBack() {//回调
+                                @Override
+                                public void onSuccess() {
+                                    EMClient.getInstance().groupManager().loadAllGroups();
+                                    EMClient.getInstance().chatManager().loadAllConversations();
+                                    Log.d("main", "登录聊天服务器成功！");
+                                }
+
+                                @Override
+                                public void onProgress(int progress, String status) {
+
+                                }
+
+                                @Override
+                                public void onError(int code, String message) {
+                                    Log.d("main", "登录聊天服务器失败！");
+                                }
+                            });
+
                         } else if (msg.arg1 == 3) {
                             URLs.secret_code = "";
                             //实例化Editor对象

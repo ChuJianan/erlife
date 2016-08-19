@@ -38,6 +38,8 @@
 -keep class com.alipay.android.app.IRemoteServiceCallback$Stub{*;}
 -keep class com.alipay.sdk.app.PayTask{ public *;}
 -keep class com.alipay.sdk.app.AuthTask{ public *;}
+-keep class com.hyphenate.** {*;}
+-dontwarn  com.hyphenate.**
 
 #-keep class com.amap.api.mapcore.**{*;}
 #-keep class com.amap.api.maps.**{*;}

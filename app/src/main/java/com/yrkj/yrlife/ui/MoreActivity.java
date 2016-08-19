@@ -21,6 +21,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.hyphenate.EMCallBack;
+import com.hyphenate.chat.EMClient;
 import com.yrkj.yrlife.R;
 import com.yrkj.yrlife.api.ApiClient;
 import com.yrkj.yrlife.app.AppException;
@@ -193,7 +195,27 @@ public class MoreActivity extends BaseActivity {
                     editor.commit();
                     UIHelper.ToastMessage(appContext, msg.obj.toString());
                     DataCleanManager.clearAllCache(appContext);
-                    finish();
+                    //此方法为异步方法
+                    EMClient.getInstance().logout(true, new EMCallBack() {
+
+                        @Override
+                        public void onSuccess() {
+                            // TODO Auto-generated method stub
+                            finish();
+                        }
+
+                        @Override
+                        public void onProgress(int progress, String status) {
+                            // TODO Auto-generated method stub
+
+                        }
+
+                        @Override
+                        public void onError(int code, String message) {
+                            // TODO Auto-generated method stub
+
+                        }
+                    });
                 } else if (msg.what == 2) {
                     UIHelper.ToastMessage(appContext, msg.obj.toString());
                 }
