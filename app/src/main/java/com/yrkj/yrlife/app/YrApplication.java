@@ -1,10 +1,8 @@
 package com.yrkj.yrlife.app;
 
 import android.app.ActivityManager;
-import android.app.Application;
 import android.app.Service;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -12,8 +10,9 @@ import android.media.AudioManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiManager;
-import android.os.Environment;
 import android.os.Vibrator;
+import android.support.multidex.MultiDex;
+import android.support.multidex.MultiDexApplication;
 import android.util.Log;
 
 import com.baidu.mapapi.SDKInitializer;
@@ -22,21 +21,15 @@ import com.hyphenate.chat.EMOptions;
 import com.hyphenate.easeui.controller.EaseUI;
 import com.hyphenate.easeui.domain.EaseUser;
 import com.tencent.android.tpush.XGIOperateCallback;
-import com.tencent.android.tpush.XGNotifaction;
 import com.tencent.android.tpush.XGPushConfig;
 import com.tencent.android.tpush.XGPushManager;
 import com.tencent.android.tpush.XGPushNotifactionCallback;
-import com.tencent.android.tpush.service.XGPushService;
 import com.tencent.bugly.Bugly;
-//import com.tencent.bugly.crashreport.CrashReport;
-import com.tencent.bugly.crashreport.CrashReport;
 import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
 import com.yrkj.yrlife.been.URLs;
 import com.yrkj.yrlife.service.LocationService;
-import com.yrkj.yrlife.ui.LoginActivity;
 import com.yrkj.yrlife.utils.MethodsCompat;
-import com.yrkj.yrlife.utils.QRCodeUtil;
 import com.yrkj.yrlife.utils.StringUtils;
 import com.yrkj.yrlife.utils.UIHelper;
 
@@ -69,7 +62,7 @@ import java.util.UUID;
 /**
  * Created by cjn on 2016/3/3.
  */
-public class YrApplication extends Application {
+public class YrApplication extends MultiDexApplication {
 
     public static final int NETTYPE_WIFI = 0x01;
     public static final int NETTYPE_CMWAP = 0x02;
@@ -86,15 +79,18 @@ public class YrApplication extends Application {
     EaseUser easeUser;
     SharedPreferences preferences;
 
+
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(this);
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
-        //蒲公英测试升级声明
-//        PgyCrashManager.register(this);
 
-
-        //xutils声明
-        x.Ext.init(this);
 
         //腾讯Bugly声明
 //        CrashReport.initCrashReport(getApplicationContext(), "900021362", false);
@@ -108,11 +104,15 @@ public class YrApplication extends Application {
         String openid = preferences.getString("openid", "");
         URLs.secret_code = secret_code;
         UIHelper.OpenId = openid;
+
         //注册微信
         //通过WXAPIFactory工厂，获取IWXAPI的实列
         api = WXAPIFactory.createWXAPI(this, null);
         //将应用的appid注册到微信
         api.registerApp(UIHelper.APP_ID);
+
+        //xutils声明
+        x.Ext.init(this);
 
         XGPushConfig.setAccessId(this, 2100201810);
         XGPushConfig.setAccessKey(this, "AVLW18B43D2S");
@@ -131,6 +131,7 @@ public class YrApplication extends Application {
             }
         });
 //        Log.d("uuid", XGPushConfig.getToken(this));
+
         EMOptions options = new EMOptions();
         // 默认添加好友时，是不需要验证的，改成需要验证
         options.setAcceptInvitationAlways(true);

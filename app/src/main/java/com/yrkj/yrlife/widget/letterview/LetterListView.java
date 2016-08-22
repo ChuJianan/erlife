@@ -17,9 +17,7 @@ import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 
 import com.yrkj.yrlife.R;
-import com.yrkj.yrlife.utils.UIHelper;
 
-import org.apache.http.client.cache.Resource;
 
 public class LetterListView extends FrameLayout implements MyLetterListView.OnTouchingLetterChangedListener {
 	private MyListView listView;

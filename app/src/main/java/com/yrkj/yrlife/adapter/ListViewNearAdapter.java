@@ -9,21 +9,16 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-//import com.amap.api.navi.AMapNavi;
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.utils.DistanceUtil;
 import com.yrkj.yrlife.R;
 import com.yrkj.yrlife.been.Near;
 import com.yrkj.yrlife.been.URLs;
-import com.yrkj.yrlife.utils.BitmapManager;
 import com.yrkj.yrlife.utils.StringUtils;
 import com.yrkj.yrlife.utils.UIHelper;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Created by cjn on 2016/3/29.

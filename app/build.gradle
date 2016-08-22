@@ -1,3 +1,4 @@
+
 apply plugin: 'com.android.application'
 apply plugin: 'com.tencent.bugly.plugin.betauploader'
 beta {
@@ -31,6 +32,7 @@ android {
         targetSdkVersion 23
         versionCode 15
         versionName "1.1.6"
+        multiDexEnabled true
         ndk {
             //设置支持的SO库架构
             abiFilters 'armeabi' //, 'x86', 'armeabi-v7a', 'x86_64', 'arm64-v8a'
@@ -40,13 +42,16 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.yrkj
         }
         debug {
             signingConfig signingConfigs.yrkj
         }
+    }
+    dexOptions{
+        javaMaxHeapSize "2g"
     }
 }
 
@@ -56,17 +61,13 @@ dependencies {
     compile 'com.android.support:appcompat-v7:23.3.0'
     compile 'com.android.support:design:23.3.0'
     compile 'com.google.android.gms:play-services-appindexing:8.1.0'
-    compile 'org.xutils:xutils:3.3.34'
+    compile 'org.xutils:xutils:3.3.36'
     //    compile 'com.tencent.bugly:crashreport:2.1.5' //其中latest.release指代最新版本号，也可以指定明确的版本号，例如2.1.5
     //    compile 'com.tencent.bugly:nativecrashreport:2.2.0' //其中latest.release指代最新版本号，也可以指定明确的版本号，例如2.2.0
     compile 'com.tencent.bugly:crashreport_upgrade:latest.release'
     //其中latest.release指代最新版本号，也可以指定明确的版本号，例如1.2.8
     //    compile 'com.pgyersdk:sdk:2.2.2'
     compile 'com.google.code.gson:gson:2.2.4'
-    compile files('E:/Android/yrlife/libs/commons-httpclient-3.1.jar')
-    compile files('E:/Android/yrlife/libs/httpclient-4.2.5.jar')
-    compile files('E:/Android/yrlife/libs/httpclient-cache-4.2.5.jar')
-    compile files('E:/Android/yrlife/libs/httpcore-4.2.4.jar')
     compile files('E:/Android/yrlife/libs/universal-image-loader-1.8.6-with-sources.jar')
     compile files('E:/Android/yrlife/libs/zixing-core-3.2.0.jar')
     compile files('E:/Android/yrlife/libs/httpmime-4.1.2.jar')
@@ -80,6 +81,8 @@ dependencies {
     compile files('E:/Android/yrlife/libs/ips-commons-codec-1.10.jar')
     //    compile files('E:/Android/yrlife/libs/AMap3DMap_3.3.2_AMapNavi_1.9.0_20160713.jar')
     //    compile files('E:/Android/yrlife/libs/Msc.jar')
-    compile files('E:/Android/yrlife/libs/BaiduLBS_Android.jar')
     compile project(':easeui')
+    compile files('E:/Android/yrlife/libs/commons-httpclient-3.1.jar')
+    compile 'com.android.support:multidex:1.0.1'
 }
+

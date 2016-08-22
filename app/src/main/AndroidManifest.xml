@@ -154,16 +154,23 @@
         <activity android:name=".hx.ui.EaseConversationActivity"/>
         <activity android:name=".hx.ui.ChatActivity"/>
         <activity android:name=".ui.KefuActivity"/>
+        <activity android:name="com.hyphenate.easeui.ui.EaseShowBigImageActivity"/>
+        <activity android:name="com.hyphenate.easeui.ui.EaseShowNormalFileActivity"/>
+        <activity android:name="com.hyphenate.easeui.ui.EaseShowVideoActivity"/>
+        <activity android:name="com.hyphenate.easeui.ui.EaseBaiduMapActivity"/>
+
+
+
         <!--<activity android:name=".ui.GDNaviActivity"/>-->
 
-        <activity
-            android:name=".ui.NaviActivity"
-            android:exported="true"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen">
-            <intent-filter>
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+        <!--<activity-->
+            <!--android:name=".ui.NaviActivity"-->
+            <!--android:exported="true"-->
+            <!--android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen">-->
+            <!--<intent-filter>-->
+                <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
+        <!--</activity>-->
 
         <activity
             android:name="com.tencent.bugly.beta.ui.BetaActivity"

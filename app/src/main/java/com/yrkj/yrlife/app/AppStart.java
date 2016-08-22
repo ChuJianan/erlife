@@ -47,7 +47,6 @@ public class AppStart extends AppCompatActivity {
     private boolean isFirstUse;
     SharedPreferences preferences;
     YrApplication application;
-    DbManager manager = x.getDb(DbUtils.getDaoConfig());
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -142,12 +141,6 @@ public class AppStart extends AppCompatActivity {
                             //提交修改
                             editor.putString("user", jsonObject.getString("result"));
                             editor.commit();
-                            try {
-                                manager.save(user);
-                            } catch (DbException e) {
-                                e.printStackTrace();
-                            }
-//                            user.getId()+"", user.getId()+"0"
                             EMClient.getInstance().login(user.getId() + "", user.getId() + "0", new EMCallBack() {//回调
                                 @Override
                                 public void onSuccess() {

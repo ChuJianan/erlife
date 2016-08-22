@@ -22,10 +22,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-//import com.amap.api.navi.AMapNavi;
 import com.baidu.location.BDLocation;
 import com.baidu.mapapi.model.LatLng;
-import com.baidu.mapapi.model.LatLngBounds;
 import com.baidu.mapapi.utils.CoordinateConverter;
 import com.yrkj.yrlife.R;
 import com.yrkj.yrlife.api.ApiClient;
@@ -34,11 +32,9 @@ import com.yrkj.yrlife.app.AppManager;
 import com.yrkj.yrlife.app.YrApplication;
 import com.yrkj.yrlife.been.Washing_no_card_record;
 import com.yrkj.yrlife.ui.BrowserActivity;
-//import com.yrkj.yrlife.ui.GDNaviActivity;
 import com.yrkj.yrlife.ui.LoginActivity;
 import com.yrkj.yrlife.ui.TestActivity;
 
-import org.xutils.view.annotation.ContentView;
 
 import java.io.File;
 import java.io.IOException;
