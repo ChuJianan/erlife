@@ -43,7 +43,7 @@ public class KefuActivity extends BaseActivity {
     }
     @Event(R.id.kefu1)
     private void onkefu1Event(View view){
-        startActivity(new Intent(KefuActivity.this, ChatActivity.class).putExtra("userId", "322"));
+        startActivity(new Intent(KefuActivity.this, ChatActivity.class).putExtra("userId", "352"));
     }
     @Event(R.id.kefu2)
     private void onkefu2Event(View view){

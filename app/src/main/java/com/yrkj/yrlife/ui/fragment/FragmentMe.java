@@ -3,6 +3,7 @@ package com.yrkj.yrlife.ui.fragment;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Layout;
 import android.view.LayoutInflater;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 
 import com.hyphenate.chat.EMClient;
 import com.yrkj.yrlife.R;
+import com.yrkj.yrlife.api.ApiClient;
 import com.yrkj.yrlife.app.YrApplication;
 import com.yrkj.yrlife.been.URLs;
 import com.yrkj.yrlife.hx.ui.EaseConversationActivity;
@@ -254,10 +256,19 @@ public class FragmentMe extends BaseFragment {
      */
     @Event(R.id.back)
     private void setbackEvent(View view){
+        message_nub.setText("0");
+        message_nub.setVisibility(View.GONE);
         Intent intent=new Intent(getActivity(), EaseConversationActivity.class);
         startActivity(intent);
     }
 
+    @Event(R.id.rate_rl)
+    private void setraterlEvent(View v){
+        String mAddress = "market://details?id=" + appContext.getPackageName();
+        Intent marketIntent = new Intent("android.intent.action.VIEW");
+        marketIntent.setData(Uri.parse(mAddress ));
+        startActivity(marketIntent);
+    }
     /**
      * 设置
      *

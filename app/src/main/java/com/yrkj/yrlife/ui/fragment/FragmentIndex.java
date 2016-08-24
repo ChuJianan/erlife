@@ -53,6 +53,7 @@ import com.yrkj.yrlife.utils.BitmapManager;
 import com.yrkj.yrlife.utils.JsonUtils;
 import com.yrkj.yrlife.utils.StringUtils;
 import com.yrkj.yrlife.utils.UIHelper;
+import com.yrkj.yrlife.widget.MarqueeView;
 import com.yrkj.yrlife.widget.MyGridView;
 import com.yrkj.yrlife.widget.SlideShowView;
 
@@ -62,6 +63,9 @@ import org.xutils.http.RequestParams;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -82,6 +86,9 @@ public class FragmentIndex extends BaseFragment {
     ListView shop_list;
     @ViewInject(R.id.index_webView)
     WebView index_webView;
+    @ViewInject(R.id.mv_bar)
+    MarqueeView marqueeView;
+
     View view;
     SharedPreferences preferences;
     //    ImageView center_img,center_img2,center_img3;
@@ -181,6 +188,13 @@ public class FragmentIndex extends BaseFragment {
 //            center_img=(ImageView)view.findViewById(R.id.center_img);
 //            center_img2=(ImageView)view.findViewById(R.id.center_img2);
 //            center_img3=(ImageView)view.findViewById(R.id.center_img3);
+
+        List<String> items = new ArrayList<>();
+        items.add("商城限时半价商品，等你来");
+        items.add("商城限时半价商品，等你来");
+        items.add("商城限时半价商品，等你来");
+        marqueeView.startWithList(items);
+
         application = (YrApplication) getActivity().getApplication();
         preferences = getActivity().getSharedPreferences("yrlife", getActivity().MODE_WORLD_READABLE);
         mLoadingDialog = UIHelper.progressDialog(getActivity(), "正在努力加载...");

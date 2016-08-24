@@ -2,6 +2,7 @@ package com.yrkj.yrlife.ui;
 
 import android.Manifest;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -20,11 +21,16 @@ import android.widget.TextView;
 import com.baidu.mapapi.model.LatLng;
 import com.yrkj.yrlife.R;
 import com.yrkj.yrlife.been.Near;
+import com.yrkj.yrlife.been.Result;
+import com.yrkj.yrlife.been.URLs;
 import com.yrkj.yrlife.utils.DataCleanManager;
+import com.yrkj.yrlife.utils.JsonUtils;
 import com.yrkj.yrlife.utils.StringUtils;
 import com.yrkj.yrlife.utils.UIHelper;
 import com.yrkj.yrlife.widget.SlideShowView;
 
+import org.xutils.common.Callback;
+import org.xutils.http.RequestParams;
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
@@ -58,7 +64,7 @@ public class DetailNearActivity extends BaseActivity {
     private TextView title;
     @ViewInject(R.id.slideshowView)
     SlideShowView slideShowView;
-
+    ProgressDialog mLoadingDialog;
 
     Near near;
 
@@ -98,7 +104,15 @@ public class DetailNearActivity extends BaseActivity {
         if (!StringUtils.isEmpty(near.getQrCodeUrl())) {
             UIHelper.showLoadImage(detail_ewm, near.getQrCodeUrl(), "");
         }
+        mLoadingDialog = UIHelper.progressDialog(this, "正在验证洗车机编号...");
     }
+
+    @Event(R.id.detail_ewm)
+    private void detailewmEvent(View view){
+        mLoadingDialog.show();
+        seach_machid(near.getMachine_number());
+    }
+
 
     @Event(R.id.detail_daohang)
     private void detaildaohangEvent(View view) {
@@ -127,6 +141,51 @@ public class DetailNearActivity extends BaseActivity {
                     MY_PERMISSIONS_STORAGE);
         }
     }
+
+    private void seach_machid(final String mach_id) {
+        RequestParams params = new RequestParams(URLs.Seach_Machid);
+        params.addQueryStringParameter("secret_code", URLs.secret_code);
+        params.addQueryStringParameter("machineNum", mach_id);
+        x.http().get(params, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String string) {
+                Result result = JsonUtils.fromJson(string, Result.class);
+                mLoadingDialog.dismiss();
+                if (result.OK()) {
+                    Intent resultIntent = new Intent(DetailNearActivity.this, WashNnActivity.class);
+                    Bundle bundle = new Bundle();
+//                    bundle.putString("result", resultString);
+                    bundle.putString("wash_nub", mach_id);
+                    resultIntent.putExtras(bundle);
+//            getActivity().setResult(getActivity().RESULT_OK, resultIntent);
+                    startActivity(resultIntent);
+                } else if (result.isOK()){
+                    UIHelper.CenterToastMessage(appContext, result.Message());
+                    Intent intent = new Intent(DetailNearActivity.this, LoginActivity.class);
+                    startActivity(intent);
+                    finish();
+                }else {
+                    UIHelper.CenterToastMessage(appContext, result.Message());
+                }
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+                UIHelper.ToastMessage(appContext,"取消");
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+                UIHelper.ToastMessage(appContext,ex.getMessage());
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+        });
+    }
+
 
     protected void dialog(String context) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);

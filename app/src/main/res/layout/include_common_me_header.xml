@@ -71,6 +71,7 @@
         android:layout_height="fill_parent"
         android:layout_toLeftOf="@+id/oper_layout"
         android:layout_toRightOf="@+id/back"
+        android:layout_marginLeft="18dp"
         android:gravity="center" >
 
         <TextView

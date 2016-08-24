@@ -526,7 +526,7 @@ public class MainActivity extends FragmentActivity {
         super.onDestroy();
         UIHelper.city = "";
         //结束Activity&从堆栈中移除
-//        AppManager.getAppManager().finishActivity(this);
+        AppManager.getAppManager().finishActivity(this);
     }
 
     private void dialog(String context) {

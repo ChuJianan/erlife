@@ -156,6 +156,10 @@
         "source": "E:\\Android\\yrlife\\easeui\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\ease_dx_checkbox_on.png"
     },
     {
+        "merged": "E:\\Android\\yrlife\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\ic_back_cur.png",
+        "source": "E:\\Android\\yrlife\\easeui\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\ic_back_cur.png"
+    },
+    {
         "merged": "E:\\Android\\yrlife\\easeui\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-hdpi-v4\\ease_dx_checkbox_gray_on.png",
         "source": "E:\\Android\\yrlife\\easeui\\build\\intermediates\\bundles\\debug\\res\\drawable-hdpi-v4\\ease_dx_checkbox_gray_on.png"
     },

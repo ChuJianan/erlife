@@ -126,6 +126,7 @@
             android:layout_above="@+id/linearLayout8"
             android:layout_alignRight="@+id/linearLayout8"
             android:layout_alignEnd="@+id/linearLayout8"
+            android:layout_marginRight="@dimen/space_5"
             android:visibility="gone"
             />
     </RelativeLayout>

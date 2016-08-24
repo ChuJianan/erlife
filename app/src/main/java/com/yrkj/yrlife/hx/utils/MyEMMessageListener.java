@@ -68,8 +68,10 @@ public class MyEMMessageListener implements EMMessageListener {
             public void run() {
                 // refresh unread count
                 updateUnreadLabel();
+                if (!isMsg){
                 // refresh conversation list
                 fragment.refresh();
+                }
             }
         });
     }

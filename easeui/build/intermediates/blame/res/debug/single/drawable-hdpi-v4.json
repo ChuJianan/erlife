@@ -300,6 +300,10 @@
         "source": "E:\\Android\\yrlife\\easeui\\res\\drawable-hdpi\\ee_25.png"
     },
     {
+        "merged": "E:\\Android\\yrlife\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\ic_back_cur.png",
+        "source": "E:\\Android\\yrlife\\easeui\\res\\drawable-hdpi\\ic_back_cur.png"
+    },
+    {
         "merged": "E:\\Android\\yrlife\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\ease_record_animate_05.png",
         "source": "E:\\Android\\yrlife\\easeui\\res\\drawable-hdpi\\ease_record_animate_05.png"
     },

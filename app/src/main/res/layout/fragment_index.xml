@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
@@ -11,334 +12,334 @@
         android:layout_height="match_parent"
         android:background="@color/white"
         android:scrollbars="none">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/white"
             android:orientation="vertical">
+
             <com.yrkj.yrlife.widget.SlideShowView
                 android:id="@+id/slideshowView"
                 android:layout_width="fill_parent"
-                android:background="@color/white"
                 android:layout_height="120dp"
+                android:layout_centerHorizontal="true"
                 android:adjustViewBounds="true"
-                android:layout_centerHorizontal="true" />
+                android:background="@color/white" />
 
             <com.yrkj.yrlife.widget.MyGridView
-                android:paddingTop="@dimen/space_5"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
                 android:id="@+id/grid"
-                android:columnWidth="90dp"
-                android:numColumns="5"
-                android:stretchMode="columnWidth"
-                android:cacheColorHint="@color/white"
-                android:scrollbars="none"
-                android:gravity="center"
-                />
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:src="@mipmap/ic_line"
-                android:scaleType="fitXY"
-
-                />
-            <com.yrkj.yrlife.widget.MyGridView
-                android:paddingTop="@dimen/space_5"
-                android:paddingBottom="@dimen/space_5"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/grid_b"
-                android:columnWidth="60dp"
-                android:verticalSpacing="@dimen/space_5"
-                android:numColumns="6"
                 android:cacheColorHint="@color/white"
-                android:scrollbars="none"
+                android:columnWidth="90dp"
                 android:gravity="center"
-                android:visibility="gone"
+                android:numColumns="5"
+                android:paddingTop="@dimen/space_5"
+                android:scrollbars="none"
+                android:stretchMode="columnWidth" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:scaleType="fitXY"
+                android:src="@mipmap/ic_line"
+
                 />
+
+            <com.yrkj.yrlife.widget.MyGridView
+                android:id="@+id/grid_b"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:cacheColorHint="@color/white"
+                android:columnWidth="60dp"
+                android:gravity="center"
+                android:numColumns="6"
+                android:paddingBottom="@dimen/space_5"
+                android:paddingTop="@dimen/space_5"
+                android:scrollbars="none"
+                android:verticalSpacing="@dimen/space_5"
+                android:visibility="gone" />
 
 
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:src="@mipmap/ic_line"
-                android:scaleType="fitXY"
                 android:layout_marginLeft="@dimen/space_4"
                 android:layout_marginRight="@dimen/space_4"
-                />
+                android:scaleType="fitXY"
+                android:src="@mipmap/ic_line" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="38dp"
-                android:orientation="horizontal"
-                >
+                android:orientation="horizontal">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="horizontal"
-                    android:gravity="center|left"
                     android:layout_marginLeft="@dimen/space_10"
-                    >
+                    android:gravity="center|left"
+                    android:orientation="horizontal">
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="特惠"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/text_size_16"
-                        />
+                        android:textSize="@dimen/text_size_16" />
+
                     <RelativeLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:gravity="center"
                         android:layout_marginLeft="@dimen/space_2"
-                        >
+                        android:gravity="center">
 
                         <ImageView
                             android:layout_width="46dp"
                             android:layout_height="24dp"
-                            android:src="@drawable/text_bg"
                             android:scaleType="fitXY"
-                            />
+                            android:src="@drawable/text_bg" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textColor="@color/white"
-                            android:text="头条"
-                            android:layout_marginLeft="@dimen/space_1"
-                            android:textSize="@dimen/space_16"
-                            android:layout_centerVertical="true"
                             android:layout_centerHorizontal="true"
-                            />
+                            android:layout_centerVertical="true"
+                            android:layout_marginLeft="@dimen/space_1"
+                            android:text="头条"
+                            android:textColor="@color/white"
+                            android:textSize="@dimen/space_16" />
                     </RelativeLayout>
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="21dp"
                         android:text="："
-                        android:textSize="@dimen/text_size_18"
                         android:textColor="@color/black"
-                        />
+                        android:textSize="@dimen/text_size_18" />
+
                     <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        >
-                        <TextView
+                        android:layout_height="match_parent">
+
+                        <com.yrkj.yrlife.widget.MarqueeView
+                            android:id="@+id/mv_bar"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="商城限时半价商品，等你来"
-                            android:textColor="@color/quan_text_color"
-                            android:id="@+id/textView36"
-                            android:textSize="@dimen/text_size_15"
                             android:layout_centerVertical="true"
                             android:layout_marginLeft="@dimen/space_8"
-                            android:singleLine="true"
+                            android:layout_toEndOf="@+id/textView2"
                             android:layout_toRightOf="@+id/textView2"
-                            android:layout_toEndOf="@+id/textView2" />
+                            android:singleLine="true"
+                            app:mvAnimDuration="1000"
+                            app:mvInterval="3000"
+                            app:mvTextColor="@color/quan_text_color"
+                            app:mvTextSize="15sp" />
 
 
                         <TextView
+                            android:id="@+id/textView2"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="热读"
-                            android:id="@+id/textView2"
-                            android:textColor="#ff6666"
+                            android:layout_alignParentLeft="true"
+                            android:layout_alignParentStart="true"
+                            android:layout_centerVertical="true"
                             android:background="@drawable/text_frame_color"
                             android:padding="@dimen/space_2"
-                            android:layout_centerVertical="true"
-                            android:layout_alignParentLeft="true"
-                            android:layout_alignParentStart="true" />
+                            android:text="热读"
+                            android:textColor="#ff6666" />
 
                     </RelativeLayout>
 
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
+                    android:layout_gravity="center"
                     android:background="@color/graywhite"
                     android:gravity="center"
-                    android:layout_gravity="center"
-                    >
+                    android:orientation="horizontal">
+
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@mipmap/b_xicheka"
                         android:layout_marginRight="@dimen/space_1"
-                        />
+                        android:src="@mipmap/b_xicheka" />
+
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@mipmap/b_xinshou"
-                        />
+                        android:src="@mipmap/b_xinshou" />
+
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@mipmap/b_jfien"
                         android:layout_marginLeft="@dimen/space_1"
-                        />
+                        android:src="@mipmap/b_jfien" />
                 </LinearLayout>
             </LinearLayout>
+
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="10dp"
-                android:src="@mipmap/ic_line"
                 android:scaleType="fitXY"
-                />
+                android:src="@mipmap/ic_line" />
+
             <WebView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:id="@+id/index_webView"
-                />
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="8dp"
-                android:src="@mipmap/ic_line"
                 android:scaleType="fitXY"
-                />
+                android:src="@mipmap/ic_line" />
 
             <LinearLayout
-                android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
-                android:paddingLeft="@dimen/space_5"
-                android:background="@color/xinshou_bg"
                 android:layout_marginRight="@dimen/space_3"
-                >
+                android:background="@color/xinshou_bg"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/space_5">
 
                 <ImageView
+                    android:id="@+id/imageView38"
                     android:layout_width="wrap_content"
                     android:layout_height="22dp"
-                    android:id="@+id/imageView38"
-                    android:src="@mipmap/xinshou_line"
-                    android:scaleType="fitXY"
                     android:layout_gravity="center"
-                    />
+                    android:scaleType="fitXY"
+                    android:src="@mipmap/xinshou_line" />
 
                 <TextView
+                    android:id="@+id/textView14"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="热卖商品"
-                    android:id="@+id/textView14"
-                    android:layout_marginLeft="@dimen/space_6"
-                    android:textColor="@color/near_listitem_name"
-                    android:textSize="@dimen/text_size_15"
                     android:layout_gravity="center"
+                    android:layout_marginLeft="@dimen/space_6"
                     android:padding="@dimen/space_3"
-                    />
+                    android:text="热卖商品"
+                    android:textColor="@color/near_listitem_name"
+                    android:textSize="@dimen/text_size_15" />
+
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
+
                     <TextView
                         android:id="@+id/textView4"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="更多"
-                        android:textSize="@dimen/text_size_12"
-                        android:textColor="@color/near_listitem_name"
-                        android:layout_marginRight="@dimen/space_3"
-                        android:layout_marginEnd="@dimen/space_3"
                         android:layout_centerVertical="true"
+                        android:layout_marginEnd="@dimen/space_3"
+                        android:layout_marginRight="@dimen/space_3"
                         android:layout_toLeftOf="@+id/imageView6"
-                        android:layout_toStartOf="@+id/imageView6" />
+                        android:layout_toStartOf="@+id/imageView6"
+                        android:text="更多"
+                        android:textColor="@color/near_listitem_name"
+                        android:textSize="@dimen/text_size_12" />
+
                     <ImageView
+                        android:id="@+id/imageView6"
                         android:layout_width="@dimen/space_5"
                         android:layout_height="@dimen/space_9"
-                        android:src="@mipmap/ic_index_curr_right"
-                        android:layout_centerVertical="true"
-                        android:layout_alignParentRight="true"
                         android:layout_alignParentEnd="true"
-                        android:layout_marginRight="@dimen/space_10"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
                         android:layout_marginEnd="@dimen/space_10"
-                        android:id="@+id/imageView6" />
+                        android:layout_marginRight="@dimen/space_10"
+                        android:src="@mipmap/ic_index_curr_right" />
                 </RelativeLayout>
 
             </LinearLayout>
 
             <com.yrkj.yrlife.widget.MyGridView
+                android:id="@+id/shop_gridView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/shop_gridView"
+                android:cacheColorHint="@color/white"
+                android:columnWidth="120dp"
+                android:gravity="center"
                 android:horizontalSpacing="0.0dip"
                 android:listSelector="@null"
-                android:columnWidth="120dp"
                 android:numColumns="3"
-                android:cacheColorHint="@color/white"
-                android:scrollbars="none"
-                android:gravity="center"
                 android:paddingTop="@dimen/space_5"
+                android:scrollbars="none"
                 android:stretchMode="columnWidth"
-                android:verticalSpacing="0.0dip"
-                />
+                android:verticalSpacing="0.0dip" />
+
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="8dp"
-                android:src="@mipmap/ic_line"
                 android:scaleType="fitXY"
-                />
+                android:src="@mipmap/ic_line" />
+
             <LinearLayout
-                android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="30dp"
-                android:paddingLeft="@dimen/space_5"
-                android:background="@color/xinshou_bg"
                 android:layout_marginRight="@dimen/space_3"
-                >
+                android:background="@color/xinshou_bg"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/space_5">
 
                 <ImageView
+                    android:id="@+id/imageView381"
                     android:layout_width="wrap_content"
                     android:layout_height="22dp"
-                    android:id="@+id/imageView381"
-                    android:src="@mipmap/xinshou_line"
-                    android:scaleType="fitXY"
                     android:layout_gravity="center"
-                    />
+                    android:scaleType="fitXY"
+                    android:src="@mipmap/xinshou_line" />
 
                 <TextView
+                    android:id="@+id/textView141"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="积分商品"
-                    android:id="@+id/textView141"
-                    android:layout_marginLeft="@dimen/space_6"
-                    android:textColor="@color/near_listitem_name"
-                    android:textSize="@dimen/text_size_15"
                     android:layout_gravity="center"
+                    android:layout_marginLeft="@dimen/space_6"
                     android:padding="@dimen/space_3"
-                    />
+                    android:text="积分商品"
+                    android:textColor="@color/near_listitem_name"
+                    android:textSize="@dimen/text_size_15" />
+
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent">
+
                     <TextView
                         android:id="@+id/textView41"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="更多"
-                        android:textSize="@dimen/text_size_12"
-                        android:textColor="@color/near_listitem_name"
-                        android:layout_marginRight="@dimen/space_3"
-                        android:layout_marginEnd="@dimen/space_3"
                         android:layout_centerVertical="true"
+                        android:layout_marginEnd="@dimen/space_3"
+                        android:layout_marginRight="@dimen/space_3"
                         android:layout_toLeftOf="@+id/imageView61"
-                        android:layout_toStartOf="@+id/imageView61" />
+                        android:layout_toStartOf="@+id/imageView61"
+                        android:text="更多"
+                        android:textColor="@color/near_listitem_name"
+                        android:textSize="@dimen/text_size_12" />
+
                     <ImageView
+                        android:id="@+id/imageView61"
                         android:layout_width="@dimen/space_5"
                         android:layout_height="@dimen/space_9"
-                        android:src="@mipmap/ic_index_curr_right"
-                        android:layout_centerVertical="true"
-                        android:layout_alignParentRight="true"
                         android:layout_alignParentEnd="true"
-                        android:layout_marginRight="@dimen/space_10"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
                         android:layout_marginEnd="@dimen/space_10"
-                        android:id="@+id/imageView61" />
+                        android:layout_marginRight="@dimen/space_10"
+                        android:src="@mipmap/ic_index_curr_right" />
                 </RelativeLayout>
             </LinearLayout>
+
             <ListView
+                android:id="@+id/shop_list"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:divider="@null"
-                android:id="@+id/shop_list"
-                android:visibility="visible"/>
+                android:visibility="visible" />
         </LinearLayout>
     </ScrollView>
 

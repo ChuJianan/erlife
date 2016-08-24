@@ -508,7 +508,8 @@ containing a value of this type.
         public static final int ee_7=0x7f0200a5;
         public static final int ee_8=0x7f0200a6;
         public static final int ee_9=0x7f0200a7;
-        public static final int ic_launcher=0x7f0200a8;
+        public static final int ic_back_cur=0x7f0200a8;
+        public static final int ic_launcher=0x7f0200a9;
     }
     public static final class id {
         public static final int alert_message=0x7f09000d;

@@ -80,7 +80,6 @@ public class YrApplication extends MultiDexApplication {
     SharedPreferences preferences;
 
 
-
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
@@ -177,74 +176,74 @@ public class YrApplication extends MultiDexApplication {
                     return easeUser;
                 } else {
                     final SharedPreferences.Editor editor = preferences.edit();
-                    String customerService=preferences.getString(username,"");
-                    if (!StringUtils.isEmpty(customerService)){
-                        try{
-                            JSONObject jsonObject=new JSONObject(customerService);
+                    String customerService = preferences.getString(username, "");
+                    if (!StringUtils.isEmpty(customerService)) {
+                        try {
+                            JSONObject jsonObject = new JSONObject(customerService);
                             String nick_name = jsonObject.getString("nickName");
                             String headImage = jsonObject.getString("headImage");
                             easeUser = new EaseUser(nick_name);
-                            if (!StringUtils.isUrl(headImage)){
-                                easeUser.setAvatar(URLs.IMGURL+headImage);
-                            }else {
+                            if (!StringUtils.isUrl(headImage)) {
+                                easeUser.setAvatar(URLs.IMGURL + headImage);
+                            } else {
                                 easeUser.setAvatar(headImage);
                             }
 
-                        }catch (JSONException e){
+                        } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                    }else {
-                    RequestParams params = new RequestParams(URLs.Message_ID);
-                    params.addQueryStringParameter("secret_code", URLs.secret_code);
-                    params.addQueryStringParameter("id", username);
-                    x.http().get(params, new Callback.CommonCallback<String>() {
-                        @Override
-                        public void onSuccess(String result) {
-                            try {
-                                JSONObject json = new JSONObject(result);
-                                JSONObject json1 = json.getJSONObject("customerService");
-                                String customerService = json.getString("customerService");
-                                int code = json.getInt("code");
-                                String message = json.getString("message");
-                                if (code == 1) {
-                                    if (!StringUtils.isEmpty(customerService)) {
-                                        editor.putString(username,customerService);
-                                        editor.commit();
-                                        String nick_name = json1.getString("nickName");
-                                        String headImage = json1.getString("headImage");
-                                        easeUser = new EaseUser(nick_name);
-                                        if (!StringUtils.isUrl(headImage)){
-                                            easeUser.setAvatar(URLs.IMGURL+headImage);
-                                        }else {
-                                            easeUser.setAvatar(headImage);
+                    } else {
+                        RequestParams params = new RequestParams(URLs.Message_ID);
+                        params.addQueryStringParameter("secret_code", URLs.secret_code);
+                        params.addQueryStringParameter("id", username);
+                        x.http().get(params, new Callback.CommonCallback<String>() {
+                            @Override
+                            public void onSuccess(String result) {
+                                try {
+                                    JSONObject json = new JSONObject(result);
+                                    JSONObject json1 = json.getJSONObject("customerService");
+                                    String customerService = json.getString("customerService");
+                                    int code = json.getInt("code");
+                                    String message = json.getString("message");
+                                    if (code == 1) {
+                                        if (!StringUtils.isEmpty(customerService)) {
+                                            editor.putString(username, customerService);
+                                            editor.commit();
+                                            String nick_name = json1.getString("nickName");
+                                            String headImage = json1.getString("headImage");
+                                            easeUser = new EaseUser(nick_name);
+                                            if (!StringUtils.isUrl(headImage)) {
+                                                easeUser.setAvatar(URLs.IMGURL + headImage);
+                                            } else {
+                                                easeUser.setAvatar(headImage);
+                                            }
                                         }
+                                    } else if (code == 3) {
+
+                                    } else if (code == 2) {
+
                                     }
-                                } else if (code == 3) {
-
-                                } else if (code == 2) {
-
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
                                 }
-                            } catch (JSONException e) {
-                                e.printStackTrace();
+
                             }
 
-                        }
+                            @Override
+                            public void onCancelled(CancelledException cex) {
 
-                        @Override
-                        public void onCancelled(CancelledException cex) {
+                            }
 
-                        }
+                            @Override
+                            public void onError(Throwable ex, boolean isOnCallback) {
 
-                        @Override
-                        public void onError(Throwable ex, boolean isOnCallback) {
+                            }
 
-                        }
+                            @Override
+                            public void onFinished() {
 
-                        @Override
-                        public void onFinished() {
-
-                        }
-                    });
+                            }
+                        });
                     }
                     return easeUser;
                 }

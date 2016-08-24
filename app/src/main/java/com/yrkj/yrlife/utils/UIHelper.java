@@ -559,16 +559,18 @@ public class UIHelper {
      */
     public static void onExit(final Context cont) {
         if ((System.currentTimeMillis() - mExitTime) > 2000) {
-            Toast toast = Toast.makeText(cont,
-                    "再按一次退出亿人生活", Toast.LENGTH_SHORT);
-            toast.setGravity(Gravity.CENTER, 0, 0);
-            toast.show();
+//            Toast toast = Toast.makeText(cont,
+//                    "再按一次退出亿人生活", Toast.LENGTH_SHORT);
+//            toast.setGravity(Gravity.CENTER, 0, 0);
+//            toast.show();
+            CenterToastMessage(cont,"再按一次退出亿人生活");
 //                    Toast.makeText(this, "再按一次退出程序", Toast.LENGTH_SHORT).show();
             mExitTime = System.currentTimeMillis();
         } else {
             AppManager.getAppManager().AppExit(cont);
-            AppManager.getAppManager().finishAllActivity();
-            System.exit(0);
+//            AppManager.getAppManager().finishAllActivity();
+//            System.exit(0);
+            Log.d("out","finish");
         }
     }
 }
