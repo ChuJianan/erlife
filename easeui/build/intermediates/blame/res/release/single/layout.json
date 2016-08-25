@@ -16,12 +16,12 @@
         "source": "E:\\Android\\yrlife\\easeui\\res\\layout\\ease_row_sent_video.xml"
     },
     {
-        "merged": "E:\\Android\\yrlife\\easeui\\build\\intermediates\\res\\merged\\release\\layout\\ease_chat_message_list.xml",
-        "source": "E:\\Android\\yrlife\\easeui\\res\\layout\\ease_chat_message_list.xml"
-    },
-    {
         "merged": "E:\\Android\\yrlife\\easeui\\build\\intermediates\\res\\merged\\release\\layout\\ease_row_received_voice.xml",
         "source": "E:\\Android\\yrlife\\easeui\\res\\layout\\ease_row_received_voice.xml"
+    },
+    {
+        "merged": "E:\\Android\\yrlife\\easeui\\build\\intermediates\\res\\merged\\release\\layout\\ease_chat_message_list.xml",
+        "source": "E:\\Android\\yrlife\\easeui\\res\\layout\\ease_chat_message_list.xml"
     },
     {
         "merged": "E:\\Android\\yrlife\\easeui\\build\\intermediates\\res\\merged\\release\\layout\\ease_widget_switch_button.xml",
@@ -36,12 +36,12 @@
         "source": "E:\\Android\\yrlife\\easeui\\res\\layout\\ease_activity_show_big_image.xml"
     },
     {
-        "merged": "E:\\Android\\yrlife\\easeui\\build\\intermediates\\res\\merged\\release\\layout\\ease_row_received_message.xml",
-        "source": "E:\\Android\\yrlife\\easeui\\res\\layout\\ease_row_received_message.xml"
-    },
-    {
         "merged": "E:\\Android\\yrlife\\easeui\\build\\intermediates\\res\\merged\\release\\layout\\ease_widget_emojicon.xml",
         "source": "E:\\Android\\yrlife\\easeui\\res\\layout\\ease_widget_emojicon.xml"
+    },
+    {
+        "merged": "E:\\Android\\yrlife\\easeui\\build\\intermediates\\res\\merged\\release\\layout\\ease_row_received_message.xml",
+        "source": "E:\\Android\\yrlife\\easeui\\res\\layout\\ease_row_received_message.xml"
     },
     {
         "merged": "E:\\Android\\yrlife\\easeui\\build\\intermediates\\res\\merged\\release\\layout\\ease_row_sent_voice.xml",

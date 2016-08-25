@@ -80,7 +80,7 @@ public class AppStart extends AppCompatActivity {
                         if (msg.arg1 == 1) {
                             String result = jsonObject.getString("result");
                             final User user = JsonUtils.fromJson(result, User.class);
-                            SharedPreferences.Editor editor = preferences.edit();
+                            final SharedPreferences.Editor editor = preferences.edit();
                             //存入数据
                             editor.putInt("id", user.getId());
                             if (StringUtils.isEmpty(user.getReal_name())) {
@@ -141,24 +141,33 @@ public class AppStart extends AppCompatActivity {
                             //提交修改
                             editor.putString("user", jsonObject.getString("result"));
                             editor.commit();
-                            EMClient.getInstance().login(user.getId() + "", user.getId() + "0", new EMCallBack() {//回调
-                                @Override
-                                public void onSuccess() {
-                                    EMClient.getInstance().groupManager().loadAllGroups();
-                                    EMClient.getInstance().chatManager().loadAllConversations();
-                                    Log.d("main", "登录聊天服务器成功！");
-                                }
+                            boolean isEMClient = preferences.getBoolean("emclient", false);
+                            if (!isEMClient) {
+                                EMClient.getInstance().login(user.getId() + "", user.getId() + "0", new EMCallBack() {//回调
+                                    @Override
+                                    public void onSuccess() {
+                                        EMClient.getInstance().groupManager().loadAllGroups();
+                                        EMClient.getInstance().chatManager().loadAllConversations();
+                                        editor.putBoolean("emclient", true);
+                                        editor.commit();
+                                        Log.d("main", "登录聊天服务器成功！");
+                                    }
 
-                                @Override
-                                public void onProgress(int progress, String status) {
+                                    @Override
+                                    public void onProgress(int progress, String status) {
 
-                                }
+                                    }
 
-                                @Override
-                                public void onError(int code, String message) {
-                                    Log.d("main", "登录聊天服务器失败！");
-                                }
-                            });
+                                    @Override
+                                    public void onError(int code, String message) {
+                                        if (code==200){
+                                            editor.putBoolean("emclient", true);
+                                            editor.commit();
+                                        }
+                                        Log.d("main", "登录聊天服务器失败！");
+                                    }
+                                });
+                            }
 
                         } else if (msg.arg1 == 3) {
                             URLs.secret_code = "";

@@ -56,6 +56,7 @@ public class URLs extends Entity {
 	public static final String Vouchers=HOST+"wmmanager/app/pro1/app2/couponList?";
 	public static final String Seach_Machid=HOST+"wmmanager/app/pro1/app1/seachMachine";//验证洗车机编号是否存在
 	public static final String Message_ID=HOST+"wmmanager/app/pro1/app3/getCustomerService";//获取客服头像昵称
+	public static final String CustomerService=HOST+"wmmanager/app/pro1/app3/getAllCustomers";//获取所有客服头像昵称
 
 
 

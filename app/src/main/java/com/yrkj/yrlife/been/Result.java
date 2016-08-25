@@ -18,6 +18,7 @@ public class Result {
     public List<News> news = Collections.emptyList();
     public List<MyIdear> myFeedBackList = Collections.emptyList();
     public List<Vouchers> couponList=Collections.emptyList();
+    public List<CustomerService> customersList=Collections.emptyList();
     private int code;
     private String message;
     private int totalPage;

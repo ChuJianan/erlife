@@ -157,24 +157,24 @@ public class YrApplication extends MultiDexApplication {
 
             public EaseUser getUser(final String username) {
                 easeUser = new EaseUser(username);
-                int id = preferences.getInt("id", 0);
-                if (username.equals(String.valueOf(id))) {
-                    String name = preferences.getString("name", "");
-                    String nick_name = preferences.getString("nick_name", "");
-                    String head_image = preferences.getString("head_image", "");
-                    String wx_head_image = preferences.getString("wx_head_image", "");
-                    if (!StringUtils.isEmpty(name)) {
-                        easeUser = new EaseUser(name);
-                    } else if (!StringUtils.isEmpty(nick_name)) {
-                        easeUser = new EaseUser(nick_name);
-                    }
-                    if (!StringUtils.isEmpty(head_image)) {
-                        easeUser.setAvatar(URLs.IMGURL + head_image);
-                    } else if (!StringUtils.isEmpty(wx_head_image)) {
-                        easeUser.setAvatar(wx_head_image);
-                    }
-                    return easeUser;
-                } else {
+//                int id = preferences.getInt("id", 0);
+//                if (username.equals(String.valueOf(id))) {
+//                    String name = preferences.getString("name", "");
+//                    String nick_name = preferences.getString("nick_name", "");
+//                    String head_image = preferences.getString("head_image", "");
+//                    String wx_head_image = preferences.getString("wx_head_image", "");
+//                    if (!StringUtils.isEmpty(name)) {
+//                        easeUser = new EaseUser(name);
+//                    } else if (!StringUtils.isEmpty(nick_name)) {
+//                        easeUser = new EaseUser(nick_name);
+//                    }
+//                    if (!StringUtils.isEmpty(head_image)) {
+//                        easeUser.setAvatar(URLs.IMGURL + head_image);
+//                    } else if (!StringUtils.isEmpty(wx_head_image)) {
+//                        easeUser.setAvatar(wx_head_image);
+//                    }
+//                    return easeUser;
+//                } else {
                     final SharedPreferences.Editor editor = preferences.edit();
                     String customerService = preferences.getString(username, "");
                     if (!StringUtils.isEmpty(customerService)) {
@@ -247,7 +247,7 @@ public class YrApplication extends MultiDexApplication {
                     }
                     return easeUser;
                 }
-            }
+//            }
         });
     }
 

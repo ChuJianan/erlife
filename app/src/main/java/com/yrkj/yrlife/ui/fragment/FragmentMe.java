@@ -1,5 +1,6 @@
 package com.yrkj.yrlife.ui.fragment;
 
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -264,10 +265,14 @@ public class FragmentMe extends BaseFragment {
 
     @Event(R.id.rate_rl)
     private void setraterlEvent(View v){
+        try{
         String mAddress = "market://details?id=" + appContext.getPackageName();
         Intent marketIntent = new Intent("android.intent.action.VIEW");
         marketIntent.setData(Uri.parse(mAddress ));
         startActivity(marketIntent);
+        }catch (ActivityNotFoundException e) {
+            UIHelper.ToastMessage(appContext,"抱歉，你没有安装应用市场");
+        }
     }
     /**
      * 设置

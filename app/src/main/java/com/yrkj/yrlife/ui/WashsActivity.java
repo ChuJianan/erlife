@@ -130,8 +130,12 @@ public class WashsActivity extends BaseActivity implements SurfaceHolder.Callbac
 
     @Event(R.id.kd_rl)
     private void kdrlEvent(View view) {
-        CameraManager.get().flashHandler();
-
+        try {
+            CameraManager.get().flashHandler();
+        }catch (RuntimeException e){
+            e.printStackTrace();
+            UIHelper.ToastMessage(appContext,"请打开相机权限！");
+        }
     }
 
     @Event(R.id.shuru_rl)

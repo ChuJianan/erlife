@@ -111,7 +111,12 @@ public class FragmentNear extends BaseFragment implements Callback, DecodeHandle
 
     @Event(R.id.kd_rl)
     private void kdrlEvent(View view) {
-        CameraManager.get().flashHandler();
+        try {
+            CameraManager.get().flashHandler();
+        } catch (RuntimeException e) {
+            e.printStackTrace();
+            UIHelper.ToastMessage(appContext, "请打开相机权限！");
+        }
 
     }
 
@@ -213,23 +218,23 @@ public class FragmentNear extends BaseFragment implements Callback, DecodeHandle
                     resultIntent.putExtras(bundle);
 //            getActivity().setResult(getActivity().RESULT_OK, resultIntent);
                     startActivity(resultIntent);
-                } else if (result.isOK()){
+                } else if (result.isOK()) {
                     UIHelper.CenterToastMessage(appContext, result.Message());
                     Intent intent = new Intent(getActivity(), LoginActivity.class);
                     startActivity(intent);
-                }else {
+                } else {
                     UIHelper.CenterToastMessage(appContext, result.Message());
                 }
             }
 
             @Override
             public void onCancelled(CancelledException cex) {
-                UIHelper.ToastMessage(appContext,"取消");
+                UIHelper.ToastMessage(appContext, "取消");
             }
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                UIHelper.ToastMessage(appContext,ex.getMessage());
+                UIHelper.ToastMessage(appContext, ex.getMessage());
             }
 
             @Override
