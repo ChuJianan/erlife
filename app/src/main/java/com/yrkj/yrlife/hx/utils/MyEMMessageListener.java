@@ -68,9 +68,9 @@ public class MyEMMessageListener implements EMMessageListener {
             public void run() {
                 // refresh unread count
                 updateUnreadLabel();
-                if (!isMsg){
-                // refresh conversation list
-                fragment.refresh();
+                if (!isMsg) {
+                    // refresh conversation list
+                    fragment.refresh();
                 }
             }
         });
@@ -82,6 +82,9 @@ public class MyEMMessageListener implements EMMessageListener {
             if (tv_num != null) {
                 tv_num.setText(String.valueOf(count));
                 tv_num.setVisibility(View.VISIBLE);
+                if (count == 0) {
+                    tv_num.setVisibility(View.GONE);
+                }
             }
         }
         UIHelper.COUNT = count;
