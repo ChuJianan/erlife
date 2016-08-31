@@ -84,5 +84,6 @@ dependencies {
     compile project(':easeui')
     compile files('E:/Android/yrlife/libs/commons-httpclient-3.1.jar')
     compile 'com.android.support:multidex:1.0.1'
+    compile 'com.readystatesoftware.systembartint:systembartint:1.0.3'
 }
 

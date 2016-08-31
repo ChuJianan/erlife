@@ -14,6 +14,7 @@ import com.yrkj.yrlife.R;
 import com.yrkj.yrlife.been.Result;
 import com.yrkj.yrlife.been.URLs;
 import com.yrkj.yrlife.utils.JsonUtils;
+import com.yrkj.yrlife.utils.StatusBarUtil;
 import com.yrkj.yrlife.utils.StringUtils;
 import com.yrkj.yrlife.utils.UIHelper;
 
@@ -42,6 +43,7 @@ public class WashNActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         x.view().inject(this);
+        StatusBarUtil.StatusBarLightMode(this);
         title.setText("启动机器");
         String digits = "0123456789";
         wash_nub.setKeyListener(DigitsKeyListener.getInstance(digits));

@@ -24,6 +24,7 @@ import com.yrkj.yrlife.been.URLs;
 import com.yrkj.yrlife.been.Washing_no_card_record;
 import com.yrkj.yrlife.utils.JsonUtils;
 import com.yrkj.yrlife.utils.ListUtils;
+import com.yrkj.yrlife.utils.StatusBarUtil;
 import com.yrkj.yrlife.utils.StringUtils;
 import com.yrkj.yrlife.utils.TimeCountImageView;
 import com.yrkj.yrlife.utils.UIHelper;
@@ -79,7 +80,7 @@ public class WashAActivity extends BaseActivity {
                 "http://dwz.cn/3VlhTg" ,
                 "http://dwz.cn/3VlikY"};
         x.view().inject(this);
-
+        StatusBarUtil.StatusBarLightMode(this);
         title.setText("正在洗车");
         init();
         timers = new TimeCountImageView(10000, 1000, wash_finish);

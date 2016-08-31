@@ -16,6 +16,7 @@ import com.yrkj.yrlife.been.Result;
 import com.yrkj.yrlife.been.URLs;
 import com.yrkj.yrlife.been.Washing_no_card_record;
 import com.yrkj.yrlife.utils.JsonUtils;
+import com.yrkj.yrlife.utils.StatusBarUtil;
 import com.yrkj.yrlife.utils.StringUtils;
 import com.yrkj.yrlife.utils.UIHelper;
 
@@ -64,6 +65,7 @@ public class WashConfirmActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         x.view().inject(this);
         title.setText("订单支付");
+        StatusBarUtil.StatusBarLightMode(this);
         spend_money = (BigDecimal) getIntent().getExtras().get("spend_money");
         wash = (Washing_no_card_record) getIntent().getSerializableExtra("wash");
         init();

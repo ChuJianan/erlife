@@ -22,6 +22,7 @@ import com.yrkj.yrlife.been.Result;
 import com.yrkj.yrlife.been.URLs;
 import com.yrkj.yrlife.been.Washing_no_card_record;
 import com.yrkj.yrlife.utils.JsonUtils;
+import com.yrkj.yrlife.utils.StatusBarUtil;
 import com.yrkj.yrlife.utils.UIHelper;
 import com.yrkj.yrlife.widget.MyGridView;
 
@@ -69,6 +70,7 @@ public class WashRateActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         x.view().inject(this);
+        StatusBarUtil.StatusBarLightMode(this);
         title.setText("我的评价");
         wash = (Washing_no_card_record) getIntent().getSerializableExtra("wash");
         init();

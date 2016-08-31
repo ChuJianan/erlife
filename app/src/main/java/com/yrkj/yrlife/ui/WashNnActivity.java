@@ -12,6 +12,7 @@ import com.yrkj.yrlife.been.Result;
 import com.yrkj.yrlife.been.URLs;
 import com.yrkj.yrlife.been.Washing_no_card_record;
 import com.yrkj.yrlife.utils.JsonUtils;
+import com.yrkj.yrlife.utils.StatusBarUtil;
 import com.yrkj.yrlife.utils.UIHelper;
 
 import org.xutils.common.Callback;
@@ -46,6 +47,7 @@ public class WashNnActivity extends BaseActivity {
         x.view().inject(this);
         init();
         title.setText("启动机器");
+        StatusBarUtil.StatusBarLightMode(this);
         mach_id = getIntent().getStringExtra("wash_nub");
         wash_machid.setText(mach_id);
     }
