@@ -46,6 +46,7 @@
     <color name="graywhite">#F5F5F5</color>
     <color name="grayslate">#708090</color>
     <color name="lightblue">#0083FF</color>
+    <color name="green_gray">#f3f5f5</color>
 
     <color name="paycolor">#EB6100</color>
     <color name="near_listitem_ql">#137dad</color>
@@ -99,4 +100,5 @@
 
     <color name="pale">#f9f9f9</color>
     <color name="text_confirm">#999999</color>
+    <color name="text_black">#333333</color>
 </resources>

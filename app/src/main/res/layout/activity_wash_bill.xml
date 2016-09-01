@@ -255,7 +255,7 @@
                     android:layout_width="260dp"
                     android:layout_height="46dp"
                     android:layout_gravity="center"
-                    android:background="@drawable/ic_bg_btn"
+                    android:background="@drawable/bg_btn"
                     android:textColor="@color/white"
                     android:text="满意不？来评价一下吧"
                     android:textSize="@dimen/text_size_19"

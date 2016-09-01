@@ -182,7 +182,7 @@
                 android:layout_height="46dp"
                 android:layout_gravity="center"
                 android:layout_marginTop="65dp"
-                android:background="@drawable/ic_bg_btn"
+                android:background="@drawable/bg_btn"
                 android:gravity="center"
                 android:text="确认支付"
                 android:textColor="@color/white"

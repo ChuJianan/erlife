@@ -15,6 +15,7 @@ import com.yrkj.yrlife.app.AppException;
 import com.yrkj.yrlife.been.Result;
 import com.yrkj.yrlife.been.URLs;
 import com.yrkj.yrlife.utils.JsonUtils;
+import com.yrkj.yrlife.utils.StatusBarUtil;
 import com.yrkj.yrlife.utils.StringUtils;
 import com.yrkj.yrlife.utils.TimeCount;
 import com.yrkj.yrlife.utils.UIHelper;
@@ -66,6 +67,7 @@ public class BinCardActivity extends BaseActivity {
     }
 
     private void init() {
+        StatusBarUtil.StatusBarLightMode(this);
         mLoadingDialog = new ProgressDialog(this);
         mLoadingDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         mLoadingDialog.setTitle("提示");
@@ -85,6 +87,8 @@ public class BinCardActivity extends BaseActivity {
             }
         } else if (StringUtils.isMobileNO(phoneNub)) {
             timer.start();
+            codeBtn.setTextColor(getResources().getColor(R.color.near_listitem_adr));
+            codeBtn.setBackground(getResources().getDrawable(R.drawable.ic_yzm_c));
             mLoadingDialog.show();
             getCode(phoneNub);
         } else {
@@ -135,6 +139,8 @@ public class BinCardActivity extends BaseActivity {
                     UIHelper.ToastMessage(appContext, message);
                     if (code == 2) {
                         timer.onFinish();
+                        codeBtn.setTextColor(getResources().getColor(R.color.shop_item_money));
+                        codeBtn.setBackground(getResources().getDrawable(R.drawable.ic_yzm));
                         timer.cancel();
                         codeBtn.setText("发送验证码");
                     } else if (code == 3) {
@@ -158,6 +164,8 @@ public class BinCardActivity extends BaseActivity {
                 code = "";
                 timer.onFinish();
                 timer.cancel();
+                codeBtn.setTextColor(getResources().getColor(R.color.shop_item_money));
+                codeBtn.setBackground(getResources().getDrawable(R.drawable.ic_yzm));
                 codeBtn.setText("获取验证码");
             }
 
@@ -184,12 +192,16 @@ public class BinCardActivity extends BaseActivity {
                     code = "";
                     timer.onFinish();
                     timer.cancel();
+                    codeBtn.setTextColor(getResources().getColor(R.color.shop_item_money));
+                    codeBtn.setBackground(getResources().getDrawable(R.drawable.ic_yzm));
                     codeBtn.setText("获取验证码");
                     Intent intent = new Intent(BinCardActivity.this, LoginActivity.class);
                     startActivity(intent);
                     finish();
                 } else {
                     code = "";
+                    codeBtn.setTextColor(getResources().getColor(R.color.shop_item_money));
+                    codeBtn.setBackground(getResources().getDrawable(R.drawable.ic_yzm));
                     timer.onFinish();
                     timer.cancel();
                     codeBtn.setText("获取验证码");
@@ -202,6 +214,8 @@ public class BinCardActivity extends BaseActivity {
                 code = "";
                 timer.onFinish();
                 timer.cancel();
+                codeBtn.setTextColor(getResources().getColor(R.color.shop_item_money));
+                codeBtn.setBackground(getResources().getDrawable(R.drawable.ic_yzm));
                 codeBtn.setText("获取验证码");
             }
 

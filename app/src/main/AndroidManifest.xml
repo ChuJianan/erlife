@@ -115,7 +115,7 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             />
-        <activity android:name=".ui.BinCardActivity" />
+        <activity android:name=".ui.BinCardActivity" android:theme="@style/Pale"/>
         <activity android:name=".ui.CzlistActivity" />
         <activity android:name=".ui.ConsumerActivity" />
         <activity android:name=".ui.MoreActivity" />

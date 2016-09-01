@@ -72,10 +72,7 @@ public class PayActivity extends BaseActivity {
     private RadioGroup moneyRadio;
     @ViewInject(R.id.title)
     private TextView title;
-    @ViewInject(R.id.user_name_text)
-    private TextView nameText;
-    @ViewInject(R.id.phone_text)
-    private TextView phoneText;
+
     @ViewInject(R.id.money_text)
     private TextView moneyText;
     SharedPreferences preferences;
@@ -197,16 +194,7 @@ public class PayActivity extends BaseActivity {
         String nick_name = preferences.getString("nick_name", "");
         String phone = preferences.getString("phone", "");
         mon = preferences.getFloat("money", 0);
-        if (name != "" && !name.equals("")) {
-            nameText.setText(name);
-        } else if (nick_name != "" && nick_name != null) {
-            nameText.setText(nick_name);
-        }
-        if (phone != "" && !phone.equals("")) {
-            phoneText.setText(phone);
-        } else {
-            phoneText.setText("");
-        }
+
         money = mon + "";
         moneyText.setText(money);
         money = null;

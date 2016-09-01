@@ -2,13 +2,13 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <item
 
-        android:drawable="@mipmap/ic_money_number_2"
+        android:drawable="@drawable/ic_money_number_2"
 
         android:state_checked="true" android:state_enabled="true"  />
 
     <item
 
-        android:drawable="@mipmap/ic_money_number"
+        android:drawable="@drawable/ic_money_number"
 
         android:state_checked="false"
 

@@ -1,205 +1,270 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/graywhite"
-    >
+    android:orientation="vertical">
 
-    <include layout="@layout/include_common_header"/>
+    <include layout="@layout/include_common_header_pale" />
+
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="56dp"
         android:background="@color/white"
-        android:paddingTop="@dimen/space_13"
         android:paddingBottom="@dimen/space_13"
         android:paddingLeft="@dimen/space_14"
         android:paddingRight="@dimen/space_14"
+        android:paddingTop="@dimen/space_13"
+        android:layout_marginTop="@dimen/space_2"
         >
-        <TextView
+        <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="车       型"
-            android:textSize="@dimen/text_size_16"
-            android:textColor="@color/black"
-            android:id="@+id/textView27" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:hint="请选择车型"
-            android:layout_marginLeft="@dimen/space_10"
-            android:textSize="@dimen/text_size_16"
-            android:textColor="@color/quan_text_color"
-            android:id="@+id/textView33"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:id="@+id/plate_type"
+            >
+            <TextView
+                android:id="@+id/textView271"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="号牌类型"
+                android:textColor="@color/text_black"
+                android:textSize="@dimen/text_size_16" />
+
+            <TextView
+                android:id="@+id/textView331"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/space_9"
+                android:text="小型汽车"
+                android:textColor="@color/text_black"
+                android:textSize="@dimen/text_size_16" />
+            <ImageView
+                android:layout_width="12dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/imageView35"
+                android:src="@mipmap/addcarxiala"
+                android:layout_marginLeft="@dimen/space_12"
+                />
+        </LinearLayout>
+
+
+
+        <ImageView
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:id="@+id/chepai_dialog"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
+            android:src="@mipmap/icon_zhushi_Assistor" />
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_marginTop="@dimen/space_1"
+        android:background="@color/white"
+        android:paddingBottom="@dimen/space_13"
+        android:paddingLeft="@dimen/space_14"
+        android:paddingRight="@dimen/space_14"
+        android:paddingTop="@dimen/space_13">
+
+        <TextView
+            android:id="@+id/textView27"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="车       型"
+            android:textColor="@color/text_black"
+            android:textSize="@dimen/text_size_16" />
+
+        <TextView
+            android:id="@+id/textView33"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/space_14"
+            android:layout_toEndOf="@+id/textView27"
             android:layout_toRightOf="@+id/textView27"
-            android:layout_toEndOf="@+id/textView27" />
+            android:text="请选择车型"
+            android:textColor="@color/text_black"
+            android:textSize="@dimen/text_size_16" />
+
         <ImageView
             android:layout_width="6dp"
             android:layout_height="12dp"
-            android:src="@mipmap/cur_right"
-            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"
             android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
+            android:layout_centerVertical="true"
+            android:src="@mipmap/cur_right" />
     </RelativeLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="56dp"
+        android:layout_marginTop="@dimen/space_1"
         android:background="@color/white"
-        android:paddingTop="@dimen/space_12"
+        android:gravity="center"
         android:paddingBottom="@dimen/space_12"
         android:paddingLeft="@dimen/space_14"
         android:paddingRight="@dimen/space_14"
-        android:layout_marginTop="@dimen/space_11"
-        android:gravity="center"
-        >
+        android:paddingTop="@dimen/space_12">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="车牌号码"
-            android:textSize="@dimen/text_size_16"
-            android:textColor="@color/black"
-            />
+            android:textColor="@color/text_black"
+            android:textSize="@dimen/text_size_16" />
 
         <TextView
+            android:id="@+id/plate_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="鲁"
-            android:id="@+id/plate_text"
-            android:textColor="@color/black"
-            android:textSize="@dimen/text_size_16"
             android:layout_marginLeft="@dimen/space_10"
-            />
+            android:text="鲁"
+            android:textColor="@color/text_black"
+            android:textSize="@dimen/text_size_16" />
+
         <ImageView
             android:layout_width="8dp"
             android:layout_height="wrap_content"
-            android:src="@mipmap/addcarxiala"
             android:layout_gravity="center"
+            android:src="@mipmap/addcarxiala"
+            android:layout_marginLeft="@dimen/space_6"
             />
 
         <com.yrkj.yrlife.widget.ClearEditText
             android:id="@+id/plate_edit"
             android:layout_width="match_parent"
             android:layout_height="20dp"
+            android:layout_marginLeft="@dimen/space_10"
             android:background="@color/white"
-            android:text="B"
-            android:layout_marginLeft="@dimen/space_3"
-            android:inputType=""
-            android:textColor="@color/black"
-            android:textSize="@dimen/text_size_16"
             android:gravity="center|left"
-            />
+            android:inputType=""
+            android:text="B"
+            android:textColor="@color/text_black"
+            android:textSize="@dimen/text_size_16" />
     </LinearLayout>
-
-
 
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="56dp"
+        android:layout_marginTop="@dimen/space_1"
         android:background="@color/white"
-        android:layout_marginTop="@dimen/space_11"
-        android:paddingRight="@dimen/space_14"
-        android:paddingTop="@dimen/space_12"
-        android:paddingLeft="@dimen/space_14"
-        android:paddingBottom="@dimen/space_12"
-        android:orientation="horizontal"
         android:gravity="center"
-        >
+        android:orientation="horizontal"
+        android:paddingBottom="@dimen/space_12"
+        android:paddingLeft="@dimen/space_14"
+        android:paddingRight="@dimen/space_14"
+        android:paddingTop="@dimen/space_12">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="发动机号"
-            android:textColor="@color/black"
-            android:textSize="@dimen/text_size_16"
-            />
+            android:textColor="@color/text_black"
+            android:textSize="@dimen/text_size_16" />
+
         <com.yrkj.yrlife.widget.ClearEditText
             android:id="@+id/motor_edit"
             android:layout_width="match_parent"
             android:layout_height="20dp"
-            android:background="@color/white"
             android:layout_marginLeft="@dimen/space_10"
+            android:background="@color/white"
             android:hint="请输入完整的发动机号"
-            android:textSize="@dimen/text_size_16"
             android:textColor="@color/black"
-            />
+            android:textSize="@dimen/text_size_16" />
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="56dp"
+        android:layout_marginTop="@dimen/space_1"
         android:background="@color/white"
         android:paddingBottom="@dimen/space_13"
-        android:paddingTop="@dimen/space_13"
-        android:paddingRight="@dimen/space_14"
         android:paddingLeft="@dimen/space_14"
-        android:layout_marginTop="@dimen/space_11"
+        android:paddingRight="@dimen/space_14"
+        android:paddingTop="@dimen/space_13"
+        android:gravity="center"
         >
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="车架号码"
-            android:textColor="@color/black"
-            android:textSize="@dimen/text_size_16"
-            />
+            android:textColor="@color/text_black"
+            android:textSize="@dimen/text_size_16" />
+
         <com.yrkj.yrlife.widget.ClearEditText
             android:id="@+id/carriage"
             android:layout_width="match_parent"
             android:layout_height="20dp"
+            android:layout_marginLeft="@dimen/space_10"
             android:background="@color/white"
             android:hint="请输入完整车架号"
             android:textColor="@color/black"
-            android:textSize="@dimen/text_size_16"
-            android:layout_marginLeft="@dimen/space_10"
-            />
+            android:textSize="@dimen/text_size_16" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingLeft="@dimen/space_14"
         android:layout_marginTop="@dimen/space_12"
-        >
+        android:orientation="horizontal"
+        android:paddingLeft="@dimen/space_14">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="提交即代表您同意"
-            android:textColor="@color/quan_text_color"
-            android:textSize="@dimen/text_size_13"
-            />
+            android:textColor="@color/shop_item"
+            android:textSize="@dimen/text_size_13" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="《亿人生活爱车使用协议》"
-            android:textColor="@color/paycolor"
-            android:textSize="@dimen/text_size_13"
-            />
+            android:textColor="@color/shop_item_money"
+            android:textSize="@dimen/text_size_13" />
     </LinearLayout>
 
-
-    <Button
-        android:id="@+id/sub_btn"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_gravity="center"
-        android:background="@drawable/bg_btn_code"
-        android:layout_marginLeft="@dimen/space_12"
-        android:layout_marginRight="@dimen/space_12"
-        android:layout_marginTop="@dimen/space_13"
-        android:textColor="@color/white"
-        android:text="提交"
-        android:textSize="@dimen/text_size_18"
-        />
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/space_8"
-        android:layout_marginLeft="@dimen/space_12"
-        android:layout_marginRight="@dimen/space_12"
-        android:textColor="@color/quan_text_color"
-        android:textSize="@dimen/text_size_13"
-        android:text="以上车辆信息仅用于违章查询，我们将严格保密，请您放心填写。"
-        />
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="bottom"
+        >
 
+        <Button
+            android:id="@+id/sub_btn"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="@dimen/space_12"
+            android:layout_marginRight="@dimen/space_12"
+            android:layout_marginTop="@dimen/space_13"
+            android:background="@drawable/bg_btn_code"
+            android:text="提交"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_21" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginLeft="@dimen/space_12"
+            android:layout_marginRight="@dimen/space_12"
+            android:layout_marginTop="@dimen/space_8"
+            android:layout_marginBottom="@dimen/space_21"
+            android:text="以上车辆信息仅用于违章查询，我们将严格保密，请您放心填写。"
+            android:textColor="@color/shop_item"
+            android:textSize="@dimen/text_size_13" />
+    </LinearLayout>
 
 
 </LinearLayout>
