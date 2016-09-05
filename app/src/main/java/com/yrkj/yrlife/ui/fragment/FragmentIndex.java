@@ -276,8 +276,8 @@ public class FragmentIndex extends BaseFragment {
                         }
                         break;
                     case 4://我的爱车
-//                        intent=new Intent(getActivity(), MycarActivity.class);
-//                        startActivity(intent);
+                        intent=new Intent(getActivity(), MycarActivity.class);
+                        startActivity(intent);
                         UIHelper.openTestActivity(getActivity());
                         break;
                     case 5://违章查询
