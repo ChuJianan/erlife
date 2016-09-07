@@ -21,8 +21,11 @@ import android.widget.CheckedTextView;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.handmark.pulltorefresh.library.PullToRefreshBase;
+import com.handmark.pulltorefresh.library.PullToRefreshScrollView;
 import com.hyphenate.easeui.widget.EaseContactList;
 import com.yrkj.yrlife.R;
 import com.yrkj.yrlife.adapter.GridViewMainAdapter;
@@ -55,6 +58,7 @@ import com.yrkj.yrlife.utils.StringUtils;
 import com.yrkj.yrlife.utils.UIHelper;
 import com.yrkj.yrlife.widget.MarqueeView;
 import com.yrkj.yrlife.widget.MyGridView;
+import com.yrkj.yrlife.widget.ScrollVerifyView;
 import com.yrkj.yrlife.widget.SlideShowView;
 
 import org.json.JSONException;
@@ -64,7 +68,10 @@ import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 
@@ -104,6 +111,8 @@ public class FragmentIndex extends BaseFragment {
     String if_have_useful_coupon;
     float money;
     private ProgressDialog mLoadingDialog;
+    PullToRefreshScrollView pullToRefreshScrollView;
+    ScrollView scrollView;
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
@@ -178,8 +187,37 @@ public class FragmentIndex extends BaseFragment {
 
     Intent intent;
     String string = "";
+    long time = 0;
 
     private void init(View view) {
+        pullToRefreshScrollView = (PullToRefreshScrollView) view.findViewById(R.id.scrollView);
+        pullToRefreshScrollView.setMode(PullToRefreshBase.Mode.BOTH);
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Calendar c = Calendar.getInstance();
+        String str = formatter.format(c.getTime());
+        pullToRefreshScrollView.getLoadingLayoutProxy().setLastUpdatedLabel("上次加载时间："+str);
+        pullToRefreshScrollView.getLoadingLayoutProxy().setRefreshingLabel("上次加载时间："+str);
+        pullToRefreshScrollView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ScrollView>() {
+                                                         @Override
+                                                         public void onPullDownToRefresh(PullToRefreshBase<ScrollView> pullToRefreshBase) {
+                                                             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                                                             Calendar c = Calendar.getInstance();
+                                                             String str = formatter.format(c.getTime());
+                                                             pullToRefreshScrollView.getLoadingLayoutProxy().setLastUpdatedLabel("上次加载时间："+str);
+                                                             pullToRefreshScrollView.onRefreshComplete();
+                                                         }
+
+                                                         @Override
+                                                         public void onPullUpToRefresh(PullToRefreshBase<ScrollView> pullToRefreshBase) {
+                                                             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                                                             Calendar c = Calendar.getInstance();
+                                                             String str = formatter.format(c.getTime());
+                                                             pullToRefreshScrollView.getLoadingLayoutProxy().setLastUpdatedLabel("上次加载时间："+str);
+                                                             pullToRefreshScrollView.onRefreshComplete();
+                                                         }
+                                                     }
+        );
+
         LinearLayout ll_location = (LinearLayout) getActivity().findViewById(R.id.ll_location);
         LocationResult = (TextView) getActivity().findViewById(R.id.location_text);
         gview = (MyGridView) view.findViewById(R.id.grid);
@@ -276,7 +314,7 @@ public class FragmentIndex extends BaseFragment {
                         }
                         break;
                     case 4://我的爱车
-                        intent=new Intent(getActivity(), MycarActivity.class);
+                        intent = new Intent(getActivity(), MycarActivity.class);
                         startActivity(intent);
                         UIHelper.openTestActivity(getActivity());
                         break;

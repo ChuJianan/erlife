@@ -396,12 +396,12 @@
         "source": "E:\\Android\\yrlife\\easeui\\res\\drawable-hdpi\\ease_slidetab_bg_press.9.png"
     },
     {
-        "merged": "E:\\Android\\yrlife\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\ease_chatting_setmode_keyboard_btn_pressed.png",
-        "source": "E:\\Android\\yrlife\\easeui\\res\\drawable-hdpi\\ease_chatting_setmode_keyboard_btn_pressed.png"
-    },
-    {
         "merged": "E:\\Android\\yrlife\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\ee_14.png",
         "source": "E:\\Android\\yrlife\\easeui\\res\\drawable-hdpi\\ee_14.png"
+    },
+    {
+        "merged": "E:\\Android\\yrlife\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\ease_chatting_setmode_keyboard_btn_pressed.png",
+        "source": "E:\\Android\\yrlife\\easeui\\res\\drawable-hdpi\\ease_chatting_setmode_keyboard_btn_pressed.png"
     },
     {
         "merged": "E:\\Android\\yrlife\\easeui\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\ease_record_animate_08.png",

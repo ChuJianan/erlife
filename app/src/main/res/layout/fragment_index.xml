@@ -6,7 +6,7 @@
     android:background="@color/white"
     android:orientation="vertical">
 
-    <ScrollView
+    <com.handmark.pulltorefresh.library.PullToRefreshScrollView
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -341,6 +341,6 @@
                 android:divider="@null"
                 android:visibility="visible" />
         </LinearLayout>
-    </ScrollView>
+    </com.handmark.pulltorefresh.library.PullToRefreshScrollView>
 
 </LinearLayout>
