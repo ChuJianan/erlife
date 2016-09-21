@@ -1,6 +1,6 @@
 [
     {
-        "outputFile": "E:\\Android\\yrlife\\library\\build\\intermediates\\res\\merged\\androidTest\\debug\\values-ro\\values-ro.xml",
+        "outputFile": "E:\\Android\\yrlife\\library\\build\\intermediates\\incremental\\mergeDebugAndroidTestResources\\merged.dir\\values-ro\\values-ro.xml",
         "map": [
             {
                 "to": {

@@ -86,5 +86,7 @@ dependencies {
     compile 'com.android.support:multidex:1.0.1'
     compile 'com.readystatesoftware.systembartint:systembartint:1.0.3'
     compile project(':library')
+    compile files('E:/Android/yrlife/libs/pinyin4j-2.5.0.jar')
+    compile files('E:/Android/yrlife/libs/pinyin4android1.0.jar')
 }
 

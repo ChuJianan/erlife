@@ -52,6 +52,7 @@ import com.yrkj.yrlife.ui.PayActivity;
 import com.yrkj.yrlife.ui.WashAActivity;
 import com.yrkj.yrlife.ui.WashRateActivity;
 import com.yrkj.yrlife.ui.WashsActivity;
+import com.yrkj.yrlife.ui.addressoption.AddressActivity;
 import com.yrkj.yrlife.utils.BitmapManager;
 import com.yrkj.yrlife.utils.JsonUtils;
 import com.yrkj.yrlife.utils.StringUtils;
@@ -196,10 +197,17 @@ public class FragmentIndex extends BaseFragment {
         Calendar c = Calendar.getInstance();
         String str = formatter.format(c.getTime());
         pullToRefreshScrollView.getLoadingLayoutProxy().setLastUpdatedLabel("上次加载时间："+str);
-        pullToRefreshScrollView.getLoadingLayoutProxy().setRefreshingLabel("上次加载时间："+str);
+        pullToRefreshScrollView.getLoadingLayoutProxy().setRefreshingLabel("加载中...");
+        pullToRefreshScrollView.getLoadingLayoutProxy().setPullLabel("继续滑动");
+        pullToRefreshScrollView.getLoadingLayoutProxy().setReleaseLabel("松开可以刷新");
         pullToRefreshScrollView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ScrollView>() {
                                                          @Override
                                                          public void onPullDownToRefresh(PullToRefreshBase<ScrollView> pullToRefreshBase) {
+                                                             try{
+                                                                 Thread.sleep(1000);
+                                                             }catch (InterruptedException e){
+                                                                 e.printStackTrace();
+                                                             }
                                                              SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                                                              Calendar c = Calendar.getInstance();
                                                              String str = formatter.format(c.getTime());
@@ -239,14 +247,14 @@ public class FragmentIndex extends BaseFragment {
         ll_location.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), AdrListActivity.class);
+                Intent intent = new Intent(getActivity(), AddressActivity.class);
                 startActivity(intent);
             }
         });
         LocationResult.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), AdrListActivity.class);
+                Intent intent = new Intent(getActivity(), AddressActivity.class);
                 startActivity(intent);
             }
         });
