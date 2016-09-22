@@ -337,7 +337,6 @@ public class MainActivity extends FragmentActivity {
                 } else {
                     if (UIHelper.location == null) {
                         UIHelper.ToastMessage(MainActivity.this, "无法获取定位，无法使用此功能");
-                        finish();
                     } else if (isWash) {
                         String washstring = preferences.getString("wash_gson", "");
                         wash = JsonUtils.fromJson(washstring, Washing_no_card_record.class);

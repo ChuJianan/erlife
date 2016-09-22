@@ -77,9 +77,7 @@ public class DetailNearActivity extends BaseActivity {
             UIHelper.img_urls = near.getMachineImages();
         } else {
             UIHelper.img_urls = new String[]{
-                    "http://dwz.cn/3PhOg7",
-                    "http://dwz.cn/3PhOWC",
-                    "http://dwz.cn/3PhPUb",
+                    "http://dwz.cn/3PhOg7"
             };
         }
         x.view().inject(this);

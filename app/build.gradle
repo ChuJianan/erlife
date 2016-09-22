@@ -30,8 +30,8 @@ android {
         applicationId "com.yrkj.yrlife"
         minSdkVersion 16
         targetSdkVersion 23
-        versionCode 21
-        versionName "1.1.6"
+        versionCode 16
+        versionName "1.1.7"
         multiDexEnabled true
         ndk {
             //设置支持的SO库架构
@@ -63,9 +63,11 @@ dependencies {
     compile 'com.google.android.gms:play-services-appindexing:8.1.0'
     compile 'org.xutils:xutils:3.3.36'
     //    compile 'com.tencent.bugly:crashreport:2.1.5' //其中latest.release指代最新版本号，也可以指定明确的版本号，例如2.1.5
+
     //    compile 'com.tencent.bugly:nativecrashreport:2.2.0' //其中latest.release指代最新版本号，也可以指定明确的版本号，例如2.2.0
     compile 'com.tencent.bugly:crashreport_upgrade:latest.release'
     //其中latest.release指代最新版本号，也可以指定明确的版本号，例如1.2.8
+
     //    compile 'com.pgyersdk:sdk:2.2.2'
     compile 'com.google.code.gson:gson:2.2.4'
     compile files('E:/Android/yrlife/libs/universal-image-loader-1.8.6-with-sources.jar')
@@ -80,6 +82,7 @@ dependencies {
     compile files('E:/Android/yrlife/libs/ips-security-1.0.6.jar')
     compile files('E:/Android/yrlife/libs/ips-commons-codec-1.10.jar')
     //    compile files('E:/Android/yrlife/libs/AMap3DMap_3.3.2_AMapNavi_1.9.0_20160713.jar')
+
     //    compile files('E:/Android/yrlife/libs/Msc.jar')
     compile project(':easeui')
     compile files('E:/Android/yrlife/libs/commons-httpclient-3.1.jar')
@@ -88,5 +91,18 @@ dependencies {
     compile project(':library')
     compile files('E:/Android/yrlife/libs/pinyin4j-2.5.0.jar')
     compile files('E:/Android/yrlife/libs/pinyin4android1.0.jar')
+    compile files('E:/Android/yrlife/libs/MobCommons-2016.0830.1940.jar')
+    compile files('E:/Android/yrlife/libs/MobTools-2016.0830.1940.jar')
+    compile files('E:/Android/yrlife/libs/ShareSDK-Core-2.7.7.jar')
+    compile files('E:/Android/yrlife/libs/ShareSDK-QQ-2.7.7.jar')
+    compile files('E:/Android/yrlife/libs/ShareSDK-SinaWeibo-2.7.7.jar')
+    compile files('E:/Android/yrlife/libs/ShareSDK-Wechat-2.7.7.jar')
+    compile files('E:/Android/yrlife/libs/ShareSDK-Wechat-Core-2.7.7.jar')
+    compile files('E:/Android/yrlife/libs/ShareSDK-Wechat-Moments-2.7.7.jar')
+
+    compile files('E:/Android/yrlife/libs/ShareSDK-Email-2.7.7.jar')
+    compile files('E:/Android/yrlife/libs/ShareSDK-QZone-2.7.7.jar')
+    compile files('E:/Android/yrlife/libs/ShareSDK-ShortMessage-2.7.7.jar')
+    compile files('E:/Android/yrlife/libs/ShareSDK-TencentWeibo-2.7.7.jar')
 }
 

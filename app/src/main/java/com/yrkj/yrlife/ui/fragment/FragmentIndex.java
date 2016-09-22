@@ -189,41 +189,44 @@ public class FragmentIndex extends BaseFragment {
     Intent intent;
     String string = "";
     long time = 0;
+    String str = "";
 
     private void init(View view) {
         pullToRefreshScrollView = (PullToRefreshScrollView) view.findViewById(R.id.scrollView);
         pullToRefreshScrollView.setMode(PullToRefreshBase.Mode.BOTH);
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        final SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Calendar c = Calendar.getInstance();
-        String str = formatter.format(c.getTime());
-        pullToRefreshScrollView.getLoadingLayoutProxy().setLastUpdatedLabel("上次加载时间："+str);
+        str = formatter.format(new Date());
+        pullToRefreshScrollView.getLoadingLayoutProxy().setLastUpdatedLabel("上次加载时间：" + str);
         pullToRefreshScrollView.getLoadingLayoutProxy().setRefreshingLabel("加载中...");
         pullToRefreshScrollView.getLoadingLayoutProxy().setPullLabel("继续滑动");
         pullToRefreshScrollView.getLoadingLayoutProxy().setReleaseLabel("松开可以刷新");
         pullToRefreshScrollView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ScrollView>() {
-                                                         @Override
-                                                         public void onPullDownToRefresh(PullToRefreshBase<ScrollView> pullToRefreshBase) {
-                                                             try{
-                                                                 Thread.sleep(1000);
-                                                             }catch (InterruptedException e){
-                                                                 e.printStackTrace();
-                                                             }
-                                                             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                                                             Calendar c = Calendar.getInstance();
-                                                             String str = formatter.format(c.getTime());
-                                                             pullToRefreshScrollView.getLoadingLayoutProxy().setLastUpdatedLabel("上次加载时间："+str);
-                                                             pullToRefreshScrollView.onRefreshComplete();
-                                                         }
+                 @Override
+                 public void onPullDownToRefresh(PullToRefreshBase<ScrollView> pullToRefreshBase) {
+                     try {
+                         Thread.sleep(1000);
+                     } catch (InterruptedException e) {
+                         e.printStackTrace();
+                     }
+//                                                             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//                                                             Calendar c = Calendar.getInstance();
+//                                                             String str = formatter.format(new Date());
+                     pullToRefreshScrollView.getLoadingLayoutProxy().setLastUpdatedLabel("上次加载时间：" + StringUtils.friendly_time(str));
+                     pullToRefreshScrollView.onRefreshComplete();
+                     str = formatter.format(new Date());
+                 }
 
-                                                         @Override
-                                                         public void onPullUpToRefresh(PullToRefreshBase<ScrollView> pullToRefreshBase) {
-                                                             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                                                             Calendar c = Calendar.getInstance();
-                                                             String str = formatter.format(c.getTime());
-                                                             pullToRefreshScrollView.getLoadingLayoutProxy().setLastUpdatedLabel("上次加载时间："+str);
-                                                             pullToRefreshScrollView.onRefreshComplete();
-                                                         }
-                                                     }
+                 @Override
+                 public void onPullUpToRefresh(PullToRefreshBase<ScrollView> pullToRefreshBase) {
+//                                                             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//                                                             Calendar c = Calendar.getInstance();
+//                                                             String str = formatter.format(new Date());
+                     pullToRefreshScrollView.getLoadingLayoutProxy().setLastUpdatedLabel("上次加载时间：" + StringUtils.friendly_time(str));
+                     pullToRefreshScrollView.onRefreshComplete();
+                     str = formatter.format(new Date());
+                 }
+             }
         );
 
         LinearLayout ll_location = (LinearLayout) getActivity().findViewById(R.id.ll_location);
