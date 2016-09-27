@@ -54,10 +54,10 @@
 			KakaoStory     https://developers.kakao.com/
 			Plurk          http://www.plurk.com/API
     -->
-    
-    <ShareSDK 
+
+    <ShareSDK
         AppKey = "1758b30090a30"/> <!-- 修改成你在sharesdk后台注册的应用的appkey"-->
-    
+
     <!-- ShareByAppClient标识是否使用微博客户端分享，默认是false -->
     <SinaWeibo
         Id="1"
@@ -68,21 +68,21 @@
         ShareByAppClient="true"
         Enable="true" />
 
-    <!--<TencentWeibo-->
-        <!--Id="2" -->
-        <!--SortId="2"-->
-        <!--AppKey="1105550410"-->
-        <!--AppSecret="kCIqjd92nOqCEP2v"-->
-        <!--RedirectUri="http://sharesdk.cn"-->
-        <!--Enable="true" />-->
-    
+    <TencentWeibo
+        Id="8"
+        SortId="8"
+        AppKey="1105550410"
+        AppSecret="kCIqjd92nOqCEP2v"
+        RedirectUri="http://sharesdk.cn"
+        Enable="true" />
+
     <QZone
-        Id="2"
-        SortId="2"
+        Id="6"
+        SortId="6"
         AppId="1105550410"
         AppKey="kCIqjd92nOqCEP2v"
         Enable="true" />
-    
+
     <!-- 
     	Wechat微信和WechatMoments微信朋友圈的appid是一样的；
     
@@ -96,40 +96,49 @@
 		默认值为false。此外，微信收藏不支持此字段。
 	-->
     <Wechat
+        Id="2"
+        SortId="2"
+        AppId="wx4aca65f58fe822e2"
+        AppSecret="e289ab5aba52ce52941ead32519859ca"
+        BypassApproval="false"
+        Enable="true" />
+
+    <WechatMoments
         Id="3"
         SortId="3"
         AppId="wx4aca65f58fe822e2"
         AppSecret="e289ab5aba52ce52941ead32519859ca"
         BypassApproval="false"
         Enable="true" />
-    
-    <WechatMoments
+
+	<WechatFavorite
         Id="4"
         SortId="4"
         AppId="wx4aca65f58fe822e2"
         AppSecret="e289ab5aba52ce52941ead32519859ca"
-        BypassApproval="false"
         Enable="true" />
-        
-	<WechatFavorite
-        Id="5"
-        SortId="5"
-        AppId="wx4aca65f58fe822e2"
-        AppSecret="e289ab5aba52ce52941ead32519859ca"
-        Enable="true" />
-    
+
 	<!-- ShareByAppClient标识是否使用微博客户端分享，默认是false -->
 	<QQ
-        Id="6"
-        SortId="6"
+        Id="5"
+        SortId="5"
         AppId="1105550410"
         AppKey="kCIqjd92nOqCEP2v"
         ShareByAppClient="true"
         Enable="true" />
-    
+
+    <Email
+        Id="12"
+        SortId="12"
+        Enable="true" />
+
+    <ShortMessage
+        Id="11"
+        SortId="11"
+        Enable="true"
+    />
 
 
-	
 	<Line
 	    Id="32"
         SortId="32"
@@ -140,7 +149,7 @@
         Id="35"
         SortId="35"
         Enable="true" />
-    
+
     <Bluetooth
         Id="36"
         SortId="36"
@@ -152,10 +161,10 @@
         ConsumerKey="32741-389c565043c49947ba7edf05"
         Enable="true" />
 
-    
+
      <Alipay
         Id="52"
-        SortId="52"  
+        SortId="52"
         AppId="2015072400185895"
         Enable="true"/>
 

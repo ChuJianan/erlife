@@ -99,10 +99,9 @@ dependencies {
     compile files('E:/Android/yrlife/libs/ShareSDK-Wechat-2.7.7.jar')
     compile files('E:/Android/yrlife/libs/ShareSDK-Wechat-Core-2.7.7.jar')
     compile files('E:/Android/yrlife/libs/ShareSDK-Wechat-Moments-2.7.7.jar')
-
     compile files('E:/Android/yrlife/libs/ShareSDK-Email-2.7.7.jar')
     compile files('E:/Android/yrlife/libs/ShareSDK-QZone-2.7.7.jar')
     compile files('E:/Android/yrlife/libs/ShareSDK-ShortMessage-2.7.7.jar')
-    compile files('E:/Android/yrlife/libs/ShareSDK-TencentWeibo-2.7.7.jar')
+    compile files('E:/Android/yrlife/libs/ShareSDK-Wechat-Favorite-2.7.7.jar')
 }
 
