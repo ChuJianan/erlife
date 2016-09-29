@@ -117,7 +117,7 @@ public class FragmentExpiredQuan extends BaseFragment {
                     startActivity(intent);
                     getActivity().finish();
                 } else{
-                    UIHelper.ToastMessage(getActivity(),result.Message());
+//                    UIHelper.ToastMessage(getActivity(),result.Message());
                     mEmptyView.setText("这里什么都没有");
                     mEmptyView.setVisibility(View.VISIBLE);
                 }
