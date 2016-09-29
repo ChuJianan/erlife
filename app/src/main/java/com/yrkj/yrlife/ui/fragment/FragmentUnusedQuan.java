@@ -88,7 +88,7 @@ public class FragmentUnusedQuan extends BaseFragment {
     }
 
     private void init() {
-        mVoucherAdapter = new ListViewVoucherAdapter(appContext, ldata, 1);
+        mVoucherAdapter = new ListViewVoucherAdapter(appContext, ldata, 2);
         mVoucherView.setAdapter(mVoucherAdapter);
         mVoucherView.setEmptyView(mEmptyView);
         isViewInited = true;

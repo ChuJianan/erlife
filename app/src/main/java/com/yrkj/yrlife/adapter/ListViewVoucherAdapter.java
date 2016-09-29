@@ -69,6 +69,7 @@ public class ListViewVoucherAdapter extends BaseAdapter {
         holder.date.setText(vouchers.getStart_time_Str() + "——" + vouchers.getDeadline());
         if (i == 3) {
             holder.type.setVisibility(View.VISIBLE);
+            holder.type.setText("已过期");
         } else if (i==2){
             holder.type.setVisibility(View.VISIBLE);
             holder.type.setText("已使用");

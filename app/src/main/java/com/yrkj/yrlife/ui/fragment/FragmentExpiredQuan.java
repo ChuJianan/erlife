@@ -84,7 +84,7 @@ public class FragmentExpiredQuan extends BaseFragment {
     }
 
     private void init() {
-        mVoucherAdapter = new ListViewVoucherAdapter(getContext(), ldata, 2);
+        mVoucherAdapter = new ListViewVoucherAdapter(getContext(), ldata, 3);
         mVoucherView.setAdapter(mVoucherAdapter);
         mVoucherView.setEmptyView(mEmptyView);
         isViewInited=true;
