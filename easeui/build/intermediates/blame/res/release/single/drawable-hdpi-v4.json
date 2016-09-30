@@ -32,12 +32,12 @@
         "source": "E:\\Android\\yrlife\\easeui\\res\\drawable-hdpi\\ease_settings_normal.png"
     },
     {
-        "merged": "E:\\Android\\yrlife\\easeui\\build\\intermediates\\res\\merged\\release\\drawable-hdpi-v4\\ease_settings_selected.png",
-        "source": "E:\\Android\\yrlife\\easeui\\res\\drawable-hdpi\\ease_settings_selected.png"
-    },
-    {
         "merged": "E:\\Android\\yrlife\\easeui\\build\\intermediates\\res\\merged\\release\\drawable-hdpi-v4\\ease_video_recorder_start_btn.png",
         "source": "E:\\Android\\yrlife\\easeui\\res\\drawable-hdpi\\ease_video_recorder_start_btn.png"
+    },
+    {
+        "merged": "E:\\Android\\yrlife\\easeui\\build\\intermediates\\res\\merged\\release\\drawable-hdpi-v4\\ease_settings_selected.png",
+        "source": "E:\\Android\\yrlife\\easeui\\res\\drawable-hdpi\\ease_settings_selected.png"
     },
     {
         "merged": "E:\\Android\\yrlife\\easeui\\build\\intermediates\\res\\merged\\release\\drawable-hdpi-v4\\ee_35.png",

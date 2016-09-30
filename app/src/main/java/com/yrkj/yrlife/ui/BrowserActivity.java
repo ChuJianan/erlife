@@ -2,8 +2,10 @@ package com.yrkj.yrlife.ui;
 
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.webkit.GeolocationPermissions;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -44,7 +46,13 @@ public class BrowserActivity extends BaseActivity {
 		mWebView = (WebView) findViewById(R.id.webview);
 		mWebView.getSettings().setJavaScriptEnabled(true);
 		mWebView.getSettings().setDefaultTextEncodingName(URLs.UTF_8);
+		mWebView.getSettings().setDomStorageEnabled(true);
 		mWebView.getSettings().setLoadWithOverviewMode(true);
+		mWebView.getSettings().setGeolocationEnabled(true);
+		String dir =this.getApplicationContext().
+				getDir("database", Context.MODE_PRIVATE).getPath();
+		mWebView.getSettings().setGeolocationDatabasePath(dir);
+		mWebView.setWebViewClient(new WebViewClient());
 		mWebView.getSettings().setSupportZoom(true);
 		mWebView.getSettings().setBuiltInZoomControls(true);
 		mWebView.setWebChromeClient(new WebChromeClient() {
@@ -52,6 +60,12 @@ public class BrowserActivity extends BaseActivity {
 			public void onReceivedTitle(WebView view, String title) {
 				setTitle(title);
 				super.onReceivedTitle(view, title);
+			}
+			@Override
+			public void onGeolocationPermissionsShowPrompt(String origin,
+														   GeolocationPermissions.Callback callback) {
+				callback.invoke(origin, true, false);
+				super.onGeolocationPermissionsShowPrompt(origin, callback);
 			}
 		});
 		mWebView.setWebViewClient(new WebViewClient() {

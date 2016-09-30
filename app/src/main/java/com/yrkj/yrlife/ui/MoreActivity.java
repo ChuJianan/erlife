@@ -156,6 +156,12 @@ public class MoreActivity extends BaseActivity {
         startActivity(intent);
     }
 
+    @Event(R.id.brightness_rl)
+    private void brightnessrlEvent(View view){
+        Intent intent=new Intent(this,BrightnessActivity.class);
+        startActivity(intent);
+    }
+
     /**
      * 清除缓存
      *

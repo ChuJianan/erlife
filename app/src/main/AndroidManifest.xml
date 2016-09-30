@@ -158,6 +158,7 @@
         <activity android:name=".hx.ui.ChatActivity"/>
         <activity android:name=".ui.KefuActivity"/>
         <activity android:name=".ui.addressoption.AddressActivity"/>
+        <activity android:name=".ui.BrightnessActivity"/>
         <activity android:name="com.hyphenate.easeui.ui.EaseShowBigImageActivity"/>
         <activity android:name="com.hyphenate.easeui.ui.EaseShowNormalFileActivity"/>
         <activity android:name="com.hyphenate.easeui.ui.EaseShowVideoActivity"/>

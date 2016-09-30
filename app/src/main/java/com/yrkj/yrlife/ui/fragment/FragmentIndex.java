@@ -330,16 +330,18 @@ public class FragmentIndex extends BaseFragment {
 //                        UIHelper.openTestActivity(getActivity());
                         break;
                     case 5://违章查询
-                        UIHelper.openTestActivity(getActivity());
+//                        UIHelper.openTestActivity(getActivity());
+                        UIHelper.showBrowser(getActivity(),"http://m.weizhang8.cn/");
                         break;
                     case 6://代驾
-                        UIHelper.openTestActivity(getActivity());
+//                        UIHelper.openTestActivity(getActivity());
 //                        if (StringUtils.isEmpty(URLs.secret_code)) {
 //                            UIHelper.openLogin(getActivity());
 //                        } else {
 //                            intent = new Intent(getActivity(), DiscountActivity.class);
 //                            startActivity(intent);
 //                        }
+                        UIHelper.showBrowser(getActivity(),"http://common.diditaxi.com.cn/general/webEntry?wx=true&code=001nfazl1N6OAy0g9Nxl18r8zl1nfazf&state=123");
                         break;
                     case 7://优惠券
                         if (StringUtils.isEmpty(URLs.secret_code)) {

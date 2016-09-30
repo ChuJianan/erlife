@@ -283,6 +283,7 @@
                 android:layout_marginRight="@dimen/space_3"
                 android:background="@color/xinshou_bg"
                 android:orientation="horizontal"
+                android:visibility="gone"
                 android:paddingLeft="@dimen/space_5">
 
                 <ImageView
@@ -339,7 +340,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:divider="@null"
-                android:visibility="visible" />
+                android:visibility="gone" />
         </LinearLayout>
     </com.handmark.pulltorefresh.library.PullToRefreshScrollView>
 

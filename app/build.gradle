@@ -30,8 +30,8 @@ android {
         applicationId "com.yrkj.yrlife"
         minSdkVersion 16
         targetSdkVersion 23
-        versionCode 16
-        versionName "1.1.7"
+        versionCode 17
+        versionName "1.1.8"
         multiDexEnabled true
         ndk {
             //设置支持的SO库架构
