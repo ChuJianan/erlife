@@ -1,15 +1,25 @@
 package com.yrkj.yrlife.ui.fragment;
 
+import android.Manifest;
+import android.app.Dialog;
 import android.content.ActivityNotFoundException;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -33,15 +43,19 @@ import com.yrkj.yrlife.ui.MoreActivity;
 import com.yrkj.yrlife.ui.PayActivity;
 import com.yrkj.yrlife.utils.BitmapManager;
 import com.yrkj.yrlife.utils.ImageUtils;
+import com.yrkj.yrlife.utils.ShareUtils;
 import com.yrkj.yrlife.utils.SharedPreferencesUtil;
 import com.yrkj.yrlife.utils.StringUtils;
 import com.yrkj.yrlife.utils.UIHelper;
+import com.yrkj.yrlife.widget.PasteDialog;
+import com.zxing.decoding.Intents;
 
 import org.xutils.view.annotation.ContentView;
 import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
+import java.io.File;
 import java.math.BigDecimal;
 
 import cn.sharesdk.framework.ShareSDK;
@@ -127,6 +141,8 @@ public class FragmentMe extends BaseFragment {
                 if (StringUtils.isEmpty(wx_head_image)) {
                     if (faceimg != "" && !faceimg.equals("")) {
                         meImg.setImageBitmap(ImageUtils.getBitmap(getActivity(), faceimg));
+                    }else {
+                        meImg.setImageDrawable(getResources().getDrawable(R.mipmap.ic_launcher));
                     }
                 } else {
                     x.image().bind(meImg, wx_head_image);
@@ -296,16 +312,27 @@ public class FragmentMe extends BaseFragment {
 
     /**
      * 违章查询
+     *
      * @param view
      */
     @Event(R.id.weizhang_rl)
-    private void weizhangrlEvent(View view){
-        UIHelper.showBrowser(getActivity(),"http://m.weizhang8.cn/");
+    private void weizhangrlEvent(View view) {
+        UIHelper.showBrowser(getActivity(), "http://m.weizhang8.cn/");
     }
 
     @Event(R.id.daijia_rl)
-    private void daijiarlEvent(View view){
-        UIHelper.showBrowser(getActivity(),"http://common.diditaxi.com.cn/general/webEntry?wx=true&code=001nfazl1N6OAy0g9Nxl18r8zl1nfazf&state=123");
+    private void daijiarlEvent(View view) {
+        UIHelper.showBrowser(getActivity(), "http://common.diditaxi.com.cn/general/webEntry?wx=true&code=001nfazl1N6OAy0g9Nxl18r8zl1nfazf&state=123");
+    }
+
+    @Event(R.id.qiandao_rl)
+    private void qiandaorlEvent(View view) {
+        if (StringUtils.isEmpty(URLs.secret_code)) {
+            UIHelper.ToastMessage(appContext, "您未登录，请登录后再试");
+            UIHelper.openLogin(getActivity());
+        } else {
+            qiandao_dialog();
+        }
     }
 
     /***
@@ -315,14 +342,105 @@ public class FragmentMe extends BaseFragment {
      */
     @Event(R.id.fx_rl)
     private void fxrlEvent(View view) {
-        if (isName){
-            showShare(name);
-        }else {
-            showShare(nick_name);
+        if (StringUtils.isEmpty(URLs.secret_code)) {
+            UIHelper.ToastMessage(appContext, "您未登录，请登录后再试");
+            UIHelper.openLogin(getActivity());
+        } else {
+            if (isName) {
+                showShare(name);
+            } else {
+                showShare(nick_name);
+            }
         }
+    }
+
+    Dialog dialog;
+
+    private void showShare(final String name) {
+        ShareSDK.initSDK(getActivity());
+        View view = getLayoutInflater(getArguments()).inflate(R.layout.share_choose_dialog,
+                null);
+        dialog = new Dialog(getActivity(), R.style.transparentFrameWindowStyle);
+        dialog.setContentView(view, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT));
+        Window window = dialog.getWindow();
+        // 设置显示动画
+        window.setWindowAnimations(R.style.main_menu_animstyle);
+        WindowManager.LayoutParams wl = window.getAttributes();
+        wl.x = 0;
+        wl.y = getActivity().getWindowManager().getDefaultDisplay().getHeight();
+        // 以下这两句是为了保证按钮可以水平满屏
+        wl.width = ViewGroup.LayoutParams.MATCH_PARENT;
+        wl.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+
+        // 设置显示位置
+        dialog.onWindowAttributesChanged(wl);
+        // 设置点击外围解散
+        dialog.setCanceledOnTouchOutside(true);
+        dialog.show();
+        view.findViewById(R.id.wechatmoments).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (UIHelper.isWeixinAvilible(appContext)){
+                    ShareUtils.WechatMoments(appContext, name);
+                }else {
+                    UIHelper.ToastMessage(appContext,"抱歉，您未安装微信客户端，无法分享到朋友圈");
+                }
+                dialog.dismiss();
+            }
+        });
+        view.findViewById(R.id.sinaweibo).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ShareUtils.SinaWeibo(name, appContext);
+                dialog.dismiss();
+            }
+        });
+        view.findViewById(R.id.qzone).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (UIHelper.isQQClientAvailable(appContext)){
+                    ShareUtils.QZone(appContext, name);
+                }else {
+                    UIHelper.ToastMessage(appContext,"抱歉，您未安装QQ客户端，无法分享到QQ空间");
+                }
+                dialog.dismiss();
+            }
+        });
+        view.findViewById(R.id.qq).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (UIHelper.isQQClientAvailable(appContext)){
+                    ShareUtils.QQ(appContext, name);
+                }else {
+                    UIHelper.ToastMessage(appContext,"抱歉，您未安装QQ客户端，无法分享到QQ");
+                }
+                dialog.dismiss();
+            }
+        });
+        view.findViewById(R.id.wechat).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (UIHelper.isWeixinAvilible(appContext)){
+                    ShareUtils.Wechat(appContext, name);
+                }else {
+                    UIHelper.ToastMessage(appContext,"抱歉，您未安装微信客户端，无法分享到微信");
+                }
+                dialog.dismiss();
+            }
+        });
+
+        view.findViewById(R.id.cancel).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
 
     }
 
+
+/*
     private void showShare(String name) {
         ShareSDK.initSDK(getActivity());
         OnekeyShare oks = new OnekeyShare();
@@ -331,7 +449,7 @@ public class FragmentMe extends BaseFragment {
         // 分享时Notification的图标和文字  2.5.9以后的版本不调用此方法
         //oks.setNotification(R.drawable.ic_launcher, getString(R.string.app_name));
         // title标题，印象笔记、邮箱、信息、微信、人人网和QQ空间使用
-        oks.setTitle(name+getString(R.string.share));
+        oks.setTitle(name + getString(R.string.share));
         // titleUrl是标题的网络链接，仅在人人网和QQ空间使用
         oks.setTitleUrl("http://yiren.e7gou.com.cn/wmmanager/phone/member/center");
         // text是分享文本，所有平台都需要这个字段
@@ -350,8 +468,21 @@ public class FragmentMe extends BaseFragment {
         oks.setSiteUrl("http://yiren.e7gou.com.cn/wmmanager/phone/member/center");
         // 启动分享GUI
         oks.show(getActivity());
-    }
+    }*/
 
+    private void qiandao_dialog() {
+        PasteDialog.Builder builder = new PasteDialog.Builder(getActivity());
+        builder.setMessage("21");
+        builder.setTitle("12");
+        builder.setTotal_points("210");
+        builder.setPositiveButton("明日签到可获得10积分", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.create().show();
+    }
 
 
     @Override

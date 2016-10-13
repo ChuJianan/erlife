@@ -166,7 +166,12 @@ public class PayActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 mLoadingDialog.show();
-                setPay();
+                if (UIHelper.isWeixinAvilible(appContext)){
+                    setPay();
+                }else {
+                    UIHelper.ToastMessage(appContext,"抱歉，您未安装微信客户端，支付无法使用");
+                    mLoadingDialog.dismiss();
+                }
                 dialog.dismiss();
             }
         });

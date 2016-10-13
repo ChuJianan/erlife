@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -39,6 +40,7 @@ import com.yrkj.yrlife.ui.TestActivity;
 import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.List;
 
 
 /**
@@ -87,7 +89,7 @@ public class UIHelper {
     public static int IMAGE_COUNT = 0;
     public static Washing_no_card_record washing_no_card_record;
     public static boolean isWash;
-    public static int COUNT=0;
+    public static int COUNT = 0;
     /**
      * 全局web样式
      */
@@ -243,6 +245,41 @@ public class UIHelper {
     }
 
     /**
+     * 判断 用户是否安装微信客户端
+     */
+    public static boolean isWeixinAvilible(Context context) {
+        final PackageManager packageManager = context.getPackageManager();// 获取packagemanager
+        List<PackageInfo> pinfo = packageManager.getInstalledPackages(0);// 获取所有已安装程序的包信息
+        if (pinfo != null) {
+            for (int i = 0; i < pinfo.size(); i++) {
+                String pn = pinfo.get(i).packageName;
+                if (pn.equals("com.tencent.mm")) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
+     * 判断 用户是否安装QQ客户端
+     */
+    public static boolean isQQClientAvailable(Context context) {
+        final PackageManager packageManager = context.getPackageManager();
+        List<PackageInfo> pinfo = packageManager.getInstalledPackages(0);
+        if (pinfo != null) {
+            for (int i = 0; i < pinfo.size(); i++) {
+                String pn = pinfo.get(i).packageName;
+                if (pn.equalsIgnoreCase("com.tencent.qqlite") || pn.equalsIgnoreCase("com.tencent.mobileqq")) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+
+    /**
      * 加载显示图片
      *
      * @param imgView
@@ -298,8 +335,10 @@ public class UIHelper {
             }
         }.start();
     }
+
     static Bitmap bitmap;
-    public static Bitmap loadBitmap(final String url,final Context context) {
+
+    public static Bitmap loadBitmap(final String url, final Context context) {
 
         final String filename = FileUtils.getFileName(url);
         String filepath = context.getFilesDir() + File.separator + filename;
@@ -313,7 +352,7 @@ public class UIHelper {
             public void handleMessage(Message msg) {
                 if (msg.what == 1 && msg.obj != null) {
                     try {
-                        bitmap=(Bitmap)msg.obj;
+                        bitmap = (Bitmap) msg.obj;
                         //写图片缓存
                         ImageUtils.saveImage(context, filename, (Bitmap) msg.obj);
                     } catch (IOException e) {
@@ -563,14 +602,14 @@ public class UIHelper {
 //                    "再按一次退出亿人生活", Toast.LENGTH_SHORT);
 //            toast.setGravity(Gravity.CENTER, 0, 0);
 //            toast.show();
-            CenterToastMessage(cont,"再按一次退出亿人生活");
+            CenterToastMessage(cont, "再按一次退出亿人生活");
 //                    Toast.makeText(this, "再按一次退出程序", Toast.LENGTH_SHORT).show();
             mExitTime = System.currentTimeMillis();
         } else {
             AppManager.getAppManager().AppExit(cont);
 //            AppManager.getAppManager().finishAllActivity();
 //            System.exit(0);
-            Log.d("out","finish");
+            Log.d("out", "finish");
         }
     }
 }

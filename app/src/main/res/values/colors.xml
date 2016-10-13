@@ -101,4 +101,8 @@
     <color name="pale">#f9f9f9</color>
     <color name="text_confirm">#999999</color>
     <color name="text_black">#333333</color>
+    
+    <color name="sign_oranger">#f5a32b</color>
+    <color name="share_background">#e3e3e3</color>
+    <color name="share_button">#f5f5f5</color>
 </resources>

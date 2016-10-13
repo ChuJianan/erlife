@@ -111,10 +111,14 @@ public class LoginActivity extends BaseActivity {
     @Event(R.id.wx_btn)
     private void wxbtnEvent(View view) {
         // send oauth request
-        SendAuth.Req req = new SendAuth.Req();
-        req.scope = "snsapi_userinfo";
-        req.state = ApiClient.getUserAgent(appContext);
-        api.sendReq(req);
+        if (UIHelper.isWeixinAvilible(appContext)) {
+            SendAuth.Req req = new SendAuth.Req();
+            req.scope = "snsapi_userinfo";
+            req.state = ApiClient.getUserAgent(appContext);
+            api.sendReq(req);
+        } else {
+            UIHelper.ToastMessage(appContext, "抱歉，您未安装微信客户端，无法使用微信快捷登录");
+        }
     }
 
     @Event(R.id.wjpwd)
@@ -214,7 +218,7 @@ public class LoginActivity extends BaseActivity {
                         //提交修改
                         editor.commit();
                         //                            user.getId()+"", user.getId()+"0"
-                        EMClient.getInstance().login(user.getId()+"", user.getId()+"0", new EMCallBack() {//回调
+                        EMClient.getInstance().login(user.getId() + "", user.getId() + "0", new EMCallBack() {//回调
                             @Override
                             public void onSuccess() {
                                 EMClient.getInstance().groupManager().loadAllGroups();

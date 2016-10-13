@@ -156,6 +156,10 @@ public class MoreActivity extends BaseActivity {
         startActivity(intent);
     }
 
+    /**
+     * 调节亮度
+     * @param view
+     */
     @Event(R.id.brightness_rl)
     private void brightnessrlEvent(View view){
         Intent intent=new Intent(this,BrightnessActivity.class);

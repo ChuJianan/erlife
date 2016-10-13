@@ -54,6 +54,7 @@ public class BrightnessActivity extends BaseActivity {
             // TODO Auto-generated method stub
             brightness_text.setText(seekBar.getProgress()+"");
             BrightnessUtils.setCurWindowBrightness(BrightnessActivity.this,seekBar.getProgress());
+            BrightnessUtils.saveBrightness(BrightnessActivity.this,seekBar.getProgress());
         }
     }
 }
