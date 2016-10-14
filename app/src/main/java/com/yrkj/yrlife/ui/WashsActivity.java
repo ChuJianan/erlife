@@ -132,9 +132,9 @@ public class WashsActivity extends BaseActivity implements SurfaceHolder.Callbac
     private void kdrlEvent(View view) {
         try {
             CameraManager.get().flashHandler();
-        }catch (RuntimeException e){
+        } catch (RuntimeException e) {
             e.printStackTrace();
-            UIHelper.ToastMessage(appContext,"请打开相机权限！");
+            UIHelper.ToastMessage(appContext, "请打开相机权限！");
         }
     }
 
@@ -233,24 +233,24 @@ public class WashsActivity extends BaseActivity implements SurfaceHolder.Callbac
                     resultIntent.putExtras(bundle);
 //            getActivity().setResult(getActivity().RESULT_OK, resultIntent);
                     startActivity(resultIntent);
-                } else if (result.isOK()){
+                } else if (result.isOK()) {
                     UIHelper.CenterToastMessage(appContext, result.Message());
                     Intent intent = new Intent(WashsActivity.this, LoginActivity.class);
                     startActivity(intent);
                     finish();
-                }else {
+                } else {
                     UIHelper.CenterToastMessage(appContext, result.Message());
                 }
             }
 
             @Override
             public void onCancelled(CancelledException cex) {
-                UIHelper.ToastMessage(appContext,"取消");
+                UIHelper.ToastMessage(appContext, "取消");
             }
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                UIHelper.ToastMessage(appContext,ex.getMessage());
+                UIHelper.ToastMessage(appContext, ex.getMessage());
             }
 
             @Override
@@ -260,17 +260,24 @@ public class WashsActivity extends BaseActivity implements SurfaceHolder.Callbac
         });
     }
 
+    boolean isCanUse = true;
+
     private void initCamera(SurfaceHolder surfaceHolder) {
         try {
-            CameraManager.get().openDriver(surfaceHolder);
+            isCanUse = CameraManager.get().openDriver(surfaceHolder);
+            if (!isCanUse) {
+                return;
+            }
         } catch (IOException ioe) {
             return;
         } catch (RuntimeException e) {
             return;
         }
-        if (handler == null) {
-            handler = new CaptureActivityHandler(this, decodeFormats,
-                    characterSet);
+        if (isCanUse) {
+            if (handler == null) {
+                handler = new CaptureActivityHandler(this, decodeFormats,
+                        characterSet);
+            }
         }
     }
 
@@ -280,9 +287,11 @@ public class WashsActivity extends BaseActivity implements SurfaceHolder.Callbac
     }
 
     public void surfaceCreated(SurfaceHolder holder) {
-        if (!hasSurface) {
-            hasSurface = true;
-            initCamera(holder);
+        if (isCanUse) {
+            if (!hasSurface) {
+                hasSurface = true;
+                initCamera(holder);
+            }
         }
 
     }

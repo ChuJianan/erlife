@@ -1,6 +1,7 @@
 
 apply plugin: 'com.android.application'
 apply plugin: 'com.tencent.bugly.plugin.betauploader'
+apply plugin: 'com.neenbedankt.android-apt'
 beta {
     appId = '900021362'
     appKey = 'Qh0b4nJNrrdUVfTu'
@@ -60,8 +61,10 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile 'com.android.support:appcompat-v7:23.3.0'
     compile 'com.android.support:design:23.3.0'
-    compile 'com.google.android.gms:play-services-appindexing:8.1.0'
+    compile 'com.google.android.gms:play-services-appindexing:8.4.0'
     compile 'org.xutils:xutils:3.3.36'
+    compile 'com.jakewharton:butterknife:8.0.0'
+    apt 'com.jakewharton:butterknife-compiler:8.0.0'
     //    compile 'com.tencent.bugly:crashreport:2.1.5' //其中latest.release指代最新版本号，也可以指定明确的版本号，例如2.1.5
 
     //    compile 'com.tencent.bugly:nativecrashreport:2.2.0' //其中latest.release指代最新版本号，也可以指定明确的版本号，例如2.2.0

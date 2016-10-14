@@ -39,6 +39,7 @@ import com.yrkj.yrlife.been.Result;
 import com.yrkj.yrlife.been.URLs;
 import com.yrkj.yrlife.been.Washing_no_card_record;
 import com.yrkj.yrlife.ui.LoginActivity;
+import com.yrkj.yrlife.ui.MainActivity;
 import com.yrkj.yrlife.ui.NearActivity;
 import com.yrkj.yrlife.ui.WashActivity;
 import com.yrkj.yrlife.ui.WashNActivity;
@@ -88,18 +89,16 @@ public class FragmentNear extends BaseFragment implements Callback, DecodeHandle
     View view;
     LinearLayout ls;
     Camera camera = null;
-    boolean isCamera = false;
-
     @ViewInject(R.id.title)
     private TextView title;
     ProgressDialog mLoadingDialog;
 
+
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         this.view = view;
-        CameraManager.init(getActivity());
+        isCamera();
         view.findViewById(R.id.back).setVisibility(View.INVISIBLE);
         title.setText("无卡洗车");
         ls = (LinearLayout) getActivity().findViewById(R.id.ssss);
@@ -107,6 +106,63 @@ public class FragmentNear extends BaseFragment implements Callback, DecodeHandle
         hasSurface = false;
         inactivityTimer = new InactivityTimer(getActivity());
         mLoadingDialog = UIHelper.progressDialog(getActivity(), "正在验证洗车机编号...");
+    }
+
+
+    private void isCamera() {
+        PackageManager pm = getActivity().getPackageManager();
+        boolean permission = (PackageManager.PERMISSION_GRANTED ==
+                pm.checkPermission("android.permission.CAMERA", "com.yrkj.yrlife"));
+        if (permission) {
+            CameraManager.init(getActivity());
+        } else {
+            ActivityCompat.requestPermissions(getActivity(),
+                    new String[]{Manifest.permission.CAMERA},
+                    MY_PERMISSIONS_CAMERA);
+        }
+//        int perssion = ContextCompat.checkSelfPermission(getActivity(),
+//                Manifest.permission.CAMERA);
+//        if (perssion == PackageManager.PERMISSION_GRANTED) {
+//            CameraManager.init(getActivity());
+//        } else if (perssion == PackageManager.PERMISSION_DENIED) {
+//            ActivityCompat.requestPermissions(getActivity(),
+//                    new String[]{Manifest.permission.CAMERA},
+//                    MY_PERMISSIONS_CAMERA);
+//        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode) {
+            case MY_PERMISSIONS_CAMERA:
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    CameraManager.init(getActivity());
+                } else {
+                    //用户不同意，向用户展示该权限作用
+                    if (!ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), Manifest.permission.CAMERA)) {
+                        AlertDialog dialog = new AlertDialog.Builder(getActivity())
+                                .setMessage("该相机需要赋予使用的权限，不开启将无法正常工作！")
+                                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        UIHelper.startAppSettings(getContext());
+                                    }
+                                })
+                                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        getActivity().finish();
+                                    }
+                                }).create();
+                        dialog.show();
+                        return;
+                    }
+                }
+                break;
+            default:
+                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
     }
 
     @Event(R.id.kd_rl)
@@ -244,17 +300,24 @@ public class FragmentNear extends BaseFragment implements Callback, DecodeHandle
         });
     }
 
+    boolean isCanUse = true;
+
     private void initCamera(SurfaceHolder surfaceHolder) {
         try {
-            CameraManager.get().openDriver(surfaceHolder);
+            isCanUse = CameraManager.get().openDriver(surfaceHolder);
+            if (!isCanUse) {
+                return;
+            }
         } catch (IOException ioe) {
             return;
         } catch (RuntimeException e) {
-            return;
+            e.printStackTrace();
         }
-        if (handler == null) {
-            handler = new CaptureActivityHandler(this, decodeFormats,
-                    characterSet);
+        if (isCanUse) {
+            if (handler == null) {
+                handler = new CaptureActivityHandler(this, decodeFormats,
+                        characterSet);
+            }
         }
     }
 
@@ -264,11 +327,12 @@ public class FragmentNear extends BaseFragment implements Callback, DecodeHandle
     }
 
     public void surfaceCreated(SurfaceHolder holder) {
-        if (!hasSurface) {
-            hasSurface = true;
-            initCamera(holder);
+        if (isCanUse) {
+            if (!hasSurface) {
+                hasSurface = true;
+                initCamera(holder);
+            }
         }
-
     }
 
     public void surfaceDestroyed(SurfaceHolder holder) {

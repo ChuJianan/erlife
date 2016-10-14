@@ -285,20 +285,20 @@ public class FragmentIndex extends BaseFragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 switch (position) {
                     case 0://扫码洗车
-                        if (URLs.secret_code == "") {
-                            UIHelper.openLogin(getActivity());
-                        } else if (isWash) {
-                            String washstring = preferences.getString("wash_gson", "");
-                            wash = JsonUtils.fromJson(washstring, Washing_no_card_record.class);
-                            isWash();
-                        } else {
-                            if (UIHelper.location == null) {
-                                UIHelper.ToastMessage(appContext, "无法获取定位，无法使用此功能");
-                            } else {
+//                        if (URLs.secret_code == "") {
+//                            UIHelper.openLogin(getActivity());
+//                        } else if (isWash) {
+//                            String washstring = preferences.getString("wash_gson", "");
+//                            wash = JsonUtils.fromJson(washstring, Washing_no_card_record.class);
+//                            isWash();
+//                        } else {
+//                            if (UIHelper.location == null) {
+//                                UIHelper.ToastMessage(appContext, "无法获取定位，无法使用此功能");
+//                            } else {
                                 intent = new Intent(getActivity(), WashsActivity.class);
                                 startActivity(intent);
-                            }
-                        }
+//                            }
+//                        }
 
                         break;
                     case 1://附近网点

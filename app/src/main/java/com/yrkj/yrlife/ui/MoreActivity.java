@@ -138,6 +138,10 @@ public class MoreActivity extends BaseActivity {
         }
     }
 
+    /**
+     * 版本更新
+     * @param view
+     */
     @Event(R.id.update_rl)
     private void updaterl(View view) {
         UpdateManager.getUpdateManager().checkAppUpdate(this,true);
@@ -174,7 +178,6 @@ public class MoreActivity extends BaseActivity {
     @Event(R.id.clean_rl)
     private void onCleanrl(View view) {
         dialog("您确定要清除缓存吗？", 2);
-
     }
 
     /**
@@ -268,7 +271,6 @@ public class MoreActivity extends BaseActivity {
                 }
                 if (i == 2) {
                     mLoadingDialog.show();
-//                    UIHelper.clearAppCache(MoreActivity.this);
                     try{
                         DataCleanManager.clearAllCache(appContext);
                         mLoadingDialog.dismiss();
