@@ -154,7 +154,7 @@ public class NearActivity extends BaseActivity {
                 mNearProgress.setVisibility(ProgressBar.GONE);
                 mNearView.onRefreshComplete(DateUtils.format(new Date(), getString(R.string.pull_to_refresh_update_pattern)));
                 mNearView.setSelection(0);
-                UIHelper.ToastMessage(appContext, "刷新成功");
+
             }
         });
     }
@@ -180,6 +180,7 @@ public class NearActivity extends BaseActivity {
                         mNearView.setTag(UIHelper.LISTVIEW_DATA_MORE);
                         mNearAdapter.setNear(mNearData);
                         mNearAdapter.notifyDataSetChanged();
+                        UIHelper.ToastMessage(appContext, "刷新成功");
                     } else if (result.nears.size() < pageSize) {
                         mNearData = result.nears;
                         mNearView.setTag(UIHelper.LISTVIEW_DATA_FULL);

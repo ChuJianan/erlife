@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.yrkj.yrlife">
 
-
+    <supports-screens android:anyDensity="true" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <!-- 这个权限用于进行网络定位-->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
@@ -80,7 +80,8 @@
         <activity
             android:name=".app.AppStart"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoTitle_FullScreen">
+            android:theme="@style/AppTheme.NoTitle_FullScreen"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -103,66 +104,68 @@
         <!--android:name="PGYER_APPID"-->
         <!--android:value=" 6bf4566ff0158af2ae1b47a494860911" />-->
 
-        <activity android:name=".ui.BaseActivity" />
+        <activity android:name=".ui.BaseActivity" android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.BrowserActivity"
-            android:exported="false" />
-        <activity android:name=".ui.MainActivity" />
+            android:exported="false"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.MainActivity" android:screenOrientation="portrait"/>
         <activity
             android:name=".ui.ShareActivity"
-            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
-        <activity android:name=".ui.LoginActivity" />
-        <activity android:name=".ui.SignActivity" />
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".ui.LoginActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.SignActivity" android:screenOrientation="portrait"/>
         <activity android:name=".ui.PayActivity"
             android:exported="true"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             />
-        <activity android:name=".ui.BinCardActivity" android:theme="@style/Pale"/>
-        <activity android:name=".ui.CzlistActivity" />
-        <activity android:name=".ui.ConsumerActivity" />
-        <activity android:name=".ui.MoreActivity" />
-        <activity android:name=".ui.MeActivity" />
-        <activity android:name=".ui.NameActivity" />
-        <activity android:name=".ui.PhoneActivity" />
-        <activity android:name=".ui.AdrListActivity" />
-        <activity android:name=".ui.IdeaActivity" />
-        <activity android:name=".ui.FindPasswordActivity" />
-        <activity android:name=".ui.FindPasswordTActivity" />
-        <activity android:name=".ui.AboutActivity" />
-        <activity android:name=".ui.HelpActivity" />
-        <activity android:name=".ui.NearActivity" />
-        <activity android:name=".ui.WashActivity" />
-        <activity android:name=".ui.NewsActivity" />
-        <activity android:name=".ui.NewsBrowserActivity" />
-        <activity android:name=".ui.RateActivity" />
-        <activity android:name=".ui.WashsActivity" />
-        <activity android:name=".ui.BindPhoneActivity" />
-        <activity android:name=".ui.XiedingActivity" />
-        <activity android:name=".ui.TestActivity" />
-        <activity android:name=".ui.NearsBrowserActivity" />
-        <activity android:name=".ui.FeedbackActivity" />
-        <activity android:name=".ui.MycarActivity" android:theme="@style/Pale"/>
-        <activity android:name=".ui.PaySuccessActivity"/>
-        <activity android:name=".ui.DiscountActivity"/>
-        <activity android:name=".ui.DetailNearActivity"/>
-        <activity android:name=".ui.WashBillActivity" />
-        <activity android:name=".ui.WashRateActivity" android:theme="@style/Pale"/>
-        <activity android:name=".ui.WashAActivity" android:theme="@style/Pale" />
-        <activity android:name=".ui.WashNActivity" android:theme="@style/Pale"/>
-        <activity android:name=".ui.WashNnActivity" android:theme="@style/Pale"/>
-        <activity android:name=".ui.WashConfirmActivity" android:theme="@style/Pale"/>
-        <activity android:name=".ui.FindBillActivity" />
-        <activity android:name=".hx.ui.EaseContactListActivity"/>
-        <activity android:name=".hx.ui.EaseConversationActivity"/>
-        <activity android:name=".hx.ui.ChatActivity"/>
-        <activity android:name=".ui.KefuActivity"/>
+        <activity android:name=".ui.BinCardActivity" android:theme="@style/Pale" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.CzlistActivity"  android:screenOrientation="portrait"/>
+        <activity android:name=".ui.ConsumerActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.MoreActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.MeActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.NameActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.PhoneActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.AdrListActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.IdeaActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.FindPasswordActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.FindPasswordTActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.AboutActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.HelpActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.NearActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.WashActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.NewsActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.NewsBrowserActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.RateActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.WashsActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.BindPhoneActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.XiedingActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.TestActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.NearsBrowserActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.FeedbackActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.MycarActivity" android:theme="@style/Pale" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.PaySuccessActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.DiscountActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.DetailNearActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.WashBillActivity"  android:screenOrientation="portrait"/>
+        <activity android:name=".ui.WashRateActivity" android:theme="@style/Pale" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.WashAActivity" android:theme="@style/Pale"  android:screenOrientation="portrait"/>
+        <activity android:name=".ui.WashNActivity" android:theme="@style/Pale" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.WashNnActivity" android:theme="@style/Pale" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.WashConfirmActivity" android:theme="@style/Pale" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.FindBillActivity"  android:screenOrientation="portrait"/>
+        <activity android:name=".hx.ui.EaseContactListActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".hx.ui.EaseConversationActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".hx.ui.ChatActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.KefuActivity" android:screenOrientation="portrait"/>
         <activity android:name=".ui.addressoption.AddressActivity"/>
-        <activity android:name=".ui.BrightnessActivity"/>
-        <activity android:name="com.hyphenate.easeui.ui.EaseShowBigImageActivity"/>
-        <activity android:name="com.hyphenate.easeui.ui.EaseShowNormalFileActivity"/>
-        <activity android:name="com.hyphenate.easeui.ui.EaseShowVideoActivity"/>
-        <activity android:name="com.hyphenate.easeui.ui.EaseBaiduMapActivity"/>
+        <activity android:name=".ui.BrightnessActivity" android:screenOrientation="portrait"/>
+        <activity android:name="com.hyphenate.easeui.ui.EaseShowBigImageActivity" android:screenOrientation="portrait"/>
+        <activity android:name="com.hyphenate.easeui.ui.EaseShowNormalFileActivity" android:screenOrientation="portrait"/>
+        <activity android:name="com.hyphenate.easeui.ui.EaseShowVideoActivity" android:screenOrientation="portrait"/>
+        <activity android:name="com.hyphenate.easeui.ui.EaseBaiduMapActivity" android:screenOrientation="portrait"/>
 
 
 
@@ -179,7 +182,7 @@
 
         <activity
             android:name="com.tencent.bugly.beta.ui.BetaActivity"
-            android:theme="@android:style/Theme.Translucent" />
+            android:theme="@android:style/Theme.Translucent"  android:screenOrientation="portrait"/>
         <activity
             android:name=".wxapi.WXEntryActivity"
             android:exported="true"
