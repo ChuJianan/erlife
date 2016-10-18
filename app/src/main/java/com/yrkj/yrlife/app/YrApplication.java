@@ -97,7 +97,7 @@ public class YrApplication extends MultiDexApplication {
         //百度定位声明
 //        locationService = new LocationService(getApplicationContext());
         mVibrator = (Vibrator) getApplicationContext().getSystemService(Service.VIBRATOR_SERVICE);
-        SDKInitializer.initialize(this);
+        SDKInitializer.initialize(getApplicationContext());
         preferences = getSharedPreferences("yrlife", MODE_WORLD_READABLE);
         String secret_code = preferences.getString("secret_code", "");
         String openid = preferences.getString("openid", "");
