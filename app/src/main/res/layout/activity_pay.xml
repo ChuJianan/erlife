@@ -57,6 +57,7 @@
         android:padding="@dimen/space_5"
         android:background="@color/white"
         android:orientation="vertical"
+        android:gravity="center"
         >
 
         <LinearLayout
@@ -70,7 +71,7 @@
                 android:layout_width="100dp"
                 android:layout_height="60dp"
                 android:text="0.01元"
-                android:textSize="@dimen/text_size_18"
+                android:textSize="@dimen/text_size_15"
                 android:background="@drawable/radio_money"
                 android:gravity="center"
                 android:id="@+id/t_2_radio"
@@ -118,7 +119,7 @@
                 android:button="@null"
                 android:background="@drawable/radio_money"
                 android:gravity="center"
-                android:textSize="@dimen/text_size_18"
+                android:textSize="@dimen/text_size_15"
                 android:id="@+id/t_20_radio"
                 android:textColor="@color/color_radiobutton"
                 />
