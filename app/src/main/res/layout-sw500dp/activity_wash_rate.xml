@@ -51,7 +51,7 @@
                     android:layout_centerVertical="true"
                     android:text="爱车洗完了，给个评价吧"
                     android:textColor="#666666"
-                    android:textSize="@dimen/space_14" />
+                    android:textSize="@dimen/space_20" />
 
                 <ImageView
                     android:id="@+id/imageView32"
@@ -114,7 +114,7 @@
                     android:layout_marginTop="@dimen/space_18"
                     android:text="其它的意见与建议"
                     android:textColor="#666666"
-                    android:textSize="@dimen/text_size_14" />
+                    android:textSize="@dimen/text_size_20" />
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -123,16 +123,16 @@
                     <EditText
                         android:id="@+id/rate_edit"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="200dp"
                         android:layout_margin="@dimen/space_18"
                         android:background="@drawable/edit_frame_color"
                         android:gravity="left|top"
                         android:hint="请填写您的评价"
                         android:inputType="textMultiLine"
-                        android:minLines="5"
+                        android:minLines="10"
                         android:textColor="@color/black"
                         android:padding="@dimen/space_3"
-                        android:textSize="@dimen/text_size_14" />
+                        android:textSize="@dimen/text_size_20" />
 
                     <TextView
                         android:id="@+id/wordnub_text"
@@ -160,15 +160,15 @@
 
             <Button
                 android:id="@+id/rate_btn"
-                android:layout_width="200dp"
-                android:layout_height="46dp"
+                android:layout_width="360dp"
+                android:layout_height="60dp"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="30dp"
                 android:background="@drawable/bg_btn"
                 android:gravity="center"
                 android:text="提交评价"
                 android:textColor="@color/white"
-                android:textSize="@dimen/text_size_19" />
+                android:textSize="@dimen/text_size_24" />
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

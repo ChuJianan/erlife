@@ -40,6 +40,7 @@ import com.yrkj.yrlife.ui.FindBillActivity;
 import com.yrkj.yrlife.ui.LoginActivity;
 import com.yrkj.yrlife.ui.MeActivity;
 import com.yrkj.yrlife.ui.MoreActivity;
+import com.yrkj.yrlife.ui.MycarActivity;
 import com.yrkj.yrlife.ui.PayActivity;
 import com.yrkj.yrlife.utils.BitmapManager;
 import com.yrkj.yrlife.utils.ImageUtils;
@@ -265,6 +266,12 @@ public class FragmentMe extends BaseFragment {
         }
     }
 
+    @Event(R.id.car_rl)
+    private void carrlEvent(View view){
+        Intent intent=new Intent(getActivity(),MycarActivity.class);
+        startActivity(intent);
+    }
+
     /**
      * 设置
      *
@@ -289,6 +296,10 @@ public class FragmentMe extends BaseFragment {
         startActivity(intent);
     }
 
+    /***
+     * 评价
+     * @param v
+     */
     @Event(R.id.rate_rl)
     private void setraterlEvent(View v) {
         try {
@@ -320,11 +331,19 @@ public class FragmentMe extends BaseFragment {
         UIHelper.showBrowser(getActivity(), "http://m.weizhang8.cn/");
     }
 
+    /**
+     * 代价
+     * @param view
+     */
     @Event(R.id.daijia_rl)
     private void daijiarlEvent(View view) {
         UIHelper.showBrowser(getActivity(), "http://common.diditaxi.com.cn/general/webEntry?wx=true&code=001nfazl1N6OAy0g9Nxl18r8zl1nfazf&state=123");
     }
 
+    /**
+     * 签到
+     * @param view
+     */
     @Event(R.id.qiandao_rl)
     private void qiandaorlEvent(View view) {
         if (StringUtils.isEmpty(URLs.secret_code)) {

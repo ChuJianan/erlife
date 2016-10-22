@@ -2,6 +2,7 @@ package com.yrkj.yrlife.ui.fragment;
 
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -120,6 +121,12 @@ public class FragmentIndex extends BaseFragment {
         super.onViewCreated(view, savedInstanceState);
         LinearLayout ls = (LinearLayout) getActivity().findViewById(R.id.ssss);
         ls.setVisibility(View.VISIBLE);
+
+        WindowManager wm = (WindowManager) getContext()
+                .getSystemService(Context.WINDOW_SERVICE);
+        int width = wm.getDefaultDisplay().getWidth();
+        int height = wm.getDefaultDisplay().getHeight();
+
         init(view);
         initWebView();
         index_webView.loadUrl("file:///android_asset/i_center.html");
