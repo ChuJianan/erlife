@@ -143,7 +143,7 @@ public class MeActivity extends BaseActivity {
     }
 
 
-    @Event(R.id.avatarImg)
+    @Event(R.id.img_rl)
     private void avatarImgEvent(View view) {
         showDialog();
     }

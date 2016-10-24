@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="@dimen/home_top"
+    android:background="@mipmap/bg_common_header"
+    >
+
+    <LinearLayout
+        android:paddingLeft="@dimen/space_5"
+        android:paddingRight="@dimen/space_5"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:id="@+id/ll_location"
+        android:gravity="center">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="山东"
+            android:id="@+id/location_text"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_25"
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:maxEms="3"
+            />
+        <ImageView
+            android:layout_width="22dp"
+            android:layout_height="wrap_content"
+            android:scaleType="centerInside"
+            android:src="@mipmap/ic_index_dingwei"
+            android:id="@+id/imageView7"
+            android:layout_centerVertical="true"
+            />
+    </LinearLayout>
+
+
+    <TextView
+        android:id="@+id/title_home"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="@string/app_name"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_size_32"
+         />
+
+    <ImageView
+        android:layout_width="@dimen/home_top"
+        android:layout_height="fill_parent"
+        android:layout_alignParentRight="true"
+        android:scaleType="center"
+        android:id="@+id/sweep"
+        android:visibility="gone"
+        android:src="@mipmap/ic_sweep" />
+
+
+</RelativeLayout>

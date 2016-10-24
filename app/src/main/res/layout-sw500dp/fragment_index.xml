@@ -72,7 +72,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="38dp"
+                android:layout_height="48dp"
                 android:orientation="horizontal">
 
                 <LinearLayout
@@ -87,7 +87,7 @@
                         android:layout_height="wrap_content"
                         android:text="特惠"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/text_size_16" />
+                        android:textSize="@dimen/text_size_26" />
 
                     <RelativeLayout
                         android:layout_width="wrap_content"
@@ -96,8 +96,8 @@
                         android:gravity="center">
 
                         <ImageView
-                            android:layout_width="46dp"
-                            android:layout_height="24dp"
+                            android:layout_width="56dp"
+                            android:layout_height="34dp"
                             android:scaleType="fitXY"
                             android:src="@drawable/text_bg" />
 
@@ -109,15 +109,15 @@
                             android:layout_marginLeft="@dimen/space_1"
                             android:text="头条"
                             android:textColor="@color/white"
-                            android:textSize="@dimen/space_16" />
+                            android:textSize="@dimen/space_26" />
                     </RelativeLayout>
 
                     <TextView
                         android:layout_width="wrap_content"
-                        android:layout_height="21dp"
+                        android:layout_height="28dp"
                         android:text="："
                         android:textColor="@color/black"
-                        android:textSize="@dimen/text_size_18" />
+                        android:textSize="@dimen/text_size_25" />
 
                     <RelativeLayout
                         android:layout_width="match_parent"
@@ -135,7 +135,7 @@
                             app:mvAnimDuration="1000"
                             app:mvInterval="3000"
                             app:mvTextColor="@color/quan_text_color"
-                            app:mvTextSize="15sp" />
+                            app:mvTextSize="25sp" />
 
 
                         <TextView
@@ -148,7 +148,9 @@
                             android:background="@drawable/text_frame_color"
                             android:padding="@dimen/space_2"
                             android:text="热读"
-                            android:textColor="#ff6666" />
+                            android:textSize="25sp"
+                            android:textColor="#ff6666"
+                            />
 
                     </RelativeLayout>
 
@@ -200,7 +202,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="30dp"
+                android:layout_height="40dp"
                 android:layout_marginRight="@dimen/space_3"
                 android:background="@color/xinshou_bg"
                 android:orientation="horizontal"
@@ -209,7 +211,7 @@
                 <ImageView
                     android:id="@+id/imageView38"
                     android:layout_width="wrap_content"
-                    android:layout_height="22dp"
+                    android:layout_height="32dp"
                     android:layout_gravity="center"
                     android:scaleType="fitXY"
                     android:src="@mipmap/xinshou_line" />
@@ -223,7 +225,7 @@
                     android:padding="@dimen/space_3"
                     android:text="热卖商品"
                     android:textColor="@color/near_listitem_name"
-                    android:textSize="@dimen/text_size_15" />
+                    android:textSize="@dimen/text_size_25" />
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -240,12 +242,12 @@
                         android:layout_toStartOf="@+id/imageView6"
                         android:text="更多"
                         android:textColor="@color/near_listitem_name"
-                        android:textSize="@dimen/text_size_12" />
+                        android:textSize="@dimen/text_size_22" />
 
                     <ImageView
                         android:id="@+id/imageView6"
-                        android:layout_width="@dimen/space_5"
-                        android:layout_height="@dimen/space_9"
+                        android:layout_width="@dimen/space_15"
+                        android:layout_height="@dimen/space_19"
                         android:layout_alignParentEnd="true"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"

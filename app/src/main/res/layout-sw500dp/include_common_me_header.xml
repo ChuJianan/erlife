@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/title_banner"
+    android:layout_width="fill_parent"
+    android:layout_height="76dp"
+    android:background="#fc5a27"
+    android:gravity="center"
+    >
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:id="@+id/back"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:gravity="center"
+        >
+        <RelativeLayout
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_marginLeft="@dimen/space_15"
+            >
+            <ImageView
+                android:layout_width="43dp"
+                android:layout_height="43dp"
+                android:background="@mipmap/ic_me_toast"
+                android:layout_alignParentBottom="true"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/message_nub"
+                android:background="@mipmap/ic_yuandian"
+                android:gravity="center"
+                android:text="2"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_9"
+                android:layout_alignParentRight="true"
+                android:visibility="gone"
+                />
+        </RelativeLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:layout_marginTop="@dimen/space_11"
+            android:layout_marginLeft="@dimen/space_3"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_19"
+            android:visibility="invisible"
+            />
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/oper_layout"
+        android:layout_width="70dp"
+        android:layout_height="match_parent"
+        android:gravity="right"
+        android:layout_alignParentRight="true" >
+
+        <ImageView
+            android:id="@+id/refresh"
+            android:layout_width="43dp"
+            android:layout_height="43dp"
+            android:layout_marginRight="15dp"
+            android:layout_gravity="center|right"
+            android:background="@mipmap/ic_me_setting"
+             />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:layout_toLeftOf="@+id/oper_layout"
+        android:layout_toRightOf="@+id/back"
+        android:layout_marginLeft="18dp"
+        android:gravity="center" >
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:gravity="center_vertical"
+            android:singleLine="true"
+            android:text="亿人生活"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_32" />
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@mipmap/shadow_line"
+        android:visibility="gone" />
+
+</RelativeLayout>

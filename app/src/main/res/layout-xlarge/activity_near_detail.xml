@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/graywhite"
+    android:orientation="vertical">
+
+    <include layout="@layout/include_common_header" />
+
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/graywhite"
+            android:orientation="vertical">
+
+            <com.yrkj.yrlife.widget.SlideShowView
+                android:id="@+id/slideshowView"
+                android:layout_width="match_parent"
+                android:layout_height="190dp"
+                android:adjustViewBounds="true"
+                android:background="@color/white" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:gravity="center|left"
+                android:orientation="horizontal"
+                android:padding="@dimen/space_10">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="28dp"
+                    android:layout_marginLeft="@dimen/space_10"
+                    android:src="@mipmap/ic_line_blue"
+                    android:scaleType="fitXY"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/space_10"
+                    android:text="设备信息"
+                    android:textColor="@color/near_detail_title"
+                    android:textSize="@dimen/text_size_28" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_1"
+                android:background="@color/white"
+                android:orientation="horizontal"
+                android:padding="@dimen/space_10">
+
+                <LinearLayout
+                    android:layout_width="280dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/space_10">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="名称："
+                            android:textColor="@color/near_listitem_adr"
+                            android:textSize="@dimen/text_size_25" />
+
+                        <TextView
+                            android:id="@+id/detail_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="泰山石化39站"
+                            android:textColor="@color/near_listitem_adr"
+                            android:textSize="@dimen/text_size_25" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/space_10"
+                        android:layout_marginTop="@dimen/space_2">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="设备编号："
+                            android:textColor="@color/near_listitem_adr"
+                            android:textSize="@dimen/text_size_25" />
+
+                        <TextView
+                            android:id="@+id/detail_nub"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="999991"
+                            android:textColor="@color/near_listitem_adr"
+                            android:textSize="@dimen/text_size_25" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/space_10"
+                        android:layout_marginTop="@dimen/space_2">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="经度坐标："
+                            android:textColor="@color/near_listitem_adr"
+                            android:textSize="@dimen/text_size_25" />
+
+                        <TextView
+                            android:id="@+id/detail_lng"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="117.082116"
+                            android:textColor="@color/near_listitem_adr"
+                            android:textSize="@dimen/text_size_25" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/space_10"
+                        android:layout_marginTop="@dimen/space_2">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="纬度坐标："
+                            android:textColor="@color/near_listitem_adr"
+                            android:textSize="@dimen/text_size_25" />
+
+                        <TextView
+                            android:id="@+id/detail_lat"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="36.204513"
+                            android:textColor="@color/near_listitem_adr"
+                            android:textSize="@dimen/text_size_25" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/space_10"
+                        android:layout_marginTop="@dimen/space_2">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="地址："
+                            android:textColor="@color/near_listitem_adr"
+                            android:textSize="@dimen/text_size_25" />
+
+                        <TextView
+                            android:id="@+id/detail_adr"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:ellipsize="end"
+                            android:singleLine="true"
+                            android:text="泰安市东岳大街泰山石化39站"
+                            android:textColor="@color/near_listitem_adr"
+                            android:textSize="@dimen/text_size_25" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    >
+
+                    <ImageView
+                        android:id="@+id/detail_ewm"
+                        android:layout_width="160dp"
+                        android:layout_height="160dp"
+                        android:layout_gravity="center"
+                        android:layout_marginLeft="@dimen/space_1"
+                        android:src="@mipmap/ic_eweima"
+                        />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_5"
+                android:background="@color/white"
+                android:gravity="center|left"
+                android:orientation="horizontal"
+                android:padding="@dimen/space_10">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="28dp"
+                    android:layout_marginLeft="@dimen/space_10"
+                    android:scaleType="fitXY"
+                    android:src="@mipmap/ic_line_blue" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/space_10"
+                    android:text="地址"
+                    android:textColor="@color/near_detail_title"
+                    android:textSize="@dimen/text_size_28" />
+            </LinearLayout>
+
+            <RelativeLayout
+                android:id="@+id/detail_daohang"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_1"
+                android:background="@color/white"
+                android:gravity="center"
+                android:padding="@dimen/space_10">
+
+                <TextView
+                    android:id="@+id/detail_adrs"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/space_10"
+                    android:layout_marginRight="@dimen/space_15"
+                    android:text="泰安市东岳大街泰山石化39站"
+
+                    android:textColor="@color/near_listitem_adr"
+                    android:textSize="@dimen/text_size_25" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@mipmap/ic_curr_right_detail" />
+            </RelativeLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_5"
+                android:background="@color/white"
+                android:gravity="center|left"
+                android:orientation="horizontal"
+                android:padding="@dimen/space_10">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="28dp"
+                    android:layout_marginLeft="@dimen/space_10"
+                    android:src="@mipmap/ic_line_blue"
+                    android:scaleType="fitXY"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/space_10"
+                    android:text="电话"
+                    android:textColor="@color/near_detail_title"
+                    android:textSize="@dimen/text_size_28" />
+            </LinearLayout>
+
+            <RelativeLayout
+                android:id="@+id/detail_phone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_1"
+                android:background="@color/white"
+                android:gravity="center"
+                android:padding="@dimen/space_10">
+
+                <TextView
+                    android:id="@+id/detail_tel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="@dimen/space_10"
+                    android:text="4001891668"
+                    android:textColor="@color/near_listitem_adr"
+                    android:textSize="@dimen/text_size_25" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@mipmap/ic_curr_right_detail" />
+            </RelativeLayout>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

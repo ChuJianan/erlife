@@ -7,6 +7,7 @@
     <include layout="@layout/include_common_header"/>
 
     <RelativeLayout
+        android:id="@+id/img_rl"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"

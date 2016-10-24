@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="150dp"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:paddingTop="@dimen/space_5"
+    android:paddingBottom="@dimen/space_5"
+    android:background="@drawable/gridview_bg"
+    >
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/icon"
+        android:layout_marginTop="@dimen/space_3"
+        android:src="@mipmap/xhtz"
+        android:layout_centerHorizontal="true"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="洗护套装"
+        android:textSize="@dimen/text_size_20"
+        android:gravity="center"
+        android:textColor="@color/shop_item"
+        android:id="@+id/name"
+        android:layout_below="@+id/icon"
+        android:layout_centerHorizontal="true" />
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/name"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:paddingLeft="@dimen/space_5"
+        android:paddingRight="@dimen/space_5"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="￥"
+            android:textSize="@dimen/text_size_20"
+            android:textColor="@color/shop_item_money"
+            android:id="@+id/textView11"
+            android:layout_marginLeft="@dimen/space_6"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="386"
+            android:id="@+id/shop_money"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/textView11"
+            android:layout_toEndOf="@+id/textView11"
+            android:textSize="@dimen/text_size_20"
+            android:textColor="@color/shop_item_money"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="人付款"
+            android:id="@+id/textView12"
+            android:textSize="@dimen/text_size_17"
+            android:textColor="#cccccc"
+            android:layout_marginRight="@dimen/space_8"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="79"
+            android:id="@+id/shop_nub"
+            android:textSize="@dimen/text_size_17"
+            android:textColor="#cccccc"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/textView12"
+            android:layout_toStartOf="@+id/textView12" />
+    </RelativeLayout>
+
+
+</RelativeLayout>

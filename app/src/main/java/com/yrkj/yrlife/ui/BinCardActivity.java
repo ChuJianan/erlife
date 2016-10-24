@@ -2,6 +2,7 @@ package com.yrkj.yrlife.ui;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
@@ -43,6 +44,7 @@ public class BinCardActivity extends BaseActivity {
     private ProgressDialog mLoadingDialog;
     String code;
     private String result;
+    SharedPreferences preferences;
 
     @ViewInject(R.id.code_btn)
     private Button codeBtn;
@@ -63,10 +65,13 @@ public class BinCardActivity extends BaseActivity {
         x.view().inject(this);
         title.setText("绑定会员卡");
         timer = new TimeCount(60000, 1000, codeBtn);
+        preferences = getSharedPreferences("yrlife", MODE_WORLD_READABLE);
         init();
     }
 
     private void init() {
+        String phone = preferences.getString("phone", "");
+        phoneEdit.setText(phone);
         StatusBarUtil.StatusBarLightMode(this);
         mLoadingDialog = new ProgressDialog(this);
         mLoadingDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
