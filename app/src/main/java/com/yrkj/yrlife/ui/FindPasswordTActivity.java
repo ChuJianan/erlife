@@ -37,7 +37,7 @@ public class FindPasswordTActivity extends BaseActivity {
     @ViewInject(R.id.passwordt)
     ClearEditText passwordt;
     String pwd, pwdt;
-    String code,phone;
+    String code, phone;
     private ProgressDialog mLoadingDialog;
 
     @Override
@@ -47,9 +47,10 @@ public class FindPasswordTActivity extends BaseActivity {
         title.setText("找回密码");
         Intent intent = getIntent();
         code = intent.getStringExtra("code");
-        phone=intent.getStringExtra("phone");
+        phone = intent.getStringExtra("phone");
         init();
     }
+
     private void init() {
         mLoadingDialog = new ProgressDialog(this);
         mLoadingDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
@@ -60,48 +61,52 @@ public class FindPasswordTActivity extends BaseActivity {
 
     @Event(R.id.sign_btn)
     private void signbtnEvent(View view) {
-        pwd=password.getText().toString();
-        pwdt=passwordt.getText().toString();
-        if (StringUtils.isEmpty(pwd)){
-            UIHelper.ToastMessage(appContext,"请输入密码");
-        }else if (StringUtils.isEmpty(pwdt)){
-            UIHelper.ToastMessage(appContext,"请再次输入密码 ");
-        }else {
-            if (pwd.equals(pwdt)){
-                mLoadingDialog.show();
-                getFindPwd();
-            }else {
-                UIHelper.ToastMessage(appContext,"两次输入的密码不一致，请核对后重新输入");
+        pwd = password.getText().toString();
+        pwdt = passwordt.getText().toString();
+        if (StringUtils.isEmpty(pwd)) {
+            UIHelper.ToastMessage(appContext, "请输入密码");
+        } else if (StringUtils.isEmpty(pwdt)) {
+            UIHelper.ToastMessage(appContext, "请再次输入密码 ");
+        } else {
+            if (pwd.length() >= 6) {
+                if (pwd.equals(pwdt)) {
+                    mLoadingDialog.show();
+                    getFindPwd();
+                } else {
+                    UIHelper.ToastMessage(appContext, "两次输入的密码不一致，请核对后重新输入");
+                }
+            } else {
+                UIHelper.ToastMessage(appContext, "密码长度至少是6位");
             }
         }
     }
 
-    private void getFindPwd(){
-        RequestParams params=new RequestParams(URLs.FindPWD);
-        params.addQueryStringParameter("phone",phone);
-        params.addQueryStringParameter("code",code);
-        params.addQueryStringParameter("password",pwd);
+    private void getFindPwd() {
+        RequestParams params = new RequestParams(URLs.FindPWD);
+        params.addQueryStringParameter("phone", phone);
+        params.addQueryStringParameter("code", code);
+        params.addQueryStringParameter("password", pwd);
         x.http().get(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String res) {
-                Result result= JsonUtils.fromJson(res,Result.class);
-                UIHelper.ToastMessage(appContext,result.Message());
-                if (result.OK()){
+                Result result = JsonUtils.fromJson(res, Result.class);
+                UIHelper.ToastMessage(appContext, result.Message());
+                if (result.OK()) {
                     AppManager.getAppManager().finishActivity(FindPasswordActivity.class);
                     FindPasswordTActivity.this.finish();
-                }else {
+                } else {
 
                 }
             }
 
             @Override
             public void onError(Throwable ex, boolean isOnCallback) {
-                UIHelper.ToastMessage(appContext,ex.getMessage());
+                UIHelper.ToastMessage(appContext, ex.getMessage());
             }
 
             @Override
             public void onCancelled(CancelledException cex) {
-                UIHelper.ToastMessage(appContext,"error");
+                UIHelper.ToastMessage(appContext, "error");
             }
 
             @Override

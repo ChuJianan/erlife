@@ -84,17 +84,17 @@ import java.util.List;
 public class FragmentIndex extends BaseFragment {
     private static final String TAG = MainActivity.class.getSimpleName();
     private static final String APP_CACAHE_DIRNAME = "/webcache";
-    private MyGridView gview, shop_grid, gview_b;
+    private MyGridView gview;//, shop_grid, gview_b;
     private GridViewMainAdapter sim_adapter;
     private GridViewShopAdapter shopAdapter;
     private GridViewMainBottomAdapter bottomAdapter;
     private ListViewIndexShopAdeapter mshopAdapter;
     @ViewInject(R.id.slideshowView)
     SlideShowView slideShowView;
-    @ViewInject(R.id.shop_list)
-    ListView shop_list;
-    @ViewInject(R.id.index_webView)
-    WebView index_webView;
+    //    @ViewInject(R.id.shop_list)
+//    ListView shop_list;
+//    @ViewInject(R.id.index_webView)
+//    WebView index_webView;
     @ViewInject(R.id.mv_bar)
     MarqueeView marqueeView;
 
@@ -128,28 +128,28 @@ public class FragmentIndex extends BaseFragment {
         int height = wm.getDefaultDisplay().getHeight();
 
         init(view);
-        initWebView();
-        index_webView.loadUrl("file:///android_asset/i_center.html");
+//        initWebView();
+//        index_webView.loadUrl("file:///android_asset/i_center.html");
     }
 
-    private void initWebView() {
-        index_webView.getSettings().setJavaScriptEnabled(true);
-        index_webView.getSettings().setRenderPriority(WebSettings.RenderPriority.HIGH);
-        index_webView.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT);  //设置 缓存模式
-        // 开启 DOM storage API 功能
-        index_webView.getSettings().setDomStorageEnabled(true);
-        //开启 database storage API 功能
-        index_webView.getSettings().setDatabaseEnabled(true);
-        String cacheDirPath = getActivity().getFilesDir().getAbsolutePath() + APP_CACAHE_DIRNAME;
-        //      String cacheDirPath = getCacheDir().getAbsolutePath()+Constant.APP_DB_DIRNAME;
-        Log.i(TAG, "cacheDirPath=" + cacheDirPath);
-        //设置数据库缓存路径
-        index_webView.getSettings().setDatabasePath(cacheDirPath);
-        //设置  Application Caches 缓存目录
-        index_webView.getSettings().setAppCachePath(cacheDirPath);
-        //开启 Application Caches 功能
-        index_webView.getSettings().setAppCacheEnabled(true);
-    }
+//    private void initWebView() {
+//        index_webView.getSettings().setJavaScriptEnabled(true);
+//        index_webView.getSettings().setRenderPriority(WebSettings.RenderPriority.HIGH);
+//        index_webView.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT);  //设置 缓存模式
+//        // 开启 DOM storage API 功能
+//        index_webView.getSettings().setDomStorageEnabled(true);
+//        //开启 database storage API 功能
+//        index_webView.getSettings().setDatabaseEnabled(true);
+//        String cacheDirPath = getActivity().getFilesDir().getAbsolutePath() + APP_CACAHE_DIRNAME;
+//        //      String cacheDirPath = getCacheDir().getAbsolutePath()+Constant.APP_DB_DIRNAME;
+//        Log.i(TAG, "cacheDirPath=" + cacheDirPath);
+//        //设置数据库缓存路径
+//        index_webView.getSettings().setDatabasePath(cacheDirPath);
+//        //设置  Application Caches 缓存目录
+//        index_webView.getSettings().setAppCachePath(cacheDirPath);
+//        //开启 Application Caches 功能
+//        index_webView.getSettings().setAppCacheEnabled(true);
+//    }
 
     private void isWash() {
 //        String belongCode = preferences.getString("belongCode", "");
@@ -209,38 +209,38 @@ public class FragmentIndex extends BaseFragment {
         pullToRefreshScrollView.getLoadingLayoutProxy().setPullLabel("继续滑动");
         pullToRefreshScrollView.getLoadingLayoutProxy().setReleaseLabel("松开可以刷新");
         pullToRefreshScrollView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ScrollView>() {
-                 @Override
-                 public void onPullDownToRefresh(PullToRefreshBase<ScrollView> pullToRefreshBase) {
-                     try {
-                         Thread.sleep(1000);
-                     } catch (InterruptedException e) {
-                         e.printStackTrace();
-                     }
+                                                         @Override
+                                                         public void onPullDownToRefresh(PullToRefreshBase<ScrollView> pullToRefreshBase) {
+                                                             try {
+                                                                 Thread.sleep(1000);
+                                                             } catch (InterruptedException e) {
+                                                                 e.printStackTrace();
+                                                             }
 //                                                             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 //                                                             Calendar c = Calendar.getInstance();
 //                                                             String str = formatter.format(new Date());
-                     pullToRefreshScrollView.getLoadingLayoutProxy().setLastUpdatedLabel("上次加载时间：" + StringUtils.friendly_time(str));
-                     pullToRefreshScrollView.onRefreshComplete();
-                     str = formatter.format(new Date());
-                 }
+                                                             pullToRefreshScrollView.getLoadingLayoutProxy().setLastUpdatedLabel("上次加载时间：" + StringUtils.friendly_time(str));
+                                                             pullToRefreshScrollView.onRefreshComplete();
+                                                             str = formatter.format(new Date());
+                                                         }
 
-                 @Override
-                 public void onPullUpToRefresh(PullToRefreshBase<ScrollView> pullToRefreshBase) {
+                                                         @Override
+                                                         public void onPullUpToRefresh(PullToRefreshBase<ScrollView> pullToRefreshBase) {
 //                                                             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 //                                                             Calendar c = Calendar.getInstance();
 //                                                             String str = formatter.format(new Date());
-                     pullToRefreshScrollView.getLoadingLayoutProxy().setLastUpdatedLabel("上次加载时间：" + StringUtils.friendly_time(str));
-                     pullToRefreshScrollView.onRefreshComplete();
-                     str = formatter.format(new Date());
-                 }
-             }
+                                                             pullToRefreshScrollView.getLoadingLayoutProxy().setLastUpdatedLabel("上次加载时间：" + StringUtils.friendly_time(str));
+                                                             pullToRefreshScrollView.onRefreshComplete();
+                                                             str = formatter.format(new Date());
+                                                         }
+                                                     }
         );
 
         LinearLayout ll_location = (LinearLayout) getActivity().findViewById(R.id.ll_location);
         LocationResult = (TextView) getActivity().findViewById(R.id.location_text);
         gview = (MyGridView) view.findViewById(R.id.grid);
-        gview_b = (MyGridView) view.findViewById(R.id.grid_b);
-        shop_grid = (MyGridView) view.findViewById(R.id.shop_gridView);
+//        gview_b = (MyGridView) view.findViewById(R.id.grid_b);
+//        shop_grid = (MyGridView) view.findViewById(R.id.shop_gridView);
 //            center_img=(ImageView)view.findViewById(R.id.center_img);
 //            center_img2=(ImageView)view.findViewById(R.id.center_img2);
 //            center_img3=(ImageView)view.findViewById(R.id.center_img3);
@@ -282,30 +282,30 @@ public class FragmentIndex extends BaseFragment {
         bottomAdapter = new GridViewMainBottomAdapter(getContext());
         mshopAdapter = new ListViewIndexShopAdeapter(getContext());
         //配置适配器
-        shop_grid.setAdapter(shopAdapter);
+//        shop_grid.setAdapter(shopAdapter);
         gview.setAdapter(sim_adapter);
-        gview_b.setAdapter(bottomAdapter);
-        shop_list.setAdapter(mshopAdapter);
-        setListViewHeightBasedOnChildren(shop_list);
+//        gview_b.setAdapter(bottomAdapter);
+//        shop_list.setAdapter(mshopAdapter);
+//        setListViewHeightBasedOnChildren(shop_list);
         gview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 switch (position) {
                     case 0://扫码洗车
-//                        if (URLs.secret_code == "") {
-//                            UIHelper.openLogin(getActivity());
-//                        } else if (isWash) {
-//                            String washstring = preferences.getString("wash_gson", "");
-//                            wash = JsonUtils.fromJson(washstring, Washing_no_card_record.class);
-//                            isWash();
-//                        } else {
-//                            if (UIHelper.location == null) {
-//                                UIHelper.ToastMessage(appContext, "无法获取定位，无法使用此功能");
-//                            } else {
+                        if (URLs.secret_code == "") {
+                            UIHelper.openLogin(getActivity());
+                        } else if (isWash) {
+                            String washstring = preferences.getString("wash_gson", "");
+                            wash = JsonUtils.fromJson(washstring, Washing_no_card_record.class);
+                            isWash();
+                        } else {
+                            if (UIHelper.location == null) {
+                                UIHelper.ToastMessage(appContext, "无法获取定位，无法使用此功能");
+                            } else {
                                 intent = new Intent(getActivity(), WashsActivity.class);
                                 startActivity(intent);
-//                            }
-//                        }
+                            }
+                        }
 
                         break;
                     case 1://附近网点
@@ -313,8 +313,6 @@ public class FragmentIndex extends BaseFragment {
                         startActivity(intent);
                         break;
                     case 2://充值
-//                        UIHelper.ToastMessage(getActivity(), "正在开发中...");
-//                        UIHelper.openTestActivity(getActivity());
                         if (URLs.secret_code == "") {
                             UIHelper.openLogin(getActivity());
                         } else {
@@ -323,42 +321,7 @@ public class FragmentIndex extends BaseFragment {
                         }
 
                         break;
-                    case 3://会员卡绑定
-                        if (URLs.secret_code == "") {
-                            UIHelper.openLogin(getActivity());
-                        } else {
-                            intent = new Intent(getActivity(), BinCardActivity.class);
-                            startActivity(intent);
-                        }
-                        break;
-                    case 4://我的爱车
-                        intent = new Intent(getActivity(), MycarActivity.class);
-                        startActivity(intent);
-//                        UIHelper.openTestActivity(getActivity());
-                        break;
-                    case 5://违章查询
-//                        UIHelper.openTestActivity(getActivity());
-                        UIHelper.showBrowser(getActivity(),"http://m.weizhang8.cn/");
-                        break;
-                    case 6://代驾
-//                        UIHelper.openTestActivity(getActivity());
-//                        if (StringUtils.isEmpty(URLs.secret_code)) {
-//                            UIHelper.openLogin(getActivity());
-//                        } else {
-//                            intent = new Intent(getActivity(), DiscountActivity.class);
-//                            startActivity(intent);
-//                        }
-                        UIHelper.showBrowser(getActivity(),"http://common.diditaxi.com.cn/general/webEntry?wx=true&code=001nfazl1N6OAy0g9Nxl18r8zl1nfazf&state=123");
-                        break;
-                    case 7://优惠券
-                        if (StringUtils.isEmpty(URLs.secret_code)) {
-                            UIHelper.openLogin(getActivity());
-                        } else {
-                            intent = new Intent(getActivity(), DiscountActivity.class);
-                            startActivity(intent);
-                        }
-                        break;
-                    case 8://账单
+                    case 3:// 账单
                         if (URLs.secret_code == "") {
                             UIHelper.openLogin(getActivity());
                         } else {
@@ -366,53 +329,38 @@ public class FragmentIndex extends BaseFragment {
                             startActivity(intent);
                         }
                         break;
-                    case 9://客服
+                    case 4://代驾
+                        UIHelper.showBrowser(getActivity(), "http://common.diditaxi.com.cn/general/webEntry?wx=true&code=001nfazl1N6OAy0g9Nxl18r8zl1nfazf&state=123");
+                        break;
+                    case 5://优惠券
+                        if (StringUtils.isEmpty(URLs.secret_code)) {
+                            UIHelper.openLogin(getActivity());
+                        } else {
+                            intent = new Intent(getActivity(), DiscountActivity.class);
+                            startActivity(intent);
+                        }
+                        break;
+                    case 6://会员卡绑定
+                        if (URLs.secret_code == "") {
+                            UIHelper.openLogin(getActivity());
+                        } else {
+                            intent = new Intent(getActivity(), BinCardActivity.class);
+                            startActivity(intent);
+                        }
+                        break;
+                    case 7://客服
                         if (URLs.secret_code == "") {
                             UIHelper.openLogin(getActivity());
                         } else {
                             intent = new Intent(getActivity(), KefuActivity.class);
                             startActivity(intent);
                         }
+
                         break;
+
                 }
             }
         });
-//        gview_b.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                switch (position) {
-//                    case 0://我的爱车
-//                        UIHelper.openTestActivity(getActivity());
-//                        break;
-//                    case 1://违章查询
-//                        UIHelper.openTestActivity(getActivity());
-//                        break;
-//                    case 2://优惠券
-////                        UIHelper.openTestActivity(getActivity());
-//                        if (StringUtils.isEmpty(URLs.secret_code)) {
-//                            UIHelper.openLogin(getActivity());
-//                        } else {
-//                            intent = new Intent(getActivity(), DiscountActivity.class);
-//                            startActivity(intent);
-//                        }
-//                        break;
-//                    case 3://账单
-//                        if (URLs.secret_code == "") {
-//                            UIHelper.openLogin(getActivity());
-//                        } else {
-//                            intent = new Intent(getActivity(), FindBillActivity.class);
-//                            startActivity(intent);
-//                        }
-//                        break;
-//                    case 4://买车险
-//                        UIHelper.openTestActivity(getActivity());
-//                        break;
-//                    case 5://找客服
-//                        UIHelper.openTestActivity(getActivity());
-//                        break;
-//                }
-//            }
-//        });
     }
 
     private void dialog(String context) {

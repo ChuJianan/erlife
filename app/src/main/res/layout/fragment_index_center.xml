@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingBottom="18dp"
+        android:paddingLeft="@dimen/space_13"
+        android:paddingTop="@dimen/space_13">
+
+        <ImageView
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:src="@mipmap/icon_saomaxiche" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/space_20"
+            android:orientation="vertical"
+            android:paddingTop="@dimen/space_3">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="我的历史消费"
+                android:textColor="@color/text_black"
+                android:textSize="@dimen/text_size_15" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="@dimen/space_5">
+
+                <TextView
+                    android:id="@+id/content1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:text="15天前"
+                    android:textColor="@color/b7" />
+
+                <ImageView
+                    android:id="@+id/img67"
+                    android:layout_width="wrap_content"
+                    android:layout_height="@dimen/space_14"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="@dimen/space_6"
+                    android:src="@mipmap/ic_right_cur_black" />
+
+                <TextView
+                    android:id="@+id/go"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentTop="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="6dp"
+                    android:layout_marginRight="6dp"
+                    android:layout_toLeftOf="@+id/img67"
+                    android:layout_toStartOf="@+id/img67"
+                    android:text="GO"
+                    android:textColor="@color/GO"
+                    android:textSize="@dimen/text_size_14" />
+
+                <TextView
+                    android:id="@+id/content2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginEnd="6dp"
+                    android:layout_marginRight="6dp"
+                    android:layout_toLeftOf="@+id/go"
+                    android:layout_toStartOf="@+id/go"
+                    android:text="亲，您已经15天没有洗车了"
+                    android:textSize="@dimen/text_size_14" />
+            </RelativeLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/text99"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_toLeftOf="@+id/text99"
+            android:layout_toStartOf="@+id/text99"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/lastWashConsume"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="4.06"
+                android:textColor="@color/text_black"
+                android:textSize="@dimen/space_26" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="最近消费"
+                android:textColor="@color/b7"
+                android:textSize="@dimen/space_15" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_toEndOf="@+id/text99"
+            android:layout_toRightOf="@+id/text99"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="+"
+                    android:textColor="@color/text_black"
+                    android:textSize="@dimen/space_26" />
+
+                <TextView
+                    android:id="@+id/lastChargePrice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="4.06"
+                    android:textColor="@color/text_black"
+                    android:textSize="@dimen/space_26" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="上次消费"
+                android:textColor="@color/b7"
+                android:textSize="@dimen/space_15" />
+        </LinearLayout>
+    </RelativeLayout>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="@dimen/space_8"
+        android:layout_marginRight="@dimen/space_8"
+        android:scaleType="fitXY"
+        android:src="@mipmap/ic_line"
+        android:layout_marginTop="@dimen/space_15"
+        />
+
+    <TextView
+        android:id="@+id/chakan"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:gravity="center"
+        android:text="查看"
+        android:textColor="@color/chakan"
+        android:textSize="@dimen/space_17" />
+</LinearLayout>

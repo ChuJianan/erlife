@@ -58,6 +58,7 @@ public class AppStart extends AppCompatActivity {
         preferences = getSharedPreferences("yrlife", MODE_WORLD_READABLE);
         isFirstUse = preferences.getBoolean("isFirstUse", true);
         final Message msg = new Message();
+        isFirstUse = false;
         if (isFirstUse) {
             msg.what = GO_SHARE;
 //                    mHandler.sendEmptyMessageDelayed(GO_SHARE, SPLASH_DELAY_MILLIS);
@@ -160,7 +161,7 @@ public class AppStart extends AppCompatActivity {
 
                                     @Override
                                     public void onError(int code, String message) {
-                                        if (code==200){
+                                        if (code == 200) {
                                             editor.putBoolean("emclient", true);
                                             editor.commit();
                                         }

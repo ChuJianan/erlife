@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingBottom="@dimen/space_12"
+        android:paddingLeft="@dimen/space_13"
+        android:paddingTop="@dimen/space_13">
+
+        <ImageView
+            android:id="@+id/other_pic"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:src="@mipmap/ic_me_pic" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="42dp"
+            android:layout_marginLeft="@dimen/space_9"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/other_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_3"
+                android:text="用户名"
+                android:textColor="@color/other_name"
+                android:textSize="@dimen/text_size_15" />
+
+            <TextView
+                android:id="@+id/other_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="@dimen/space_2"
+                android:text="10:17"
+                android:textColor="@color/b7"
+                android:textSize="@dimen/text_size_14" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/space_13"
+        android:layout_marginRight="@dimen/space_7"
+        android:orientation="horizontal"
+        android:background="@color/pale"
+        >
+
+        <ImageView
+            android:id="@+id/wash_pic"
+            android:layout_width="66dp"
+            android:layout_height="66dp" />
+        <TextView
+            android:id="@+id/other_msg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/space_9"
+            android:layout_marginTop="@dimen/space_12"
+            android:text="D**S(125***86),于10:43在车信路洗车网点洗车完毕，本次消费5.8。"
+            android:textSize="@dimen/text_size_15"
+            android:textColor="@color/shop_item"
+            />
+    </LinearLayout>
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/space_1"
+        android:scaleType="fitXY"
+        android:src="@color/line"
+        android:layout_marginLeft="@dimen/space_13"
+        android:layout_marginTop="@dimen/space_11"
+        />
+</LinearLayout>

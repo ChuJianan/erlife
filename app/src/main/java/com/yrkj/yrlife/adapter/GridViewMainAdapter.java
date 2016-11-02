@@ -23,31 +23,33 @@ import java.util.Objects;
 public class GridViewMainAdapter extends BaseAdapter {
 
     private Context mContext;
-    private List<Map<String, Object>> data_list=new ArrayList<Map<String,Object>>();
-    private int[] icon = {R.mipmap.icon_saomaxiche,
+    private List<Map<String, Object>> data_list = new ArrayList<Map<String, Object>>();
+    private int[] icon = {
+            R.mipmap.icon_saomaxiche,
             R.mipmap.icon_fujinwangdian,
             R.mipmap.icon_chongzhi,
-            R.mipmap.icon_huiyuankabangding,
-            R.mipmap.icon_wodeaiche,
-            R.mipmap.icon_weizhangchaxun,
+            R.mipmap.icon_zhangdan,
             R.mipmap.icon_daijia,
             R.mipmap.icon_youhuiquan,
-            R.mipmap.icon_zhuangdan,
+            R.mipmap.icon_huiyuankabangding,
             R.mipmap.icon_kefu};
-    private String[] iconName = { "扫码洗车", "附近网点", "充值", "会员卡绑定", "我的爱车", "违章查询", "代驾", "优惠券", "账单", "客服"};
+    private String[] iconName = {"扫码洗车", "附近网点", "充值", "账单", "代驾", "优惠券", "会员卡绑定", "客服"};
     private LayoutInflater mContainer;  //视图容器
-    public  GridViewMainAdapter(Context context){
-        mContext=context;
+
+    public GridViewMainAdapter(Context context) {
+        mContext = context;
         getData();
         mContainer = LayoutInflater.from(context);
-   }
+    }
+
     static class GridItemView { //自定义视图
         public ImageView icon;
         public TextView name;
     }
-    public List<Map<String, Object>> getData(){
+
+    public List<Map<String, Object>> getData() {
         //cion和iconName的长度是相同的，这里任选其一都可以
-        for(int i=0;i<icon.length;i++){
+        for (int i = 0; i < icon.length; i++) {
             Map<String, Object> map = new HashMap<String, Object>();
             map.put("imageview", icon[i]);
             map.put("textview", iconName[i]);
@@ -56,10 +58,11 @@ public class GridViewMainAdapter extends BaseAdapter {
 
         return data_list;
     }
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         GridItemView gridItemView;
-        if(convertView == null) {
+        if (convertView == null) {
             convertView = mContainer.inflate(R.layout.grid_view, null);
             gridItemView = new GridItemView();
             gridItemView.icon = (ImageView) convertView.findViewById(R.id.icon);
