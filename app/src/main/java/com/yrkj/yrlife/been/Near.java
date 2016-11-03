@@ -11,6 +11,16 @@ public class Near extends Entity {
 
     private String machine_name;//设备名称
     private String machine_number;//设备编号
+    private String address;//地址
+    //    private String tel;
+    private String lng;//经度
+    private String lat;//纬度
+    private String machine_pic;//图片地址
+    private String detailUrl;//详情地址
+    private String isWashing;//状态
+    private int orders;//订单数
+    private String qrCodeUrl;
+    private String[] machineImages;
 
     public String getMachine_number() {
         return machine_number;
@@ -59,17 +69,6 @@ public class Near extends Entity {
     public void setMachine_pic(String machine_pic) {
         this.machine_pic = machine_pic;
     }
-
-    private String address;//地址
-    //    private String tel;
-    private String lng;//经度
-    private String lat;//纬度
-    private String machine_pic;//图片地址
-    private String detailUrl;//详情地址
-    private String isWashing;//状态
-    private int orders;//订单数
-    private String qrCodeUrl;
-    private String[] machineImages;
 
     public String[] getMachineImages() {
         return machineImages;

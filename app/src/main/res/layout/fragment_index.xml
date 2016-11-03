@@ -34,7 +34,7 @@
                 android:cacheColorHint="@color/white"
                 android:columnWidth="90dp"
                 android:gravity="center"
-                android:numColumns="5"
+                android:numColumns="4"
                 android:paddingTop="@dimen/space_5"
                 android:scrollbars="none"
                 android:stretchMode="columnWidth" />
@@ -60,22 +60,6 @@
                     android:gravity="center|left"
                     android:orientation="horizontal">
 
-                    <TextView
-                        android:id="@+id/index_time"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="2016-11-01"
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/text_size_16" />
-
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="21dp"
-                        android:text="："
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/text_size_18" />
-
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">
@@ -100,12 +84,40 @@
                 android:layout_height="24dp"
                 android:scaleType="fitXY"
                 android:src="@mipmap/ic_line" />
-            <include layout="@layout/fragment_index_center"/>
+
+            <include layout="@layout/fragment_index_center" />
+
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="24dp"
                 android:scaleType="fitXY"
                 android:src="@mipmap/ic_line" />
+
+            <com.yrkj.yrlife.widget.CustomListView
+                android:id="@+id/other_list"
+                android:divider="@null"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="24dp"
+                android:scaleType="fitXY"
+                android:src="@mipmap/ic_line" />
+            <com.yrkj.yrlife.widget.CustomListView
+                android:id="@+id/washing_list"
+                android:divider="@null"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="24dp"
+                android:scaleType="fitXY"
+                android:src="@mipmap/ic_line" />
+            <com.yrkj.yrlife.widget.PullToRefreshCustomListView
+                android:id="@+id/rate_list"
+                android:divider="@null"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
 
         </LinearLayout>
     </com.handmark.pulltorefresh.library.PullToRefreshScrollView>

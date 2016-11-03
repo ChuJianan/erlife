@@ -58,6 +58,8 @@ public class URLs extends Entity {
 	public static final String Seach_Machid=HOST+"wmmanager/app/pro1/app1/seachMachine";//验证洗车机编号是否存在
 	public static final String Message_ID=HOST+"wmmanager/app/pro1/app3/getCustomerService";//获取客服头像昵称
 	public static final String CustomerService=HOST+"wmmanager/app/pro1/app3/getAllCustomers";//获取所有客服头像昵称
+	public static final String APP_Index=HOST+"wmmanager/app/pro1/app1/loadBannerImage";//首页数据
+	public static final String APP_Rate=HOST+"wmmanager/app/pro1/app1/loadMoreRemark";//首页分页数据
 
 
 

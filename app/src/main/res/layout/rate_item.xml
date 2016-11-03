@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingBottom="@dimen/space_12"
+        android:paddingLeft="@dimen/space_13"
+        android:paddingTop="@dimen/space_13">
+
+        <ImageView
+            android:id="@+id/rate_pic"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:src="@mipmap/ic_me_pic" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/space_9"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/rate_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_3"
+                android:text="用户名"
+                android:textAllCaps="false"
+                android:textColor="#375d80"
+                android:textSize="@dimen/text_size_15" />
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/rate_name"
+                android:layout_marginLeft="30dp"
+                android:layout_marginStart="30dp"
+                android:layout_toEndOf="@+id/rate_name"
+                android:layout_toRightOf="@+id/rate_name"
+                android:text="评价了"
+                android:textSize="13sp" />
+
+            <TextView
+                android:id="@+id/rate_wash_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/textView2"
+                android:layout_marginLeft="15dp"
+                android:layout_marginStart="15dp"
+                android:layout_toEndOf="@+id/textView2"
+                android:layout_toRightOf="@+id/textView2"
+                android:text="城阳区车信路汽车服务中心"
+                android:textSize="13sp" />
+
+            <ImageView
+                android:id="@+id/rate_img"
+                android:layout_width="wrap_content"
+                android:layout_height="14dp"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/rate_name"
+                android:layout_marginTop="@dimen/space_6"
+                app:srcCompat="@mipmap/icon_star5" />
+
+            <TextView
+                android:id="@+id/rate_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/rate_img"
+                android:layout_marginTop="@dimen/space_4"
+                android:text="10-31 18:48"
+                android:textColor="@color/text_confirm"
+                android:textSize="@dimen/space_13" />
+
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/rate_wash"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/space_13"
+        android:layout_marginTop="24dp"
+        android:background="@color/pale"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/wash_pic"
+            android:layout_width="66dp"
+            android:layout_height="66dp" />
+
+        <LinearLayout
+            android:layout_width="240dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_marginLeft="@dimen/space_11"
+            >
+
+            <TextView
+                android:id="@+id/rate_item_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="城阳区车信路汽车服务中心"
+                android:textColor="@color/text_black"
+                android:textSize="@dimen/space_16"
+                android:layout_marginTop="@dimen/space_14"
+                />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="@dimen/space_8"
+                android:layout_marginBottom="@dimen/space_5"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="地址："
+                    android:textColor="@color/shop_item"
+                    android:textSize="@dimen/text_size_14" />
+
+                <TextView
+                    android:id="@+id/rate_adr"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="青岛市城阳区夏塔路336号"
+                    android:textColor="@color/shop_item"
+                    android:textSize="@dimen/text_size_14"
+                    android:singleLine="true"
+                    android:enabled="true"
+                    />
+            </LinearLayout>
+
+
+        </LinearLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/space_25"
+                android:src="@mipmap/arrow_right"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="@dimen/space_17"
+                android:layout_marginEnd="@dimen/space_17"
+                />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/space_1"
+        android:layout_marginLeft="@dimen/space_13"
+        android:layout_marginTop="@dimen/space_11"
+        android:scaleType="fitXY"
+        android:src="@color/line" />
+
+
+</LinearLayout>

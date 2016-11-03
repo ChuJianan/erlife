@@ -19,6 +19,8 @@ public class Result {
     public List<MyIdear> myFeedBackList = Collections.emptyList();
     public List<Vouchers> couponList=Collections.emptyList();
     public List<CustomerService> customersList=Collections.emptyList();
+    public RemarkStarSection remarkStarSection;
+    private HomePage homePage;
     private int code;
     private String message;
     private int totalPage;
@@ -31,6 +33,10 @@ public class Result {
     private String[] imageAbsoluteUrl = {};
     private AliPay aliPay;
     private Upmp ipsPay;
+
+    public HomePage getHomePage(){
+        return homePage;
+    }
 
     public Upmp ipsPay(){
         return ipsPay;

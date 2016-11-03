@@ -10,45 +10,46 @@ import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.view.WindowManager;
-import android.webkit.WebSettings;
-import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.widget.CheckedTextView;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshScrollView;
-import com.hyphenate.easeui.widget.EaseContactList;
 import com.yrkj.yrlife.R;
 import com.yrkj.yrlife.adapter.GridViewMainAdapter;
 import com.yrkj.yrlife.adapter.GridViewMainBottomAdapter;
 import com.yrkj.yrlife.adapter.GridViewShopAdapter;
 import com.yrkj.yrlife.adapter.ListViewIndexShopAdeapter;
-import com.yrkj.yrlife.app.AppException;
+import com.yrkj.yrlife.adapter.ListViewOtherConsumerAdapter;
+import com.yrkj.yrlife.adapter.ListViewRateItemAdapter;
+import com.yrkj.yrlife.adapter.ListViewWashingAdapter;
 import com.yrkj.yrlife.app.YrApplication;
+import com.yrkj.yrlife.been.HomePage;
+import com.yrkj.yrlife.been.Near;
 import com.yrkj.yrlife.been.PayConfirm;
 import com.yrkj.yrlife.been.Result;
 import com.yrkj.yrlife.been.URLs;
 import com.yrkj.yrlife.been.Washing_no_card_record;
-import com.yrkj.yrlife.hx.ui.EaseContactListActivity;
-import com.yrkj.yrlife.ui.AdrListActivity;
 import com.yrkj.yrlife.ui.BinCardActivity;
 import com.yrkj.yrlife.ui.ConsumerActivity;
+import com.yrkj.yrlife.ui.DetailNearActivity;
 import com.yrkj.yrlife.ui.DiscountActivity;
 import com.yrkj.yrlife.ui.FindBillActivity;
 import com.yrkj.yrlife.ui.KefuActivity;
 import com.yrkj.yrlife.ui.MainActivity;
-import com.yrkj.yrlife.ui.MycarActivity;
 import com.yrkj.yrlife.ui.NearActivity;
+import com.yrkj.yrlife.ui.NewsActivity;
 import com.yrkj.yrlife.ui.PayActivity;
 import com.yrkj.yrlife.ui.WashAActivity;
 import com.yrkj.yrlife.ui.WashRateActivity;
@@ -58,15 +59,16 @@ import com.yrkj.yrlife.utils.BitmapManager;
 import com.yrkj.yrlife.utils.JsonUtils;
 import com.yrkj.yrlife.utils.StringUtils;
 import com.yrkj.yrlife.utils.UIHelper;
+import com.yrkj.yrlife.widget.CustomListView;
 import com.yrkj.yrlife.widget.MarqueeView;
 import com.yrkj.yrlife.widget.MyGridView;
-import com.yrkj.yrlife.widget.ScrollVerifyView;
+import com.yrkj.yrlife.widget.PullToRefreshCustomListView;
 import com.yrkj.yrlife.widget.SlideShowView;
 
-import org.json.JSONException;
 import org.xutils.common.Callback;
 import org.xutils.http.RequestParams;
 import org.xutils.view.annotation.ContentView;
+import org.xutils.view.annotation.Event;
 import org.xutils.view.annotation.ViewInject;
 import org.xutils.x;
 
@@ -76,6 +78,10 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
 
 /**
  * Created by Administrator on 2016/3/17.
@@ -84,6 +90,20 @@ import java.util.List;
 public class FragmentIndex extends BaseFragment {
     private static final String TAG = MainActivity.class.getSimpleName();
     private static final String APP_CACAHE_DIRNAME = "/webcache";
+    @BindView(R.id.content1)
+    TextView content1;
+    @BindView(R.id.content2)
+    TextView content2;
+    @BindView(R.id.lastWashConsume)
+    TextView lastWashConsume;
+    @BindView(R.id.lastChargePrice)
+    TextView lastChargePrice;
+    @BindView(R.id.chakan)
+    TextView chakan;
+    @BindView(R.id.ydl_ll)
+    LinearLayout ydlLl;
+    @BindView(R.id.wdl_ll)
+    LinearLayout wdlLl;
     private MyGridView gview;//, shop_grid, gview_b;
     private GridViewMainAdapter sim_adapter;
     private GridViewShopAdapter shopAdapter;
@@ -97,6 +117,25 @@ public class FragmentIndex extends BaseFragment {
 //    WebView index_webView;
     @ViewInject(R.id.mv_bar)
     MarqueeView marqueeView;
+
+    @ViewInject(R.id.other_list)
+    private CustomListView other_list;
+    @ViewInject(R.id.washing_list)
+    private CustomListView washing_list;
+    @ViewInject(R.id.rate_list)
+    private PullToRefreshCustomListView rate_list;
+
+    private ListViewRateItemAdapter listViewRateItemAdapter;
+    private ListViewWashingAdapter listViewWashingAdapter;
+    private ListViewOtherConsumerAdapter listViewOtherConsumerAdapter;
+
+    private List<HomePage.RemarkStarSectionBean> rateList = new ArrayList<>();
+    private List<HomePage.RunningMachineSectionBean> washingList = new ArrayList<>();
+    private List<HomePage.WashMessageSectionBean> otherConsumerList = new ArrayList<>();
+
+    private View mNearFooter;
+    private TextView mNearMore;
+    private ProgressBar mNearProgress;
 
     View view;
     SharedPreferences preferences;
@@ -127,37 +166,28 @@ public class FragmentIndex extends BaseFragment {
         int width = wm.getDefaultDisplay().getWidth();
         int height = wm.getDefaultDisplay().getHeight();
 
+
+
         init(view);
-//        initWebView();
-//        index_webView.loadUrl("file:///android_asset/i_center.html");
+        initView(view);
     }
 
-//    private void initWebView() {
-//        index_webView.getSettings().setJavaScriptEnabled(true);
-//        index_webView.getSettings().setRenderPriority(WebSettings.RenderPriority.HIGH);
-//        index_webView.getSettings().setCacheMode(WebSettings.LOAD_DEFAULT);  //设置 缓存模式
-//        // 开启 DOM storage API 功能
-//        index_webView.getSettings().setDomStorageEnabled(true);
-//        //开启 database storage API 功能
-//        index_webView.getSettings().setDatabaseEnabled(true);
-//        String cacheDirPath = getActivity().getFilesDir().getAbsolutePath() + APP_CACAHE_DIRNAME;
-//        //      String cacheDirPath = getCacheDir().getAbsolutePath()+Constant.APP_DB_DIRNAME;
-//        Log.i(TAG, "cacheDirPath=" + cacheDirPath);
-//        //设置数据库缓存路径
-//        index_webView.getSettings().setDatabasePath(cacheDirPath);
-//        //设置  Application Caches 缓存目录
-//        index_webView.getSettings().setAppCachePath(cacheDirPath);
-//        //开启 Application Caches 功能
-//        index_webView.getSettings().setAppCacheEnabled(true);
-//    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (StringUtils.isEmpty(URLs.secret_code)){
+            wdlLl.setVisibility(View.VISIBLE);
+            ydlLl.setVisibility(View.GONE);
+        }else {
+            wdlLl.setVisibility(View.GONE);
+            ydlLl.setVisibility(View.VISIBLE);
+        }
+        onIndex();
+    }
 
     private void isWash() {
-//        String belongCode = preferences.getString("belongCode", "");
-//        String Machine_number = preferences.getString("Machine_number", "");
         RequestParams params = new RequestParams(URLs.IsWashing);
-//        params.addQueryStringParameter("belongCode", belongCode);
         params.addQueryStringParameter("secret_code", URLs.secret_code);
-//        params.addQueryStringParameter("machineNo", Machine_number);
         x.http().get(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String string) {
@@ -197,11 +227,11 @@ public class FragmentIndex extends BaseFragment {
     String string = "";
     long time = 0;
     String str = "";
+    final SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     private void init(View view) {
         pullToRefreshScrollView = (PullToRefreshScrollView) view.findViewById(R.id.scrollView);
         pullToRefreshScrollView.setMode(PullToRefreshBase.Mode.BOTH);
-        final SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Calendar c = Calendar.getInstance();
         str = formatter.format(new Date());
         pullToRefreshScrollView.getLoadingLayoutProxy().setLastUpdatedLabel("上次加载时间：" + str);
@@ -211,27 +241,12 @@ public class FragmentIndex extends BaseFragment {
         pullToRefreshScrollView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ScrollView>() {
                                                          @Override
                                                          public void onPullDownToRefresh(PullToRefreshBase<ScrollView> pullToRefreshBase) {
-                                                             try {
-                                                                 Thread.sleep(1000);
-                                                             } catch (InterruptedException e) {
-                                                                 e.printStackTrace();
-                                                             }
-//                                                             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-//                                                             Calendar c = Calendar.getInstance();
-//                                                             String str = formatter.format(new Date());
-                                                             pullToRefreshScrollView.getLoadingLayoutProxy().setLastUpdatedLabel("上次加载时间：" + StringUtils.friendly_time(str));
-                                                             pullToRefreshScrollView.onRefreshComplete();
-                                                             str = formatter.format(new Date());
+                                                             onIndex();
                                                          }
 
                                                          @Override
                                                          public void onPullUpToRefresh(PullToRefreshBase<ScrollView> pullToRefreshBase) {
-//                                                             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-//                                                             Calendar c = Calendar.getInstance();
-//                                                             String str = formatter.format(new Date());
-                                                             pullToRefreshScrollView.getLoadingLayoutProxy().setLastUpdatedLabel("上次加载时间：" + StringUtils.friendly_time(str));
-                                                             pullToRefreshScrollView.onRefreshComplete();
-                                                             str = formatter.format(new Date());
+                                                             onRefresh();
                                                          }
                                                      }
         );
@@ -245,11 +260,6 @@ public class FragmentIndex extends BaseFragment {
 //            center_img2=(ImageView)view.findViewById(R.id.center_img2);
 //            center_img3=(ImageView)view.findViewById(R.id.center_img3);
 
-        List<String> items = new ArrayList<>();
-        items.add("商城限时半价商品，等你来");
-        items.add("商城限时半价商品，等你来");
-        items.add("商城限时半价商品，等你来");
-        marqueeView.startWithList(items);
 
         application = (YrApplication) getActivity().getApplication();
         preferences = getActivity().getSharedPreferences("yrlife", getActivity().MODE_WORLD_READABLE);
@@ -434,6 +444,65 @@ public class FragmentIndex extends BaseFragment {
 
     }
 
+    private void initView(View view) {
+        mNearFooter = getActivity().getLayoutInflater().inflate(R.layout.listview_footer, null);
+        mNearMore = (TextView) mNearFooter.findViewById(R.id.listview_foot_more);
+        mNearProgress = (ProgressBar) mNearFooter.findViewById(R.id.listview_foot_progress);
+//        rate_list.addFooterView(mNearFooter);
+        listViewWashingAdapter = new ListViewWashingAdapter(appContext, washingList);
+        listViewRateItemAdapter = new ListViewRateItemAdapter(appContext, rateList);
+        listViewOtherConsumerAdapter = new ListViewOtherConsumerAdapter(appContext, otherConsumerList);
+
+        other_list.setAdapter(listViewOtherConsumerAdapter);
+        rate_list.setAdapter(listViewRateItemAdapter);
+        washing_list.setAdapter(listViewWashingAdapter);
+
+        washing_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                HomePage.RunningMachineSectionBean washing = washingList.get(position);
+                Near near = new Near();
+                near.setAddress(washing.getAddress());
+                near.setDetailUrl(washing.getDetailUrl());
+                near.setIsWashing(washing.getIsWashing());
+                near.setLat(washing.getLat());
+                near.setLng(washing.getLng());
+                near.setMachine_name(washing.getMachine_name());
+                near.setMachine_number(washing.getMachine_number());
+                near.setMachineImages(washing.getMachineImages());
+                near.setQrCodeUrl(washing.getQrCodeUrl());
+                near.setOrders(washing.getOrders());
+                near.setMachine_pic(washing.getMachine_pic());
+                Intent intent = new Intent(getActivity(), DetailNearActivity.class);
+                intent.putExtra("near", near);
+                startActivity(intent);
+            }
+        });
+
+        rate_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                HomePage.RemarkStarSectionBean washing = rateList.get(position);
+                Near near = new Near();
+                near.setAddress(washing.getAddress());
+                near.setDetailUrl(washing.getDetailUrl());
+                near.setIsWashing(washing.getIsWashing());
+                near.setLat(washing.getLat());
+                near.setLng(washing.getLng());
+                near.setMachine_name(washing.getMachine_name());
+                near.setMachine_number(washing.getMachine_number());
+                near.setMachineImages(washing.getMachineImages());
+                near.setQrCodeUrl(washing.getQrCodeUrl());
+                near.setOrders(washing.getOrders());
+                near.setMachine_pic(washing.getMachine_pic());
+                Intent intent = new Intent(getActivity(), DetailNearActivity.class);
+                intent.putExtra("near", near);
+                startActivity(intent);
+            }
+        });
+    }
+
+
     private void showDialog() {
         final View view = getActivity().getLayoutInflater().inflate(R.layout.pay_dialog, null);
         final CheckedTextView balance = (CheckedTextView) view.findViewById(R.id.pay_balance);
@@ -550,5 +619,147 @@ public class FragmentIndex extends BaseFragment {
         // listView.getDividerHeight()获取子项间分隔符占用的高度
         // params.height最后得到整个ListView完整显示需要的高度
         listView.setLayoutParams(params);
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // TODO: inflate a fragment view
+        View rootView = super.onCreateView(inflater, container, savedInstanceState);
+        ButterKnife.bind(this, rootView);
+        return rootView;
+    }
+
+    private void onIndex() {
+        RequestParams params = new RequestParams(URLs.APP_Index);
+        params.addQueryStringParameter("secret_code", URLs.secret_code);
+        params.addQueryStringParameter("pagenumber", "1");
+        x.http().get(params, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String string) {
+                Result result = JsonUtils.fromJson(string, Result.class);
+                if (result.OK()) {
+
+                    if (result.getHomePage().getSystemMessageSection().size() > 0) {
+                        marqueeView.startWithList(result.getHomePage().getSystemMessageSection());
+                    }
+                    if (StringUtils.isEmpty(result.getHomePage().getHistoryWashConsumeSection().getLastWashCode())) {
+
+                    } else {
+                        if (result.getHomePage().getHistoryWashConsumeSection().getLastWashCode().equals("1")) {
+                            ydlLl.setVisibility(View.VISIBLE);
+                            wdlLl.setVisibility(View.GONE);
+                            content1.setText(result.getHomePage().getHistoryWashConsumeSection().getContent1());
+                            content2.setText(result.getHomePage().getHistoryWashConsumeSection().getContent2());
+                            lastWashConsume.setText(result.getHomePage().getHistoryWashConsumeSection().getLastWashConsume());
+                            lastChargePrice.setText(result.getHomePage().getHistoryWashConsumeSection().getLastChargePrice());
+                        } else {
+                            ydlLl.setVisibility(View.GONE);
+                            wdlLl.setVisibility(View.VISIBLE);
+                        }
+                    }
+                    if (result.getHomePage().getWashMessageSection().size() > 0) {
+                        otherConsumerList = result.getHomePage().getWashMessageSection();
+                        listViewOtherConsumerAdapter.setOtherConsumer(otherConsumerList);
+                        listViewOtherConsumerAdapter.notifyDataSetChanged();
+
+                    }
+                    if (result.getHomePage().getRunningMachineSection().size() > 0) {
+                        washingList = result.getHomePage().getRunningMachineSection();
+                        listViewWashingAdapter.setWashing(washingList);
+                        listViewWashingAdapter.notifyDataSetChanged();
+
+                    }
+                    if (result.getHomePage().getRemarkStarSection().size() > 0) {
+                        rateList = result.getHomePage().getRemarkStarSection();
+                        listViewRateItemAdapter.setRateItem(rateList);
+                        listViewRateItemAdapter.notifyDataSetChanged();
+
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+
+            }
+
+            @Override
+            public void onFinished() {
+                pullToRefreshScrollView.getLoadingLayoutProxy().setLastUpdatedLabel("上次加载时间：" + StringUtils.friendly_time(str));
+                pullToRefreshScrollView.onRefreshComplete();
+                str = formatter.format(new Date());
+            }
+        });
+    }
+
+    private void onRefresh() {
+        RequestParams params = new RequestParams(URLs.APP_Rate);
+        params.addQueryStringParameter("pagenumber", "2");
+        x.http().get(params, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String string) {
+                Result result = JsonUtils.fromJson(string, Result.class);
+                if (result.OK()) {
+                    if (result.remarkStarSection.getRemarkStarSection().size() > 0) {
+                        rateList = result.remarkStarSection.getRemarkStarSection();
+                        listViewRateItemAdapter.addRateItem(rateList);
+                        listViewRateItemAdapter.notifyDataSetChanged();
+                        rate_list.setTag(UIHelper.LISTVIEW_DATA_FULL);
+                        mNearProgress.setVisibility(View.GONE);
+                    }
+
+                }
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+
+            }
+
+            @Override
+            public void onFinished() {
+                pullToRefreshScrollView.getLoadingLayoutProxy().setLastUpdatedLabel("上次加载时间：" + StringUtils.friendly_time(str));
+                pullToRefreshScrollView.onRefreshComplete();
+                str = formatter.format(new Date());
+                pullToRefreshScrollView.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
+            }
+        });
+    }
+
+    @OnClick(R.id.chakan)
+    public void onClick() {
+        Intent intent = new Intent(getActivity(), ConsumerActivity.class);
+        startActivity(intent);
+    }
+
+    @Event(R.id.content2)
+    private void content2Event(View v) {
+        Intent intent = new Intent(getActivity(), NearActivity.class);
+        startActivity(intent);
+    }
+
+    @Event(R.id.img67)
+    private void img67Event(View v) {
+        Intent intent = new Intent(getActivity(), NearActivity.class);
+        startActivity(intent);
+    }
+    @Event(R.id.qdl_ll)
+    private void qdlllEvent(View v){
+        UIHelper.openLogin(getActivity());
+    }
+    @Event(R.id.mv_bar)
+    private void mvbarEvent(View v){
+        Intent intent=new Intent(getActivity(), NewsActivity.class);
+        startActivity(intent);
     }
 }

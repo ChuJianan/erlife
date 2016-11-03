@@ -24,6 +24,7 @@ import android.view.View;
 import android.widget.ScrollView;
 
 public class PullToRefreshScrollView extends PullToRefreshBase<ScrollView> {
+	private OnScrollToBottomListener onScrollToBottom;
 
 	public PullToRefreshScrollView(Context context) {
 		super(context);
@@ -71,6 +72,13 @@ public class PullToRefreshScrollView extends PullToRefreshBase<ScrollView> {
 			return mRefreshableView.getScrollY() >= (scrollViewChild.getHeight() - getHeight());
 		}
 		return false;
+	}
+	public void setOnScrollToBottomLintener(OnScrollToBottomListener listener){
+		onScrollToBottom = listener;
+	}
+
+	public interface OnScrollToBottomListener{
+		public void onScrollBottomListener(boolean isBottom);
 	}
 
 	@TargetApi(9)
