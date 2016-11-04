@@ -41,6 +41,7 @@ import android.widget.Toast;
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.Poi;
+import com.bumptech.glide.Glide;
 import com.tencent.android.tpush.XGIOperateCallback;
 import com.tencent.android.tpush.XGPushConfig;
 import com.tencent.android.tpush.XGPushManager;
@@ -73,6 +74,8 @@ import org.xutils.x;
 import java.lang.ref.WeakReference;
 import java.math.BigDecimal;
 import java.util.zip.Inflater;
+
+import cn.bingoogolapple.bgabanner.BGABanner;
 
 
 @ContentView(value = R.layout.activity_main)
@@ -120,11 +123,7 @@ public class MainActivity extends FragmentActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         AppManager.getAppManager().addActivity(this);
         x.view().inject(this);
-        UIHelper.img_urls = new String[]{
-                "http://dwz.cn/3U1FMd",
-                "http://dwz.cn/3U1GId",
-                "http://dwz.cn/3V9xTR",
-        };
+
         preferences = getSharedPreferences("yrlife", MODE_WORLD_READABLE);
         initView();
 //        locationService = new LocationService(getApplicationContext());
@@ -690,4 +689,5 @@ public class MainActivity extends FragmentActivity {
         dialog.setCancelable(false);
         dialog.show();
     }
+
 }

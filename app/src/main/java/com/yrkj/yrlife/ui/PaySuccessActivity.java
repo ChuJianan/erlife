@@ -28,6 +28,7 @@ public class PaySuccessActivity extends BaseActivity {
         x.view().inject(this);
         title.setText("充值成功");
         paysuccess_text.setText(UIHelper.bigDecimal+"");
+        UIHelper.isFirst = true;
     }
     @Event(R.id.success)
     private void successEvent(View view){

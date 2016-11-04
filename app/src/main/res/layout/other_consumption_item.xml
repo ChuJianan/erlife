@@ -50,7 +50,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="66dp"
         android:layout_marginLeft="@dimen/space_13"
         android:layout_marginRight="@dimen/space_7"
         android:orientation="horizontal"
@@ -66,11 +66,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/space_9"
-            android:layout_marginTop="@dimen/space_12"
+            android:layout_marginTop="@dimen/space_5"
             android:text="D**S(125***86),于10:43在车信路洗车网点洗车完毕，本次消费5.8。"
             android:textSize="@dimen/text_size_15"
             android:textColor="#848484"
-            android:layout_marginBottom="@dimen/space_5"
+            android:maxLines="3"
             />
     </LinearLayout>
     <ImageView

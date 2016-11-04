@@ -236,7 +236,7 @@ public class LoginActivity extends BaseActivity {
                                 Log.d("main", "登录聊天服务器失败！");
                             }
                         });
-
+                        UIHelper.isFirst = true;
                         finish();
                     } else if (msg.what == 2) {
                         mLoadingDialog.dismiss();

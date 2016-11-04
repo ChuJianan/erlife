@@ -341,6 +341,7 @@ public class SlideShowView extends FrameLayout {
         }
     }
 
+
     /**
      * ImageLoader 图片组件初始化
      *

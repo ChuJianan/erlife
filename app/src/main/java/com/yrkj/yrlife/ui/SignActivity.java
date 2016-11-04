@@ -497,7 +497,7 @@ public class SignActivity extends BaseActivity {
                             //提交修改
                             editor.commit();
                             //                            user.getId()+"", user.getId()+"0"
-                            EMClient.getInstance().login(user.getId()+"", user.getId()+"0", new EMCallBack() {//回调
+                            EMClient.getInstance().login(user.getId() + "", user.getId() + "0", new EMCallBack() {//回调
                                 @Override
                                 public void onSuccess() {
                                     EMClient.getInstance().groupManager().loadAllGroups();
@@ -517,6 +517,7 @@ public class SignActivity extends BaseActivity {
                             });
 
                             AppManager.getAppManager().finishActivity(LoginActivity.class);
+                            UIHelper.isFirst = true;
                             finish();
                         } else if (msg.what == 2) {
                             UIHelper.ToastMessage(appContext, msg.obj.toString());

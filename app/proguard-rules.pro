@@ -70,3 +70,4 @@
 #-keep class com.autonavi.amap.mapcore.*{*;}
 #-keep class com.amap.api.navi.**{*;}
 #-keep class com.autonavi.**{*;}
+#

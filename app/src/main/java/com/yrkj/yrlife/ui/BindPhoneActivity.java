@@ -257,7 +257,7 @@ public class BindPhoneActivity extends Activity {
                                 Log.d("main", "登录聊天服务器失败！");
                             }
                         });
-
+                        UIHelper.isFirst = true;
                         finish();
                     } else {
                         mLoadingDialog.dismiss();

@@ -164,6 +164,7 @@ public class WashConfirmActivity extends BaseActivity {
                     intent.putExtra("wash", wash);
                     startActivity(intent);
                     AppManager.getAppManager().finishActivity(WashAActivity.class);
+                    UIHelper.isFirst = true;
                     finish();
                 } else if (result.isOK()) {
                     Intent intent = new Intent(WashConfirmActivity.this, LoginActivity.class);

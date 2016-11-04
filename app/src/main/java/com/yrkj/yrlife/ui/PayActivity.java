@@ -387,6 +387,8 @@ public class PayActivity extends BaseActivity {
                     editor.commit();
                     Intent intent = new Intent(PayActivity.this, PaySuccessActivity.class);
                     startActivity(intent);
+                    UIHelper.isFirst = true;
+                    finish();
                 } else if (result.isOK()) {
                     UIHelper.openLogin(PayActivity.this);
                 } else {

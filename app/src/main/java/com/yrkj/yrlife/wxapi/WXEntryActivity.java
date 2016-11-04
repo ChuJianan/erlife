@@ -278,6 +278,7 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
                         });
 
                         AppManager.getAppManager().finishActivity(LoginActivity.class);
+                        UIHelper.isFirst = true;
                     } else if (code == 3) {
                         params1.addQueryStringParameter("openId", weixinuser.getOpenid());
                         params1.addQueryStringParameter("union_id", weixinuser.getUnionid());

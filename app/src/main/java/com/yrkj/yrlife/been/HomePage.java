@@ -28,7 +28,7 @@ public class HomePage {
      */
 
     private List<String> systemMessageSection;
-    private List<String> bannerSection;
+    private String[] bannerSection;
     /**
      * remarkTime : 2016-10-28 16:22:26
      * detailUrl : http://139.129.53.70/wmmanager/static/machineDetail/1477474088317.html
@@ -93,11 +93,11 @@ public class HomePage {
         this.systemMessageSection = systemMessageSection;
     }
 
-    public List<String> getBannerSection() {
+    public String[] getBannerSection() {
         return bannerSection;
     }
 
-    public void setBannerSection(List<String> bannerSection) {
+    public void setBannerSection(String[] bannerSection) {
         this.bannerSection = bannerSection;
     }
 

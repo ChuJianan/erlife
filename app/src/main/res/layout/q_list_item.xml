@@ -7,7 +7,7 @@
     <RelativeLayout
         android:layout_gravity="center"
         android:layout_width="320dp"
-        android:layout_height="100dp"
+        android:layout_height="120dp"
         android:background="@mipmap/yhq_bg"
         android:paddingLeft="@dimen/space_8"
         android:paddingTop="@dimen/space_8"
@@ -65,6 +65,7 @@
             android:orientation="vertical"
             android:layout_alignParentBottom="true"
             android:layout_marginLeft="@dimen/space_20"
+            android:gravity="bottom"
             android:layout_toRightOf="@+id/linearLayout7"
             android:layout_toEndOf="@+id/linearLayout7">
             <TextView

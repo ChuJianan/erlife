@@ -53,32 +53,52 @@
                         android:layout_centerVertical="true"
                         android:text="暂无"
                         android:textColor="@color/b7" />
-
-                    <ImageView
-                        android:id="@+id/img67"
-                        android:layout_width="wrap_content"
-                        android:layout_height="@dimen/space_20"
-                        android:layout_alignParentEnd="true"
-                        android:layout_alignParentRight="true"
-                        android:layout_alignParentTop="true"
-                        android:layout_centerVertical="true"
-                        android:layout_marginRight="@dimen/space_6"
-                        android:src="@mipmap/icon_pangianjiantou" />
-
-
-
-                    <TextView
-                        android:id="@+id/content2"
+                    <LinearLayout
+                        android:id="@+id/q_near"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginEnd="10dp"
-                        android:layout_marginRight="10dp"
-                        android:layout_toLeftOf="@+id/img67"
-                        android:layout_toStartOf="@+id/img67"
-                        android:text="亲，给爱车洗个澡吧"
-                        android:textColor="@color/shop_item"
-                        android:textSize="@dimen/text_size_14" />
+                        android:layout_alignParentRight="true"
+                        android:gravity="center"
+                        >
+
+                        <TextView
+                            android:id="@+id/content2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginRight="10dp"
+                            android:layout_toLeftOf="@+id/img67"
+                            android:layout_toStartOf="@+id/img67"
+                            android:text="亲，给爱车洗个澡吧"
+                            android:textColor="@color/shop_item"
+                            android:textSize="@dimen/text_size_14" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="@dimen/text_size_14"
+                            android:textColor="@color/GO"
+                            android:text="GO"
+                            android:layout_alignBaseline="@+id/content2"
+                            android:layout_alignBottom="@+id/content2"
+                            android:layout_toLeftOf="@+id/img67"
+                            android:layout_toStartOf="@+id/img67"
+                            android:id="@+id/go"
+                            android:visibility="gone"
+                            android:layout_marginRight="@dimen/space_5"
+                            />
+                        <ImageView
+                            android:id="@+id/img67"
+                            android:layout_width="wrap_content"
+                            android:layout_height="@dimen/space_20"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_alignParentTop="true"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="@dimen/space_6"
+                            android:src="@mipmap/icon_pangianjiantou" />
+                    </LinearLayout>
                 </RelativeLayout>
             </LinearLayout>
         </LinearLayout>
@@ -131,8 +151,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
 
-
-
+                    <TextView
+                        android:id="@+id/add_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="+"
+                        android:textColor="@color/text_black"
+                        android:textSize="@dimen/space_26"
+                        />
                     <TextView
                         android:id="@+id/lastChargePrice"
                         android:layout_width="wrap_content"
@@ -167,7 +193,7 @@
             android:layout_height="40dp"
             android:gravity="center"
             android:text="查看"
-            android:textColor="@color/chakan"
+            android:textColor="#cccccc"
             android:textSize="@dimen/space_17" />
     </LinearLayout>
     <LinearLayout
@@ -196,6 +222,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/space_20"
                 android:orientation="horizontal"
+
                 android:paddingTop="@dimen/space_3">
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -233,15 +260,15 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:text="暂无"
-                        android:textColor="@color/b7"
+                        android:text="去登陆"
+                        android:textColor="#d8d8d8"
                         android:layout_marginRight="@dimen/space_11"
                         />
                     <ImageView
                         android:id="@+id/wdl_img"
                         android:layout_width="@dimen/space_30"
                         android:layout_height="@dimen/space_30"
-                        android:src="@mipmap/ic_me_pic"
+                        android:src="@mipmap/icon_login"
                         android:layout_marginRight="@dimen/space_11"
                         />
                     <ImageView
@@ -253,7 +280,7 @@
                         android:layout_alignParentTop="true"
                         android:layout_centerVertical="true"
                         android:layout_marginRight="@dimen/space_6"
-                        android:src="@mipmap/icon_pangianjiantou" />
+                        android:src="@mipmap/icon_weidenglu_qudenglujiantou" />
                 </LinearLayout>
             </LinearLayout>
 

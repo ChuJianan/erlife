@@ -90,6 +90,7 @@ public class UIHelper {
     public static Washing_no_card_record washing_no_card_record;
     public static boolean isWash;
     public static int COUNT = 0;
+    public static boolean isFirst = true;
     /**
      * 全局web样式
      */

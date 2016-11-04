@@ -42,7 +42,7 @@ public class AppStart extends AppCompatActivity {
 
     private static final int GO_SHARE = 3000;
     // 延迟3秒
-    private static final long SPLASH_DELAY_MILLIS = 3000;
+    private static final long SPLASH_DELAY_MILLIS = 2000;
     //是否是第一次使用
     private boolean isFirstUse;
     SharedPreferences preferences;
@@ -57,6 +57,7 @@ public class AppStart extends AppCompatActivity {
         //读取SharedPreferences中需要的数据
         preferences = getSharedPreferences("yrlife", MODE_WORLD_READABLE);
         isFirstUse = preferences.getBoolean("isFirstUse", true);
+        loadBanner();
         final Message msg = new Message();
         isFirstUse = false;
         if (isFirstUse) {
@@ -308,4 +309,31 @@ public class AppStart extends AppCompatActivity {
 //        MobclickAgent.onPageEnd("appstart");
 //        MobclickAgent.onPause(this);
 //    }
+    private void loadBanner(){
+        RequestParams params=new RequestParams(URLs.APP_Banner);
+        x.http().get(params, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String string) {
+                Result result=JsonUtils.fromJson(string,Result.class);
+                if (result.OK()){
+                    UIHelper.img_urls=result.getImg_urls();
+                }
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+        });
+    }
 }

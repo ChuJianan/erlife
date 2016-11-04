@@ -17,13 +17,16 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.CheckedTextView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshScrollView;
 import com.yrkj.yrlife.R;
@@ -41,6 +44,7 @@ import com.yrkj.yrlife.been.PayConfirm;
 import com.yrkj.yrlife.been.Result;
 import com.yrkj.yrlife.been.URLs;
 import com.yrkj.yrlife.been.Washing_no_card_record;
+import com.yrkj.yrlife.model.BannerModel;
 import com.yrkj.yrlife.ui.BinCardActivity;
 import com.yrkj.yrlife.ui.ConsumerActivity;
 import com.yrkj.yrlife.ui.DetailNearActivity;
@@ -81,29 +85,35 @@ import java.util.List;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.bingoogolapple.bgabanner.BGABanner;
 
 
 /**
  * Created by Administrator on 2016/3/17.
  */
 @ContentView(R.layout.fragment_index)
-public class FragmentIndex extends BaseFragment {
+public class FragmentIndex extends BaseFragment implements  BGABanner.Adapter{
     private static final String TAG = MainActivity.class.getSimpleName();
     private static final String APP_CACAHE_DIRNAME = "/webcache";
-    @BindView(R.id.content1)
+    @ViewInject(R.id.content1)
     TextView content1;
-    @BindView(R.id.content2)
+    @ViewInject(R.id.content2)
     TextView content2;
-    @BindView(R.id.lastWashConsume)
+    @ViewInject(R.id.lastWashConsume)
     TextView lastWashConsume;
-    @BindView(R.id.lastChargePrice)
+    @ViewInject(R.id.lastChargePrice)
     TextView lastChargePrice;
-    @BindView(R.id.chakan)
+    @ViewInject(R.id.chakan)
     TextView chakan;
-    @BindView(R.id.ydl_ll)
+    @ViewInject(R.id.ydl_ll)
     LinearLayout ydlLl;
-    @BindView(R.id.wdl_ll)
+    @ViewInject(R.id.wdl_ll)
     LinearLayout wdlLl;
+    @ViewInject(R.id.sleep_img)
+    ImageView sleep_img;
+    @ViewInject(R.id.banner_main_alpha)
+    private BGABanner mAlphaBanner;
+
     private MyGridView gview;//, shop_grid, gview_b;
     private GridViewMainAdapter sim_adapter;
     private GridViewShopAdapter shopAdapter;
@@ -117,6 +127,8 @@ public class FragmentIndex extends BaseFragment {
 //    WebView index_webView;
     @ViewInject(R.id.mv_bar)
     MarqueeView marqueeView;
+    @ViewInject(R.id.go)
+    private TextView go;
 
     @ViewInject(R.id.other_list)
     private CustomListView other_list;
@@ -124,6 +136,12 @@ public class FragmentIndex extends BaseFragment {
     private CustomListView washing_list;
     @ViewInject(R.id.rate_list)
     private PullToRefreshCustomListView rate_list;
+    @ViewInject(R.id.content21)
+    TextView content21;
+    @ViewInject(R.id.add_text)
+    TextView add_text;
+    @ViewInject(R.id.empty_text)
+    private TextView mEmptyView;
 
     private ListViewRateItemAdapter listViewRateItemAdapter;
     private ListViewWashingAdapter listViewWashingAdapter;
@@ -155,6 +173,10 @@ public class FragmentIndex extends BaseFragment {
     PullToRefreshScrollView pullToRefreshScrollView;
     ScrollView scrollView;
 
+    private long mLastTime; //上次加载时间
+    private boolean isViewInited = false;
+    private boolean isFirst = true;
+
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -166,8 +188,6 @@ public class FragmentIndex extends BaseFragment {
         int width = wm.getDefaultDisplay().getWidth();
         int height = wm.getDefaultDisplay().getHeight();
 
-
-
         init(view);
         initView(view);
     }
@@ -175,14 +195,36 @@ public class FragmentIndex extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        if (StringUtils.isEmpty(URLs.secret_code)){
+        isFirst = UIHelper.isFirst;
+        mEmptyView.setVisibility(View.VISIBLE);
+        inIndex();
+        pullToRefreshScrollView.setMode(PullToRefreshBase.Mode.BOTH);
+        if (StringUtils.isEmpty(URLs.secret_code)) {
             wdlLl.setVisibility(View.VISIBLE);
             ydlLl.setVisibility(View.GONE);
-        }else {
+            if (isFirst) {
+                onIndex();
+                UIHelper.isFirst = false;
+            }
+        } else {
             wdlLl.setVisibility(View.GONE);
             ydlLl.setVisibility(View.VISIBLE);
+            if (isFirst) {
+                onIndex();
+                UIHelper.isFirst = false;
+            }
         }
-        onIndex();
+        long now = System.currentTimeMillis();
+
+        //10分钟内不重复加载信息
+        if (mLastTime > 0 && now - mLastTime < 1000 * 60 * 10) {
+
+            return;
+        } else {
+            if (getUserVisibleHint()) {
+                onIndex();
+            }
+        }
     }
 
     private void isWash() {
@@ -260,6 +302,14 @@ public class FragmentIndex extends BaseFragment {
 //            center_img2=(ImageView)view.findViewById(R.id.center_img2);
 //            center_img3=(ImageView)view.findViewById(R.id.center_img3);
 
+
+        marqueeView.setOnItemClickListener(new MarqueeView.OnItemClickListener() {
+            @Override
+            public void onItemClick(int position, TextView textView) {
+                Intent intent = new Intent(getActivity(), NewsActivity.class);
+                startActivity(intent);
+            }
+        });
 
         application = (YrApplication) getActivity().getApplication();
         preferences = getActivity().getSharedPreferences("yrlife", getActivity().MODE_WORLD_READABLE);
@@ -445,6 +495,7 @@ public class FragmentIndex extends BaseFragment {
     }
 
     private void initView(View view) {
+        other_list.setEmptyView(mEmptyView);
         mNearFooter = getActivity().getLayoutInflater().inflate(R.layout.listview_footer, null);
         mNearMore = (TextView) mNearFooter.findViewById(R.id.listview_foot_more);
         mNearProgress = (ProgressBar) mNearFooter.findViewById(R.id.listview_foot_progress);
@@ -456,6 +507,16 @@ public class FragmentIndex extends BaseFragment {
         other_list.setAdapter(listViewOtherConsumerAdapter);
         rate_list.setAdapter(listViewRateItemAdapter);
         washing_list.setAdapter(listViewWashingAdapter);
+
+        chakan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isChakan) {
+                    Intent intent = new Intent(getActivity(), ConsumerActivity.class);
+                    startActivity(intent);
+                }
+            }
+        });
 
         washing_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -482,7 +543,7 @@ public class FragmentIndex extends BaseFragment {
         rate_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                HomePage.RemarkStarSectionBean washing = rateList.get(position);
+                HomePage.RemarkStarSectionBean washing = (HomePage.RemarkStarSectionBean)listViewRateItemAdapter.getItem(position);
                 Near near = new Near();
                 near.setAddress(washing.getAddress());
                 near.setDetailUrl(washing.getDetailUrl());
@@ -621,13 +682,77 @@ public class FragmentIndex extends BaseFragment {
         listView.setLayoutParams(params);
     }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // TODO: inflate a fragment view
-        View rootView = super.onCreateView(inflater, container, savedInstanceState);
-        ButterKnife.bind(this, rootView);
-        return rootView;
+    private void inIndex() {
+        String string = preferences.getString("homePage", "");
+        if (!StringUtils.isEmpty(string)) {
+            Result result = JsonUtils.fromJson(string, Result.class);
+            if (result.OK()) {
+                if (result.getHomePage().getBannerSection().length > 0) {
+                    UIHelper.img_urls = result.getHomePage().getBannerSection();
+                }
+
+                if (result.getHomePage().getSystemMessageSection().size() > 0) {
+                    marqueeView.startWithList(result.getHomePage().getSystemMessageSection());
+                }
+                if (StringUtils.isEmpty(result.getHomePage().getHistoryWashConsumeSection().getLastWashCode())) {
+
+                } else {
+                    mEmptyView.setVisibility(View.GONE);
+                    if (StringUtils.isEmpty(URLs.secret_code)) {
+                        wdlLl.setVisibility(View.VISIBLE);
+                        ydlLl.setVisibility(View.GONE);
+                    } else {
+                        if (result.getHomePage().getHistoryWashConsumeSection().getLastWashCode().equals("1")) {
+                            ydlLl.setVisibility(View.VISIBLE);
+                            wdlLl.setVisibility(View.GONE);
+                            go.setVisibility(View.VISIBLE);
+                            isChakan = true;
+                            chakan.setVisibility(View.VISIBLE);
+                            add_text.setVisibility(View.GONE);
+                            chakan.setTextColor(getResources().getColor(R.color.chakan));
+                            content1.setText(result.getHomePage().getHistoryWashConsumeSection().getContent1());
+                            content2.setText(result.getHomePage().getHistoryWashConsumeSection().getContent2());
+                            lastWashConsume.setText(result.getHomePage().getHistoryWashConsumeSection().getLastWashConsume());
+                            lastChargePrice.setText(result.getHomePage().getHistoryWashConsumeSection().getLastChargePrice());
+                        } else if (result.getHomePage().getHistoryWashConsumeSection().getLastWashCode().equals("2")) {
+                            ydlLl.setVisibility(View.VISIBLE);
+                            wdlLl.setVisibility(View.GONE);
+                            go.setVisibility(View.GONE);
+                            add_text.setVisibility(View.VISIBLE);
+                            chakan.setVisibility(View.VISIBLE);
+                            isChakan = false;
+                            chakan.setTextColor(0xcccccc);
+                        } else {
+                            isChakan = false;
+                            ydlLl.setVisibility(View.GONE);
+                            wdlLl.setVisibility(View.VISIBLE);
+                        }
+                    }
+                }
+                if (result.getHomePage().getWashMessageSection().size() > 0) {
+                    otherConsumerList = result.getHomePage().getWashMessageSection();
+                    listViewOtherConsumerAdapter.setOtherConsumer(otherConsumerList);
+                    listViewOtherConsumerAdapter.notifyDataSetChanged();
+
+                }
+                if (result.getHomePage().getRunningMachineSection().size() > 0) {
+                    washingList = result.getHomePage().getRunningMachineSection();
+                    listViewWashingAdapter.setWashing(washingList);
+                    listViewWashingAdapter.notifyDataSetChanged();
+                }else {
+                    sleep_img.setVisibility(View.VISIBLE);
+                }
+                if (result.getHomePage().getRemarkStarSection().size() > 0) {
+                    rateList = result.getHomePage().getRemarkStarSection();
+                    listViewRateItemAdapter.setRateItem(rateList);
+                    listViewRateItemAdapter.notifyDataSetChanged();
+
+                }
+            }
+        }
     }
+
+    boolean isChakan = false;
 
     private void onIndex() {
         RequestParams params = new RequestParams(URLs.APP_Index);
@@ -636,8 +761,17 @@ public class FragmentIndex extends BaseFragment {
         x.http().get(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String string) {
+                //实例化Editor对象
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.putString("homePage", string);
+                //提交修改
+                editor.commit();
                 Result result = JsonUtils.fromJson(string, Result.class);
                 if (result.OK()) {
+                    if (result.getHomePage().getBannerSection().length > 0) {
+                        UIHelper.img_urls = result.getHomePage().getBannerSection();
+
+                    }
 
                     if (result.getHomePage().getSystemMessageSection().size() > 0) {
                         marqueeView.startWithList(result.getHomePage().getSystemMessageSection());
@@ -646,13 +780,28 @@ public class FragmentIndex extends BaseFragment {
 
                     } else {
                         if (result.getHomePage().getHistoryWashConsumeSection().getLastWashCode().equals("1")) {
+                            mEmptyView.setVisibility(View.GONE);
                             ydlLl.setVisibility(View.VISIBLE);
                             wdlLl.setVisibility(View.GONE);
+                            go.setVisibility(View.VISIBLE);
+                            add_text.setVisibility(View.GONE);
+                            chakan.setVisibility(View.VISIBLE);
+                            isChakan = true;
+                            chakan.setTextColor(getResources().getColor(R.color.chakan));
                             content1.setText(result.getHomePage().getHistoryWashConsumeSection().getContent1());
                             content2.setText(result.getHomePage().getHistoryWashConsumeSection().getContent2());
                             lastWashConsume.setText(result.getHomePage().getHistoryWashConsumeSection().getLastWashConsume());
                             lastChargePrice.setText(result.getHomePage().getHistoryWashConsumeSection().getLastChargePrice());
+                        } else if (result.getHomePage().getHistoryWashConsumeSection().getLastWashCode().equals("2")) {
+                            ydlLl.setVisibility(View.VISIBLE);
+                            wdlLl.setVisibility(View.GONE);
+                            go.setVisibility(View.GONE);
+                            add_text.setVisibility(View.VISIBLE);
+                            chakan.setVisibility(View.VISIBLE);
+                            isChakan = false;
+                            chakan.setTextColor(0xcccccc);
                         } else {
+                            isChakan = false;
                             ydlLl.setVisibility(View.GONE);
                             wdlLl.setVisibility(View.VISIBLE);
                         }
@@ -668,6 +817,8 @@ public class FragmentIndex extends BaseFragment {
                         listViewWashingAdapter.setWashing(washingList);
                         listViewWashingAdapter.notifyDataSetChanged();
 
+                    }else {
+                        sleep_img.setVisibility(View.VISIBLE);
                     }
                     if (result.getHomePage().getRemarkStarSection().size() > 0) {
                         rateList = result.getHomePage().getRemarkStarSection();
@@ -690,6 +841,10 @@ public class FragmentIndex extends BaseFragment {
 
             @Override
             public void onFinished() {
+                isFirst = false;
+                UIHelper.isFirst = false;
+                mLastTime = System.currentTimeMillis();
+                pullToRefreshScrollView.setMode(PullToRefreshBase.Mode.BOTH);
                 pullToRefreshScrollView.getLoadingLayoutProxy().setLastUpdatedLabel("上次加载时间：" + StringUtils.friendly_time(str));
                 pullToRefreshScrollView.onRefreshComplete();
                 str = formatter.format(new Date());
@@ -736,30 +891,40 @@ public class FragmentIndex extends BaseFragment {
         });
     }
 
-    @OnClick(R.id.chakan)
-    public void onClick() {
-        Intent intent = new Intent(getActivity(), ConsumerActivity.class);
-        startActivity(intent);
+    @Override
+    public void fillBannerItem(BGABanner banner, View view, Object model, int position) {
+        Glide.with(getActivity())
+                .load(model)
+                .placeholder(R.mipmap.top_banner)
+                .error(R.mipmap.top_banner)
+                .into((ImageView) view);
     }
 
-    @Event(R.id.content2)
-    private void content2Event(View v) {
+    @Event(R.id.chakan)
+    public void chakanEvent(View v) {
+
+    }
+
+    @Event(R.id.q_near)
+    private void qnearEvent(View v) {
         Intent intent = new Intent(getActivity(), NearActivity.class);
         startActivity(intent);
     }
 
-    @Event(R.id.img67)
-    private void img67Event(View v) {
-        Intent intent = new Intent(getActivity(), NearActivity.class);
-        startActivity(intent);
-    }
     @Event(R.id.qdl_ll)
-    private void qdlllEvent(View v){
+    private void qdlllEvent(View v) {
         UIHelper.openLogin(getActivity());
     }
+
     @Event(R.id.mv_bar)
-    private void mvbarEvent(View v){
-        Intent intent=new Intent(getActivity(), NewsActivity.class);
+    private void mvbarEvent(View v) {
+        Intent intent = new Intent(getActivity(), NewsActivity.class);
+        startActivity(intent);
+    }
+
+    @Event(R.id.c_ll)
+    private void cllEvent(View v) {
+        Intent intent = new Intent(getActivity(), NewsActivity.class);
         startActivity(intent);
     }
 }

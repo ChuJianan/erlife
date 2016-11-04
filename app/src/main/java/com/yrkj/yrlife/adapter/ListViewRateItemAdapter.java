@@ -107,7 +107,7 @@ public class ListViewRateItemAdapter extends BaseAdapter {
 
     @Override
     public Object getItem(int position) {
-        return listItems == null ? null : listItems.get(position - 1);
+        return listItems == null ? null : listItems.get(position-1);
     }
 
     @Override

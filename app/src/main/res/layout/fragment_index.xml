@@ -22,10 +22,11 @@
             <com.yrkj.yrlife.widget.SlideShowView
                 android:id="@+id/slideshowView"
                 android:layout_width="fill_parent"
-                android:layout_height="120dp"
+                android:layout_height="130dp"
                 android:layout_centerHorizontal="true"
                 android:adjustViewBounds="true"
                 android:background="@color/white" />
+
 
             <com.yrkj.yrlife.widget.MyGridView
                 android:id="@+id/grid"
@@ -49,39 +50,27 @@
                 android:src="@mipmap/ic_line" />
 
             <LinearLayout
+                android:id="@+id/c_ll"
                 android:layout_width="match_parent"
                 android:layout_height="38dp"
-                android:orientation="horizontal">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="@dimen/space_10"
-                    android:gravity="center|left"
-                    android:orientation="horizontal">
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/space_10"
+                >
                         <com.yrkj.yrlife.widget.MarqueeView
                             android:id="@+id/mv_bar"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
                             android:layout_centerVertical="true"
                             android:singleLine="true"
                             app:mvAnimDuration="1000"
                             app:mvInterval="3000"
                             app:mvTextColor="@color/quan_text_color"
                             app:mvTextSize="15sp" />
-                    </RelativeLayout>
-
-                </LinearLayout>
             </LinearLayout>
 
             <ImageView
                 android:layout_width="match_parent"
-                android:layout_height="24dp"
+                android:layout_height="12dp"
                 android:scaleType="fitXY"
                 android:src="@mipmap/ic_line" />
 
@@ -89,7 +78,7 @@
 
             <ImageView
                 android:layout_width="match_parent"
-                android:layout_height="24dp"
+                android:layout_height="12dp"
                 android:scaleType="fitXY"
                 android:src="@mipmap/ic_line" />
 
@@ -98,9 +87,18 @@
                 android:divider="@null"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
+            <TextView
+                android:id="@+id/empty_text"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="正在加载中..."
+                android:textColor="@color/gray"
+                android:textSize="@dimen/text_size_19"
+                android:visibility="gone" />
             <ImageView
                 android:layout_width="match_parent"
-                android:layout_height="24dp"
+                android:layout_height="12dp"
                 android:scaleType="fitXY"
                 android:src="@mipmap/ic_line" />
             <com.yrkj.yrlife.widget.CustomListView
@@ -109,8 +107,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
             <ImageView
+                android:id="@+id/sleep_img"
                 android:layout_width="match_parent"
-                android:layout_height="24dp"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:src="@mipmap/pic_sleep"
+                />
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="12dp"
                 android:scaleType="fitXY"
                 android:src="@mipmap/ic_line" />
             <com.yrkj.yrlife.widget.PullToRefreshCustomListView

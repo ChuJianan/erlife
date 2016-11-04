@@ -76,6 +76,9 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
                                 editor.commit();
                                 Intent intent=new Intent(WXPayEntryActivity.this, PaySuccessActivity.class);
                                 startActivity(intent);
+                                AppManager.getAppManager().finishActivity(PayActivity.class);
+                                UIHelper.isFirst = true;
+                                finish();
                             }else if (result.isOK()){
                                 Intent intent=new Intent(WXPayEntryActivity.this, LoginActivity.class);
                                 startActivity(intent);
