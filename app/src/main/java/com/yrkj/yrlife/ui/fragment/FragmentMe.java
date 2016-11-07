@@ -400,7 +400,7 @@ public class FragmentMe extends BaseFragment {
         view.findViewById(R.id.wechatmoments).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (UIHelper.isWeixinAvilible(appContext)){
+                if (UIHelper.isWXAppInstalledAndSupported(appContext,api)){
                     ShareUtils.WechatMoments(appContext, name);
                 }else {
                     UIHelper.ToastMessage(appContext,"抱歉，您未安装微信客户端，无法分享到朋友圈");
@@ -440,7 +440,7 @@ public class FragmentMe extends BaseFragment {
         view.findViewById(R.id.wechat).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (UIHelper.isWeixinAvilible(appContext)){
+                if (UIHelper.isWXAppInstalledAndSupported(appContext,api)){
                     ShareUtils.Wechat(appContext, name);
                 }else {
                     UIHelper.ToastMessage(appContext,"抱歉，您未安装微信客户端，无法分享到微信");

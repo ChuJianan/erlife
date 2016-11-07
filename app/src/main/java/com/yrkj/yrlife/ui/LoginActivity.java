@@ -111,7 +111,7 @@ public class LoginActivity extends BaseActivity {
     @Event(R.id.wx_btn)
     private void wxbtnEvent(View view) {
         // send oauth request
-        if (UIHelper.isWeixinAvilible(appContext)) {
+        if (UIHelper.isWXAppInstalledAndSupported(appContext,api)) {
             SendAuth.Req req = new SendAuth.Req();
             req.scope = "snsapi_userinfo";
             req.state = ApiClient.getUserAgent(appContext);

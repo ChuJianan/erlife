@@ -26,6 +26,7 @@ import android.widget.Toast;
 import com.baidu.location.BDLocation;
 import com.baidu.mapapi.model.LatLng;
 import com.baidu.mapapi.utils.CoordinateConverter;
+import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.yrkj.yrlife.R;
 import com.yrkj.yrlife.api.ApiClient;
 import com.yrkj.yrlife.app.AppException;
@@ -41,6 +42,8 @@ import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
+
+import static android.content.ContentValues.TAG;
 
 
 /**
@@ -260,6 +263,17 @@ public class UIHelper {
             }
         }
         return false;
+    }
+    public static boolean isWXAppInstalledAndSupported(Context context,
+                                                        IWXAPI api) {
+        // LogOutput.d(TAG, "isWXAppInstalledAndSupported");
+        boolean sIsWXAppInstalledAndSupported = api.isWXAppInstalled()
+                && api.isWXAppSupportAPI();
+        if (!sIsWXAppInstalledAndSupported) {
+            Log.w(TAG, "~~~~~~~~~~~~~~微信客户端未安装，请确认");
+        }
+
+        return sIsWXAppInstalledAndSupported;
     }
 
     /**

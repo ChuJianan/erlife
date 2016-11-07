@@ -243,13 +243,10 @@ public class FragmentNear extends BaseFragment implements Callback, DecodeHandle
         if (resultString.equals("")) {
             Toast.makeText(getContext(), "二维码中没有正确信息", Toast.LENGTH_SHORT).show();
         } else {
-            if (resultString.length() == 6) {
-                if (StringUtils.isNumber(resultString)) {
-                    mLoadingDialog.show();
-                    seach_machid(resultString);
-                } else {
-                    UIHelper.ToastMessage(appContext, "机器编号不正确！");
-                }
+            if (resultString.length() >= 6) {
+                mLoadingDialog.show();
+                resultString = resultString.substring(resultString.length() - 6);
+                seach_machid(resultString);
             } else {
                 UIHelper.ToastMessage(appContext, "机器编号不正确！");
             }

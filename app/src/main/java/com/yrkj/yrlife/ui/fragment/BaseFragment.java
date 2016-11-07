@@ -2,6 +2,8 @@ package com.yrkj.yrlife.ui.fragment;
 
 import com.hyphenate.chat.EMClient;
 import com.hyphenate.easeui.ui.EaseConversationListFragment;
+import com.tencent.mm.sdk.openapi.IWXAPI;
+import com.tencent.mm.sdk.openapi.WXAPIFactory;
 import com.yrkj.yrlife.app.YrApplication;
 import com.yrkj.yrlife.hx.utils.MyEMMessageListener;
 import com.yrkj.yrlife.utils.UIHelper;
@@ -15,12 +17,13 @@ import org.xutils.x;
 
 public class BaseFragment extends Fragment {
 	private boolean injected = false;
+	public IWXAPI api;
 	EaseConversationListFragment conversationListFragment = new EaseConversationListFragment();
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		injected = true;
 		appContext = (YrApplication) getActivity().getApplication();
-
+		api = WXAPIFactory.createWXAPI(getActivity(), UIHelper.APP_ID, false);
 		return x.view().inject(this, inflater, container);
 	}
 
@@ -28,6 +31,7 @@ public class BaseFragment extends Fragment {
 	public void onViewCreated(View view, Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
 		appContext = (YrApplication) getActivity().getApplication();
+		api = WXAPIFactory.createWXAPI(getActivity(), UIHelper.APP_ID, false);
 		if (!injected) {
 			x.view().inject(this, this.getView());
 		}

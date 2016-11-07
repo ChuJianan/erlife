@@ -327,6 +327,7 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
             Intent iLaunchMyself = getPackageManager().getLaunchIntentForPackage(getPackageName());
             startActivity(iLaunchMyself);
         }
+        mLoadingDialog.dismiss();
     }
 
     /**
@@ -345,5 +346,6 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
             WXAppExtendObject obj = (WXAppExtendObject) msg.mediaObject;
             UIHelper.ToastMessage(appContext,obj.extInfo);
         }
+        mLoadingDialog.dismiss();
     }
 }

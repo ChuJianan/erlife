@@ -7,6 +7,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.Gravity;
@@ -92,7 +94,7 @@ import cn.bingoogolapple.bgabanner.BGABanner;
  * Created by Administrator on 2016/3/17.
  */
 @ContentView(R.layout.fragment_index)
-public class FragmentIndex extends BaseFragment implements  BGABanner.Adapter{
+public class FragmentIndex extends BaseFragment implements BGABanner.Adapter {
     private static final String TAG = MainActivity.class.getSimpleName();
     private static final String APP_CACAHE_DIRNAME = "/webcache";
     @ViewInject(R.id.content1)
@@ -133,7 +135,7 @@ public class FragmentIndex extends BaseFragment implements  BGABanner.Adapter{
     @ViewInject(R.id.other_list)
     private CustomListView other_list;
     @ViewInject(R.id.washing_list)
-    private CustomListView washing_list;
+    private ListView washing_list;
     @ViewInject(R.id.rate_list)
     private PullToRefreshCustomListView rate_list;
     @ViewInject(R.id.content21)
@@ -192,9 +194,29 @@ public class FragmentIndex extends BaseFragment implements  BGABanner.Adapter{
         initView(view);
     }
 
+    Thread t;
+
     @Override
     public void onResume() {
         super.onResume();
+        t = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (isRun) {
+                    try {
+                        //开启一个线程动态改变显示的页数
+                        Thread.sleep(3000);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                    Log.i("=======", "===========");
+                    Message message = Message.obtain();
+                    message.what = 10086;
+                    mHandler.sendMessage(message);
+                }
+
+            }
+        });
         isFirst = UIHelper.isFirst;
         mEmptyView.setVisibility(View.VISIBLE);
         inIndex();
@@ -496,6 +518,7 @@ public class FragmentIndex extends BaseFragment implements  BGABanner.Adapter{
 
     private void initView(View view) {
         other_list.setEmptyView(mEmptyView);
+        washing_list.setDividerHeight(1);
         mNearFooter = getActivity().getLayoutInflater().inflate(R.layout.listview_footer, null);
         mNearMore = (TextView) mNearFooter.findViewById(R.id.listview_foot_more);
         mNearProgress = (ProgressBar) mNearFooter.findViewById(R.id.listview_foot_progress);
@@ -543,7 +566,7 @@ public class FragmentIndex extends BaseFragment implements  BGABanner.Adapter{
         rate_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                HomePage.RemarkStarSectionBean washing = (HomePage.RemarkStarSectionBean)listViewRateItemAdapter.getItem(position);
+                HomePage.RemarkStarSectionBean washing = (HomePage.RemarkStarSectionBean) listViewRateItemAdapter.getItem(position);
                 Near near = new Near();
                 near.setAddress(washing.getAddress());
                 near.setDetailUrl(washing.getDetailUrl());
@@ -659,14 +682,14 @@ public class FragmentIndex extends BaseFragment implements  BGABanner.Adapter{
     * 动态设置ListView组建的高度
     *
     * */
-    public void setListViewHeightBasedOnChildren(ListView listView) {
+    public void setListViewHeightBasedOnChildren(ListView listView, int d) {
 
         ListAdapter listAdapter = listView.getAdapter();
         if (listAdapter == null) {
             return;
         }
         int totalHeight = 0;
-        for (int i = 0; i < listAdapter.getCount(); i++) {
+        for (int i = 0; i < d; i++) {
             View listItem = listAdapter.getView(i, null, listView);
             listItem.measure(0, 0);
             totalHeight += listItem.getMeasuredHeight();
@@ -736,10 +759,24 @@ public class FragmentIndex extends BaseFragment implements  BGABanner.Adapter{
 
                 }
                 if (result.getHomePage().getRunningMachineSection().size() > 0) {
+                    isRun = true;
+                    sleep_img.setVisibility(View.GONE);
                     washingList = result.getHomePage().getRunningMachineSection();
-                    listViewWashingAdapter.setWashing(washingList);
+
+                    if (result.getHomePage().getRunningMachineSection().size() == 2) {
+                        listViewWashingAdapter.setWashing(washingList);
+                        setListViewHeightBasedOnChildren(washing_list, 2);
+                    } else if (result.getHomePage().getRunningMachineSection().size() >= 3) {
+                        washingList.add(washingList.get(0));
+                        listViewWashingAdapter.setWashing(washingList);
+                        setListViewHeightBasedOnChildren(washing_list, 2);
+                        t.start();
+                    } else {
+                        listViewWashingAdapter.setWashing(washingList);
+                        setListViewHeightBasedOnChildren(washing_list, 1);
+                    }
                     listViewWashingAdapter.notifyDataSetChanged();
-                }else {
+                } else {
                     sleep_img.setVisibility(View.VISIBLE);
                 }
                 if (result.getHomePage().getRemarkStarSection().size() > 0) {
@@ -813,12 +850,25 @@ public class FragmentIndex extends BaseFragment implements  BGABanner.Adapter{
 
                     }
                     if (result.getHomePage().getRunningMachineSection().size() > 0) {
+                        isRun = true;
                         sleep_img.setVisibility(View.GONE);
                         washingList = result.getHomePage().getRunningMachineSection();
-                        listViewWashingAdapter.setWashing(washingList);
-                        listViewWashingAdapter.notifyDataSetChanged();
 
-                    }else {
+                        if (result.getHomePage().getRunningMachineSection().size() == 2) {
+                            listViewWashingAdapter.setWashing(washingList);
+                            setListViewHeightBasedOnChildren(washing_list, 2);
+                        } else if (result.getHomePage().getRunningMachineSection().size() >= 3) {
+                            washingList.add(washingList.get(0));
+                            listViewWashingAdapter.setWashing(washingList);
+                            setListViewHeightBasedOnChildren(washing_list, 2);
+                            t.start();
+                        } else {
+                            listViewWashingAdapter.setWashing(washingList);
+                            setListViewHeightBasedOnChildren(washing_list, 1);
+                        }
+
+                        listViewWashingAdapter.notifyDataSetChanged();
+                    } else {
                         sleep_img.setVisibility(View.VISIBLE);
                     }
                     if (result.getHomePage().getRemarkStarSection().size() > 0) {
@@ -892,6 +942,27 @@ public class FragmentIndex extends BaseFragment implements  BGABanner.Adapter{
         });
     }
 
+    private boolean isRun;
+    private int k = 0;
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            if (msg.what == 10086) {
+
+                //执行滚动逻辑
+                if (k == washingList.size() - 1) {//当k=mList.size()-1 时先"滚动到".size() 再马上跳转到0位置
+                    washing_list.smoothScrollToPosition(washingList.size());
+                    washing_list.setSelection(0);
+                    k = 0;
+                } else {
+                    k++;
+                    washing_list.smoothScrollToPosition(k);
+                }
+            }
+        }
+    };
+
+
     @Override
     public void fillBannerItem(BGABanner banner, View view, Object model, int position) {
         Glide.with(getActivity())
@@ -927,5 +998,11 @@ public class FragmentIndex extends BaseFragment implements  BGABanner.Adapter{
     private void cllEvent(View v) {
         Intent intent = new Intent(getActivity(), NewsActivity.class);
         startActivity(intent);
+    }
+
+    @Override
+    public void onDestroy() {
+        isRun = false;
+        super.onDestroy();
     }
 }

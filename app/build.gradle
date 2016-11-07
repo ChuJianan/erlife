@@ -56,11 +56,11 @@ dependencies {
 
     //    compile 'com.tencent.bugly:nativecrashreport:2.2.0' //其中latest.release指代最新版本号，也可以指定明确的版本号，例如2.2.0
 
-    //    compile 'com.tencent.bugly:crashreport_upgrade:1.1.7'
+        compile 'com.tencent.bugly:crashreport_upgrade:latest.release'
 
     //其中latest.release指代最新版本号，也可以指定明确的版本号，例如1.2.8
 
-    //    compile 'com.tencent.bugly:nativecrashreport:latest.release' //其中latest.release指代最新版本号，也可以指定明确的版本号，例如2.2.0
+        compile 'com.tencent.bugly:nativecrashreport:latest.release' //其中latest.release指代最新版本号，也可以指定明确的版本号，例如2.2.0
 
     //    compile 'com.pgyersdk:sdk:2.2.2'
     compile 'com.google.code.gson:gson:2.2.4'
@@ -99,6 +99,6 @@ dependencies {
     compile files('E:/Android/yrlife/libs/ShareSDK-Wechat-Favorite-2.7.7.jar')
     compile 'com.nineoldandroids:library:2.4.0'
     compile 'cn.bingoogolapple:bga-banner:2.0.9@aar'
-    compile files('E:/Android/yrlife/libs/bugly_crash_upgrade_1.1.7.jar')
+//    compile files('E:/Android/yrlife/libs/bugly_crash_upgrade_1.1.7.jar')
 }
 

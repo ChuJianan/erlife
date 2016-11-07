@@ -15,9 +15,11 @@ public class URLs extends Entity {
 //	public static final String HOST = "http://192.168.1.33:8080/";
 //	public static final String HOST = "http://40057179.nat123.net/";
 //	public static final String HOST = "http://121.199.45.100/";
-//	public static final String HOST = "http://119.10.49.39/";
-	public static final String HOST = "http://agent.yirenlife.com";
+	public static final String HOST = "http://119.10.49.39/wmmanager";
+//	public static final String HOST = "http://agent.yirenlife.com";
 //	public static final String HOST = "http://139.129.53.70/";
+
+	public static final String IMGURL="http://119.10.49.39/wmmanager";//图片地址
 
 	public static final String APP_INIT = HOST+"/app/pro1/app1/addMember";		//应用初始化地址
 	public static final String HOME_ADS = HOST+"/app/pro1/app1/loadBannerImage" ;		//首页广告地址
@@ -33,7 +35,7 @@ public class URLs extends Entity {
 	public static final String UPDATE_HEADIMAGE=HOST+"/app/pro1/app3/updateHead_Image";//上传头像
 	public static final String LOGINOUT=HOST+"/app/pro1/app3/logout?secret_code=";//退出登录
 	public static final String NEAR=HOST+"/app/pro1/app3/nearbyMachine?";//附近网点
-	public static final String IMGURL=HOST+"/wmmanager";//图片地址
+
 	public static final String CARDS=HOST+"/app/pro1/app1/memberCard?";//会员卡
 	public static final String BIND_CARDS=HOST+"/app/pro1/app1/bindMemberCard?";//绑定会员卡
 	public static final String IDEAR_SET=HOST+"/app/pro1/app3/feedback";//意见反馈
