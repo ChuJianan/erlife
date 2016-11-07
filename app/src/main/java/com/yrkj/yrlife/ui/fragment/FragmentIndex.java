@@ -813,6 +813,7 @@ public class FragmentIndex extends BaseFragment implements  BGABanner.Adapter{
 
                     }
                     if (result.getHomePage().getRunningMachineSection().size() > 0) {
+                        sleep_img.setVisibility(View.GONE);
                         washingList = result.getHomePage().getRunningMachineSection();
                         listViewWashingAdapter.setWashing(washingList);
                         listViewWashingAdapter.notifyDataSetChanged();

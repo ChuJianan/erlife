@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.yrkj.yrlife.R;
 import com.yrkj.yrlife.been.HomePage;
+import com.yrkj.yrlife.utils.StringUtils;
 
 import org.xutils.x;
 
@@ -67,9 +68,12 @@ public class ListViewOtherConsumerAdapter extends BaseAdapter {
         holder.other_name.setText(washMessageSectionBean.getUserName());
         holder.other_time.setText(washMessageSectionBean.getWashTime());
         holder.other_msg.setText(washMessageSectionBean.getContent());
-        x.image().bind(holder.other_pic, washMessageSectionBean.getUserImage());
-        x.image().bind(holder.wash_pic, washMessageSectionBean.getMachinePicture());
-
+        if (!StringUtils.isEmpty(washMessageSectionBean.getUserImage())){
+            x.image().bind(holder.other_pic, washMessageSectionBean.getUserImage());
+        }
+        if (!StringUtils.isEmpty(washMessageSectionBean.getMachinePicture())){
+            x.image().bind(holder.wash_pic, washMessageSectionBean.getMachinePicture());
+        }
         return convertView;
     }
 

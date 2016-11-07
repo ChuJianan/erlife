@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.yrkj.yrlife.R;
 import com.yrkj.yrlife.been.HomePage;
+import com.yrkj.yrlife.utils.StringUtils;
 
 import org.xutils.x;
 
@@ -78,8 +79,13 @@ public class ListViewRateItemAdapter extends BaseAdapter {
         holder.rate_item_name.setText(remarkStarSectionBean.getMachine_name());
         holder.rate_wash_name.setText(remarkStarSectionBean.getMachine_name());
 
-        x.image().bind(holder.rate_pic, remarkStarSectionBean.getUserImage());
-        x.image().bind(holder.wash_pic, remarkStarSectionBean.getMachine_pic());
+        if (!StringUtils.isEmpty(remarkStarSectionBean.getUserImage())){
+            x.image().bind(holder.rate_pic, remarkStarSectionBean.getUserImage());
+        }
+        if (!StringUtils.isEmpty(remarkStarSectionBean.getMachine_pic())){
+            x.image().bind(holder.wash_pic, remarkStarSectionBean.getMachine_pic());
+        }
+
         switch (remarkStarSectionBean.getStars()) {
             case 1:
                 holder.rate_img.setImageDrawable(context.getResources().getDrawable(R.mipmap.icon_star1));

@@ -60,7 +60,9 @@
         <ImageView
             android:id="@+id/wash_pic"
             android:layout_width="66dp"
-            android:layout_height="66dp" />
+            android:layout_height="66dp"
+            android:src="@mipmap/jyz"
+            />
         <TextView
             android:id="@+id/other_msg"
             android:layout_width="wrap_content"
