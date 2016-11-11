@@ -1,14 +1,19 @@
 package com.yrkj.yrlife.ui.fragment;
 
+import android.Manifest;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.Gravity;
@@ -24,6 +29,7 @@ import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -35,8 +41,8 @@ import com.yrkj.yrlife.R;
 import com.yrkj.yrlife.adapter.GridViewMainAdapter;
 import com.yrkj.yrlife.adapter.GridViewMainBottomAdapter;
 import com.yrkj.yrlife.adapter.GridViewShopAdapter;
+import com.yrkj.yrlife.adapter.JDViewAdapter;
 import com.yrkj.yrlife.adapter.ListViewIndexShopAdeapter;
-import com.yrkj.yrlife.adapter.ListViewOtherConsumerAdapter;
 import com.yrkj.yrlife.adapter.ListViewRateItemAdapter;
 import com.yrkj.yrlife.adapter.ListViewWashingAdapter;
 import com.yrkj.yrlife.app.YrApplication;
@@ -54,6 +60,7 @@ import com.yrkj.yrlife.ui.DiscountActivity;
 import com.yrkj.yrlife.ui.FindBillActivity;
 import com.yrkj.yrlife.ui.KefuActivity;
 import com.yrkj.yrlife.ui.MainActivity;
+import com.yrkj.yrlife.ui.MoreActivity;
 import com.yrkj.yrlife.ui.NearActivity;
 import com.yrkj.yrlife.ui.NewsActivity;
 import com.yrkj.yrlife.ui.PayActivity;
@@ -62,10 +69,12 @@ import com.yrkj.yrlife.ui.WashRateActivity;
 import com.yrkj.yrlife.ui.WashsActivity;
 import com.yrkj.yrlife.ui.addressoption.AddressActivity;
 import com.yrkj.yrlife.utils.BitmapManager;
+import com.yrkj.yrlife.utils.DataCleanManager;
 import com.yrkj.yrlife.utils.JsonUtils;
 import com.yrkj.yrlife.utils.StringUtils;
 import com.yrkj.yrlife.utils.UIHelper;
 import com.yrkj.yrlife.widget.CustomListView;
+import com.yrkj.yrlife.widget.JDAdverView;
 import com.yrkj.yrlife.widget.MarqueeView;
 import com.yrkj.yrlife.widget.MyGridView;
 import com.yrkj.yrlife.widget.PullToRefreshCustomListView;
@@ -115,6 +124,25 @@ public class FragmentIndex extends BaseFragment implements BGABanner.Adapter {
     ImageView sleep_img;
     @ViewInject(R.id.banner_main_alpha)
     private BGABanner mAlphaBanner;
+    @ViewInject(R.id.card_nub)
+    TextView card_nub;
+    @ViewInject(R.id.qianwangchongzhi)
+    TextView qwcz;
+    @ViewInject(R.id.img69)
+    ImageView img69;
+    @ViewInject(R.id.qiehuan)
+    ImageView qiehuan;
+    @ViewInject(R.id.hyfw_rl)
+    RelativeLayout hyfw_rl;
+    @ViewInject(R.id.banner_hiuyuankafuwu)
+    ImageView banner_hiuyuankafuwu;
+    @ViewInject(R.id.card_img)
+    ImageView card_img;
+    @ViewInject(R.id.jdadver)
+    JDAdverView jdAdverView;
+    @ViewInject(R.id.lingquhuiyuanka)
+    TextView lqhyk;
+
 
     private MyGridView gview;//, shop_grid, gview_b;
     private GridViewMainAdapter sim_adapter;
@@ -127,13 +155,9 @@ public class FragmentIndex extends BaseFragment implements BGABanner.Adapter {
 //    ListView shop_list;
 //    @ViewInject(R.id.index_webView)
 //    WebView index_webView;
-    @ViewInject(R.id.mv_bar)
-    MarqueeView marqueeView;
     @ViewInject(R.id.go)
     private TextView go;
 
-    @ViewInject(R.id.other_list)
-    private CustomListView other_list;
     @ViewInject(R.id.washing_list)
     private ListView washing_list;
     @ViewInject(R.id.rate_list)
@@ -142,20 +166,17 @@ public class FragmentIndex extends BaseFragment implements BGABanner.Adapter {
     TextView content21;
     @ViewInject(R.id.add_text)
     TextView add_text;
-    @ViewInject(R.id.empty_text)
-    private TextView mEmptyView;
 
+    public static final int MY_PERMISSIONS_STORAGE = 2;
     private ListViewRateItemAdapter listViewRateItemAdapter;
     private ListViewWashingAdapter listViewWashingAdapter;
-    private ListViewOtherConsumerAdapter listViewOtherConsumerAdapter;
 
     private List<HomePage.RemarkStarSectionBean> rateList = new ArrayList<>();
     private List<HomePage.RunningMachineSectionBean> washingList = new ArrayList<>();
-    private List<HomePage.WashMessageSectionBean> otherConsumerList = new ArrayList<>();
+    private List<HomePage.SystemMessageSectionBean> systemMessageSectionBeanList=new ArrayList<>();
 
-    private View mNearFooter;
-    private TextView mNearMore;
     private ProgressBar mNearProgress;
+    JDViewAdapter adapter;
 
     View view;
     SharedPreferences preferences;
@@ -174,6 +195,8 @@ public class FragmentIndex extends BaseFragment implements BGABanner.Adapter {
     private ProgressDialog mLoadingDialog;
     PullToRefreshScrollView pullToRefreshScrollView;
     ScrollView scrollView;
+    String card_number;
+    String isBind;
 
     private long mLastTime; //上次加载时间
     private boolean isViewInited = false;
@@ -199,6 +222,47 @@ public class FragmentIndex extends BaseFragment implements BGABanner.Adapter {
     @Override
     public void onResume() {
         super.onResume();
+        card_number = preferences.getString("card_number", "");
+        isBind = preferences.getString("isBind", "");
+        if (StringUtils.isEmpty(URLs.secret_code)) {
+            hyfw_rl.setVisibility(View.GONE);
+            banner_hiuyuankafuwu.setVisibility(View.VISIBLE);
+            qwcz.setVisibility(View.GONE);
+            lqhyk.setVisibility(View.VISIBLE);
+            img69.setImageDrawable(getActivity().getResources().getDrawable(R.mipmap.icon_huiyuankafuwu_lingqu_jiantou));
+            isbind = false;
+        } else {
+            if (StringUtils.isEmpty(isBind)) {
+                hyfw_rl.setVisibility(View.GONE);
+                banner_hiuyuankafuwu.setVisibility(View.VISIBLE);
+                qwcz.setVisibility(View.GONE);
+                lqhyk.setVisibility(View.VISIBLE);
+                img69.setImageDrawable(getActivity().getResources().getDrawable(R.mipmap.icon_huiyuankafuwu_lingqu_jiantou));
+                isbind = false;
+            } else {
+                if (isBind.equals("0")) {
+                    hyfw_rl.setVisibility(View.GONE);
+                    banner_hiuyuankafuwu.setVisibility(View.VISIBLE);
+                    qwcz.setVisibility(View.GONE);
+                    lqhyk.setVisibility(View.VISIBLE);
+                    img69.setImageDrawable(getActivity().getResources().getDrawable(R.mipmap.icon_huiyuankafuwu_lingqu_jiantou));
+                    isbind = false;
+                } else if (isBind.equals("1")) {
+                    if (StringUtils.isEmpty(card_number)) {
+
+                    } else {
+                        card_img.setImageDrawable(getActivity().getResources().getDrawable(R.mipmap.huiyuanka_zheng));
+                        qiehuan.setImageDrawable(getActivity().getResources().getDrawable(R.mipmap.icon_huiyuanka_qiehuan));
+                        hyfw_rl.setVisibility(View.VISIBLE);
+                        banner_hiuyuankafuwu.setVisibility(View.GONE);
+                        qwcz.setText("前往充值");
+                        img69.setImageDrawable(getActivity().getResources().getDrawable(R.mipmap.icon_huiyuankafuwu_chongzhi_jiantou));
+                        card_nub.setText(card_number);
+                        isbind = true;
+                    }
+                }
+            }
+        }
         t = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -218,7 +282,6 @@ public class FragmentIndex extends BaseFragment implements BGABanner.Adapter {
             }
         });
         isFirst = UIHelper.isFirst;
-        mEmptyView.setVisibility(View.VISIBLE);
         inIndex();
         pullToRefreshScrollView.setMode(PullToRefreshBase.Mode.BOTH);
         if (StringUtils.isEmpty(URLs.secret_code)) {
@@ -247,6 +310,7 @@ public class FragmentIndex extends BaseFragment implements BGABanner.Adapter {
                 onIndex();
             }
         }
+
     }
 
     private void isWash() {
@@ -291,6 +355,8 @@ public class FragmentIndex extends BaseFragment implements BGABanner.Adapter {
     String string = "";
     long time = 0;
     String str = "";
+    boolean isQiehuan = true;
+    boolean isbind = false;
     final SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     private void init(View view) {
@@ -325,14 +391,6 @@ public class FragmentIndex extends BaseFragment implements BGABanner.Adapter {
 //            center_img3=(ImageView)view.findViewById(R.id.center_img3);
 
 
-        marqueeView.setOnItemClickListener(new MarqueeView.OnItemClickListener() {
-            @Override
-            public void onItemClick(int position, TextView textView) {
-                Intent intent = new Intent(getActivity(), NewsActivity.class);
-                startActivity(intent);
-            }
-        });
-
         application = (YrApplication) getActivity().getApplication();
         preferences = getActivity().getSharedPreferences("yrlife", getActivity().MODE_WORLD_READABLE);
         mLoadingDialog = UIHelper.progressDialog(getActivity(), "正在努力加载...");
@@ -355,8 +413,10 @@ public class FragmentIndex extends BaseFragment implements BGABanner.Adapter {
         int height = wm.getDefaultDisplay().getHeight();
         Log.e("height", width + "w:" + height + "");
         money = preferences.getFloat("money", 0);
+
         if_have_useful_coupon = preferences.getString("if_have_useful_coupon", "");
         isWash = UIHelper.isWash;
+
 
 
         sim_adapter = new GridViewMainAdapter(getActivity());
@@ -517,17 +577,11 @@ public class FragmentIndex extends BaseFragment implements BGABanner.Adapter {
     }
 
     private void initView(View view) {
-        other_list.setEmptyView(mEmptyView);
+
         washing_list.setDividerHeight(1);
-        mNearFooter = getActivity().getLayoutInflater().inflate(R.layout.listview_footer, null);
-        mNearMore = (TextView) mNearFooter.findViewById(R.id.listview_foot_more);
-        mNearProgress = (ProgressBar) mNearFooter.findViewById(R.id.listview_foot_progress);
-//        rate_list.addFooterView(mNearFooter);
         listViewWashingAdapter = new ListViewWashingAdapter(appContext, washingList);
         listViewRateItemAdapter = new ListViewRateItemAdapter(appContext, rateList);
-        listViewOtherConsumerAdapter = new ListViewOtherConsumerAdapter(appContext, otherConsumerList);
 
-        other_list.setAdapter(listViewOtherConsumerAdapter);
         rate_list.setAdapter(listViewRateItemAdapter);
         washing_list.setAdapter(listViewWashingAdapter);
 
@@ -563,27 +617,6 @@ public class FragmentIndex extends BaseFragment implements BGABanner.Adapter {
             }
         });
 
-        rate_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                HomePage.RemarkStarSectionBean washing = (HomePage.RemarkStarSectionBean) listViewRateItemAdapter.getItem(position);
-                Near near = new Near();
-                near.setAddress(washing.getAddress());
-                near.setDetailUrl(washing.getDetailUrl());
-                near.setIsWashing(washing.getIsWashing());
-                near.setLat(washing.getLat());
-                near.setLng(washing.getLng());
-                near.setMachine_name(washing.getMachine_name());
-                near.setMachine_number(washing.getMachine_number());
-                near.setMachineImages(washing.getMachineImages());
-                near.setQrCodeUrl(washing.getQrCodeUrl());
-                near.setOrders(washing.getOrders());
-                near.setMachine_pic(washing.getMachine_pic());
-                Intent intent = new Intent(getActivity(), DetailNearActivity.class);
-                intent.putExtra("near", near);
-                startActivity(intent);
-            }
-        });
     }
 
 
@@ -715,12 +748,14 @@ public class FragmentIndex extends BaseFragment implements BGABanner.Adapter {
                 }
 
                 if (result.getHomePage().getSystemMessageSection().size() > 0) {
-                    marqueeView.startWithList(result.getHomePage().getSystemMessageSection());
+//                    marqueeView.startWithList(result.getHomePage().getSystemMessageSection());
+                    systemMessageSectionBeanList=result.getHomePage().getSystemMessageSection();
+                    adapter=new JDViewAdapter(systemMessageSectionBeanList);
+                    jdAdverView.setAdapter(adapter);
                 }
                 if (StringUtils.isEmpty(result.getHomePage().getHistoryWashConsumeSection().getLastWashCode())) {
 
                 } else {
-                    mEmptyView.setVisibility(View.GONE);
                     if (StringUtils.isEmpty(URLs.secret_code)) {
                         wdlLl.setVisibility(View.VISIBLE);
                         ydlLl.setVisibility(View.GONE);
@@ -751,12 +786,6 @@ public class FragmentIndex extends BaseFragment implements BGABanner.Adapter {
                             wdlLl.setVisibility(View.VISIBLE);
                         }
                     }
-                }
-                if (result.getHomePage().getWashMessageSection().size() > 0) {
-                    otherConsumerList = result.getHomePage().getWashMessageSection();
-                    listViewOtherConsumerAdapter.setOtherConsumer(otherConsumerList);
-                    listViewOtherConsumerAdapter.notifyDataSetChanged();
-
                 }
                 if (result.getHomePage().getRunningMachineSection().size() > 0) {
                     isRun = true;
@@ -811,13 +840,15 @@ public class FragmentIndex extends BaseFragment implements BGABanner.Adapter {
                     }
 
                     if (result.getHomePage().getSystemMessageSection().size() > 0) {
-                        marqueeView.startWithList(result.getHomePage().getSystemMessageSection());
+//                        marqueeView.startWithList(result.getHomePage().getSystemMessageSection());
+                        systemMessageSectionBeanList=result.getHomePage().getSystemMessageSection();
+                        adapter=new JDViewAdapter(systemMessageSectionBeanList);
+                        jdAdverView.setAdapter(adapter);
                     }
                     if (StringUtils.isEmpty(result.getHomePage().getHistoryWashConsumeSection().getLastWashCode())) {
 
                     } else {
                         if (result.getHomePage().getHistoryWashConsumeSection().getLastWashCode().equals("1")) {
-                            mEmptyView.setVisibility(View.GONE);
                             ydlLl.setVisibility(View.VISIBLE);
                             wdlLl.setVisibility(View.GONE);
                             go.setVisibility(View.VISIBLE);
@@ -842,12 +873,6 @@ public class FragmentIndex extends BaseFragment implements BGABanner.Adapter {
                             ydlLl.setVisibility(View.GONE);
                             wdlLl.setVisibility(View.VISIBLE);
                         }
-                    }
-                    if (result.getHomePage().getWashMessageSection().size() > 0) {
-                        otherConsumerList = result.getHomePage().getWashMessageSection();
-                        listViewOtherConsumerAdapter.setOtherConsumer(otherConsumerList);
-                        listViewOtherConsumerAdapter.notifyDataSetChanged();
-
                     }
                     if (result.getHomePage().getRunningMachineSection().size() > 0) {
                         isRun = true;
@@ -988,7 +1013,7 @@ public class FragmentIndex extends BaseFragment implements BGABanner.Adapter {
         UIHelper.openLogin(getActivity());
     }
 
-    @Event(R.id.mv_bar)
+    @Event(R.id.jdadver)
     private void mvbarEvent(View v) {
         Intent intent = new Intent(getActivity(), NewsActivity.class);
         startActivity(intent);
@@ -1000,9 +1025,91 @@ public class FragmentIndex extends BaseFragment implements BGABanner.Adapter {
         startActivity(intent);
     }
 
+    @Event(R.id.qiehuan)
+    private void qiehuanEvent(View view) {
+        if (isQiehuan) {
+            card_nub.setVisibility(View.GONE);
+            card_img.setImageDrawable(getActivity().getResources().getDrawable(R.mipmap.huiyuanka_fan));
+            isQiehuan = false;
+        } else {
+            card_nub.setVisibility(View.VISIBLE);
+            card_img.setImageDrawable(getActivity().getResources().getDrawable(R.mipmap.huiyuanka_zheng));
+            isQiehuan = true;
+        }
+    }
+
+    @Event(R.id.card_img)
+    private void cardimgEvent(View view){
+        if (isQiehuan) {
+            card_nub.setVisibility(View.GONE);
+            card_img.setImageDrawable(getActivity().getResources().getDrawable(R.mipmap.huiyuanka_fan));
+            isQiehuan = false;
+        } else {
+            card_nub.setVisibility(View.VISIBLE);
+            card_img.setImageDrawable(getActivity().getResources().getDrawable(R.mipmap.huiyuanka_zheng));
+            isQiehuan = true;
+        }
+    }
+
+    @Event(R.id.cz_ll)
+    private void czllEvent(View view) {
+        if (StringUtils.isEmpty(URLs.secret_code)) {
+            UIHelper.openLogin(getActivity());
+        } else {
+            if (isbind) {
+                Intent intent = new Intent(getActivity(), PayActivity.class);
+                startActivity(intent);
+            } else {
+                int perssion = ContextCompat.checkSelfPermission(getActivity(),
+                        Manifest.permission.CALL_PHONE);
+                if (perssion == PackageManager.PERMISSION_GRANTED) {
+                    dialog("是否拨打客服电话？", 3);
+                } else if (perssion == PackageManager.PERMISSION_DENIED) {
+                    ActivityCompat.requestPermissions(getActivity(),
+                            new String[]{Manifest.permission.READ_PHONE_STATE},
+                            MY_PERMISSIONS_STORAGE);
+                }
+            }
+        }
+    }
+
+    protected void dialog(String context, final int i) {
+        android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(getActivity());
+        builder.setMessage(context);
+        builder.setTitle("提示");
+        builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                if (i == 3) {
+                    Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + "4001891668"));
+                    if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                        // TODO: Consider calling
+                        //    ActivityCompat#requestPermissions
+                        // here to request the missing permissions, and then overriding
+                        //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                        //                                          int[] grantResults)
+                        // to handle the case where the user grants the permission. See the documentation
+                        // for ActivityCompat#requestPermissions for more details.
+                        return;
+                    }
+                    startActivity(intent);
+                }
+            }
+        });
+        builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.create().show();
+    }
+
     @Override
     public void onDestroy() {
         isRun = false;
         super.onDestroy();
     }
+
 }

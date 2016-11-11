@@ -473,10 +473,15 @@ public class SignActivity extends BaseActivity {
                             } else {
                                 editor.putString("wx_head_image", "");
                             }
-                            if (StringUtils.isEmpty(user.getIsBind())) {
+                            if (!StringUtils.isEmpty(user.getIsBind())) {
                                 editor.putString("isBind", user.getIsBind());
                             } else {
                                 editor.putString("isBind", "");
+                            }
+                            if (!StringUtils.isEmpty(user.getCard_number())) {
+                                editor.putString("card_number", user.getCard_number());
+                            } else {
+                                editor.putString("card_number", "");
                             }
                             if (user.getTotal_balance() == null) {
                                 editor.putFloat("money", 0);

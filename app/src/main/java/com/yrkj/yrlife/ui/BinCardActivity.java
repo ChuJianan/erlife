@@ -142,6 +142,15 @@ public class BinCardActivity extends BaseActivity {
                     int code = json.getInt("code");
                     String message = json.getString("message");
                     UIHelper.ToastMessage(appContext, message);
+                    if (code==1){
+                        String card_number=json.getString("card_number");
+                        SharedPreferences.Editor editor = preferences.edit();
+                        editor.putString("card_number", card_number);
+                        editor.putString("isBind","1");
+                        //提交修改
+                        editor.commit();
+                        finish();
+                    }
                     if (code == 2) {
                         timer.onFinish();
                         codeBtn.setTextColor(getResources().getColor(R.color.shop_item_money));

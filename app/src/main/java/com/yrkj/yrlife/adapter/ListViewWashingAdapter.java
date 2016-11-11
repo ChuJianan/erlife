@@ -25,6 +25,7 @@ public class ListViewWashingAdapter extends BaseAdapter {
     static class ViewHolder { //自定义控件集合
         public TextView wash_item_nub;
         public TextView wash_item_name;
+        public TextView wash_item_adr;
         public ImageView wash_item_pic;
     }
 
@@ -48,8 +49,9 @@ public class ListViewWashingAdapter extends BaseAdapter {
             holder = new ViewHolder();
 
             holder.wash_item_nub=(TextView) convertView.findViewById(R.id.wash_item_nub);
-            holder.wash_item_name=(TextView) convertView.findViewById(R.id.wash_item_name);
+            holder.wash_item_adr=(TextView) convertView.findViewById(R.id.adr_text);
             holder.wash_item_pic=(ImageView) convertView.findViewById(R.id.wash_item_pic);
+            holder.wash_item_name=(TextView) convertView.findViewById(R.id.id_text);
 
             convertView.setTag(holder);
 
@@ -59,6 +61,7 @@ public class ListViewWashingAdapter extends BaseAdapter {
         HomePage.RunningMachineSectionBean runningMachineSectionBean=listItems.get(position);
         holder.wash_item_nub.setText(runningMachineSectionBean.getOrders()+"");
         holder.wash_item_name.setText(runningMachineSectionBean.getMachine_name());
+        holder.wash_item_adr.setText(runningMachineSectionBean.getAddress());
         x.image().bind(holder.wash_item_pic,runningMachineSectionBean.getMachine_pic());
 
         return convertView;

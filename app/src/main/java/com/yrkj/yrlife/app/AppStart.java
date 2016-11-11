@@ -47,6 +47,7 @@ public class AppStart extends AppCompatActivity {
     private boolean isFirstUse;
     SharedPreferences preferences;
     YrApplication application;
+    private boolean isFirstUseThis = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +58,17 @@ public class AppStart extends AppCompatActivity {
         //读取SharedPreferences中需要的数据
         preferences = getSharedPreferences("yrlife", MODE_WORLD_READABLE);
         isFirstUse = preferences.getBoolean("isFirstUse", true);
+        isFirstUseThis = preferences.getBoolean("isFirstUseThis", true);
         loadBanner();
+        if (isFirstUseThis) {
+            //实例化Editor对象
+            SharedPreferences.Editor editor = preferences.edit();
+            editor.putString("homePage", "");
+            //提交修改
+            editor.commit();
+        } else {
+
+        }
         final Message msg = new Message();
         isFirstUse = false;
         if (isFirstUse) {
@@ -119,10 +130,15 @@ public class AppStart extends AppCompatActivity {
                             } else {
                                 editor.putString("wx_head_image", "");
                             }
-                            if (StringUtils.isEmpty(user.getIsBind())) {
+                            if (!StringUtils.isEmpty(user.getIsBind())) {
                                 editor.putString("isBind", user.getIsBind());
                             } else {
                                 editor.putString("isBind", "");
+                            }
+                            if (!StringUtils.isEmpty(user.getCard_number())) {
+                                editor.putString("card_number", user.getCard_number());
+                            } else {
+                                editor.putString("card_number", "");
                             }
                             if (user.getTotal_balance() == null) {
                                 editor.putFloat("money", 0);
@@ -303,20 +319,20 @@ public class AppStart extends AppCompatActivity {
         this.finish();
     }
 
-//    @Override
+    //    @Override
 //    protected void onPause() {
 //        super.onPause();
 //        MobclickAgent.onPageEnd("appstart");
 //        MobclickAgent.onPause(this);
 //    }
-    private void loadBanner(){
-        RequestParams params=new RequestParams(URLs.APP_Banner);
+    private void loadBanner() {
+        RequestParams params = new RequestParams(URLs.APP_Banner);
         x.http().get(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String string) {
-                Result result=JsonUtils.fromJson(string,Result.class);
-                if (result.OK()){
-                    UIHelper.img_urls=result.getImg_urls();
+                Result result = JsonUtils.fromJson(string, Result.class);
+                if (result.OK()) {
+                    UIHelper.img_urls = result.getImg_urls();
                 }
             }
 

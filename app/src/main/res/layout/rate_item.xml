@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:paddingBottom="@dimen/space_12"
+        android:paddingBottom="@dimen/space_11"
         android:paddingLeft="@dimen/space_13"
         android:paddingTop="@dimen/space_13">
 
@@ -47,9 +47,8 @@
                 android:layout_toEndOf="@+id/rate_name"
                 android:layout_toRightOf="@+id/rate_name"
                 android:text="评价了"
-                android:textSize="13sp"
                 android:textColor="#375d80"
-                />
+                android:textSize="13sp" />
 
             <TextView
                 android:id="@+id/rate_wash_name"
@@ -60,10 +59,10 @@
                 android:layout_marginStart="15dp"
                 android:layout_toEndOf="@+id/textView2"
                 android:layout_toRightOf="@+id/textView2"
-                android:textColor="@color/shop_item"
-                android:text="城阳区车信路汽车服务中心"
-                android:singleLine="true"
                 android:enabled="true"
+                android:singleLine="true"
+                android:text="城阳区车信路汽车服务中心"
+                android:textColor="@color/shop_item"
                 android:textSize="13sp" />
 
             <ImageView
@@ -88,6 +87,42 @@
                 android:textColor="@color/text_confirm"
                 android:textSize="@dimen/space_13" />
 
+            <TextView
+                android:id="@+id/rate_comment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/rate_time"
+                android:layout_marginTop="13dp"
+                android:text="方便快捷、省时省力" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/rate_comment"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginRight="20dp"
+                android:layout_marginEnd="20dp"
+                android:id="@+id/rate_money"
+                android:text="3.34"
+                android:textSize="@dimen/text_size_15"
+                android:textColor="@color/rate"
+                />
+
+            <TextView
+                android:text="￥"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/textView44"
+                android:textColor="#b7b7b7"
+                android:textSize="@dimen/text_size_12"
+                android:layout_marginRight="@dimen/space_5"
+                android:layout_alignBottom="@+id/rate_money"
+                android:layout_toLeftOf="@+id/rate_money"
+                android:layout_toStartOf="@+id/rate_money" />
+
 
         </RelativeLayout>
 
@@ -98,7 +133,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/space_13"
-        android:layout_marginTop="24dp"
+        android:layout_marginRight="@dimen/space_13"
         android:background="@color/pale"
         android:orientation="horizontal">
 
@@ -106,33 +141,29 @@
             android:id="@+id/wash_pic"
             android:layout_width="66dp"
             android:layout_height="66dp"
-            android:src="@mipmap/jyz"
-            />
+            android:src="@mipmap/jyz" />
 
         <LinearLayout
             android:layout_width="240dp"
             android:layout_height="match_parent"
-            android:orientation="vertical"
             android:layout_marginLeft="@dimen/space_11"
-            >
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/rate_item_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/space_11"
                 android:text="城阳区车信路汽车服务中心"
                 android:textColor="@color/text_black"
-                android:textSize="@dimen/space_16"
-                android:layout_marginTop="@dimen/space_11"
-                />
+                android:textSize="@dimen/space_16" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="@dimen/space_8"
                 android:layout_marginBottom="@dimen/space_5"
-                >
+                android:layout_marginTop="@dimen/space_8"
+                android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -145,12 +176,11 @@
                     android:id="@+id/rate_adr"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:enabled="true"
+                    android:singleLine="true"
                     android:text="青岛市城阳区夏塔路336号"
                     android:textColor="@color/shop_item"
-                    android:textSize="@dimen/text_size_14"
-                    android:singleLine="true"
-                    android:enabled="true"
-                    />
+                    android:textSize="@dimen/text_size_14" />
             </LinearLayout>
 
 
@@ -163,24 +193,141 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/space_25"
-                android:src="@mipmap/icon_putongjiantou"
-                android:layout_centerVertical="true"
                 android:layout_alignParentRight="true"
-                android:layout_marginRight="@dimen/space_17"
+                android:layout_centerVertical="true"
                 android:layout_marginEnd="@dimen/space_17"
-                />
+                android:layout_marginRight="@dimen/space_17"
+                android:src="@mipmap/icon_putongjiantou" />
 
         </RelativeLayout>
 
     </LinearLayout>
 
-    <ImageView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/space_1"
-        android:layout_marginLeft="@dimen/space_13"
-        android:layout_marginTop="@dimen/space_11"
-        android:scaleType="fitXY"
-        android:src="@color/line" />
+        android:layout_height="wrap_content"
+        android:gravity="right|center"
+        android:orientation="horizontal"
+        android:paddingBottom="@dimen/space_15"
+        android:paddingRight="@dimen/space_13"
+        android:paddingTop="@dimen/space_11">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/space_30"
+            android:orientation="horizontal"
+            android:id="@+id/rate_laud_l"
+            android:gravity="center"
+            >
+
+            <ImageView
+                android:id="@+id/rate_laud_img"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/space_10"
+                android:src="@mipmap/ic_laud" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/space_4"
+                android:text="赞"
+                android:textColor="@color/rate"
+                android:textSize="@dimen/text_size_15"
+                />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:id="@+id/rate_laud_ll"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="("
+                    android:textColor="@color/rate"
+                    android:textSize="@dimen/text_size_15"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="12"
+                    android:id="@+id/rate_laud_nub"
+                    android:textColor="@color/rate"
+                    android:textSize="@dimen/text_size_15"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=")"
+                    android:textColor="@color/rate"
+                    android:textSize="@dimen/text_size_15"
+                    />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:id="@+id/rate_complaints_l"
+            >
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/space_10"
+                android:src="@mipmap/ic_makecomplaints" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="@dimen/space_4"
+                android:text="吐槽"
+                android:textColor="@color/rate"
+                android:textSize="@dimen/text_size_15"
+                />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:id="@+id/rate_complaints_ll"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="("
+                    android:textColor="@color/rate"
+                    android:textSize="@dimen/text_size_15"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="12"
+                    android:id="@+id/rate_complaints_nub"
+                    android:textColor="@color/rate"
+                    android:textSize="@dimen/text_size_15"
+                    />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text=")"
+                    android:textColor="@color/rate"
+                    android:textSize="@dimen/text_size_15"
+                    />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
 
 
 </LinearLayout>

@@ -13,4 +13,9 @@
         </attr>
     </declare-styleable>
 
+    <declare-styleable name="JDAdverView">
+        <attr name="gap" format="integer" />
+        <attr name="animDuration" format="integer"/>
+    </declare-styleable>
+
 </resources>

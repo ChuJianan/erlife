@@ -96,7 +96,7 @@
                             android:layout_alignParentRight="true"
                             android:layout_alignParentTop="true"
                             android:layout_centerVertical="true"
-                            android:layout_marginRight="@dimen/space_6"
+                            android:layout_marginRight="@dimen/space_13"
                             android:src="@mipmap/icon_pangianjiantou" />
                     </LinearLayout>
                 </RelativeLayout>

@@ -54,18 +54,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="38dp"
                 android:orientation="horizontal"
-                android:paddingLeft="@dimen/space_10"
+                android:gravity="center_vertical"
+
                 >
-                        <com.yrkj.yrlife.widget.MarqueeView
-                            android:id="@+id/mv_bar"
-                            android:layout_width="match_parent"
-                            android:layout_height="match_parent"
-                            android:layout_centerVertical="true"
-                            android:singleLine="true"
-                            app:mvAnimDuration="1000"
-                            app:mvInterval="3000"
-                            app:mvTextColor="@color/quan_text_color"
-                            app:mvTextSize="15sp" />
+                        <com.yrkj.yrlife.widget.JDAdverView
+                            android:id="@+id/jdadver"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="@dimen/space_15"
+                            app:animDuration="900"
+                            app:gap="2000"
+                            />
             </LinearLayout>
 
             <ImageView
@@ -75,32 +74,18 @@
                 android:src="@mipmap/ic_line" />
 
             <include layout="@layout/fragment_index_center" />
-
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="12dp"
+                android:scaleType="fitXY"
+                android:src="@mipmap/ic_line" />
+            <include layout="@layout/fragment_index_memberservices" />
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="12dp"
                 android:scaleType="fitXY"
                 android:src="@mipmap/ic_line" />
 
-            <com.yrkj.yrlife.widget.CustomListView
-                android:id="@+id/other_list"
-                android:divider="@null"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-            <TextView
-                android:id="@+id/empty_text"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:text="正在加载中..."
-                android:textColor="@color/gray"
-                android:textSize="@dimen/text_size_19"
-                android:visibility="gone" />
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="12dp"
-                android:scaleType="fitXY"
-                android:src="@mipmap/ic_line" />
             <ListView
                 android:id="@+id/washing_list"
                 android:divider="@mipmap/ic_line"
@@ -114,6 +99,12 @@
                 android:visibility="gone"
                 android:src="@mipmap/pic_sleep"
                 />
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="12dp"
+                android:scaleType="fitXY"
+                android:src="@mipmap/ic_line" />
+            <include layout="@layout/fragment_index_ideas" />
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="12dp"

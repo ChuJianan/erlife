@@ -1,20 +1,25 @@
 package com.yrkj.yrlife.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.yrkj.yrlife.R;
 import com.yrkj.yrlife.been.HomePage;
+import com.yrkj.yrlife.been.Near;
+import com.yrkj.yrlife.ui.DetailNearActivity;
 import com.yrkj.yrlife.utils.StringUtils;
 
 import org.xutils.x;
 
 import java.util.List;
+import java.util.Random;
 
 /**
  * Created by cjn on 2016/11/3.
@@ -24,6 +29,7 @@ public class ListViewRateItemAdapter extends BaseAdapter {
     private List<HomePage.RemarkStarSectionBean> listItems;
     private LayoutInflater listContainer;
     Context context;
+    boolean isClick = false;
 
     static class ViewHolder { //自定义控件集合
         public TextView rate_name;
@@ -31,9 +37,19 @@ public class ListViewRateItemAdapter extends BaseAdapter {
         public TextView rate_time;
         public TextView rate_item_name;
         public TextView rate_adr;
+        public TextView rate_laud_nub;
+        public TextView rate_comment;
+        public TextView rate_complaints_nub;
+        public TextView rate_washMoney;
         public ImageView rate_pic;
         public ImageView rate_img;
         public ImageView wash_pic;
+        public ImageView rate_laud_img;
+        public LinearLayout rate_laud_l;
+        public LinearLayout rate_laud_ll;
+        public LinearLayout rate_complaints_l;
+        public LinearLayout rate_complaints_ll;
+        public LinearLayout rate_wash;
     }
 
     public ListViewRateItemAdapter(Context context, List<HomePage.RemarkStarSectionBean> listItems) {
@@ -51,8 +67,8 @@ public class ListViewRateItemAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        ViewHolder holder;
+    public View getView(final int position, View convertView, ViewGroup parent) {
+        final ViewHolder holder;
         if (convertView == null) {
             convertView = listContainer.inflate(R.layout.rate_item, null);
             holder = new ViewHolder();
@@ -62,9 +78,19 @@ public class ListViewRateItemAdapter extends BaseAdapter {
             holder.rate_time = (TextView) convertView.findViewById(R.id.rate_time);
             holder.rate_item_name = (TextView) convertView.findViewById(R.id.rate_item_name);
             holder.rate_adr = (TextView) convertView.findViewById(R.id.rate_adr);
+            holder.rate_laud_nub = (TextView) convertView.findViewById(R.id.rate_laud_nub);
+            holder.rate_comment = (TextView) convertView.findViewById(R.id.rate_comment);
+            holder.rate_complaints_nub = (TextView) convertView.findViewById(R.id.rate_complaints_nub);
+            holder.rate_washMoney = (TextView) convertView.findViewById(R.id.rate_money);
             holder.rate_pic = (ImageView) convertView.findViewById(R.id.rate_pic);
             holder.rate_img = (ImageView) convertView.findViewById(R.id.rate_img);
             holder.wash_pic = (ImageView) convertView.findViewById(R.id.wash_pic);
+            holder.rate_laud_img = (ImageView) convertView.findViewById(R.id.rate_laud_img);
+            holder.rate_laud_l=(LinearLayout)convertView.findViewById(R.id.rate_laud_l);
+            holder.rate_laud_ll=(LinearLayout)convertView.findViewById(R.id.rate_laud_ll);
+            holder.rate_complaints_l=(LinearLayout)convertView.findViewById(R.id.rate_complaints_l);
+            holder.rate_complaints_ll=(LinearLayout)convertView.findViewById(R.id.rate_complaints_ll);
+            holder.rate_wash=(LinearLayout)convertView.findViewById(R.id.rate_wash);
 
             convertView.setTag(holder);
 
@@ -73,11 +99,15 @@ public class ListViewRateItemAdapter extends BaseAdapter {
         }
 
         HomePage.RemarkStarSectionBean remarkStarSectionBean = listItems.get(position);
+        final int ran = (int)(50*Math.random()+50);
         holder.rate_name.setText(remarkStarSectionBean.getUserName());
         holder.rate_adr.setText(remarkStarSectionBean.getAddress());
         holder.rate_time.setText(remarkStarSectionBean.getRemarkTime());
         holder.rate_item_name.setText(remarkStarSectionBean.getMachine_name());
         holder.rate_wash_name.setText(remarkStarSectionBean.getMachine_name());
+        holder.rate_washMoney.setText(remarkStarSectionBean.getWashMoney());
+        holder.rate_laud_nub.setText(ran+"");
+        holder.rate_complaints_nub.setText(ran+2+"");
 
         if (!StringUtils.isEmpty(remarkStarSectionBean.getUserImage())){
             x.image().bind(holder.rate_pic, remarkStarSectionBean.getUserImage());
@@ -103,6 +133,48 @@ public class ListViewRateItemAdapter extends BaseAdapter {
                 holder.rate_img.setImageDrawable(context.getResources().getDrawable(R.mipmap.icon_star5));
                 break;
         }
+
+        holder.rate_laud_img.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isClick){
+                    holder.rate_laud_img.setImageDrawable(context.getResources().getDrawable(R.mipmap.ic_laud));
+                    isClick=false;
+                    String nub=holder.rate_laud_nub.getText().toString();
+                    int a=StringUtils.toInt(nub,ran-1);
+                    holder.rate_laud_nub.setText(a-1+"");
+                }else {
+                    holder.rate_laud_img.setImageDrawable(context.getResources().getDrawable(R.mipmap.ic_laud_click));
+                    isClick=true;
+                    String nub=holder.rate_laud_nub.getText().toString();
+                    int a=StringUtils.toInt(nub,ran+1);
+                    holder.rate_laud_nub.setText(a+1+"");
+                }
+            }
+        });
+        holder.rate_wash.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                HomePage.RemarkStarSectionBean washing = (HomePage.RemarkStarSectionBean) listItems.get(position);
+                Near near = new Near();
+                near.setAddress(washing.getAddress());
+                near.setDetailUrl(washing.getDetailUrl());
+                near.setIsWashing(washing.getIsWashing());
+                near.setLat(washing.getLat());
+                near.setLng(washing.getLng());
+                near.setMachine_name(washing.getMachine_name());
+                near.setMachine_number(washing.getMachine_number());
+                near.setMachineImages(washing.getMachineImages());
+                near.setQrCodeUrl(washing.getQrCodeUrl());
+                near.setOrders(washing.getOrders());
+                near.setMachine_pic(washing.getMachine_pic());
+                Intent intent = new Intent(context, DetailNearActivity.class);
+                intent.putExtra("near", near);
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(intent);
+            }
+        });
+
         return convertView;
     }
 

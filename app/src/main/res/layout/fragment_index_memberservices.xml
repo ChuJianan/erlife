@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical"
+    android:padding="@dimen/space_13"
+    >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+
+        <ImageView
+            android:id="@+id/img68"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:src="@mipmap/icon_huyuanka" />
+
+        <TextView
+            android:id="@+id/textView14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/space_8"
+            android:layout_toEndOf="@+id/img68"
+            android:layout_toRightOf="@+id/img68"
+            android:text="会员卡服务"
+            android:textColor="@color/text_black"
+            android:textSize="@dimen/text_size_15" />
+
+        <LinearLayout
+            android:id="@+id/cz_ll"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:gravity="center"
+            >
+            <TextView
+                android:id="@+id/qianwangchongzhi"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="前往充值"
+                android:textColor="#84878c"
+                android:textSize="@dimen/text_size_12"
+                android:layout_marginRight="@dimen/space_4"
+                />
+            <TextView
+                android:id="@+id/lingquhuiyuanka"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="领取会员卡"
+                android:textColor="#2284d1"
+                android:textSize="@dimen/text_size_12"
+                android:layout_marginRight="@dimen/space_4"
+                android:visibility="gone"
+                />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="12dp"
+                android:src="@mipmap/icon_huiyuankafuwu_chongzhi_jiantou"
+
+                android:id="@+id/img69"
+                />
+        </LinearLayout>
+
+
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/hyfw_rl"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/space_13"
+        >
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/bg_huiyuankafuwu_youka"
+            android:scaleType="fitXY"
+            />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@mipmap/huiyuanka_zheng"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/card_img" />
+
+        <TextView
+            android:text="3702 01 8888"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/text_size_12"
+            android:textColor="#a36b38"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/card_nub" />
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            app:srcCompat="@mipmap/icon_huiyuanka_qiehuan"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="24dp"
+            android:layout_marginEnd="24dp"
+            android:id="@+id/qiehuan" />
+
+    </RelativeLayout>
+    <ImageView
+        android:id="@+id/banner_hiuyuankafuwu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/banner_hiuyuankafuwu"
+        android:scaleType="fitXY"
+        android:layout_marginTop="@dimen/space_13"
+        android:visibility="gone"
+        />
+</LinearLayout>
