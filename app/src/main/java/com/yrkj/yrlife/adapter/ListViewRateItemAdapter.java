@@ -116,6 +116,13 @@ public class ListViewRateItemAdapter extends BaseAdapter {
         holder.rate_washMoney.setText(remarkStarSectionBean.getWashMoney());
         holder.rate_laud_nub.setText(remarkStarSectionBean.getPraiseCount() + "");
         holder.rate_complaints_nub.setText(ran + "");
+        if (StringUtils.isEmpty(remarkStarSectionBean.getRemarkContent())) {
+            holder.rate_comment.setVisibility(View.GONE);
+        } else {
+            holder.rate_comment.setVisibility(View.VISIBLE);
+            holder.rate_comment.setText(remarkStarSectionBean.getRemarkContent());
+        }
+
 
         if (!StringUtils.isEmpty(remarkStarSectionBean.getUserImage())) {
             x.image().bind(holder.rate_pic, remarkStarSectionBean.getUserImage());

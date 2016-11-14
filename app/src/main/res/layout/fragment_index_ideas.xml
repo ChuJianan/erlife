@@ -27,7 +27,7 @@
             android:layout_marginLeft="@dimen/space_8"
             android:layout_toEndOf="@+id/img68"
             android:layout_toRightOf="@+id/img68"
-            android:text="意见反馈"
+            android:text="意见箱"
             android:textColor="@color/text_black"
             android:textSize="@dimen/text_size_15" />
 

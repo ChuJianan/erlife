@@ -95,6 +95,8 @@
                 android:layout_alignParentStart="true"
                 android:layout_below="@+id/rate_time"
                 android:layout_marginTop="13dp"
+                android:textSize="@dimen/text_size_14"
+                android:textColor="@color/shop_item"
                 android:text="方便快捷、省时省力" />
 
             <TextView
@@ -134,7 +136,7 @@
         android:id="@+id/rate_wash"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/space_13"
+        android:layout_marginLeft="64dp"
         android:layout_marginRight="@dimen/space_13"
         android:background="@color/pale"
         android:orientation="horizontal">
@@ -146,7 +148,7 @@
             android:src="@mipmap/jyz" />
 
         <LinearLayout
-            android:layout_width="240dp"
+            android:layout_width="190dp"
             android:layout_height="match_parent"
             android:layout_marginLeft="@dimen/space_11"
             android:orientation="vertical">
@@ -157,6 +159,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/space_11"
                 android:text="城阳区车信路汽车服务中心"
+                android:singleLine="true"
                 android:textColor="@color/text_black"
                 android:textSize="@dimen/space_16" />
 
@@ -197,8 +200,8 @@
                 android:layout_height="@dimen/space_25"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:layout_marginEnd="@dimen/space_17"
-                android:layout_marginRight="@dimen/space_17"
+                android:layout_marginEnd="@dimen/space_4"
+                android:layout_marginRight="@dimen/space_4"
                 android:src="@mipmap/icon_putongjiantou" />
 
         </RelativeLayout>
