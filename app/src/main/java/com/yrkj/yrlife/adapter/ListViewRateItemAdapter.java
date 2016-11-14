@@ -13,11 +13,19 @@ import android.widget.TextView;
 import com.yrkj.yrlife.R;
 import com.yrkj.yrlife.been.HomePage;
 import com.yrkj.yrlife.been.Near;
+import com.yrkj.yrlife.been.Result;
+import com.yrkj.yrlife.been.URLs;
 import com.yrkj.yrlife.ui.DetailNearActivity;
+import com.yrkj.yrlife.utils.CommonUtils;
+import com.yrkj.yrlife.utils.JsonUtils;
 import com.yrkj.yrlife.utils.StringUtils;
+import com.yrkj.yrlife.utils.UIHelper;
 
+import org.xutils.common.Callback;
+import org.xutils.http.RequestParams;
 import org.xutils.x;
 
+import java.util.Calendar;
 import java.util.List;
 import java.util.Random;
 
@@ -67,7 +75,7 @@ public class ListViewRateItemAdapter extends BaseAdapter {
     }
 
     @Override
-    public View getView(final int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, final ViewGroup parent) {
         final ViewHolder holder;
         if (convertView == null) {
             convertView = listContainer.inflate(R.layout.rate_item, null);
@@ -86,11 +94,11 @@ public class ListViewRateItemAdapter extends BaseAdapter {
             holder.rate_img = (ImageView) convertView.findViewById(R.id.rate_img);
             holder.wash_pic = (ImageView) convertView.findViewById(R.id.wash_pic);
             holder.rate_laud_img = (ImageView) convertView.findViewById(R.id.rate_laud_img);
-            holder.rate_laud_l=(LinearLayout)convertView.findViewById(R.id.rate_laud_l);
-            holder.rate_laud_ll=(LinearLayout)convertView.findViewById(R.id.rate_laud_ll);
-            holder.rate_complaints_l=(LinearLayout)convertView.findViewById(R.id.rate_complaints_l);
-            holder.rate_complaints_ll=(LinearLayout)convertView.findViewById(R.id.rate_complaints_ll);
-            holder.rate_wash=(LinearLayout)convertView.findViewById(R.id.rate_wash);
+            holder.rate_laud_l = (LinearLayout) convertView.findViewById(R.id.rate_laud_l);
+            holder.rate_laud_ll = (LinearLayout) convertView.findViewById(R.id.rate_laud_ll);
+            holder.rate_complaints_l = (LinearLayout) convertView.findViewById(R.id.rate_complaints_l);
+            holder.rate_complaints_ll = (LinearLayout) convertView.findViewById(R.id.rate_complaints_ll);
+            holder.rate_wash = (LinearLayout) convertView.findViewById(R.id.rate_wash);
 
             convertView.setTag(holder);
 
@@ -98,21 +106,21 @@ public class ListViewRateItemAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
 
-        HomePage.RemarkStarSectionBean remarkStarSectionBean = listItems.get(position);
-        final int ran = (int)(50*Math.random()+50);
+        final HomePage.RemarkStarSectionBean remarkStarSectionBean = listItems.get(position);
+        final int ran = (int) (50 * Math.random() + 50);
         holder.rate_name.setText(remarkStarSectionBean.getUserName());
         holder.rate_adr.setText(remarkStarSectionBean.getAddress());
         holder.rate_time.setText(remarkStarSectionBean.getRemarkTime());
         holder.rate_item_name.setText(remarkStarSectionBean.getMachine_name());
         holder.rate_wash_name.setText(remarkStarSectionBean.getMachine_name());
         holder.rate_washMoney.setText(remarkStarSectionBean.getWashMoney());
-        holder.rate_laud_nub.setText(ran+"");
-        holder.rate_complaints_nub.setText(ran+2+"");
+        holder.rate_laud_nub.setText(remarkStarSectionBean.getPraiseCount() + "");
+        holder.rate_complaints_nub.setText(ran + "");
 
-        if (!StringUtils.isEmpty(remarkStarSectionBean.getUserImage())){
+        if (!StringUtils.isEmpty(remarkStarSectionBean.getUserImage())) {
             x.image().bind(holder.rate_pic, remarkStarSectionBean.getUserImage());
         }
-        if (!StringUtils.isEmpty(remarkStarSectionBean.getMachine_pic())){
+        if (!StringUtils.isEmpty(remarkStarSectionBean.getMachine_pic())) {
             x.image().bind(holder.wash_pic, remarkStarSectionBean.getMachine_pic());
         }
 
@@ -134,21 +142,23 @@ public class ListViewRateItemAdapter extends BaseAdapter {
                 break;
         }
 
-        holder.rate_laud_img.setOnClickListener(new View.OnClickListener() {
+        if (remarkStarSectionBean.isIfPraise()) {
+            holder.rate_laud_img.setImageDrawable(context.getResources().getDrawable(R.mipmap.ic_laud_click));
+        } else {
+            holder.rate_laud_img.setImageDrawable(context.getResources().getDrawable(R.mipmap.ic_laud));
+        }
+        holder.rate_laud_img.setOnClickListener(new NoDoubleClickListener() {
             @Override
-            public void onClick(View v) {
-                if (isClick){
-                    holder.rate_laud_img.setImageDrawable(context.getResources().getDrawable(R.mipmap.ic_laud));
-                    isClick=false;
-                    String nub=holder.rate_laud_nub.getText().toString();
-                    int a=StringUtils.toInt(nub,ran-1);
-                    holder.rate_laud_nub.setText(a-1+"");
-                }else {
-                    holder.rate_laud_img.setImageDrawable(context.getResources().getDrawable(R.mipmap.ic_laud_click));
-                    isClick=true;
-                    String nub=holder.rate_laud_nub.getText().toString();
-                    int a=StringUtils.toInt(nub,ran+1);
-                    holder.rate_laud_nub.setText(a+1+"");
+            public void onNoDoubleClick(View v) {
+                isClick = remarkStarSectionBean.isIfPraise();
+                if (StringUtils.isEmpty(URLs.secret_code)) {
+                    UIHelper.ToastMessage(context, "请登陆后点赞");
+                } else {
+                    if (isClick) {
+                        praise(remarkStarSectionBean, "0", holder);
+                    } else {
+                        praise(remarkStarSectionBean, "1", holder);
+                    }
                 }
             }
         });
@@ -178,6 +188,73 @@ public class ListViewRateItemAdapter extends BaseAdapter {
         return convertView;
     }
 
+
+    private void praise(final HomePage.RemarkStarSectionBean remarkStarSectionBean, final String flag, final ViewHolder holder) {
+
+        RequestParams params = new RequestParams(URLs.PRAISE);
+        params.addQueryStringParameter("remarkId", remarkStarSectionBean.getRemarkId() + "");
+        params.addQueryStringParameter("secret_code", URLs.secret_code);
+        params.addQueryStringParameter("flag", flag);
+        x.http().get(params, new Callback.CommonCallback<String>() {
+            @Override
+            public void onSuccess(String string) {
+                Result result = JsonUtils.fromJson(string, Result.class);
+                if (result.OK()) {
+                    if (flag.equals("0")) {
+                        holder.rate_laud_img.setImageDrawable(context.getResources().getDrawable(R.mipmap.ic_laud));
+                        isClick = false;
+                        remarkStarSectionBean.setIfPraise(isClick);
+                        String nub = holder.rate_laud_nub.getText().toString();
+                        int a = StringUtils.toInt(nub, remarkStarSectionBean.getPraiseCount() - 1);
+                        holder.rate_laud_nub.setText(a - 1 + "");
+                    }
+                    if (flag.equals("1")) {
+                        holder.rate_laud_img.setImageDrawable(context.getResources().getDrawable(R.mipmap.ic_laud_click));
+                        isClick = true;
+                        remarkStarSectionBean.setIfPraise(isClick);
+                        String nub = holder.rate_laud_nub.getText().toString();
+                        int a = StringUtils.toInt(nub, remarkStarSectionBean.getPraiseCount() + 1);
+                        holder.rate_laud_nub.setText(a + 1 + "");
+                    }
+                } else {
+                    UIHelper.ToastMessage(context, result.Message());
+                }
+            }
+
+            @Override
+            public void onCancelled(CancelledException cex) {
+
+            }
+
+            @Override
+            public void onError(Throwable ex, boolean isOnCallback) {
+
+            }
+
+            @Override
+            public void onFinished() {
+
+            }
+        });
+    }
+
+    public abstract class NoDoubleClickListener implements View.OnClickListener {
+        final int MIN_CLICK_DELAY_TIME = 1000;
+        private long lastClickTime = 0;
+
+        @Override
+        public void onClick(View v) {
+            long currentTime = Calendar.getInstance().getTimeInMillis();
+            if (currentTime - lastClickTime > MIN_CLICK_DELAY_TIME) {
+                lastClickTime = currentTime;
+                onNoDoubleClick(v);
+                return;
+            }
+        }
+
+        protected abstract void onNoDoubleClick(View v);
+    }
+
     @Override
     public long getItemId(int position) {
         return position;
@@ -185,7 +262,7 @@ public class ListViewRateItemAdapter extends BaseAdapter {
 
     @Override
     public Object getItem(int position) {
-        return listItems == null ? null : listItems.get(position-1);
+        return listItems == null ? null : listItems.get(position - 1);
     }
 
     @Override

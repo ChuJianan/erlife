@@ -58,6 +58,7 @@ import com.yrkj.yrlife.ui.ConsumerActivity;
 import com.yrkj.yrlife.ui.DetailNearActivity;
 import com.yrkj.yrlife.ui.DiscountActivity;
 import com.yrkj.yrlife.ui.FindBillActivity;
+import com.yrkj.yrlife.ui.IdeaActivity;
 import com.yrkj.yrlife.ui.KefuActivity;
 import com.yrkj.yrlife.ui.MainActivity;
 import com.yrkj.yrlife.ui.MoreActivity;
@@ -931,6 +932,7 @@ public class FragmentIndex extends BaseFragment implements BGABanner.Adapter {
     private void onRefresh() {
         RequestParams params = new RequestParams(URLs.APP_Rate);
         params.addQueryStringParameter("pagenumber", "2");
+        params.addQueryStringParameter("secret_code",URLs.secret_code);
         x.http().get(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String string) {
@@ -1071,6 +1073,12 @@ public class FragmentIndex extends BaseFragment implements BGABanner.Adapter {
                 }
             }
         }
+    }
+
+    @Event(R.id.idea)
+    private void img69Event(View view){
+        Intent intent=new Intent(getActivity(), IdeaActivity.class);
+        startActivity(intent);
     }
 
     protected void dialog(String context, final int i) {

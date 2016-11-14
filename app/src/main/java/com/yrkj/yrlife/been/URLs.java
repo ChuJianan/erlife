@@ -64,6 +64,7 @@ public class URLs extends Entity {
 	public static final String APP_Index=HOST+"/app/pro1/app1/loadBannerImage";//首页数据
 	public static final String APP_Rate=HOST+"/app/pro1/app1/loadMoreRemark";//首页分页数据
 	public static final String APP_Banner=HOST+"/app/pro1/app1/loadBannerImages";//首页分页数据
+	public static final String PRAISE=HOST+"/app/pro1/app1/praiseUpOrDown";//点赞或者取消点赞
 
 
 

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        >
+        <ImageView
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:src="@mipmap/ic_me_pic"
+            android:layout_marginLeft="@dimen/space_13"
+            android:layout_marginTop="@dimen/space_10"
+            android:scaleType="fitXY"
+            android:id="@+id/me_img"
+            />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/space_10"
+            android:layout_marginTop="@dimen/space_10"
+            >
+
+            <TextView
+                android:text="用户名"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:id="@+id/name_text"
+                android:textSize="@dimen/space_15"
+                android:textColor="#537493"
+                android:layout_marginTop="@dimen/space_2"
+                />
+
+            <TextView
+                android:text="2016年11月03日"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/name_text"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:id="@+id/time_text"
+                android:layout_marginTop="@dimen/space_2"
+                android:textSize="@dimen/space_11"
+                android:textColor="@color/text_confirm"
+                />
+
+            <TextView
+                android:text="方便快捷、省时省力,就在家附近"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/content_text"
+                android:layout_below="@+id/time_text"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="18dp"
+                android:textSize="@dimen/space_18"
+                android:textColor="#1c1c1c"
+                android:layout_toLeftOf="@+id/floor_text"
+                android:layout_toStartOf="@+id/floor_text"
+                android:singleLine="false"
+                android:visibility="visible"
+                />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="14dp"
+                android:layout_below="@+id/time_text"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="18dp"
+                android:src="@mipmap/icon_star5"
+                android:visibility="gone"
+                android:id="@+id/content_img"
+                />
+
+            <TextView
+                android:text="楼主"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/time_text"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:id="@+id/floor_text"
+                android:layout_marginRight="@dimen/space_26"
+                android:textSize="@dimen/space_12"
+                android:textColor="@color/text_confirm"
+                />
+
+        </RelativeLayout>
+    </LinearLayout>
+
+
+</LinearLayout>

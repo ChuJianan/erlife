@@ -198,6 +198,33 @@ public class HomePage {
         private String machineTitle;
         private String lat;
         private String[] machineImages;
+        private int remarkId;
+        private int praiseCount;
+        private boolean ifPraise;
+
+        public int getRemarkId() {
+            return remarkId;
+        }
+
+        public void setRemarkId(int remarkId) {
+            this.remarkId = remarkId;
+        }
+
+        public int getPraiseCount() {
+            return praiseCount;
+        }
+
+        public void setPraiseCount(int praiseCount) {
+            this.praiseCount = praiseCount;
+        }
+
+        public boolean isIfPraise() {
+            return ifPraise;
+        }
+
+        public void setIfPraise(boolean ifPraise) {
+            this.ifPraise = ifPraise;
+        }
 
         public String getRemarkTime() {
             return remarkTime;

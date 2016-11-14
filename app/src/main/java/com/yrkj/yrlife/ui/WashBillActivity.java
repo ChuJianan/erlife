@@ -77,6 +77,7 @@ public class WashBillActivity extends BaseActivity {
         } else {
             Intent intent = new Intent(this, WashRateActivity.class);
             intent.putExtra("wash", wash);
+            intent.putExtra("payConfirm",payConfirm);
             startActivity(intent);
             finish();
         }

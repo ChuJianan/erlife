@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import com.yrkj.yrlife.R;
 import com.yrkj.yrlife.adapter.GridViewRateAdapter;
+import com.yrkj.yrlife.been.PayConfirm;
 import com.yrkj.yrlife.been.Result;
 import com.yrkj.yrlife.been.URLs;
 import com.yrkj.yrlife.been.Washing_no_card_record;
@@ -59,6 +60,7 @@ public class WashRateActivity extends BaseActivity {
     Washing_no_card_record wash;
     GridViewRateAdapter mAdapter;
     ProgressDialog mLoadingDialog;
+    PayConfirm payConfirm;
     String content = "";
     private List<Integer> positions = new ArrayList<>();
     private String[] iconName = {"操作简单", "价格便宜", "洗车干净", "节省时间",
@@ -73,6 +75,7 @@ public class WashRateActivity extends BaseActivity {
         StatusBarUtil.StatusBarLightMode(this);
         title.setText("我的评价");
         wash = (Washing_no_card_record) getIntent().getSerializableExtra("wash");
+        payConfirm = (PayConfirm) getIntent().getSerializableExtra("payconfirm");
         init();
     }
 
@@ -148,6 +151,8 @@ public class WashRateActivity extends BaseActivity {
         params.addBodyParameter("memberId", wash.getMember_id() + "");
         params.addBodyParameter("machineNo", wash.getMachine_number());
         params.addBodyParameter("secret_code", URLs.secret_code);
+//        params.addBodyParameter("washMoney", payConfirm.getTotalmoney().toString());
+        params.addBodyParameter("wash_order_id", payConfirm.getBelong());
         x.http().post(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String string) {

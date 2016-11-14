@@ -55,7 +55,6 @@
                 android:layout_height="38dp"
                 android:orientation="horizontal"
                 android:gravity="center_vertical"
-
                 >
                         <com.yrkj.yrlife.widget.JDAdverView
                             android:id="@+id/jdadver"

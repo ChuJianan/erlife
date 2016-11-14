@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <include layout="@layout/include_complaints_header_pale" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@color/white"
+        >
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/pic_renmentucao"
+            android:layout_marginLeft="@dimen/space_13"
+            android:layout_centerVertical="true"
+            />
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        >
+
+        <com.yrkj.yrlife.widget.PullToRefreshListView
+            android:id="@+id/complaints_listView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/transparent"
+            android:cacheColorHint="@color/transparent"
+            android:divider="@mipmap/ic_line"
+            android:showDividers = "middle"
+            android:dividerHeight="1dp"
+            android:fadingEdge="none"
+            android:listSelector="@color/transparent"
+            android:scrollbarStyle="outsideOverlay"
+            android:scrollbarThumbVertical="@drawable/xg_scrollbar"
+            android:scrollingCache="false"
+            android:visibility="visible" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="47dp"
+            android:visibility="visible"
+            android:layout_alignParentBottom="true"
+            >
+
+            <ImageView
+                android:layout_width="@dimen/space_18"
+                android:layout_height="@dimen/space_16"
+                android:layout_marginLeft="@dimen/space_26"
+                android:layout_marginStart="@dimen/space_26"
+                android:src="@mipmap/icon_tucao_write"
+                android:layout_centerVertical="true"
+                android:id="@+id/imageView6" />
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/content_edit"
+                android:hint="写跟贴"
+                android:textSize="@dimen/space_16"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/imageView6"
+                android:layout_toEndOf="@+id/imageView6"
+                android:layout_toLeftOf="@+id/send_text"
+                android:layout_toStartOf="@+id/send_text"
+                android:layout_marginRight="@dimen/space_12"
+                android:layout_marginEnd="@dimen/space_12"
+                android:layout_marginLeft="@dimen/space_10"
+                android:layout_marginStart="@dimen/space_10"
+                />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/space_1"
+                app:srcCompat="@drawable/line"
+                android:layout_below="@+id/imageView6"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginLeft="20dp"
+                android:layout_marginStart="20dp"
+                android:id="@+id/imageView36"
+                android:scaleType="fitXY"
+                android:layout_marginTop="@dimen/space_5"
+                android:layout_toLeftOf="@+id/send_text"
+                android:layout_toStartOf="@+id/send_text"
+                android:layout_marginRight="@dimen/space_12"
+                android:layout_marginEnd="@dimen/space_12"
+                />
+
+            <TextView
+                android:text="发送"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginRight="13dp"
+                android:layout_marginEnd="13dp"
+                android:layout_centerVertical="true"
+                android:textSize="@dimen/text_size_15"
+                android:textColor="#929292"
+                android:id="@+id/send_text"
+                android:padding="@dimen/space_3"
+                />
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+
+    <TextView
+        android:id="@+id/empty_text"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="正在获取吐槽信息"
+        android:textColor="@color/gray"
+        android:textSize="@dimen/text_size_19"
+        android:visibility="gone" />
+</LinearLayout>

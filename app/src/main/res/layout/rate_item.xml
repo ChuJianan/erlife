@@ -106,6 +106,7 @@
                 android:layout_marginRight="20dp"
                 android:layout_marginEnd="20dp"
                 android:id="@+id/rate_money"
+                android:visibility="gone"
                 android:text="3.34"
                 android:textSize="@dimen/text_size_15"
                 android:textColor="@color/rate"
@@ -119,6 +120,7 @@
                 android:textColor="#b7b7b7"
                 android:textSize="@dimen/text_size_12"
                 android:layout_marginRight="@dimen/space_5"
+                android:visibility="gone"
                 android:layout_alignBottom="@+id/rate_money"
                 android:layout_toLeftOf="@+id/rate_money"
                 android:layout_toStartOf="@+id/rate_money" />
