@@ -111,7 +111,7 @@ public class LoginActivity extends BaseActivity {
     @Event(R.id.wx_btn)
     private void wxbtnEvent(View view) {
         // send oauth request
-        if (UIHelper.isWXAppInstalledAndSupported(appContext,api)) {
+        if (UIHelper.isWXAppInstalledAndSupported(appContext, api)) {
             SendAuth.Req req = new SendAuth.Req();
             req.scope = "snsapi_userinfo";
             req.state = ApiClient.getUserAgent(appContext);
@@ -191,12 +191,12 @@ public class LoginActivity extends BaseActivity {
                             editor.putString("secret_code", user.getSecret_code());
                             URLs.secret_code = user.getSecret_code();
                         }
-                        if (StringUtils.isEmpty(user.getIsBind())) {
+                        if (!StringUtils.isEmpty(user.getIsBind())) {
                             editor.putString("isBind", user.getIsBind());
                         } else {
                             editor.putString("isBind", "");
                         }
-                        if (StringUtils.isEmpty(user.getCard_number())) {
+                        if (!StringUtils.isEmpty(user.getCard_number())) {
                             editor.putString("card_number", user.getCard_number());
                         } else {
                             editor.putString("card_number", "");

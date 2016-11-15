@@ -2,6 +2,7 @@ package com.yrkj.yrlife.adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -223,6 +224,9 @@ public class ListViewRateItemAdapter extends BaseAdapter {
                         int a = StringUtils.toInt(nub, remarkStarSectionBean.getPraiseCount() + 1);
                         holder.rate_laud_nub.setText(a + 1 + "");
                     }
+                } else if(result.isOK()){
+                    URLs.secret_code = "";
+                    UIHelper.ToastMessage(context, result.Message());
                 } else {
                     UIHelper.ToastMessage(context, result.Message());
                 }

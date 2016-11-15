@@ -148,8 +148,8 @@ public class SlideShowView extends FrameLayout {
 //            UIHelper.showLoadImage(view, imageUrls[i], "地址错误");
 //            bitmapManager.loadBitmap(imageUrls[i], view);
             view.setTag(imageUrls[i]);
-//            if (i == 0)//给一个默认图
-//                view.setBackgroundResource(R.mipmap.top_banner);
+            if (i == 0)//给一个默认图
+                view.setBackgroundResource(R.mipmap.top_banner);
             view.setScaleType(ScaleType.FIT_XY);
             imageViewsList.add(view);
 

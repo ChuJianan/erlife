@@ -200,38 +200,43 @@ public class MoreActivity extends BaseActivity {
             public void handleMessage(Message msg) {
                 if (msg.what == 1) {
                     mLoadingDialog.dismiss();
-                    SharedPreferences.Editor editor = preferences.edit();
-                    editor.putString("secret_code", "");
-                    URLs.secret_code = "";
-                    editor.clear();
-                    editor.putBoolean("isFirstUse", false);
-                    editor.commit();
                     UIHelper.ToastMessage(appContext, msg.obj.toString());
-                    DataCleanManager.clearAllCache(appContext);
-                    //此方法为异步方法
-                    EMClient.getInstance().logout(true, new EMCallBack() {
-
-                        @Override
-                        public void onSuccess() {
-                            // TODO Auto-generated method stub
-                            finish();
-                        }
-
-                        @Override
-                        public void onProgress(int progress, String status) {
-                            // TODO Auto-generated method stub
-
-                        }
-
-                        @Override
-                        public void onError(int code, String message) {
-                            // TODO Auto-generated method stub
-
-                        }
-                    });
                 } else if (msg.what == 2) {
+                    mLoadingDialog.dismiss();
                     UIHelper.ToastMessage(appContext, msg.obj.toString());
+                } else if (msg.what==3){
+                    mLoadingDialog.dismiss();
+                    UIHelper.ToastMessage(appContext, "您已退出登录");
                 }
+                SharedPreferences.Editor editor = preferences.edit();
+                editor.putString("secret_code", "");
+                URLs.secret_code = "";
+                editor.clear();
+                editor.putBoolean("isFirstUse", false);
+                editor.commit();
+                UIHelper.ToastMessage(appContext, msg.obj.toString());
+                DataCleanManager.clearAllCache(appContext);
+                //此方法为异步方法
+                EMClient.getInstance().logout(true, new EMCallBack() {
+
+                    @Override
+                    public void onSuccess() {
+                        // TODO Auto-generated method stub
+                        finish();
+                    }
+
+                    @Override
+                    public void onProgress(int progress, String status) {
+                        // TODO Auto-generated method stub
+
+                    }
+
+                    @Override
+                    public void onError(int code, String message) {
+                        // TODO Auto-generated method stub
+
+                    }
+                });
             }
 
             ;

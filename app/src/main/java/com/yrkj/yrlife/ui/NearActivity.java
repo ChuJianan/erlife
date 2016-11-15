@@ -1,5 +1,6 @@
 package com.yrkj.yrlife.ui;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -51,6 +52,7 @@ public class NearActivity extends BaseActivity {
     private ProgressBar mNearProgress;
     private int pageNo = 1;//当前页数
     private int pageSize = 10;//每页个数
+    private ProgressDialog mLoadingDialog;
 
 
     @ViewInject(R.id.near_listView)
@@ -83,6 +85,7 @@ public class NearActivity extends BaseActivity {
     }
 
     private void initView() {
+        mLoadingDialog = UIHelper.progressDialog(this, "正在加载...");
         mNearView.setEmptyView(mEmptyView);
         mNearFooter = this.getLayoutInflater().inflate(R.layout.listview_footer, null);
         mNearMore = (TextView) mNearFooter.findViewById(R.id.listview_foot_more);
@@ -160,6 +163,7 @@ public class NearActivity extends BaseActivity {
     }
 
     private void loadCloudData(int pageNo) {
+        mLoadingDialog.show();
         String url = URLs.NEAR;
         RequestParams params = new RequestParams(url);
         params.addQueryStringParameter("lat", UIHelper.location.getLatitude() + "");
@@ -215,7 +219,7 @@ public class NearActivity extends BaseActivity {
 
             @Override
             public void onFinished() {
-
+                mLoadingDialog.dismiss();
             }
         });
     }

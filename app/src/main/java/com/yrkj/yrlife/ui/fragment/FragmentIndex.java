@@ -76,6 +76,7 @@ import com.yrkj.yrlife.utils.StringUtils;
 import com.yrkj.yrlife.utils.UIHelper;
 import com.yrkj.yrlife.widget.CustomListView;
 import com.yrkj.yrlife.widget.JDAdverView;
+import com.yrkj.yrlife.widget.LooperTextView;
 import com.yrkj.yrlife.widget.MarqueeView;
 import com.yrkj.yrlife.widget.MyGridView;
 import com.yrkj.yrlife.widget.PullToRefreshCustomListView;
@@ -139,8 +140,8 @@ public class FragmentIndex extends BaseFragment implements BGABanner.Adapter {
     ImageView banner_hiuyuankafuwu;
     @ViewInject(R.id.card_img)
     ImageView card_img;
-    @ViewInject(R.id.jdadver)
-    JDAdverView jdAdverView;
+    //    @ViewInject(R.id.jdadver)
+//    JDAdverView jdAdverView;
     @ViewInject(R.id.lingquhuiyuanka)
     TextView lqhyk;
 
@@ -158,6 +159,10 @@ public class FragmentIndex extends BaseFragment implements BGABanner.Adapter {
 //    WebView index_webView;
     @ViewInject(R.id.go)
     private TextView go;
+    @ViewInject(R.id.looperview)
+    private LooperTextView looperTextView;
+    @ViewInject(R.id.loopertime)
+    private LooperTextView loopertime;
 
     @ViewInject(R.id.washing_list)
     private ListView washing_list;
@@ -174,7 +179,7 @@ public class FragmentIndex extends BaseFragment implements BGABanner.Adapter {
 
     private List<HomePage.RemarkStarSectionBean> rateList = new ArrayList<>();
     private List<HomePage.RunningMachineSectionBean> washingList = new ArrayList<>();
-    private List<HomePage.SystemMessageSectionBean> systemMessageSectionBeanList=new ArrayList<>();
+    private List<HomePage.SystemMessageSectionBean> systemMessageSectionBeanList = new ArrayList<>();
 
     private ProgressBar mNearProgress;
     JDViewAdapter adapter;
@@ -213,7 +218,6 @@ public class FragmentIndex extends BaseFragment implements BGABanner.Adapter {
                 .getSystemService(Context.WINDOW_SERVICE);
         int width = wm.getDefaultDisplay().getWidth();
         int height = wm.getDefaultDisplay().getHeight();
-
         init(view);
         initView(view);
     }
@@ -255,8 +259,9 @@ public class FragmentIndex extends BaseFragment implements BGABanner.Adapter {
                         card_img.setImageDrawable(getActivity().getResources().getDrawable(R.mipmap.huiyuanka_zheng));
                         qiehuan.setImageDrawable(getActivity().getResources().getDrawable(R.mipmap.icon_huiyuanka_qiehuan));
                         hyfw_rl.setVisibility(View.VISIBLE);
+                        qwcz.setVisibility(View.VISIBLE);
                         banner_hiuyuankafuwu.setVisibility(View.GONE);
-                        qwcz.setText("前往充值");
+                        lqhyk.setVisibility(View.GONE);
                         img69.setImageDrawable(getActivity().getResources().getDrawable(R.mipmap.icon_huiyuankafuwu_chongzhi_jiantou));
                         card_nub.setText(card_number);
                         isbind = true;
@@ -270,7 +275,7 @@ public class FragmentIndex extends BaseFragment implements BGABanner.Adapter {
                 while (isRun) {
                     try {
                         //开启一个线程动态改变显示的页数
-                        Thread.sleep(3000);
+                        Thread.sleep(6000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -289,6 +294,7 @@ public class FragmentIndex extends BaseFragment implements BGABanner.Adapter {
             wdlLl.setVisibility(View.VISIBLE);
             ydlLl.setVisibility(View.GONE);
             if (isFirst) {
+                mLoadingDialog.show();
                 onIndex();
                 UIHelper.isFirst = false;
             }
@@ -296,6 +302,7 @@ public class FragmentIndex extends BaseFragment implements BGABanner.Adapter {
             wdlLl.setVisibility(View.GONE);
             ydlLl.setVisibility(View.VISIBLE);
             if (isFirst) {
+                mLoadingDialog.show();
                 onIndex();
                 UIHelper.isFirst = false;
             }
@@ -308,6 +315,7 @@ public class FragmentIndex extends BaseFragment implements BGABanner.Adapter {
             return;
         } else {
             if (getUserVisibleHint()) {
+                mLoadingDialog.show();
                 onIndex();
             }
         }
@@ -373,6 +381,7 @@ public class FragmentIndex extends BaseFragment implements BGABanner.Adapter {
                                                          @Override
                                                          public void onPullDownToRefresh(PullToRefreshBase<ScrollView> pullToRefreshBase) {
                                                              onIndex();
+                                                             pullToRefreshScrollView.onRefreshComplete();
                                                          }
 
                                                          @Override
@@ -417,7 +426,6 @@ public class FragmentIndex extends BaseFragment implements BGABanner.Adapter {
 
         if_have_useful_coupon = preferences.getString("if_have_useful_coupon", "");
         isWash = UIHelper.isWash;
-
 
 
         sim_adapter = new GridViewMainAdapter(getActivity());
@@ -590,7 +598,7 @@ public class FragmentIndex extends BaseFragment implements BGABanner.Adapter {
             @Override
             public void onClick(View v) {
                 if (isChakan) {
-                    Intent intent = new Intent(getActivity(), ConsumerActivity.class);
+                    Intent intent = new Intent(getActivity(), FindBillActivity.class);
                     startActivity(intent);
                 }
             }
@@ -750,9 +758,9 @@ public class FragmentIndex extends BaseFragment implements BGABanner.Adapter {
 
                 if (result.getHomePage().getSystemMessageSection().size() > 0) {
 //                    marqueeView.startWithList(result.getHomePage().getSystemMessageSection());
-                    systemMessageSectionBeanList=result.getHomePage().getSystemMessageSection();
-                    adapter=new JDViewAdapter(systemMessageSectionBeanList);
-                    jdAdverView.setAdapter(adapter);
+                    systemMessageSectionBeanList = result.getHomePage().getSystemMessageSection();
+                    looperTextView.setTipList(systemMessageSectionBeanList, false);
+                    loopertime.setTipList(systemMessageSectionBeanList, true);
                 }
                 if (StringUtils.isEmpty(result.getHomePage().getHistoryWashConsumeSection().getLastWashCode())) {
 
@@ -792,7 +800,8 @@ public class FragmentIndex extends BaseFragment implements BGABanner.Adapter {
                     isRun = true;
                     sleep_img.setVisibility(View.GONE);
                     washingList = result.getHomePage().getRunningMachineSection();
-
+                    sleep_img.setVisibility(View.GONE);
+                    washing_list.setVisibility(View.VISIBLE);
                     if (result.getHomePage().getRunningMachineSection().size() == 2) {
                         listViewWashingAdapter.setWashing(washingList);
                         setListViewHeightBasedOnChildren(washing_list, 2);
@@ -815,6 +824,78 @@ public class FragmentIndex extends BaseFragment implements BGABanner.Adapter {
                     listViewRateItemAdapter.notifyDataSetChanged();
 
                 }
+            } else if (result.isOK()) {
+                URLs.secret_code = "";
+                if (result.getHomePage().getBannerSection().length > 0) {
+                    UIHelper.img_urls = result.getHomePage().getBannerSection();
+
+                }
+
+                if (result.getHomePage().getSystemMessageSection().size() > 0) {
+//                        marqueeView.startWithList(result.getHomePage().getSystemMessageSection());
+                    systemMessageSectionBeanList = result.getHomePage().getSystemMessageSection();
+                    looperTextView.setTipList(systemMessageSectionBeanList, false);
+                    loopertime.setTipList(systemMessageSectionBeanList, true);
+                }
+                if (StringUtils.isEmpty(result.getHomePage().getHistoryWashConsumeSection().getLastWashCode())) {
+
+                } else {
+                    if (result.getHomePage().getHistoryWashConsumeSection().getLastWashCode().equals("1")) {
+                        ydlLl.setVisibility(View.VISIBLE);
+                        wdlLl.setVisibility(View.GONE);
+                        go.setVisibility(View.VISIBLE);
+                        add_text.setVisibility(View.GONE);
+                        chakan.setVisibility(View.VISIBLE);
+                        isChakan = true;
+                        chakan.setTextColor(getResources().getColor(R.color.chakan));
+                        content1.setText(result.getHomePage().getHistoryWashConsumeSection().getContent1());
+                        content2.setText(result.getHomePage().getHistoryWashConsumeSection().getContent2());
+                        lastWashConsume.setText(result.getHomePage().getHistoryWashConsumeSection().getLastWashConsume());
+                        lastChargePrice.setText(result.getHomePage().getHistoryWashConsumeSection().getLastChargePrice());
+                    } else if (result.getHomePage().getHistoryWashConsumeSection().getLastWashCode().equals("2")) {
+                        ydlLl.setVisibility(View.VISIBLE);
+                        wdlLl.setVisibility(View.GONE);
+                        go.setVisibility(View.GONE);
+                        add_text.setVisibility(View.VISIBLE);
+                        chakan.setVisibility(View.VISIBLE);
+                        isChakan = false;
+                        chakan.setTextColor(0xcccccc);
+                    } else {
+                        isChakan = false;
+                        ydlLl.setVisibility(View.GONE);
+                        wdlLl.setVisibility(View.VISIBLE);
+                    }
+                }
+                if (result.getHomePage().getRunningMachineSection().size() > 0) {
+                    isRun = true;
+                    sleep_img.setVisibility(View.GONE);
+                    washingList = result.getHomePage().getRunningMachineSection();
+                    sleep_img.setVisibility(View.GONE);
+                    washing_list.setVisibility(View.VISIBLE);
+                    if (result.getHomePage().getRunningMachineSection().size() == 2) {
+                        listViewWashingAdapter.setWashing(washingList);
+                        setListViewHeightBasedOnChildren(washing_list, 2);
+                    } else if (result.getHomePage().getRunningMachineSection().size() >= 3) {
+                        washingList.add(washingList.get(0));
+                        listViewWashingAdapter.setWashing(washingList);
+                        setListViewHeightBasedOnChildren(washing_list, 2);
+                        t.start();
+                    } else {
+                        listViewWashingAdapter.setWashing(washingList);
+                        setListViewHeightBasedOnChildren(washing_list, 1);
+                    }
+
+                    listViewWashingAdapter.notifyDataSetChanged();
+                } else {
+                    washing_list.setVisibility(View.GONE);
+                    sleep_img.setVisibility(View.VISIBLE);
+                }
+                if (result.getHomePage().getRemarkStarSection().size() > 0) {
+                    rateList = result.getHomePage().getRemarkStarSection();
+                    listViewRateItemAdapter.setRateItem(rateList);
+                    listViewRateItemAdapter.notifyDataSetChanged();
+
+                }
             }
         }
     }
@@ -822,6 +903,7 @@ public class FragmentIndex extends BaseFragment implements BGABanner.Adapter {
     boolean isChakan = false;
 
     private void onIndex() {
+
         RequestParams params = new RequestParams(URLs.APP_Index);
         params.addQueryStringParameter("secret_code", URLs.secret_code);
         params.addQueryStringParameter("pagenumber", "1");
@@ -842,9 +924,9 @@ public class FragmentIndex extends BaseFragment implements BGABanner.Adapter {
 
                     if (result.getHomePage().getSystemMessageSection().size() > 0) {
 //                        marqueeView.startWithList(result.getHomePage().getSystemMessageSection());
-                        systemMessageSectionBeanList=result.getHomePage().getSystemMessageSection();
-                        adapter=new JDViewAdapter(systemMessageSectionBeanList);
-                        jdAdverView.setAdapter(adapter);
+                        systemMessageSectionBeanList = result.getHomePage().getSystemMessageSection();
+                        looperTextView.setTipList(systemMessageSectionBeanList, false);
+                        loopertime.setTipList(systemMessageSectionBeanList, true);
                     }
                     if (StringUtils.isEmpty(result.getHomePage().getHistoryWashConsumeSection().getLastWashCode())) {
 
@@ -879,7 +961,8 @@ public class FragmentIndex extends BaseFragment implements BGABanner.Adapter {
                         isRun = true;
                         sleep_img.setVisibility(View.GONE);
                         washingList = result.getHomePage().getRunningMachineSection();
-
+                        sleep_img.setVisibility(View.GONE);
+                        washing_list.setVisibility(View.VISIBLE);
                         if (result.getHomePage().getRunningMachineSection().size() == 2) {
                             listViewWashingAdapter.setWashing(washingList);
                             setListViewHeightBasedOnChildren(washing_list, 2);
@@ -895,6 +978,85 @@ public class FragmentIndex extends BaseFragment implements BGABanner.Adapter {
 
                         listViewWashingAdapter.notifyDataSetChanged();
                     } else {
+                        washing_list.setVisibility(View.GONE);
+                        sleep_img.setVisibility(View.VISIBLE);
+                    }
+                    if (result.getHomePage().getRemarkStarSection().size() > 0) {
+                        rateList = result.getHomePage().getRemarkStarSection();
+                        listViewRateItemAdapter.setRateItem(rateList);
+                        listViewRateItemAdapter.notifyDataSetChanged();
+
+                    }
+                } else if (result.isOK()) {
+                    editor.putString("secret_code", "");
+                    URLs.secret_code = "";
+                    editor.clear();
+                    editor.putBoolean("isFirstUse", false);
+                    editor.putBoolean("isFirstUseThis",true);
+                    editor.commit();
+                    DataCleanManager.clearAllCache(appContext);
+                    if (result.getHomePage().getBannerSection().length > 0) {
+                        UIHelper.img_urls = result.getHomePage().getBannerSection();
+
+                    }
+
+                    if (result.getHomePage().getSystemMessageSection().size() > 0) {
+//                        marqueeView.startWithList(result.getHomePage().getSystemMessageSection());
+                        systemMessageSectionBeanList = result.getHomePage().getSystemMessageSection();
+                        looperTextView.setTipList(systemMessageSectionBeanList, false);
+                        loopertime.setTipList(systemMessageSectionBeanList, true);
+                    }
+                    if (StringUtils.isEmpty(result.getHomePage().getHistoryWashConsumeSection().getLastWashCode())) {
+
+                    } else {
+                        if (result.getHomePage().getHistoryWashConsumeSection().getLastWashCode().equals("1")) {
+                            ydlLl.setVisibility(View.VISIBLE);
+                            wdlLl.setVisibility(View.GONE);
+                            go.setVisibility(View.VISIBLE);
+                            add_text.setVisibility(View.GONE);
+                            chakan.setVisibility(View.VISIBLE);
+                            isChakan = true;
+                            chakan.setTextColor(getResources().getColor(R.color.chakan));
+                            content1.setText(result.getHomePage().getHistoryWashConsumeSection().getContent1());
+                            content2.setText(result.getHomePage().getHistoryWashConsumeSection().getContent2());
+                            lastWashConsume.setText(result.getHomePage().getHistoryWashConsumeSection().getLastWashConsume());
+                            lastChargePrice.setText(result.getHomePage().getHistoryWashConsumeSection().getLastChargePrice());
+                        } else if (result.getHomePage().getHistoryWashConsumeSection().getLastWashCode().equals("2")) {
+                            ydlLl.setVisibility(View.VISIBLE);
+                            wdlLl.setVisibility(View.GONE);
+                            go.setVisibility(View.GONE);
+                            add_text.setVisibility(View.VISIBLE);
+                            chakan.setVisibility(View.VISIBLE);
+                            isChakan = false;
+                            chakan.setTextColor(0xcccccc);
+                        } else {
+                            isChakan = false;
+                            ydlLl.setVisibility(View.GONE);
+                            wdlLl.setVisibility(View.VISIBLE);
+                        }
+                    }
+                    if (result.getHomePage().getRunningMachineSection().size() > 0) {
+                        isRun = true;
+                        sleep_img.setVisibility(View.GONE);
+                        washingList = result.getHomePage().getRunningMachineSection();
+                        sleep_img.setVisibility(View.GONE);
+                        washing_list.setVisibility(View.VISIBLE);
+                        if (result.getHomePage().getRunningMachineSection().size() == 2) {
+                            listViewWashingAdapter.setWashing(washingList);
+                            setListViewHeightBasedOnChildren(washing_list, 2);
+                        } else if (result.getHomePage().getRunningMachineSection().size() >= 3) {
+                            washingList.add(washingList.get(0));
+                            listViewWashingAdapter.setWashing(washingList);
+                            setListViewHeightBasedOnChildren(washing_list, 2);
+                            t.start();
+                        } else {
+                            listViewWashingAdapter.setWashing(washingList);
+                            setListViewHeightBasedOnChildren(washing_list, 1);
+                        }
+
+                        listViewWashingAdapter.notifyDataSetChanged();
+                    } else {
+                        washing_list.setVisibility(View.GONE);
                         sleep_img.setVisibility(View.VISIBLE);
                     }
                     if (result.getHomePage().getRemarkStarSection().size() > 0) {
@@ -918,12 +1080,12 @@ public class FragmentIndex extends BaseFragment implements BGABanner.Adapter {
 
             @Override
             public void onFinished() {
+                mLoadingDialog.dismiss();
                 isFirst = false;
                 UIHelper.isFirst = false;
                 mLastTime = System.currentTimeMillis();
                 pullToRefreshScrollView.setMode(PullToRefreshBase.Mode.BOTH);
                 pullToRefreshScrollView.getLoadingLayoutProxy().setLastUpdatedLabel("上次加载时间：" + StringUtils.friendly_time(str));
-                pullToRefreshScrollView.onRefreshComplete();
                 str = formatter.format(new Date());
             }
         });
@@ -932,7 +1094,7 @@ public class FragmentIndex extends BaseFragment implements BGABanner.Adapter {
     private void onRefresh() {
         RequestParams params = new RequestParams(URLs.APP_Rate);
         params.addQueryStringParameter("pagenumber", "2");
-        params.addQueryStringParameter("secret_code",URLs.secret_code);
+        params.addQueryStringParameter("secret_code", URLs.secret_code);
         x.http().get(params, new Callback.CommonCallback<String>() {
             @Override
             public void onSuccess(String string) {
@@ -946,6 +1108,21 @@ public class FragmentIndex extends BaseFragment implements BGABanner.Adapter {
                         mNearProgress.setVisibility(View.GONE);
                     }
 
+                }else if (result.isOK()){
+                    SharedPreferences.Editor editor = preferences.edit();
+                    editor.putString("secret_code", "");
+                    URLs.secret_code = "";
+                    editor.clear();
+                    editor.putBoolean("isFirstUse", false);
+                    editor.putBoolean("isFirstUseThis",true);
+                    editor.commit();
+                    if (result.remarkStarSection.getRemarkStarSection().size() > 0) {
+                        rateList = result.remarkStarSection.getRemarkStarSection();
+                        listViewRateItemAdapter.addRateItem(rateList);
+                        listViewRateItemAdapter.notifyDataSetChanged();
+                        rate_list.setTag(UIHelper.LISTVIEW_DATA_FULL);
+                        mNearProgress.setVisibility(View.GONE);
+                    }
                 }
             }
 
@@ -999,10 +1176,6 @@ public class FragmentIndex extends BaseFragment implements BGABanner.Adapter {
                 .into((ImageView) view);
     }
 
-    @Event(R.id.chakan)
-    public void chakanEvent(View v) {
-
-    }
 
     @Event(R.id.q_near)
     private void qnearEvent(View v) {
@@ -1015,16 +1188,24 @@ public class FragmentIndex extends BaseFragment implements BGABanner.Adapter {
         UIHelper.openLogin(getActivity());
     }
 
-    @Event(R.id.jdadver)
+    @Event(R.id.looperview)
     private void mvbarEvent(View v) {
-        Intent intent = new Intent(getActivity(), NewsActivity.class);
-        startActivity(intent);
+        if (StringUtils.isEmpty(URLs.secret_code)) {
+            UIHelper.openLogin(getActivity());
+        } else {
+            Intent intent = new Intent(getActivity(), NewsActivity.class);
+            startActivity(intent);
+        }
     }
 
-    @Event(R.id.c_ll)
+    @Event(R.id.jd_rl)
     private void cllEvent(View v) {
-        Intent intent = new Intent(getActivity(), NewsActivity.class);
-        startActivity(intent);
+        if (StringUtils.isEmpty(URLs.secret_code)) {
+            UIHelper.openLogin(getActivity());
+        } else {
+            Intent intent = new Intent(getActivity(), NewsActivity.class);
+            startActivity(intent);
+        }
     }
 
     @Event(R.id.qiehuan)
@@ -1041,7 +1222,7 @@ public class FragmentIndex extends BaseFragment implements BGABanner.Adapter {
     }
 
     @Event(R.id.card_img)
-    private void cardimgEvent(View view){
+    private void cardimgEvent(View view) {
         if (isQiehuan) {
             card_nub.setVisibility(View.GONE);
             card_img.setImageDrawable(getActivity().getResources().getDrawable(R.mipmap.huiyuanka_fan));
@@ -1076,9 +1257,14 @@ public class FragmentIndex extends BaseFragment implements BGABanner.Adapter {
     }
 
     @Event(R.id.idea)
-    private void img69Event(View view){
-        Intent intent=new Intent(getActivity(), IdeaActivity.class);
-        startActivity(intent);
+    private void img69Event(View view) {
+        if (!StringUtils.isEmpty(URLs.secret_code)) {
+            Intent intent = new Intent(getActivity(), IdeaActivity.class);
+            startActivity(intent);
+        } else {
+            UIHelper.ToastMessage(getContext(), "请先登录");
+            UIHelper.openLogin(getActivity());
+        }
     }
 
     protected void dialog(String context, final int i) {
@@ -1116,6 +1302,7 @@ public class FragmentIndex extends BaseFragment implements BGABanner.Adapter {
 
     @Override
     public void onDestroy() {
+
         isRun = false;
         super.onDestroy();
     }

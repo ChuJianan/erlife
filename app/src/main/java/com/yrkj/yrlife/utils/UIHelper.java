@@ -152,7 +152,7 @@ public class UIHelper {
     public static ProgressDialog progressDialog(Activity context, String message) {
         ProgressDialog mLoadingDialog = new ProgressDialog(context);
         mLoadingDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        mLoadingDialog.setTitle("提示");
+//        mLoadingDialog.setTitle("提示");
         mLoadingDialog.setMessage(message);
         mLoadingDialog.setCancelable(false);
         return mLoadingDialog;

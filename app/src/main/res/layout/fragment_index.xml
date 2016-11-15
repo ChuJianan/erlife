@@ -50,21 +50,31 @@
                 android:src="@mipmap/ic_line" />
 
             <LinearLayout
-                android:id="@+id/c_ll"
+                android:id="@+id/jd_rl"
                 android:layout_width="match_parent"
-                android:layout_height="38dp"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                >
-                        <com.yrkj.yrlife.widget.JDAdverView
-                            android:id="@+id/jdadver"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="@dimen/space_15"
-                            app:animDuration="900"
-                            app:gap="2000"
-                            />
+                android:layout_height="38dp">
+
+                <!--<com.yrkj.yrlife.widget.JDAdverView-->
+                <!--android:id="@+id/jdadver"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_centerVertical="true"-->
+                <!--app:animDuration="900"-->
+                <!--app:gap="2000" />-->
+                <com.yrkj.yrlife.widget.LooperTextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/space_13"
+                    android:id="@+id/loopertime"
+                    />
+                <com.yrkj.yrlife.widget.LooperTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/space_6"
+                    android:id="@+id/looperview"
+                    />
             </LinearLayout>
+
 
             <ImageView
                 android:layout_width="match_parent"
@@ -73,12 +83,15 @@
                 android:src="@mipmap/ic_line" />
 
             <include layout="@layout/fragment_index_center" />
+
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="12dp"
                 android:scaleType="fitXY"
                 android:src="@mipmap/ic_line" />
+
             <include layout="@layout/fragment_index_memberservices" />
+
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="12dp"
@@ -87,33 +100,39 @@
 
             <ListView
                 android:id="@+id/washing_list"
-                android:divider="@mipmap/ic_line"
                 android:layout_width="match_parent"
+                android:layout_height="120dp"
+                android:divider="@mipmap/ic_line"
                 android:scrollbars="none"
-                android:layout_height="120dp"/>
+                android:visibility="visible"
+                />
+
             <ImageView
                 android:id="@+id/sleep_img"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
                 android:src="@mipmap/pic_sleep"
-                />
+                android:visibility="gone" />
+
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="12dp"
                 android:scaleType="fitXY"
                 android:src="@mipmap/ic_line" />
+
             <include layout="@layout/fragment_index_ideas" />
+
             <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="12dp"
                 android:scaleType="fitXY"
                 android:src="@mipmap/ic_line" />
+
             <com.yrkj.yrlife.widget.PullToRefreshCustomListView
                 android:id="@+id/rate_list"
-                android:divider="@null"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:divider="@null" />
 
         </LinearLayout>
     </com.handmark.pulltorefresh.library.PullToRefreshScrollView>

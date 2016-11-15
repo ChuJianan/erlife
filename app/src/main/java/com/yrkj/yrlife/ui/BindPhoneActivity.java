@@ -227,7 +227,7 @@ public class BindPhoneActivity extends Activity {
                         if (!StringUtils.isEmpty(user.getCard_number())) {
                             editor.putString("card_number", user.getCard_number());
                         } else {
-                            editor.putString("card_number", user.getCard_number());
+                            editor.putString("card_number", "");
                         }
                         if (user.getTotal_balance() == null) {
                             editor.putFloat("money", 0);

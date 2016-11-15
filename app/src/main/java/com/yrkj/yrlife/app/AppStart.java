@@ -64,6 +64,7 @@ public class AppStart extends AppCompatActivity {
             //实例化Editor对象
             SharedPreferences.Editor editor = preferences.edit();
             editor.putString("homePage", "");
+            editor.putBoolean("isFirstUseThis",false);
             //提交修改
             editor.commit();
         } else {

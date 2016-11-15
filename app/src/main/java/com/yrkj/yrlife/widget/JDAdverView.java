@@ -30,9 +30,9 @@ public class JDAdverView extends LinearLayout {
     //动画间隔时间
     private final int mAnimDuration = 1000;
     //显示文字的尺寸
-    private final float TEXTSIZE = 20f;
+    private final float TEXTSIZE = 16f;
     private JDViewAdapter mAdapter;
-    private final float jdAdverHeight = 50;
+    private final float jdAdverHeight = 20;
     //显示的view
     private View mFirstView;
     private View mSecondView;
