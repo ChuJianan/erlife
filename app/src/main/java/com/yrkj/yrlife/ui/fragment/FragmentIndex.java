@@ -275,7 +275,7 @@ public class FragmentIndex extends BaseFragment implements BGABanner.Adapter {
                 while (isRun) {
                     try {
                         //开启一个线程动态改变显示的页数
-                        Thread.sleep(6000);
+                        Thread.sleep(3000);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -287,6 +287,7 @@ public class FragmentIndex extends BaseFragment implements BGABanner.Adapter {
 
             }
         });
+
         isFirst = UIHelper.isFirst;
         inIndex();
         pullToRefreshScrollView.setMode(PullToRefreshBase.Mode.BOTH);
@@ -809,7 +810,6 @@ public class FragmentIndex extends BaseFragment implements BGABanner.Adapter {
                         washingList.add(washingList.get(0));
                         listViewWashingAdapter.setWashing(washingList);
                         setListViewHeightBasedOnChildren(washing_list, 2);
-                        t.start();
                     } else {
                         listViewWashingAdapter.setWashing(washingList);
                         setListViewHeightBasedOnChildren(washing_list, 1);
@@ -879,7 +879,7 @@ public class FragmentIndex extends BaseFragment implements BGABanner.Adapter {
                         washingList.add(washingList.get(0));
                         listViewWashingAdapter.setWashing(washingList);
                         setListViewHeightBasedOnChildren(washing_list, 2);
-                        t.start();
+
                     } else {
                         listViewWashingAdapter.setWashing(washingList);
                         setListViewHeightBasedOnChildren(washing_list, 1);
@@ -898,9 +898,14 @@ public class FragmentIndex extends BaseFragment implements BGABanner.Adapter {
                 }
             }
         }
+        if (isFirstRun) {
+            t.start();
+            isFirstRun = false;
+        }
     }
 
     boolean isChakan = false;
+    static boolean isFirstRun = true;
 
     private void onIndex() {
 
@@ -970,7 +975,6 @@ public class FragmentIndex extends BaseFragment implements BGABanner.Adapter {
                             washingList.add(washingList.get(0));
                             listViewWashingAdapter.setWashing(washingList);
                             setListViewHeightBasedOnChildren(washing_list, 2);
-                            t.start();
                         } else {
                             listViewWashingAdapter.setWashing(washingList);
                             setListViewHeightBasedOnChildren(washing_list, 1);
@@ -992,7 +996,7 @@ public class FragmentIndex extends BaseFragment implements BGABanner.Adapter {
                     URLs.secret_code = "";
                     editor.clear();
                     editor.putBoolean("isFirstUse", false);
-                    editor.putBoolean("isFirstUseThis",true);
+                    editor.putBoolean("isFirstUseThis", true);
                     editor.commit();
                     DataCleanManager.clearAllCache(appContext);
                     if (result.getHomePage().getBannerSection().length > 0) {
@@ -1048,7 +1052,6 @@ public class FragmentIndex extends BaseFragment implements BGABanner.Adapter {
                             washingList.add(washingList.get(0));
                             listViewWashingAdapter.setWashing(washingList);
                             setListViewHeightBasedOnChildren(washing_list, 2);
-                            t.start();
                         } else {
                             listViewWashingAdapter.setWashing(washingList);
                             setListViewHeightBasedOnChildren(washing_list, 1);
@@ -1080,6 +1083,10 @@ public class FragmentIndex extends BaseFragment implements BGABanner.Adapter {
 
             @Override
             public void onFinished() {
+                if (isFirstRun) {
+                    t.start();
+                    isFirstRun = false;
+                }
                 mLoadingDialog.dismiss();
                 isFirst = false;
                 UIHelper.isFirst = false;
@@ -1108,13 +1115,13 @@ public class FragmentIndex extends BaseFragment implements BGABanner.Adapter {
                         mNearProgress.setVisibility(View.GONE);
                     }
 
-                }else if (result.isOK()){
+                } else if (result.isOK()) {
                     SharedPreferences.Editor editor = preferences.edit();
                     editor.putString("secret_code", "");
                     URLs.secret_code = "";
                     editor.clear();
                     editor.putBoolean("isFirstUse", false);
-                    editor.putBoolean("isFirstUseThis",true);
+                    editor.putBoolean("isFirstUseThis", true);
                     editor.commit();
                     if (result.remarkStarSection.getRemarkStarSection().size() > 0) {
                         rateList = result.remarkStarSection.getRemarkStarSection();
@@ -1302,6 +1309,12 @@ public class FragmentIndex extends BaseFragment implements BGABanner.Adapter {
 
     @Override
     public void onDestroy() {
+        try {
+            isFirstRun = true;
+            t.join();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         isRun = false;
         super.onDestroy();
